@@ -1,0 +1,204 @@
+'use client';
+
+import React, { createContext, useContext, useState, useMemo, ReactNode } from 'react';
+import { Scenario, ScenarioKey, CalculationResults, FinancialAssumptions } from '@/types/financial';
+import { defaultScenarios } from '@/data/scenarios';
+import { FinancialCalculator } from '@/lib/calculations';
+
+/**
+ * FINANCIAL CONTEXT - SINGLE SOURCE OF TRUTH
+ * 
+ * Questo context centralizza TUTTI i dati finanziari e i calcoli.
+ * Tutte le dashboard e componenti devono usare questo store
+ * per garantire consistenza e evitare conflitti.
+ */
+
+interface FinancialContextType {
+  // Current state
+  currentScenarioKey: ScenarioKey;
+  currentScenario: Scenario;
+  scenarios: Record<ScenarioKey, Scenario>;
+  calculationResults: CalculationResults | null;
+  baseResults: CalculationResults | null;
+  isCalculating: boolean;
+  
+  // Actions
+  setCurrentScenarioKey: (key: ScenarioKey) => void;
+  handleParameterChange: (parameter: keyof Scenario['drivers'], value: number) => void;
+  handleAssumptionChange: (parameter: keyof FinancialAssumptions, value: number) => void;
+  handleDuplicateToCustom: () => void;
+  handleResetScenario: () => void;
+  handleImportScenario: (file: File) => Promise<void>;
+  forceRecalculation: () => void;
+}
+
+const FinancialContext = createContext<FinancialContextType | undefined>(undefined);
+
+interface FinancialProviderProps {
+  children: ReactNode;
+}
+
+export function FinancialProvider({ children }: FinancialProviderProps) {
+  const [currentScenarioKey, setCurrentScenarioKey] = useState<ScenarioKey>('base');
+  const [scenarios, setScenarios] = useState(defaultScenarios);
+  const [isCalculating, setIsCalculating] = useState(false);
+  const [forceRecalc, setForceRecalc] = useState(0);
+
+  const currentScenario = scenarios[currentScenarioKey];
+
+  // Calculate results when scenario changes
+  const calculationResults = useMemo(() => {
+    if (!currentScenario || !currentScenario.drivers || !currentScenario.base) {
+      console.error('Invalid scenario data:', currentScenario);
+      return null;
+    }
+
+    setIsCalculating(true);
+    try {
+      const calculator = new FinancialCalculator(currentScenario);
+      const results = calculator.calculate();
+      console.log(`✅ Calculated results for ${currentScenarioKey}:`, {
+        totalRevenueY1: results.annualData[0]?.totalRev,
+        totalRevenueY5: results.annualData[4]?.totalRev,
+        arrY5: results.kpis.arrRunRateM60,
+        breakEven: results.kpis.breakEvenYearEBITDA
+      });
+      setIsCalculating(false);
+      return results;
+    } catch (error) {
+      console.error(`❌ Error calculating scenario ${currentScenarioKey}:`, error);
+      setIsCalculating(false);
+      return null;
+    }
+  }, [currentScenario, currentScenarioKey, forceRecalc]);
+
+  // Calculate base scenario results for comparison
+  const baseResults = useMemo(() => {
+    if (currentScenarioKey === 'base') return null;
+
+    const baseScenario = scenarios.base;
+    if (!baseScenario || !baseScenario.drivers || !baseScenario.base) {
+      return null;
+    }
+
+    try {
+      const calculator = new FinancialCalculator(baseScenario);
+      return calculator.calculate();
+    } catch (error) {
+      console.error('Error calculating base scenario for comparison:', error);
+      return null;
+    }
+  }, [currentScenarioKey, scenarios.base]);
+
+  // Handler: Change driver parameter
+  const handleParameterChange = (parameter: keyof Scenario['drivers'], value: number) => {
+    setScenarios(prev => ({
+      ...prev,
+      [currentScenarioKey]: {
+        ...prev[currentScenarioKey],
+        drivers: {
+          ...prev[currentScenarioKey].drivers,
+          [parameter]: value
+        }
+      }
+    }));
+  };
+
+  // Handler: Change financial assumption
+  const handleAssumptionChange = (parameter: keyof FinancialAssumptions, value: number) => {
+    setScenarios(prev => ({
+      ...prev,
+      [currentScenarioKey]: {
+        ...prev[currentScenarioKey],
+        assumptions: {
+          ...prev[currentScenarioKey].assumptions,
+          [parameter]: value
+        }
+      }
+    }));
+  };
+
+  // Handler: Duplicate current scenario to custom
+  const handleDuplicateToCustom = () => {
+    setScenarios(prev => ({
+      ...prev,
+      custom: {
+        ...prev[currentScenarioKey],
+        key: 'custom',
+        name: 'Scenario Custom'
+      }
+    }));
+    setCurrentScenarioKey('custom');
+  };
+
+  // Handler: Reset scenario to default
+  const handleResetScenario = () => {
+    setScenarios(prev => ({
+      ...prev,
+      [currentScenarioKey]: defaultScenarios[currentScenarioKey]
+    }));
+  };
+
+  // Handler: Import scenario from file
+  const handleImportScenario = async (file: File) => {
+    try {
+      const text = await file.text();
+      const importedScenario = JSON.parse(text) as Scenario;
+      
+      // TODO: Add schema validation here (Zod/Yup)
+      // const validation = scenarioSchema.safeParse(importedScenario);
+      
+      setScenarios(prev => ({
+        ...prev,
+        custom: {
+          ...importedScenario,
+          key: 'custom',
+          name: 'Scenario Custom (Imported)'
+        }
+      }));
+      setCurrentScenarioKey('custom');
+    } catch (error) {
+      console.error('Error importing scenario:', error);
+      throw new Error('Errore nell\'importazione del file. Verificare che sia un file JSON valido.');
+    }
+  };
+
+  // Force recalculation
+  const forceRecalculation = () => {
+    setForceRecalc(prev => prev + 1);
+  };
+
+  const value: FinancialContextType = {
+    currentScenarioKey,
+    currentScenario,
+    scenarios,
+    calculationResults,
+    baseResults,
+    isCalculating,
+    setCurrentScenarioKey,
+    handleParameterChange,
+    handleAssumptionChange,
+    handleDuplicateToCustom,
+    handleResetScenario,
+    handleImportScenario,
+    forceRecalculation
+  };
+
+  return (
+    <FinancialContext.Provider value={value}>
+      {children}
+    </FinancialContext.Provider>
+  );
+}
+
+/**
+ * Hook to use the Financial Context
+ * Must be used within a FinancialProvider
+ */
+export function useFinancialContext() {
+  const context = useContext(FinancialContext);
+  if (context === undefined) {
+    throw new Error('useFinancialContext must be used within a FinancialProvider');
+  }
+  return context;
+}

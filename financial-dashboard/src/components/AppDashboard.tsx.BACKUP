@@ -1,0 +1,48 @@
+'use client';
+
+import React, { useState } from 'react';
+import { SimpleDashboard } from './SimpleDashboard';
+import { MasterDashboard } from './MasterDashboard';
+import { Button } from './ui/button';
+import { Badge } from './ui/badge';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
+
+/**
+ * APP DASHBOARD - Main Router
+ * 
+ * Questo componente permette di scegliere tra:
+ * - SimpleDashboard (nuova, essenziale)
+ * - MasterDashboard (vecchia, con tutti i tab)
+ */
+
+export function AppDashboard() {
+  const [useSimpleDashboard, setUseSimpleDashboard] = useState(true);
+
+  return (
+    <div>
+      {/* Dashboard Switcher */}
+      <div className="fixed top-4 right-4 z-50 bg-white border rounded-lg shadow-lg p-4">
+        <div className="flex items-center space-x-3">
+          <Label htmlFor="dashboard-mode" className="text-sm font-medium">
+            Dashboard Mode:
+          </Label>
+          <div className="flex items-center space-x-2">
+            <span className="text-xs text-muted-foreground">Vecchia</span>
+            <Switch
+              checked={useSimpleDashboard}
+              onCheckedChange={setUseSimpleDashboard}
+            />
+            <span className="text-xs text-muted-foreground">Nuova</span>
+          </div>
+          <Badge variant={useSimpleDashboard ? 'default' : 'outline'}>
+            {useSimpleDashboard ? '✨ Simple' : '🗂️ Full'}
+          </Badge>
+        </div>
+      </div>
+
+      {/* Render appropriate dashboard */}
+      {useSimpleDashboard ? <SimpleDashboard /> : <MasterDashboard />}
+    </div>
+  );
+}

@@ -1,0 +1,598 @@
+'use client';
+
+import React, { useMemo } from 'react';
+import { useFinancialContext } from '@/store/FinancialContext';
+import { KPICard } from './KPICard';
+import { ChartCard } from './ChartCard';
+import { ScenarioSelector } from './ScenarioSelector';
+import { ParameterControl } from './ParameterControl';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
+import { Badge } from './ui/badge';
+import { Button } from './ui/button';
+import { 
+  TrendingUp, 
+  DollarSign, 
+  Target, 
+  Calendar,
+  Users,
+  Percent,
+  Clock,
+  AlertCircle,
+  ChevronRight,
+  Info
+} from 'lucide-react';
+import { EnhancedTooltip } from './ui/enhanced-tooltip';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { downloadJSON } from '@/lib/utils';
+
+/**
+ * SIMPLE DASHBOARD - "Less is More"
+ * 
+ * Dashboard essenziale focalizzata sulle 10 metriche ad ALTA priorità:
+ * 1. ARR (Annual Recurring Revenue)
+ * 2. MRR (Monthly Recurring Revenue)
+ * 3. LTV/CAC Ratio
+ * 4. Break-Even Point
+ * 5. Runway
+ * 6. Burn Rate
+ * 7. CAC (Customer Acquisition Cost)
+ * 8. LTV (Lifetime Value)
+ * 9. Payback Period
+ * 10. Churn Rate
+ */
+
+export function SimpleDashboard() {
+  const {
+    currentScenarioKey,
+    currentScenario,
+    calculationResults,
+    baseResults,
+    isCalculating,
+    setCurrentScenarioKey,
+    handleParameterChange,
+    handleAssumptionChange,
+    handleDuplicateToCustom,
+    handleResetScenario,
+    handleImportScenario
+  } = useFinancialContext();
+
+  // Calculate derived metrics
+  const metrics = useMemo(() => {
+    if (!calculationResults) return null;
+
+    const { kpis, advancedMetrics, annualData, monthlyData, monthlyCashFlows } = calculationResults;
+
+    // ARR Y5
+    const arrY5 = kpis.arrRunRateM60;
+
+    // MRR M60
+    const mrrM60 = monthlyData[59]?.mrr || 0;
+
+    // LTV/CAC Ratio
+    const ltvCacRatio = advancedMetrics?.ltvCacRatio || 0;
+
+    // Break-Even EBITDA
+    const breakEvenYear = kpis.breakEvenYearEBITDA;
+
+    // Burn Rate (avg negative EBITDA/12 in first 24 months)
+    const negativeCashMonths = monthlyData.slice(0, 24).filter(m => m.ebitda < 0);
+    const avgNegativeEBITDA = negativeCashMonths.length > 0
+      ? negativeCashMonths.reduce((sum, m) => sum + m.ebitda, 0) / negativeCashMonths.length
+      : 0;
+    const burnRate = Math.abs(avgNegativeEBITDA);
+
+    // Runway (months of cash remaining)
+    const currentCash = monthlyCashFlows?.[monthlyCashFlows.length - 1]?.endingCash || currentScenario.assumptions?.initialCash || 0;
+    const runway = burnRate > 0 ? currentCash / burnRate : null;
+
+    // CAC
+    const cac = advancedMetrics?.cac || 0;
+
+    // LTV
+    const ltv = advancedMetrics?.ltv || 0;
+
+    // Payback Period (months)
+    const paybackPeriod = advancedMetrics?.paybackPeriod || 0;
+
+    // Churn Rate Annual
+    const churnAnnual = (currentScenario.drivers.churnAnnual || 0.08) * 100;
+
+    // Gross Margin %
+    const grossMarginPercent = kpis.grossMarginPercent;
+
+    return {
+      arrY5,
+      mrrM60,
+      ltvCacRatio,
+      breakEvenYear,
+      burnRate,
+      runway,
+      cac,
+      ltv,
+      paybackPeriod,
+      churnAnnual,
+      grossMarginPercent
+    };
+  }, [calculationResults, currentScenario]);
+
+  // Chart data: ARR Growth
+  const arrChartData = useMemo(() => {
+    if (!calculationResults) return [];
+    return calculationResults.monthlyData.map((m, idx) => ({
+      month: `M${idx + 1}`,
+      ARR: m.mrr * 12,
+      label: idx % 12 === 11 ? `Y${Math.floor(idx / 12) + 1}` : undefined
+    }));
+  }, [calculationResults]);
+
+  // Chart data: EBITDA & Cash
+  const cashFlowChartData = useMemo(() => {
+    if (!calculationResults) return [];
+    let cumulativeCash = currentScenario.assumptions?.initialCash || 2.0;
+    
+    return calculationResults.monthlyData.map((m, idx) => {
+      cumulativeCash += m.ebitda;
+      return {
+        month: `M${idx + 1}`,
+        EBITDA: m.ebitda,
+        'Cumulative Cash': cumulativeCash,
+        label: idx % 12 === 11 ? `Y${Math.floor(idx / 12) + 1}` : undefined
+      };
+    });
+  }, [calculationResults, currentScenario]);
+
+  // Export handlers
+  const handleExportScenario = () => {
+    downloadJSON(currentScenario, `eco3d-scenario-${currentScenarioKey}-${new Date().toISOString().split('T')[0]}.json`);
+  };
+
+  if (!calculationResults || !metrics) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <AlertCircle className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+          <p className="text-lg text-muted-foreground">Loading financial data...</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Header with Scenario Selector */}
+      <ScenarioSelector
+        currentScenario={currentScenarioKey}
+        onScenarioChange={setCurrentScenarioKey}
+        onDuplicateToCustom={handleDuplicateToCustom}
+        onResetScenario={handleResetScenario}
+        onExportScenario={handleExportScenario}
+        onImportScenario={handleImportScenario}
+      />
+
+      <div className="container mx-auto p-6 space-y-8">
+        {/* Hero Metrics - Top 6 KPIs */}
+        <section>
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
+                <Target className="h-6 w-6" />
+                Metriche Essenziali
+              </h2>
+              <p className="text-sm text-muted-foreground mt-1">
+                Le 6 metriche chiave che ogni investitore e stakeholder guarda per primo
+              </p>
+            </div>
+            <Badge variant="outline" className="text-lg px-4 py-2">
+              {currentScenario.name}
+            </Badge>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {/* 1. ARR Y5 */}
+            <MetricCard
+              icon={<TrendingUp className="h-5 w-5" />}
+              title="ARR Year 5"
+              value={`€${metrics.arrY5.toFixed(1)}M`}
+              description="Annual Recurring Revenue"
+              tooltip={{
+                title: "ARR (Annual Recurring Revenue)",
+                description: "Ricavi ricorrenti annualizzati al mese 60.",
+                formula: "MRR × 12",
+                benchmark: {
+                  excellent: ">€5M (venture scale)",
+                  good: "€2-5M (growing)",
+                  poor: "<€2M (early stage)"
+                },
+                status: metrics.arrY5 >= 5 ? 'excellent' : metrics.arrY5 >= 2 ? 'good' : 'poor'
+              }}
+              color={metrics.arrY5 >= 5 ? 'green' : metrics.arrY5 >= 2 ? 'yellow' : 'red'}
+            />
+
+            {/* 2. LTV/CAC Ratio */}
+            <MetricCard
+              icon={<DollarSign className="h-5 w-5" />}
+              title="LTV/CAC Ratio"
+              value={`${metrics.ltvCacRatio.toFixed(1)}x`}
+              description="Efficienza acquisizione"
+              tooltip={{
+                title: "LTV/CAC Ratio",
+                description: "Rapporto tra Lifetime Value e Customer Acquisition Cost. Misura l'efficienza dell'acquisizione clienti.",
+                formula: "LTV / CAC",
+                benchmark: {
+                  excellent: ">5:1 (venture scale)",
+                  good: "3-5:1 (sostenibile)",
+                  poor: "<3:1 (problematico)"
+                },
+                status: metrics.ltvCacRatio >= 5 ? 'excellent' : metrics.ltvCacRatio >= 3 ? 'good' : 'poor'
+              }}
+              color={metrics.ltvCacRatio >= 5 ? 'green' : metrics.ltvCacRatio >= 3 ? 'yellow' : 'red'}
+            />
+
+            {/* 3. Break-Even Point */}
+            <MetricCard
+              icon={<Target className="h-5 w-5" />}
+              title="Break-Even"
+              value={metrics.breakEvenYear ? `Y${metrics.breakEvenYear}` : 'N/A'}
+              description="Quando EBITDA ≥ 0"
+              tooltip={{
+                title: "Break-Even Point",
+                description: "Anno in cui l'azienda diventa profittevole (EBITDA ≥ 0).",
+                formula: "Primo anno con EBITDA ≥ 0",
+                benchmark: {
+                  excellent: "≤Y2 (eccellente)",
+                  good: "Y3 (buono)",
+                  poor: "≥Y4 (preoccupante)"
+                },
+                status: metrics.breakEvenYear && metrics.breakEvenYear <= 2 ? 'excellent' : 
+                        metrics.breakEvenYear && metrics.breakEvenYear === 3 ? 'good' : 'poor'
+              }}
+              color={metrics.breakEvenYear && metrics.breakEvenYear <= 2 ? 'green' : 
+                     metrics.breakEvenYear && metrics.breakEvenYear === 3 ? 'yellow' : 'red'}
+            />
+
+            {/* 4. Runway */}
+            <MetricCard
+              icon={<Calendar className="h-5 w-5" />}
+              title="Runway"
+              value={metrics.runway ? `${metrics.runway.toFixed(0)} mesi` : 'N/A'}
+              description="Autonomia finanziaria"
+              tooltip={{
+                title: "Runway",
+                description: "Mesi di autonomia finanziaria prima di esaurire la cassa.",
+                formula: "Cassa Disponibile / Burn Rate Mensile",
+                benchmark: {
+                  excellent: ">18 mesi (confortevole)",
+                  good: "12-18 mesi (OK)",
+                  poor: "<12 mesi (critico)"
+                },
+                status: metrics.runway && metrics.runway > 18 ? 'excellent' : 
+                        metrics.runway && metrics.runway >= 12 ? 'good' : 'poor'
+              }}
+              color={metrics.runway && metrics.runway > 18 ? 'green' : 
+                     metrics.runway && metrics.runway >= 12 ? 'yellow' : 'red'}
+            />
+
+            {/* 5. Burn Rate */}
+            <MetricCard
+              icon={<AlertCircle className="h-5 w-5" />}
+              title="Burn Rate"
+              value={`€${metrics.burnRate.toFixed(1)}M/mese`}
+              description="Consumo mensile cassa"
+              tooltip={{
+                title: "Burn Rate",
+                description: "Consumo mensile di cassa (media EBITDA negativo primi 24 mesi).",
+                formula: "Avg(-EBITDA/12) primi 2 anni",
+                benchmark: {
+                  excellent: "<€0.1M/mese (basso)",
+                  good: "€0.1-0.3M/mese (medio)",
+                  poor: ">€0.3M/mese (alto)"
+                },
+                status: metrics.burnRate < 0.1 ? 'excellent' : metrics.burnRate <= 0.3 ? 'good' : 'poor'
+              }}
+              color={metrics.burnRate < 0.1 ? 'green' : metrics.burnRate <= 0.3 ? 'yellow' : 'red'}
+            />
+
+            {/* 6. MRR M60 */}
+            <MetricCard
+              icon={<TrendingUp className="h-5 w-5" />}
+              title="MRR Month 60"
+              value={`€${(metrics.mrrM60 * 1000).toFixed(0)}k`}
+              description="Ricavi mensili ricorrenti"
+              tooltip={{
+                title: "MRR (Monthly Recurring Revenue)",
+                description: "Ricavi mensili ricorrenti al mese 60. Include Subscription + Maintenance, esclude CapEx hardware.",
+                formula: "(Accounts × ARPA Subscription + Accounts × ARPA Maintenance) / 12",
+                benchmark: {
+                  excellent: ">€500k/mese",
+                  good: "€200-500k/mese",
+                  poor: "<€200k/mese"
+                },
+                status: metrics.mrrM60 >= 0.5 ? 'excellent' : metrics.mrrM60 >= 0.2 ? 'good' : 'poor'
+              }}
+              color={metrics.mrrM60 >= 0.5 ? 'green' : metrics.mrrM60 >= 0.2 ? 'yellow' : 'red'}
+            />
+          </div>
+        </section>
+
+        {/* Main Charts */}
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* ARR Growth Trajectory */}
+          <ChartCard
+            title="ARR Growth Trajectory"
+            subtitle="Crescita ricavi ricorrenti annualizzati"
+            data={arrChartData}
+            type="area"
+            dataKeys={['ARR']}
+            colors={['#3b82f6']}
+            xAxisKey="month"
+            yAxisLabel="M€"
+            description="Mostra la crescita dell'ARR mese per mese. Target: raggiungere €5M+ entro Y5 per venture scale."
+          />
+
+          {/* Path to Break-Even */}
+          <ChartCard
+            title="Path to Break-Even"
+            subtitle="EBITDA e Cash cumulativo"
+            data={cashFlowChartData}
+            type="line"
+            dataKeys={['EBITDA', 'Cumulative Cash']}
+            colors={['#ef4444', '#10b981']}
+            xAxisKey="month"
+            yAxisLabel="M€"
+            description="Mostra l'EBITDA mensile e il cash cumulativo. Il break-even avviene quando EBITDA diventa positivo."
+          />
+        </section>
+
+        {/* Unit Economics */}
+        <section>
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h2 className="text-2xl font-bold text-foreground flex items-center gap-2">
+                <Users className="h-6 w-6" />
+                Unit Economics
+              </h2>
+              <p className="text-sm text-muted-foreground mt-1">
+                Metriche per cliente: quanto costa acquisirli e quanto valgono
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* 7. CAC */}
+            <MetricCard
+              icon={<DollarSign className="h-5 w-5" />}
+              title="CAC"
+              value={`€${(metrics.cac * 1000).toFixed(0)}`}
+              description="Customer Acquisition Cost"
+              tooltip={{
+                title: "CAC (Customer Acquisition Cost)",
+                description: "Costo medio per acquisire un nuovo cliente.",
+                formula: "Total S&M OPEX / Nuovi Clienti",
+                benchmark: {
+                  excellent: "<€5k (efficiente)",
+                  good: "€5-8k (medio, MedTech standard)",
+                  poor: ">€8k (alto)"
+                },
+                status: metrics.cac < 5 ? 'excellent' : metrics.cac <= 8 ? 'good' : 'poor'
+              }}
+              color={metrics.cac < 5 ? 'green' : metrics.cac <= 8 ? 'yellow' : 'red'}
+            />
+
+            {/* 8. LTV */}
+            <MetricCard
+              icon={<TrendingUp className="h-5 w-5" />}
+              title="LTV"
+              value={`€${(metrics.ltv * 1000).toFixed(0)}`}
+              description="Lifetime Value"
+              tooltip={{
+                title: "LTV (Lifetime Value)",
+                description: "Valore lifetime di un cliente medio.",
+                formula: "ARPU × Avg Lifetime (12 / Churn Annual)",
+                benchmark: {
+                  excellent: ">€100k (alto valore)",
+                  good: "€50-100k (medio)",
+                  poor: "<€50k (basso)"
+                },
+                status: metrics.ltv >= 100 ? 'excellent' : metrics.ltv >= 50 ? 'good' : 'poor'
+              }}
+              color={metrics.ltv >= 100 ? 'green' : metrics.ltv >= 50 ? 'yellow' : 'red'}
+            />
+
+            {/* 9. Payback Period */}
+            <MetricCard
+              icon={<Clock className="h-5 w-5" />}
+              title="Payback Period"
+              value={`${metrics.paybackPeriod.toFixed(0)} mesi`}
+              description="Tempo recupero CAC"
+              tooltip={{
+                title: "Payback Period",
+                description: "Mesi necessari per recuperare il costo di acquisizione cliente (CAC).",
+                formula: "CAC / (ARPU / 12)",
+                benchmark: {
+                  excellent: "<6 mesi (veloce)",
+                  good: "6-12 mesi (standard)",
+                  poor: ">12 mesi (lento)"
+                },
+                status: metrics.paybackPeriod < 6 ? 'excellent' : metrics.paybackPeriod <= 12 ? 'good' : 'poor'
+              }}
+              color={metrics.paybackPeriod < 6 ? 'green' : metrics.paybackPeriod <= 12 ? 'yellow' : 'red'}
+            />
+
+            {/* 10. Churn Rate */}
+            <MetricCard
+              icon={<Percent className="h-5 w-5" />}
+              title="Churn Rate"
+              value={`${metrics.churnAnnual.toFixed(1)}%`}
+              description="Tasso abbandono annuo"
+              tooltip={{
+                title: "Churn Rate Annual",
+                description: "Percentuale di clienti che abbandonano ogni anno.",
+                formula: "% clienti persi / anno",
+                benchmark: {
+                  excellent: "<5% (ottimo, Enterprise SaaS)",
+                  good: "5-8% (buono)",
+                  poor: ">8% (alto, problematico)"
+                },
+                status: metrics.churnAnnual < 5 ? 'excellent' : metrics.churnAnnual <= 8 ? 'good' : 'poor'
+              }}
+              color={metrics.churnAnnual < 5 ? 'green' : metrics.churnAnnual <= 8 ? 'yellow' : 'red'}
+            />
+          </div>
+        </section>
+
+        {/* Quick Controls */}
+        <section>
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Target className="h-5 w-5" />
+                Controlli Rapidi
+              </CardTitle>
+              <CardDescription>
+                Modifica i parametri chiave per vedere l'impatto sulle metriche
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <ParameterControl
+                  parameter="leadMult"
+                  value={currentScenario.drivers.leadMult}
+                  onChange={(value) => handleParameterChange('leadMult', value)}
+                  onReset={() => {}}
+                  disabled={isCalculating}
+                />
+                <ParameterControl
+                  parameter="l2d"
+                  value={currentScenario.drivers.l2d}
+                  onChange={(value) => handleParameterChange('l2d', value)}
+                  onReset={() => {}}
+                  disabled={isCalculating}
+                />
+                <ParameterControl
+                  parameter="arpaSub"
+                  value={currentScenario.drivers.arpaSub}
+                  onChange={(value) => handleParameterChange('arpaSub', value)}
+                  onReset={() => {}}
+                  disabled={isCalculating}
+                />
+                <ParameterControl
+                  parameter="churnAnnual"
+                  value={currentScenario.drivers.churnAnnual || 0.08}
+                  onChange={(value) => handleParameterChange('churnAnnual', value)}
+                  onReset={() => {}}
+                  disabled={isCalculating}
+                />
+                <ParameterControl
+                  parameter="gmRecurring"
+                  value={currentScenario.drivers.gmRecurring}
+                  onChange={(value) => handleParameterChange('gmRecurring', value)}
+                  onReset={() => {}}
+                  disabled={isCalculating}
+                />
+                <ParameterControl
+                  parameter="opexY1"
+                  value={currentScenario.drivers.opexY1}
+                  onChange={(value) => handleParameterChange('opexY1', value)}
+                  onReset={() => {}}
+                  disabled={isCalculating}
+                />
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+
+        {/* Info Footer */}
+        <div className="text-center text-sm text-muted-foreground py-4 border-t">
+          <p className="flex items-center justify-center gap-2">
+            <Info className="h-4 w-4" />
+            Dashboard semplificata basata sulle 10 metriche ad alta priorità per business plan SaaS+Hardware
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Metric Card Component with Tooltip
+ */
+interface MetricCardProps {
+  icon: React.ReactNode;
+  title: string;
+  value: string;
+  description: string;
+  tooltip: {
+    title: string;
+    description: string;
+    formula: string;
+    benchmark: {
+      excellent: string;
+      good: string;
+      poor: string;
+    };
+    status: 'excellent' | 'good' | 'poor';
+  };
+  color: 'green' | 'yellow' | 'red';
+}
+
+function MetricCard({ icon, title, value, description, tooltip, color }: MetricCardProps) {
+  const colorClasses = {
+    green: 'border-green-500 bg-green-50/50',
+    yellow: 'border-yellow-500 bg-yellow-50/50',
+    red: 'border-red-500 bg-red-50/50'
+  };
+
+  const badgeColorClasses = {
+    green: 'bg-green-100 text-green-800 border-green-300',
+    yellow: 'bg-yellow-100 text-yellow-800 border-yellow-300',
+    red: 'bg-red-100 text-red-800 border-red-300'
+  };
+
+  const statusEmoji = {
+    excellent: '✓',
+    good: '○',
+    poor: '!'
+  };
+
+  return (
+    <Card className={`${colorClasses[color]} border-l-4 relative group hover:shadow-lg transition-shadow`}>
+      <CardHeader className="pb-2">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            {icon}
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              {title}
+            </CardTitle>
+          </div>
+          <EnhancedTooltip
+            title={tooltip.title}
+            description={tooltip.description}
+          >
+            <Info className="h-4 w-4 text-muted-foreground cursor-help" />
+          </EnhancedTooltip>
+        </div>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-2">
+          <div className="flex items-baseline justify-between">
+            <p className="text-3xl font-bold text-foreground">{value}</p>
+            <Badge className={`${badgeColorClasses[color]} text-xs`}>
+              {statusEmoji[tooltip.status]}
+            </Badge>
+          </div>
+          <p className="text-xs text-muted-foreground">{description}</p>
+          
+          {/* Tooltip info on hover */}
+          <div className="text-xs text-muted-foreground pt-2 border-t opacity-0 group-hover:opacity-100 transition-opacity">
+            <p className="font-mono text-xs mb-1">{tooltip.formula}</p>
+            <div className="space-y-0.5">
+              <p className="text-green-600">✓ {tooltip.benchmark.excellent}</p>
+              <p className="text-yellow-600">○ {tooltip.benchmark.good}</p>
+              <p className="text-red-600">! {tooltip.benchmark.poor}</p>
+            </div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
