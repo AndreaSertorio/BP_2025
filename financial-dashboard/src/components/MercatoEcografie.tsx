@@ -7,6 +7,7 @@ import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { AlertCircle, RefreshCw, TrendingUp, Eye, EyeOff, ChevronUp, ChevronDown, FileSpreadsheet, BarChart3, PieChart, Activity } from 'lucide-react';
 import { BarChart, Bar, PieChart as RechartsPie, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { useDatabase } from '@/contexts/DatabaseProvider';
 
 interface PrestazioneData {
   codice: string;
@@ -24,24 +25,6 @@ interface PrestazioneData {
   aggredibile: boolean; // Mercato target per Eco3D
 }
 
-// Definizione delle prestazioni con i loro dettagli (fuori dal componente per evitare re-render)
-const prestazioniConfig = [
-  { codice: '88.71.4', nome: 'Capo/Collo', riga: 6 },
-  { codice: '88.72.2', nome: 'Cardio a riposo', riga: 10 },
-  { codice: '88.73.5', nome: 'TSA', riga: 14 },
-  { codice: '88.77.4', nome: 'Arti inferiori (arterioso/venoso)', riga: 18 },
-  { codice: '88.77.6', nome: 'Arti superiori (arterioso/venoso)', riga: 22 },
-  { codice: '88.76.3', nome: 'Grossi vasi addominali', riga: 26 },
-  { codice: '88.78.2', nome: 'Ginecologica (TV/TA)', riga: 30 },
-  { codice: '88.76.1', nome: 'Addome completo', riga: 34 },
-  { codice: '88.75.1', nome: 'Addome inferiore', riga: 38 },
-  { codice: '88.74.1', nome: 'Addome superiore', riga: 42 },
-  { codice: '88.73.1', nome: 'Mammella bilaterale', riga: 46 },
-  { codice: '88.73.2', nome: 'Mammella monolaterale', riga: 50 },
-  { codice: '88.79.3', nome: 'MSK', riga: 54 },
-  { codice: '88.79.6', nome: 'Scrotale (eco)', riga: 58 },
-  { codice: '88.79.E', nome: 'Scrotale (ECD)', riga: 62 }
-];
 
 // Colori per i grafici
 const COLORS = {
@@ -55,6 +38,9 @@ const COLORS = {
 };
 
 export function MercatoEcografie() {
+  // Hook al DatabaseProvider per sincronizzazione
+  const { data: dbData, toggleAggredibile: toggleAggredibileDB, setPercentualeExtraSSN: setPercentualeDB } = useDatabase();
+  
   const [prestazioni, setPrestazioni] = useState<PrestazioneData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -64,108 +50,127 @@ export function MercatoEcografie() {
   const [isTableExpanded, setIsTableExpanded] = useState(true);
   const [chartMode, setChartMode] = useState<'totale' | 'aggredibile' | 'confronto'>('confronto');
 
-  const loadExcelData = useCallback(async () => {
+  // Carica dati direttamente da database.json (NO Excel!)
+  const loadDataFromDatabase = useCallback(() => {
     try {
       setLoading(true);
       setError(null);
 
-      console.log('📊 Inizio caricamento Excel...');
-      const response = await fetch('/assets/Eco_ITA_MASTER.xlsx');
-      if (!response.ok) {
-        throw new Error(`Errore HTTP: ${response.status}`);
-      }
-
-      console.log('📊 File scaricato, parsing in corso...');
-      const arrayBuffer = await response.arrayBuffer();
-      const workbook = XLSX.read(arrayBuffer, { type: 'array' });
-      console.log('📊 Fogli disponibili:', workbook.SheetNames);
-
-      // Cerca il foglio ECO_Riepilogo
-      const sheetName = workbook.SheetNames.find(name => 
-        name.includes('Riepilogo') || name.includes('riepilogo')
-      );
-
-      if (!sheetName) {
-        throw new Error('Foglio ECO_Riepilogo non trovato');
-      }
-
-      const worksheet = workbook.Sheets[sheetName];
-
-      // Funzione helper per leggere una cella
-      const getCellValue = (cell: string): number => {
-        const cellRef = XLSX.utils.decode_cell(cell);
-        const cellAddress = XLSX.utils.encode_cell(cellRef);
-        const cellData = worksheet[cellAddress];
-        return cellData ? (typeof cellData.v === 'number' ? cellData.v : parseFloat(cellData.v) || 0) : 0;
-      };
-
-      // Prestazioni target per Eco3D (mercato aggredibile)
-      const prestazioniTarget = [
-        'Capo/Collo',
-        'TSA',
-        'Grossi vasi addominali',
-        'Addome superiore',
-        'Mammella bilaterale',
-        'Mammella monolaterale',
-        'MSK'
-      ];
-
-      // Leggi i dati per ogni prestazione
-      const prestazioniData: PrestazioneData[] = prestazioniConfig.map(config => {
-        const isTarget = prestazioniTarget.some(target => 
-          config.nome.toLowerCase().includes(target.toLowerCase())
-        );
+      console.log('📊 Caricamento dati da database.json...');
+      
+      // Converti dati dal database al formato interno
+      const prestazioniData: PrestazioneData[] = dbData.mercatoEcografie.italia.prestazioni.map(dbP => {
+        // Calcola i valori derivati
+        const colE = dbP.U + dbP.B + dbP.D + dbP.P; // SSN totale
+        const extraSSN = Math.round((colE * dbP.percentualeExtraSSN) / 100); // Extra-SSN
+        const totaleAnnuo = colE + extraSSN; // Totale mercato
         
         return {
-          codice: config.codice,
-          nome: config.nome,
-          riga: config.riga,
-          U: getCellValue(`A${config.riga}`),
-          B: getCellValue(`B${config.riga}`),
-          D: getCellValue(`C${config.riga}`),
-          P: getCellValue(`D${config.riga}`),
-          colE: getCellValue(`E${config.riga}`),
-          totaleAnnuo: getCellValue(`F${config.riga}`),
-          extraSSN: getCellValue(`G${config.riga}`),
-          percentualeExtraSSN: getCellValue(`H${config.riga}`),
+          codice: dbP.codice,
+          nome: dbP.nome,
+          riga: 0, // Non più necessario
+          U: dbP.U,
+          B: dbP.B,
+          D: dbP.D,
+          P: dbP.P,
+          colE: colE,
+          totaleAnnuo: totaleAnnuo,
+          extraSSN: extraSSN,
+          percentualeExtraSSN: dbP.percentualeExtraSSN,
           visible: true,
-          aggredibile: isTarget
+          aggredibile: dbP.aggredibile
         };
       });
 
-      console.log('📊 Dati letti:', prestazioniData.length, 'prestazioni');
+      console.log(`✅ Caricate ${prestazioniData.length} prestazioni da database`);
       setPrestazioni(prestazioniData);
 
-      // Leggi il totale Italia (riga 69)
+      // Calcola totale Italia sommando tutte le prestazioni
+      const totaleU = prestazioniData.reduce((sum, p) => sum + p.U, 0);
+      const totaleB = prestazioniData.reduce((sum, p) => sum + p.B, 0);
+      const totaleD = prestazioniData.reduce((sum, p) => sum + p.D, 0);
+      const totaleP = prestazioniData.reduce((sum, p) => sum + p.P, 0);
+      const totaleColE = prestazioniData.reduce((sum, p) => sum + p.colE, 0);
+      const totaleExtraSSN = prestazioniData.reduce((sum, p) => sum + p.extraSSN, 0);
+      const totaleTotaleAnnuo = prestazioniData.reduce((sum, p) => sum + p.totaleAnnuo, 0);
+
       const totaleData: PrestazioneData = {
         codice: 'TOTALE',
         nome: 'Totale Italia',
-        riga: 69,
-        U: getCellValue('A69'),
-        B: getCellValue('B69'),
-        D: getCellValue('C69'),
-        P: getCellValue('D69'),
-        colE: getCellValue('E69'),
-        totaleAnnuo: getCellValue('F69'),
-        extraSSN: getCellValue('G69'),
-        percentualeExtraSSN: 0, // Il totale non ha percentuale
+        riga: 0,
+        U: totaleU,
+        B: totaleB,
+        D: totaleD,
+        P: totaleP,
+        colE: totaleColE,
+        totaleAnnuo: totaleTotaleAnnuo,
+        extraSSN: totaleExtraSSN,
+        percentualeExtraSSN: 0,
         visible: true,
-        aggredibile: false // Il totale non è selezionabile
+        aggredibile: false
       };
 
       setTotaleItalia(totaleData);
-      console.log('✅ Caricamento completato con successo');
+      console.log('✅ Totale Italia calcolato');
       setLoading(false);
     } catch (err) {
-      console.error('❌ Errore nel caricamento Excel:', err);
+      console.error('❌ Errore caricamento dati:', err);
       setError(err instanceof Error ? err.message : 'Errore sconosciuto');
       setLoading(false);
     }
-  }, []);
+  }, [dbData]);
 
   useEffect(() => {
-    loadExcelData();
-  }, [loadExcelData]);
+    // Carica dati da database.json al mount
+    loadDataFromDatabase();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Solo al mount!
+
+  // Sincronizza quando cambia dbData (per riflettere modifiche da altre pagine)
+  useEffect(() => {
+    if (prestazioni.length === 0 || !dbData) return;
+
+    console.log('🔄 Controllo sincronizzazione con database...');
+    
+    // Verifica se ci sono differenze
+    let hasChanges = false;
+    
+    const prestazioniAggiornate = prestazioni.map(p => {
+      const dbPrestazione = dbData.mercatoEcografie.italia.prestazioni.find(
+        dbP => dbP.codice === p.codice
+      );
+
+      if (dbPrestazione) {
+        // Se aggredibile o percentuale sono diversi, aggiorna
+        if (dbPrestazione.aggredibile !== p.aggredibile || 
+            dbPrestazione.percentualeExtraSSN !== p.percentualeExtraSSN) {
+          
+          hasChanges = true;
+          const percentuale = dbPrestazione.percentualeExtraSSN || p.percentualeExtraSSN;
+          const extraSSN = Math.round((p.colE * percentuale) / 100);
+          const totaleAnnuo = p.colE + extraSSN;
+          
+          console.log(`   → Aggiorno ${p.codice}: aggredibile=${dbPrestazione.aggredibile}, %=${percentuale}`);
+          
+          return {
+            ...p,
+            aggredibile: dbPrestazione.aggredibile,
+            percentualeExtraSSN: percentuale,
+            extraSSN: extraSSN,
+            totaleAnnuo: totaleAnnuo,
+          };
+        }
+      }
+
+      return p;
+    });
+
+    if (hasChanges) {
+      console.log('✅ Sincronizzazione completata con modifiche');
+      setPrestazioni(prestazioniAggiornate);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dbData.mercatoEcografie.italia.prestazioni]);
 
   const handlePercentualeChange = (index: number, newValue: number) => {
     const updatedPrestazioni = [...prestazioni];
@@ -177,11 +182,17 @@ export function MercatoEcografie() {
     
     // Ricalcola l'extra-SSN in base alla nuova percentuale
     // Formula: Extra-SSN = Totale SSN (colE) * (percentuale/100)
-    prestazione.extraSSN = (prestazione.colE * newPercentuale) / 100;
+    prestazione.extraSSN = Math.round((prestazione.colE * newPercentuale) / 100);
     
     // Ricalcola il totale annuo
     prestazione.totaleAnnuo = prestazione.colE + prestazione.extraSSN;
     
+    // Sincronizza PRIMA con il database centralizzato
+    setPercentualeDB(prestazione.codice, newPercentuale);
+    
+    console.log(`📊 Percentuale Extra-SSN per ${prestazione.codice}: ${newPercentuale}% -> Extra-SSN: ${prestazione.extraSSN}`);
+    
+    // Aggiorna stato locale DOPO (per evitare loop)
     setPrestazioni(updatedPrestazioni);
     
     // Ricalcola il totale Italia
@@ -214,9 +225,24 @@ export function MercatoEcografie() {
   };
 
   const toggleAggredibile = (index: number) => {
+    const prestazione = prestazioni[index];
+    
+    // SOLO toggle nel database centralizzato
+    toggleAggredibileDB(prestazione.codice);
+    
+    // Aggiorna lo stato locale in base al nuovo valore del database
+    // Il database fa il toggle, quindi invertiamo il valore attuale
+    const nuovoValore = !prestazione.aggredibile;
+    
     const updatedPrestazioni = [...prestazioni];
-    updatedPrestazioni[index].aggredibile = !updatedPrestazioni[index].aggredibile;
+    updatedPrestazioni[index] = {
+      ...prestazione,
+      aggredibile: nuovoValore
+    };
+    
     setPrestazioni(updatedPrestazioni);
+    
+    console.log(`✅ Toggle aggredibile per ${prestazione.codice}: ${prestazione.aggredibile} → ${nuovoValore}`);
   };
 
   const formatNumber = (num: number): string => {
@@ -472,7 +498,7 @@ export function MercatoEcografie() {
               <h3 className="font-semibold text-red-900 mb-2">Errore nel caricamento</h3>
               <p className="text-red-700">{error}</p>
               <Button 
-                onClick={loadExcelData} 
+                onClick={loadDataFromDatabase} 
                 variant="outline" 
                 className="mt-4"
               >
@@ -491,7 +517,7 @@ export function MercatoEcografie() {
       <div className="container mx-auto p-6">
         <Card className="p-6">
           <p className="text-gray-600">Nessuna prestazione da visualizzare</p>
-          <Button onClick={loadExcelData} className="mt-4">
+          <Button onClick={loadDataFromDatabase} className="mt-4">
             Ricarica Dati
           </Button>
         </Card>
@@ -510,11 +536,11 @@ export function MercatoEcografie() {
             📊 Mercato Ecografie Italia
           </h1>
           <p className="text-gray-600">
-            Dati dal foglio <strong>ECO_Riepilogo</strong> - 15 prestazioni ecografiche
+            Dati da <strong>database.json</strong> - {prestazioni.length} prestazioni ecografiche
           </p>
         </div>
         <div className="flex gap-2">
-          <Button onClick={loadExcelData} variant="outline">
+          <Button onClick={loadDataFromDatabase} variant="outline">
             <RefreshCw className="h-4 w-4 mr-2" />
             Ricarica
           </Button>

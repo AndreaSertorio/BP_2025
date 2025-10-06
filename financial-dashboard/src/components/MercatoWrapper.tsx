@@ -4,48 +4,36 @@ import React from 'react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { MercatoEcografie } from './MercatoEcografie';
 import { MercatoEcografieRegionale } from './MercatoEcografieRegionale';
+import { MercatoEcografi } from './MercatoEcografi';
+import { MercatoRiepilogo } from './MercatoRiepilogo';
 
 export function MercatoWrapper() {
   return (
     <div className="min-h-screen bg-background">
-      <Tabs defaultValue="ecografie" className="w-full">
+      <Tabs defaultValue="riepilogo" className="w-full">
         <div className="border-b bg-card">
           <div className="container mx-auto px-6">
             <TabsList>
+              <TabsTrigger value="riepilogo">📋 Riepilogo</TabsTrigger>
               <TabsTrigger value="ecografie">📊 Mercato Ecografie</TabsTrigger>
               <TabsTrigger value="ecografi">🏥 Mercato Ecografi</TabsTrigger>
             </TabsList>
           </div>
         </div>
 
+        {/* Tab Riepilogo - NUOVO DATABASE CENTRALIZZATO */}
+        <TabsContent value="riepilogo" className="mt-0">
+          <MercatoRiepilogo />
+        </TabsContent>
+
         {/* Tab Mercato Ecografie con sotto-tab regionali */}
         <TabsContent value="ecografie" className="mt-0">
           <MercatoEcografieTab />
         </TabsContent>
 
-        {/* Tab Mercato Ecografi (placeholder per futuro) */}
+        {/* Tab Mercato Ecografi */}
         <TabsContent value="ecografi" className="mt-0">
-          <div className="container mx-auto p-6">
-            <div className="bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-blue-300 rounded-lg p-8 text-center">
-              <h1 className="text-3xl font-bold text-blue-900 mb-4">
-                🏥 Mercato Ecografi
-              </h1>
-              <p className="text-lg text-blue-700 mb-6">
-                Sezione in costruzione - Analisi del mercato dei dispositivi ecografici
-              </p>
-              <div className="bg-white rounded-lg p-6 shadow-md max-w-2xl mx-auto">
-                <p className="text-gray-600">
-                  Questa sezione conterrà l&apos;analisi del mercato degli ecografi, includendo:
-                </p>
-                <ul className="text-left mt-4 space-y-2 text-gray-700">
-                  <li>• Dimensione mercato dispositivi</li>
-                  <li>• Segmentazione per tipologia</li>
-                  <li>• Analisi competitiva</li>
-                  <li>• Trend e proiezioni</li>
-                </ul>
-              </div>
-            </div>
-          </div>
+          <MercatoEcografi />
         </TabsContent>
       </Tabs>
     </div>

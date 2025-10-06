@@ -1,0 +1,238 @@
+{
+  "numeroEcografi": [
+    {
+      "mercato": "Italia",
+      "unita2025": 5600,
+      "unita2030": 6900
+    },
+    {
+      "mercato": "Europa",
+      "unita2025": 37000,
+      "unita2030": 49000
+    },
+    {
+      "mercato": "Stati Uniti",
+      "unita2025": 31000,
+      "unita2030": 40000
+    },
+    {
+      "mercato": "Cina",
+      "unita2025": 26000,
+      "unita2030": 33000
+    },
+    {
+      "mercato": "Mondo (globale)",
+      "unita2025": 125000,
+      "unita2030": 155000
+    }
+  ],
+  "proiezioniItalia": [
+    {
+      "anno": 2024,
+      "mordor": 26654.0,
+      "research": 300.1,
+      "grandview": 241.6,
+      "cognitive": 255.8,
+      "media": 265.8333333333333,
+      "mediana": 248.7
+    },
+    {
+      "anno": 2025,
+      "mordor": 278.58,
+      "research": 315.1,
+      "grandview": 253.12,
+      "cognitive": 261.94,
+      "media": 277.185,
+      "mediana": 261.94
+    },
+    {
+      "anno": 2026,
+      "mordor": 290.53,
+      "research": 330.15,
+      "grandview": 265.19,
+      "cognitive": 268.23,
+      "media": 288.525,
+      "mediana": 268.23
+    },
+    {
+      "anno": 2027,
+      "mordor": 302.99,
+      "research": 345.92,
+      "grandview": 277.83,
+      "cognitive": 274.66,
+      "media": 300.35,
+      "mediana": 277.83
+    },
+    {
+      "anno": 2028,
+      "mordor": 315.99,
+      "research": 362.45,
+      "grandview": 291.08,
+      "cognitive": 281.26,
+      "media": 312.695,
+      "mediana": 291.08
+    },
+    {
+      "anno": 2029,
+      "mordor": 329.54,
+      "research": 379.76,
+      "grandview": 304.96,
+      "cognitive": 288.01,
+      "media": 325.5675,
+      "mediana": 304.96
+    },
+    {
+      "anno": 2030,
+      "mordor": 343.68,
+      "research": 397.9,
+      "grandview": 319.5,
+      "cognitive": 294.92,
+      "media": 339.0,
+      "mediana": 319.5
+    }
+  ],
+  "parcoIT": [
+    {
+      "anno": 2025,
+      "basso": 45708,
+      "centrale": 54383,
+      "alto": 63800
+    },
+    {
+      "anno": 2026,
+      "basso": 47890,
+      "centrale": 56415,
+      "alto": 65811
+    },
+    {
+      "anno": 2027,
+      "basso": 50147,
+      "centrale": 58554,
+      "alto": 67950
+    },
+    {
+      "anno": 2028,
+      "basso": 52482,
+      "centrale": 60802,
+      "alto": 70220
+    },
+    {
+      "anno": 2029,
+      "basso": 54901,
+      "centrale": 63164,
+      "alto": 72625
+    },
+    {
+      "anno": 2030,
+      "basso": 57409,
+      "centrale": 65642,
+      "alto": 75167
+    },
+    {
+      "anno": 2031,
+      "basso": 60011,
+      "centrale": 68242,
+      "alto": 77851
+    },
+    {
+      "anno": 2032,
+      "basso": 62711,
+      "centrale": 70966,
+      "alto": 80681
+    },
+    {
+      "anno": 2033,
+      "basso": 65515,
+      "centrale": 73819,
+      "alto": 83661
+    },
+    {
+      "anno": 2034,
+      "basso": 68428,
+      "centrale": 76805,
+      "alto": 86795
+    },
+    {
+      "anno": 2035,
+      "basso": 71455,
+      "centrale": 79931,
+      "alto": 90090
+    }
+  ],
+  "quoteTipologie": [
+    {
+      "anno": 2026,
+      "carrellati": 62.11,
+      "portatili": 32.61,
+      "palmari": 5.28
+    },
+    {
+      "anno": 2027,
+      "carrellati": 61.91,
+      "portatili": 32.66,
+      "palmari": 5.42
+    },
+    {
+      "anno": 2028,
+      "carrellati": 61.71,
+      "portatili": 32.71,
+      "palmari": 5.57
+    },
+    {
+      "anno": 2029,
+      "carrellati": 61.51,
+      "portatili": 32.76,
+      "palmari": 5.73
+    },
+    {
+      "anno": 2030,
+      "carrellati": 61.31,
+      "portatili": 32.81,
+      "palmari": 5.88
+    }
+  ],
+  "valoreMercato": [
+    {
+      "mercato": "2024.0",
+      "valore2025": 0,
+      "valore2030": 0,
+      "cagr": 0
+    },
+    {
+      "mercato": "2025.0",
+      "valore2025": 9120.0,
+      "valore2030": 9920.0,
+      "cagr": 0
+    },
+    {
+      "mercato": "2026.0",
+      "valore2025": 9465.0,
+      "valore2030": 10482.0,
+      "cagr": 0
+    },
+    {
+      "mercato": "2027.0",
+      "valore2025": 9823.0,
+      "valore2030": 11077.0,
+      "cagr": 0
+    },
+    {
+      "mercato": "2028.0",
+      "valore2025": 10194.0,
+      "valore2030": 11705.0,
+      "cagr": 0
+    },
+    {
+      "mercato": "2029.0",
+      "valore2025": 10580.0,
+      "valore2030": 12369.0,
+      "cagr": 0
+    },
+    {
+      "mercato": "2030.0",
+      "valore2025": 10980.0,
+      "valore2030": 13070.0,
+      "cagr": 13072.7
+    }
+  ]
+}

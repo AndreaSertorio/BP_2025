@@ -7,6 +7,9 @@ import { Button } from './ui/button';
 import { Badge } from './ui/badge';
 import { AlertCircle, RefreshCw, TrendingUp, Eye, EyeOff, ChevronUp, ChevronDown, FileSpreadsheet, BarChart3, PieChart, Activity } from 'lucide-react';
 import { BarChart, Bar, PieChart as RechartsPie, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { useDatabase } from '@/contexts/DatabaseProvider';
+
+// NOTA: XLSX è ancora usato solo per export Excel
 
 interface PrestazioneData {
   codice: string;
@@ -24,24 +27,6 @@ interface PrestazioneData {
   aggredibile: boolean; // Mercato target per Eco3D
 }
 
-// Definizione delle prestazioni con i loro dettagli (fuori dal componente per evitare re-render)
-const prestazioniConfig = [
-  { codice: '88.71.4', nome: 'Capo/Collo', riga: 6 },
-  { codice: '88.72.2', nome: 'Cardio a riposo', riga: 10 },
-  { codice: '88.73.5', nome: 'TSA', riga: 14 },
-  { codice: '88.77.4', nome: 'Arti inferiori (arterioso/venoso)', riga: 18 },
-  { codice: '88.77.6', nome: 'Arti superiori (arterioso/venoso)', riga: 22 },
-  { codice: '88.76.3', nome: 'Grossi vasi addominali', riga: 26 },
-  { codice: '88.78.2', nome: 'Ginecologica (TV/TA)', riga: 30 },
-  { codice: '88.76.1', nome: 'Addome completo', riga: 34 },
-  { codice: '88.75.1', nome: 'Addome inferiore', riga: 38 },
-  { codice: '88.74.1', nome: 'Addome superiore', riga: 42 },
-  { codice: '88.73.1', nome: 'Mammella bilaterale', riga: 46 },
-  { codice: '88.73.2', nome: 'Mammella monolaterale', riga: 50 },
-  { codice: '88.79.3', nome: 'MSK', riga: 54 },
-  { codice: '88.79.6', nome: 'Scrotale (eco)', riga: 58 },
-  { codice: '88.79.E', nome: 'Scrotale (ECD)', riga: 62 }
-];
 
 // Colori per i grafici
 const COLORS = {
@@ -73,6 +58,9 @@ export function MercatoEcografieRegionale({
   valueRange,
   italyQuota
 }: RegionalProps) {
+  // DatabaseProvider per sincronizzazione
+  const { data: dbData, updateRegioneMoltiplicatori } = useDatabase();
+  
   // Dati BASE dall'Italia (caricati una sola volta)
   const [basePrestazioniData, setBasePrestazioniData] = useState<PrestazioneData[]>([]);
   const [baseTotaleData, setBaseTotaleData] = useState<PrestazioneData | null>(null);
@@ -84,9 +72,35 @@ export function MercatoEcografieRegionale({
   const [isTableExpanded, setIsTableExpanded] = useState(true);
   const [chartMode, setChartMode] = useState<'totale' | 'aggredibile' | 'confronto'>('confronto');
   
-  // Moltiplicatori regionali modificabili
-  const [volumeMultiplier, setVolumeMultiplier] = useState(defaultVolumeMultiplier);
-  const [valueMultiplier, setValueMultiplier] = useState(defaultValueMultiplier);
+  // Determina regionKey dal nome regione (normalizza per database)
+  // Rimuove testo in parentesi e spazi per mappare correttamente al database
+  const regionKey = (() => {
+    const normalized = region.toLowerCase().replace(/\s*\(.*?\)\s*/g, '').trim();
+    if (normalized === 'mondo' || normalized === 'globale') return 'globale';
+    if (normalized === 'europa' || normalized.includes('europa')) return 'europa';
+    if (normalized === 'usa') return 'usa';
+    if (normalized === 'cina') return 'cina';
+    return normalized;
+  })();
+  
+  // Leggi moltiplicatori dal database
+  const moltiplicatoriDB = dbData.regioniMondiali?.[regionKey as keyof typeof dbData.regioniMondiali];
+  
+  // Moltiplicatori regionali - SYNC con database
+  const [volumeMultiplier, setVolumeMultiplier] = useState(
+    moltiplicatoriDB?.moltiplicatoreVolume ?? defaultVolumeMultiplier
+  );
+  const [valueMultiplier, setValueMultiplier] = useState(
+    moltiplicatoriDB?.moltiplicatoreValore ?? defaultValueMultiplier
+  );
+  
+  // Sincronizza quando cambiano i dati dal database
+  useEffect(() => {
+    if (moltiplicatoriDB) {
+      setVolumeMultiplier(moltiplicatoriDB.moltiplicatoreVolume);
+      setValueMultiplier(moltiplicatoriDB.moltiplicatoreValore);
+    }
+  }, [moltiplicatoriDB]);
   
   // Calcola range dinamici per gli slider
   const volumeSliderRange = useMemo(() => {
@@ -97,91 +111,68 @@ export function MercatoEcografieRegionale({
     };
   }, [region, defaultVolumeMultiplier]);
 
-  const loadExcelData = useCallback(async () => {
+  // Carica dati dall'Italia (database.json) e applica moltiplicatore
+  const loadDataFromItaly = useCallback(() => {
     try {
       setLoading(true);
       setError(null);
 
-      console.log('📊 Inizio caricamento Excel...');
-      const response = await fetch('/assets/Eco_ITA_MASTER.xlsx');
-      if (!response.ok) {
-        throw new Error(`Errore HTTP: ${response.status}`);
+      console.log(`📊 Caricamento dati ${region} da database.json...`);
+      
+      // Prendi dati Italia dal database
+      const prestazioniItalia = dbData.mercatoEcografie.italia.prestazioni;
+      
+      if (!prestazioniItalia || prestazioniItalia.length === 0) {
+        throw new Error('Nessun dato Italia disponibile');
       }
 
-      console.log('📊 File scaricato, parsing in corso...');
-      const arrayBuffer = await response.arrayBuffer();
-      const workbook = XLSX.read(arrayBuffer, { type: 'array' });
-      console.log('📊 Fogli disponibili:', workbook.SheetNames);
-
-      // Cerca il foglio ECO_Riepilogo
-      const sheetName = workbook.SheetNames.find(name => 
-        name.includes('Riepilogo') || name.includes('riepilogo')
-      );
-
-      if (!sheetName) {
-        throw new Error('Foglio ECO_Riepilogo non trovato');
-      }
-
-      const worksheet = workbook.Sheets[sheetName];
-
-      // Funzione helper per leggere una cella
-      const getCellValue = (cell: string): number => {
-        const cellRef = XLSX.utils.decode_cell(cell);
-        const cellAddress = XLSX.utils.encode_cell(cellRef);
-        const cellData = worksheet[cellAddress];
-        return cellData ? (typeof cellData.v === 'number' ? cellData.v : parseFloat(cellData.v) || 0) : 0;
-      };
-
-      // Prestazioni target per Eco3D (mercato aggredibile)
-      const prestazioniTarget = [
-        'Capo/Collo',
-        'TSA',
-        'Grossi vasi addominali',
-        'Addome superiore',
-        'Mammella bilaterale',
-        'Mammella monolaterale',
-        'MSK'
-      ];
-
-      // Leggi i dati BASE per ogni prestazione (SENZA moltiplicatori)
-      const prestazioniData: PrestazioneData[] = prestazioniConfig.map(config => {
-        const isTarget = prestazioniTarget.some(target => 
-          config.nome.toLowerCase().includes(target.toLowerCase())
-        );
+      // Converti prestazioni Italia in formato base (NON moltiplicati)
+      const prestazioniData: PrestazioneData[] = prestazioniItalia.map(dbP => {
+        // Calcola valori base Italia
+        const colE = dbP.U + dbP.B + dbP.D + dbP.P;
+        const extraSSN = Math.round((colE * dbP.percentualeExtraSSN) / 100);
+        const totaleAnnuo = colE + extraSSN;
         
-        // Dati base dall'Italia (NON moltiplicati)
         return {
-          codice: config.codice,
-          nome: config.nome,
-          riga: config.riga,
-          U: getCellValue(`A${config.riga}`),
-          B: getCellValue(`B${config.riga}`),
-          D: getCellValue(`C${config.riga}`),
-          P: getCellValue(`D${config.riga}`),
-          colE: getCellValue(`E${config.riga}`),
-          totaleAnnuo: getCellValue(`F${config.riga}`),
-          extraSSN: getCellValue(`G${config.riga}`),
-          percentualeExtraSSN: getCellValue(`H${config.riga}`),
+          codice: dbP.codice,
+          nome: dbP.nome,
+          riga: 0,
+          U: dbP.U,
+          B: dbP.B,
+          D: dbP.D,
+          P: dbP.P,
+          colE: colE,
+          totaleAnnuo: totaleAnnuo,
+          extraSSN: extraSSN,
+          percentualeExtraSSN: dbP.percentualeExtraSSN, // ✅ DA DATABASE
           visible: true,
-          aggredibile: isTarget
+          aggredibile: dbP.aggredibile // ✅ DA DATABASE
         };
       });
 
-      console.log('📊 Dati BASE letti:', prestazioniData.length, 'prestazioni');
+      console.log(`✅ Caricate ${prestazioniData.length} prestazioni Italia BASE per ${region}`);
       setBasePrestazioniData(prestazioniData);
 
-      // Leggi il totale BASE Italia (riga 69)
+      // Calcola totale Italia sommando
+      const totaleU = prestazioniData.reduce((sum, p) => sum + p.U, 0);
+      const totaleB = prestazioniData.reduce((sum, p) => sum + p.B, 0);
+      const totaleD = prestazioniData.reduce((sum, p) => sum + p.D, 0);
+      const totaleP = prestazioniData.reduce((sum, p) => sum + p.P, 0);
+      const totaleColE = prestazioniData.reduce((sum, p) => sum + p.colE, 0);
+      const totaleExtraSSN = prestazioniData.reduce((sum, p) => sum + p.extraSSN, 0);
+      const totaleTotaleAnnuo = prestazioniData.reduce((sum, p) => sum + p.totaleAnnuo, 0);
+
       const totaleData: PrestazioneData = {
         codice: 'TOTALE',
         nome: 'Totale Italia',
-        riga: 69,
-        U: getCellValue('A69'),
-        B: getCellValue('B69'),
-        D: getCellValue('C69'),
-        P: getCellValue('D69'),
-        colE: getCellValue('E69'),
-        totaleAnnuo: getCellValue('F69'),
-        extraSSN: getCellValue('G69'),
+        riga: 0,
+        U: totaleU,
+        B: totaleB,
+        D: totaleD,
+        P: totaleP,
+        colE: totaleColE,
+        totaleAnnuo: totaleTotaleAnnuo,
+        extraSSN: totaleExtraSSN,
         percentualeExtraSSN: 0,
         visible: true,
         aggredibile: false
@@ -191,15 +182,15 @@ export function MercatoEcografieRegionale({
       console.log('✅ Caricamento completato con successo');
       setLoading(false);
     } catch (err) {
-      console.error('❌ Errore nel caricamento Excel:', err);
+      console.error(`❌ Errore caricamento dati ${region}:`, err);
       setError(err instanceof Error ? err.message : 'Errore sconosciuto');
       setLoading(false);
     }
-  }, []); // Carica SOLO UNA VOLTA
+  }, [dbData, region]);
 
   useEffect(() => {
-    loadExcelData();
-  }, [loadExcelData]);
+    loadDataFromItaly();
+  }, [loadDataFromItaly]);
   
   // Applica moltiplicatori ai dati base (SENZA ricaricare Excel)
   const prestazioni = useMemo(() => {
@@ -515,7 +506,7 @@ export function MercatoEcografieRegionale({
               <h3 className="font-semibold text-red-900 mb-2">Errore nel caricamento</h3>
               <p className="text-red-700">{error}</p>
               <Button 
-                onClick={loadExcelData} 
+                onClick={loadDataFromItaly} 
                 variant="outline" 
                 className="mt-4"
               >
@@ -534,7 +525,7 @@ export function MercatoEcografieRegionale({
       <div className="container mx-auto p-6">
         <Card className="p-6">
           <p className="text-gray-600">Nessuna prestazione da visualizzare</p>
-          <Button onClick={loadExcelData} className="mt-4">
+          <Button onClick={loadDataFromItaly} className="mt-4">
             Ricarica Dati
           </Button>
         </Card>
@@ -562,7 +553,7 @@ export function MercatoEcografieRegionale({
           </div>
         </div>
         <div className="flex gap-2">
-          <Button onClick={loadExcelData} variant="outline">
+          <Button onClick={loadDataFromItaly} variant="outline">
             <RefreshCw className="h-4 w-4 mr-2" />
             Ricarica
           </Button>
@@ -595,7 +586,18 @@ export function MercatoEcografieRegionale({
                 max={volumeSliderRange.max}
                 step="0.5"
                 value={volumeMultiplier}
-                onChange={(e) => setVolumeMultiplier(parseFloat(e.target.value))}
+                onChange={(e) => {
+                  const newValue = parseFloat(e.target.value);
+                  setVolumeMultiplier(newValue);
+                }}
+                onMouseUp={(e) => {
+                  const newValue = parseFloat((e.target as HTMLInputElement).value);
+                  updateRegioneMoltiplicatori(regionKey, newValue);
+                }}
+                onTouchEnd={(e) => {
+                  const newValue = parseFloat((e.target as HTMLInputElement).value);
+                  updateRegioneMoltiplicatori(regionKey, newValue);
+                }}
                 className="flex-1 h-2 bg-blue-200 rounded-lg appearance-none cursor-pointer"
               />
               <input
@@ -604,13 +606,32 @@ export function MercatoEcografieRegionale({
                 max={volumeSliderRange.max}
                 step="0.5"
                 value={volumeMultiplier}
-                onChange={(e) => setVolumeMultiplier(parseFloat(e.target.value) || defaultVolumeMultiplier)}
+                onChange={(e) => {
+                  const newValue = parseFloat(e.target.value) || defaultVolumeMultiplier;
+                  setVolumeMultiplier(newValue);
+                }}
+                onBlur={(e) => {
+                  const newValue = parseFloat(e.target.value) || defaultVolumeMultiplier;
+                  updateRegioneMoltiplicatori(regionKey, newValue);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    const newValue = parseFloat((e.target as HTMLInputElement).value) || defaultVolumeMultiplier;
+                    updateRegioneMoltiplicatori(regionKey, newValue);
+                  }
+                }}
                 className="w-20 px-3 py-1 border border-gray-300 rounded-md text-center focus:ring-2 focus:ring-blue-500"
               />
               <span className="text-xl font-bold text-blue-900">×</span>
             </div>
             <p className="text-xs text-gray-500 mt-1">
               Range: {volumeSliderRange.min}× – {volumeSliderRange.max}× (consigliato: {volumeRange}×)
+            </p>
+            <p className="text-xs text-green-600 mt-1 font-semibold flex items-center gap-1">
+              💾 Salvato in database: {moltiplicatoriDB?.moltiplicatoreVolume ?? defaultVolumeMultiplier}×
+              {moltiplicatoriDB && volumeMultiplier !== moltiplicatoriDB.moltiplicatoreVolume && (
+                <span className="text-blue-600 animate-pulse">⏳ Salvataggio...</span>
+              )}
             </p>
           </div>
           

@@ -8,7 +8,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "server": "node server.js",
+    "dev:all": "concurrently --names \"SERVER,NEXT\" --prefix-colors \"bgBlue.bold,bgMagenta.bold\" \"npm run server\" \"npm run dev\""
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.0.5",
@@ -21,6 +23,8 @@
     "@radix-ui/react-tooltip": "^1.0.7",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.0.0",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
     "lucide-react": "^0.292.0",
@@ -36,6 +40,7 @@
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "autoprefixer": "^10.4.0",
+    "concurrently": "^8.2.2",
     "eslint": "^8.0.0",
     "eslint-config-next": "^14.0.0",
     "postcss": "^8.4.0",

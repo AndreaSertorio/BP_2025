@@ -1,18 +1,17 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartCard } from './ChartCard';
 import { Scenario } from '@/types/financial';
 import { FinancialCalculator } from '@/lib/calculations';
-import { formatMillions, formatPercent, downloadCSV } from '@/lib/utils';
+import { formatMillions, downloadCSV } from '@/lib/utils';
 
 interface MonteCarloProps {
   baseScenario: Scenario;
 }
-
 interface MonteCarloResult {
   iteration: number;
   ebitdaY5: number;
@@ -80,7 +79,7 @@ export function MonteCarlo({ baseScenario }: MonteCarloProps) {
     });
 
     // Applica volatilità al churn
-    const baseChurn = baseScenario.drivers.churnAnnual;
+    const baseChurn = baseScenario.drivers.churnAnnual ?? 0.15;
     const churnVolatility = volatilityParams.churn;
     const randomChurn = normalRandom(baseChurn, baseChurn * churnVolatility);
     randomScenario.drivers.churnAnnual = Math.max(0, Math.min(0.5, randomChurn));
@@ -127,7 +126,7 @@ export function MonteCarlo({ baseScenario }: MonteCarloProps) {
             iteration: i + 1,
             ebitdaY5: results.annualData[4]?.ebitda || 0,
             arrY5: results.kpis.arrRunRateM24 || 0,
-            breakEvenYear: results.kpis.breakEvenYear || 6,
+            breakEvenYear: results.kpis.breakEvenYearCFO || 6,
             maxDrawdown: Math.min(maxDrawdown, 1) // Cap al 100%
           });
 
@@ -265,7 +264,7 @@ export function MonteCarlo({ baseScenario }: MonteCarloProps) {
                     <ul className="list-disc list-inside space-y-1 ml-2">
                       <li>EBITDA Y5: {formatMillions(baseResults.kpis.ebitdaY5)}</li>
                       <li>ARR Y5: {formatMillions(baseResults.kpis.arrRunRateM60)}</li>
-                      <li>Break-even: Anno {baseResults.kpis.breakEvenYear || 'N/A'}</li>
+                      <li>Break-even CFO: Anno {baseResults.kpis.breakEvenYearCFO || 'N/A'}</li>
                       <li>Revenue Y5: {formatMillions(baseResults.kpis.totalRevenueY5)}</li>
                     </ul>
                     <p className="mt-2 font-medium">

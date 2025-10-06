@@ -1,0 +1,34 @@
+{
+  "valoreMercato": [
+    {
+      "mercato": "Italia",
+      "valore2025": 277.2,
+      "valore2030": 339.0,
+      "cagr": 4.11
+    },
+    {
+      "mercato": "Europa",
+      "valore2025": 2853.0,
+      "valore2030": 3587.0,
+      "cagr": 4.69
+    },
+    {
+      "mercato": "Stati Uniti",
+      "valore2025": 2906.0,
+      "valore2030": 3659.0,
+      "cagr": 4.72
+    },
+    {
+      "mercato": "Cina",
+      "valore2025": 1192.0,
+      "valore2030": 1606.0,
+      "cagr": 6.14
+    },
+    {
+      "mercato": "Mondo (globale)",
+      "valore2025": 9520.0,
+      "valore2030": 12983,
+      "cagr": 6.4
+    }
+  ]
+}
