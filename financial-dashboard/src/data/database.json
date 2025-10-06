@@ -1,0 +1,749 @@
+{
+  "version": "1.0.1",
+  "lastUpdate": "2025-10-06",
+  "description": "Database centralizzato per Eco 3D - Dati reali da Eco_ITA_MASTER.xlsx con % Extra-SSN per prestazione",
+  "mercatoEcografie": {
+    "italia": {
+      "annoRiferimento": 2024,
+      "percentualeExtraSSN": 30,
+      "note": "Percentuale default - ogni prestazione ha la propria percentualeExtraSSN",
+      "prestazioni": [
+        {
+          "codice": "88.71.4",
+          "nome": "DIAGNOSTICA ECOGRAFICA DEL CAPO E DEL COLLO",
+          "U": 6499,
+          "B": 102381,
+          "D": 388559,
+          "P": 562362,
+          "percentualeExtraSSN": 50,
+          "aggredibile": true,
+          "note": "Prestazione target per Eco3D"
+        },
+        {
+          "codice": "88.72.2",
+          "nome": "ECO(COLOR)DOPPLERGRAFIA CARDIACA a riposo",
+          "U": 8956,
+          "B": 157354,
+          "D": 526611,
+          "P": 861169,
+          "percentualeExtraSSN": 50,
+          "aggredibile": false,
+          "note": ""
+        },
+        {
+          "codice": "88.73.5",
+          "nome": "ECO(COLOR)DOPPLERGRAFIA DEI TRONCHI SOVRAAORTICI",
+          "U": 3250,
+          "B": 84434,
+          "D": 641145,
+          "P": 888232,
+          "percentualeExtraSSN": 50,
+          "aggredibile": true,
+          "note": "Prestazione target per Eco3D"
+        },
+        {
+          "codice": "88.77.4",
+          "nome": "ECOCOLORDOPPLER DEGLI ARTI INFERIORI ARTERIOSO E/O VENOSO",
+          "U": 26923,
+          "B": 140805,
+          "D": 338428,
+          "P": 402726,
+          "percentualeExtraSSN": 50,
+          "aggredibile": false,
+          "note": ""
+        },
+        {
+          "codice": "88.77.6",
+          "nome": "ECOCOLORDOPPLER DEGLI ARTI SUPERIORI ARTERIOSO E/O VENOSO",
+          "U": 2844,
+          "B": 11058,
+          "D": 13564,
+          "P": 26214,
+          "percentualeExtraSSN": 50,
+          "aggredibile": false,
+          "note": ""
+        },
+        {
+          "codice": "88.76.3",
+          "nome": "ECOCOLOR DOPPLER DEI GROSSI VASI ADDOMINALI ARTERIOSI O VENOSI",
+          "U": 195,
+          "B": 5168,
+          "D": 23679,
+          "P": 32091,
+          "percentualeExtraSSN": 50,
+          "aggredibile": true,
+          "note": "Prestazione target per Eco3D"
+        },
+        {
+          "codice": "88.78.2",
+          "nome": "ECOGRAFIA GINECOLOGICA con sonda transvaginale o addominale",
+          "U": 2930,
+          "B": 38517,
+          "D": 175348,
+          "P": 260753,
+          "percentualeExtraSSN": 50,
+          "aggredibile": false,
+          "note": ""
+        },
+        {
+          "codice": "88.76.1",
+          "nome": "ECOGRAFIA DELL'ADDOME COMPLETO",
+          "U": 28437,
+          "B": 342268,
+          "D": 774110,
+          "P": 992536,
+          "percentualeExtraSSN": 50,
+          "aggredibile": false,
+          "note": ""
+        },
+        {
+          "codice": "88.75.1",
+          "nome": "ECOGRAFIA DELL'ADDOME INFERIORE",
+          "U": 2779,
+          "B": 37880,
+          "D": 67044,
+          "P": 88376,
+          "percentualeExtraSSN": 50,
+          "aggredibile": false,
+          "note": ""
+        },
+        {
+          "codice": "88.74.1",
+          "nome": "ECOGRAFIA DELL'ADDOME SUPERIORE",
+          "U": 4412,
+          "B": 53055,
+          "D": 113121,
+          "P": 231136,
+          "percentualeExtraSSN": 50,
+          "aggredibile": true,
+          "note": "Prestazione target per Eco3D"
+        },
+        {
+          "codice": "88.73.1",
+          "nome": "ECOGRAFIA BILATERALE DELLA MAMMELLA",
+          "U": 8014,
+          "B": 86827,
+          "D": 193325,
+          "P": 733488,
+          "percentualeExtraSSN": 50,
+          "aggredibile": true,
+          "note": "Prestazione target per Eco3D"
+        },
+        {
+          "codice": "88.73.2",
+          "nome": "ECOGRAFIA MONOLATERALE DELLA MAMMELLA",
+          "U": 760,
+          "B": 9669,
+          "D": 7980,
+          "P": 26614,
+          "percentualeExtraSSN": 50,
+          "aggredibile": true,
+          "note": "Prestazione target per Eco3D"
+        },
+        {
+          "codice": "88.79.3",
+          "nome": "ECOGRAFIA MUSCOLOTENDINEA E OSTEOARTICOLARE",
+          "U": 8044,
+          "B": 164015,
+          "D": 310733,
+          "P": 236922,
+          "percentualeExtraSSN": 50,
+          "aggredibile": true,
+          "note": "Prestazione target per Eco3D"
+        },
+        {
+          "codice": "88.79.6",
+          "nome": "ECOGRAFIA SCROTALE",
+          "U": 1595,
+          "B": 18627,
+          "D": 25201,
+          "P": 28795,
+          "percentualeExtraSSN": 50,
+          "aggredibile": false,
+          "note": ""
+        },
+        {
+          "codice": "88.79.E",
+          "nome": "ECOCOLORDOPPLER SCROTALE",
+          "U": 337,
+          "B": 3322,
+          "D": 7973,
+          "P": 6668,
+          "percentualeExtraSSN": 50,
+          "aggredibile": false,
+          "note": ""
+        }
+      ],
+      "totaliCalcolati": {
+        "note": "Questi valori vengono calcolati automaticamente dalla somma delle prestazioni"
+      }
+    },
+    "moltiplicatoriRegionali": {
+      "usa": {
+        "volumeMultiplier": 9,
+        "valueMultiplier": 8,
+        "volumeRange": "8 – 10",
+        "valueRange": "7 – 9",
+        "italyQuota": "~10–12 %",
+        "note": "Mercato USA - 9x volume Italia"
+      },
+      "europa": {
+        "volumeMultiplier": 7.5,
+        "valueMultiplier": 6.5,
+        "volumeRange": "7 – 8",
+        "valueRange": "6 – 7",
+        "italyQuota": "~12–15 %",
+        "note": "Mercato Europa (esclusa Italia) - 7.5x volume Italia"
+      },
+      "cina": {
+        "volumeMultiplier": 11,
+        "valueMultiplier": 10,
+        "volumeRange": "10 – 12",
+        "valueRange": "9 – 11",
+        "italyQuota": "~8–10 %",
+        "note": "Mercato Cina - 11x volume Italia"
+      },
+      "globale": {
+        "volumeMultiplier": 55,
+        "valueMultiplier": 50,
+        "volumeRange": "50 – 60",
+        "valueRange": "45 – 55",
+        "italyQuota": "~1.5–2 %",
+        "note": "Mercato Globale - 55x volume Italia"
+      }
+    }
+  },
+  "materialiConsumabili": {
+    "note": "Da implementare - dati materiali consumabili",
+    "placeholder": true
+  },
+  "regioniMondiali": {
+    "usa": {
+      "nome": "USA",
+      "flag": "🇺🇸",
+      "moltiplicatoreVolume": 9,
+      "moltiplicatoreValore": 1.8,
+      "quotaItalia": "17%",
+      "note": "Mercato USA - volumi e valori più alti"
+    },
+    "europa": {
+      "nome": "Europa",
+      "flag": "🇪🇺",
+      "moltiplicatoreVolume": 12.5,
+      "moltiplicatoreValore": 1.2,
+      "quotaItalia": "12%",
+      "note": "Europa (escl. Italia) - mercato maturo"
+    },
+    "cina": {
+      "nome": "Cina",
+      "flag": "🇨🇳",
+      "moltiplicatoreVolume": 12,
+      "moltiplicatoreValore": 0.6,
+      "quotaItalia": "4.5%",
+      "note": "Cina - grandi volumi, prezzi più bassi"
+    },
+    "globale": {
+      "nome": "Mondo",
+      "flag": "🌍",
+      "moltiplicatoreVolume": 70,
+      "moltiplicatoreValore": 1,
+      "quotaItalia": "2%",
+      "note": "Mercato globale - stima aggregata"
+    }
+  },
+  "mercatoEcografi": {
+    "tipologie": [
+      {
+        "id": "carrellati",
+        "nome": "Carrellati",
+        "icon": "🏥",
+        "quotaIT": 0.6131,
+        "valoreIT": 207.84,
+        "quotaGlobale": 0.696,
+        "valoreGlobale": 6640,
+        "cagrGlobale": "0.04 (2024-2030)",
+        "note": "Sistemi tradizionali da reparto - Alta risoluzione",
+        "visible": true,
+        "target": false
+      },
+      {
+        "id": "portatili",
+        "nome": "Portatili",
+        "icon": "💼",
+        "quotaIT": 0.3281,
+        "valoreIT": 111.23,
+        "quotaGlobale": 0.295,
+        "valoreGlobale": 2860,
+        "cagrGlobale": "0.045 (2024-2030)",
+        "note": "Dispositivi trasportabili - Flessibilità operativa",
+        "visible": true,
+        "target": false
+      },
+      {
+        "id": "palmari",
+        "nome": "Palmari",
+        "icon": "📱",
+        "quotaIT": 0.0588,
+        "valoreIT": 19.93,
+        "quotaGlobale": 0.03,
+        "valoreGlobale": 300,
+        "cagrGlobale": "0.055 (2024-2030)",
+        "note": "Point-of-care ultrasound - Mercato in rapida crescita",
+        "visible": true,
+        "target": true
+      },
+      {
+        "id": "premium",
+        "nome": "Premium",
+        "icon": "⭐",
+        "quotaIT": 0,
+        "valoreIT": 0,
+        "quotaGlobale": 0.45,
+        "valoreGlobale": 4360,
+        "cagrGlobale": "0.04 (2024-2030)",
+        "note": "Sistemi high-end con AI avanzata",
+        "visible": true,
+        "target": false
+      },
+      {
+        "id": "pocus",
+        "nome": "POCUS",
+        "icon": "🎯",
+        "quotaIT": 0,
+        "valoreIT": 0,
+        "quotaGlobale": 0,
+        "valoreGlobale": 5400,
+        "cagrGlobale": "0.07-0.144 (2024-2030)",
+        "note": "Point-of-Care Ultrasound - Segmento emergente",
+        "visible": true,
+        "target": true
+      }
+    ],
+    "numeroEcografi": [
+      {
+        "mercato": "Italia",
+        "unita2025": 5600,
+        "unita2026": 5838,
+        "unita2027": 6085,
+        "unita2028": 6341,
+        "unita2029": 6607,
+        "unita2030": 6900,
+        "unita2031": 7193,
+        "unita2032": 7496,
+        "unita2033": 7809,
+        "unita2034": 8133,
+        "unita2035": 8467
+      },
+      {
+        "mercato": "Europa",
+        "unita2025": 37000,
+        "unita2026": 39139,
+        "unita2027": 41404,
+        "unita2028": 43801,
+        "unita2029": 46337,
+        "unita2030": 49000,
+        "unita2031": 51820,
+        "unita2032": 54800,
+        "unita2033": 57949,
+        "unita2034": 61275,
+        "unita2035": 64787
+      },
+      {
+        "mercato": "Stati Uniti",
+        "unita2025": 31000,
+        "unita2026": 32695,
+        "unita2027": 34481,
+        "unita2028": 36363,
+        "unita2029": 38347,
+        "unita2030": 40000,
+        "unita2031": 42180,
+        "unita2032": 44478,
+        "unita2033": 46901,
+        "unita2034": 49455,
+        "unita2035": 52148
+      },
+      {
+        "mercato": "Cina",
+        "unita2025": 26000,
+        "unita2026": 27181,
+        "unita2027": 28416,
+        "unita2028": 29708,
+        "unita2029": 31059,
+        "unita2030": 33000,
+        "unita2031": 34473,
+        "unita2032": 36015,
+        "unita2033": 37629,
+        "unita2034": 39318,
+        "unita2035": 41085
+      },
+      {
+        "mercato": "Mondo (globale)",
+        "unita2025": 125000,
+        "unita2026": 131200,
+        "unita2027": 137660,
+        "unita2028": 144392,
+        "unita2029": 151411,
+        "unita2030": 155000,
+        "unita2031": 162680,
+        "unita2032": 170813,
+        "unita2033": 179418,
+        "unita2034": 188519,
+        "unita2035": 198140
+      }
+    ],
+    "valoreMercato": [
+      {
+        "mercato": "Italia",
+        "valore2025": 277.2,
+        "valore2026": 288.6,
+        "valore2027": 300.5,
+        "valore2028": 312.9,
+        "valore2029": 325.8,
+        "valore2030": 339,
+        "valore2031": 352.9,
+        "valore2032": 367.4,
+        "valore2033": 382.5,
+        "valore2034": 398.2,
+        "valore2035": 414.6,
+        "cagr": 4.11
+      },
+      {
+        "mercato": "Europa",
+        "valore2025": 2853,
+        "valore2026": 2987,
+        "valore2027": 3127,
+        "valore2028": 3274,
+        "valore2029": 3428,
+        "valore2030": 3587,
+        "valore2031": 3755,
+        "valore2032": 3931,
+        "valore2033": 4115,
+        "valore2034": 4308,
+        "valore2035": 4510,
+        "cagr": 4.69
+      },
+      {
+        "mercato": "Stati Uniti",
+        "valore2025": 2906,
+        "valore2026": 3043,
+        "valore2027": 3187,
+        "valore2028": 3337,
+        "valore2029": 3495,
+        "valore2030": 3659,
+        "valore2031": 3832,
+        "valore2032": 4013,
+        "valore2033": 4202,
+        "valore2034": 4401,
+        "valore2035": 4609,
+        "cagr": 4.72
+      },
+      {
+        "mercato": "Cina",
+        "valore2025": 1192,
+        "valore2026": 1265,
+        "valore2027": 1343,
+        "valore2028": 1425,
+        "valore2029": 1513,
+        "valore2030": 1606,
+        "valore2031": 1704,
+        "valore2032": 1809,
+        "valore2033": 1920,
+        "valore2034": 2038,
+        "valore2035": 2163,
+        "cagr": 6.14
+      },
+      {
+        "mercato": "Mondo (globale)",
+        "valore2025": 9520,
+        "valore2026": 10129,
+        "valore2027": 10777,
+        "valore2028": 11467,
+        "valore2029": 12201,
+        "valore2030": 12983,
+        "valore2031": 13814,
+        "valore2032": 14698,
+        "valore2033": 15638,
+        "valore2034": 16639,
+        "valore2035": 17704,
+        "cagr": 6.4
+      }
+    ],
+    "proiezioniItalia": [
+      {
+        "anno": 2024,
+        "mordor": 266.54,
+        "research": 300.1,
+        "grandview": 241.6,
+        "cognitive": 255.8,
+        "media": 265.83,
+        "mediana": 248.7
+      },
+      {
+        "anno": 2025,
+        "mordor": 278.58,
+        "research": 315.1,
+        "grandview": 253.12,
+        "cognitive": 261.94,
+        "media": 277.19,
+        "mediana": 261.94
+      },
+      {
+        "anno": 2026,
+        "mordor": 290.53,
+        "research": 330.15,
+        "grandview": 265.19,
+        "cognitive": 268.23,
+        "media": 288.53,
+        "mediana": 268.23
+      },
+      {
+        "anno": 2027,
+        "mordor": 302.99,
+        "research": 345.92,
+        "grandview": 277.83,
+        "cognitive": 274.66,
+        "media": 300.35,
+        "mediana": 277.83
+      },
+      {
+        "anno": 2028,
+        "mordor": 315.99,
+        "research": 362.45,
+        "grandview": 291.08,
+        "cognitive": 281.26,
+        "media": 312.7,
+        "mediana": 291.08
+      },
+      {
+        "anno": 2029,
+        "mordor": 329.54,
+        "research": 379.76,
+        "grandview": 304.96,
+        "cognitive": 288.01,
+        "media": 325.57,
+        "mediana": 304.96
+      },
+      {
+        "anno": 2030,
+        "mordor": 343.68,
+        "research": 397.9,
+        "grandview": 319.5,
+        "cognitive": 294.92,
+        "media": 339,
+        "mediana": 319.5
+      },
+      {
+        "anno": 2031,
+        "mordor": 358.56,
+        "research": 417.08,
+        "grandview": 334.81,
+        "cognitive": 302.02,
+        "media": 353.12,
+        "mediana": 334.81
+      },
+      {
+        "anno": 2032,
+        "mordor": 374.09,
+        "research": 437.17,
+        "grandview": 350.86,
+        "cognitive": 309.29,
+        "media": 367.85,
+        "mediana": 350.86
+      },
+      {
+        "anno": 2033,
+        "mordor": 390.29,
+        "research": 458.24,
+        "grandview": 367.67,
+        "cognitive": 316.74,
+        "media": 383.24,
+        "mediana": 367.67
+      },
+      {
+        "anno": 2034,
+        "mordor": 407.19,
+        "research": 480.33,
+        "grandview": 385.28,
+        "cognitive": 324.37,
+        "media": 399.29,
+        "mediana": 385.28
+      },
+      {
+        "anno": 2035,
+        "mordor": 424.81,
+        "research": 503.49,
+        "grandview": 403.74,
+        "cognitive": 332.19,
+        "media": 416.06,
+        "mediana": 403.74
+      }
+    ],
+    "quoteTipologie": [
+      {
+        "anno": 2025,
+        "carrellati": 62.31,
+        "portatili": 32.56,
+        "palmari": 5.13
+      },
+      {
+        "anno": 2026,
+        "carrellati": 62.11,
+        "portatili": 32.61,
+        "palmari": 5.28
+      },
+      {
+        "anno": 2027,
+        "carrellati": 61.91,
+        "portatili": 32.66,
+        "palmari": 5.42
+      },
+      {
+        "anno": 2028,
+        "carrellati": 61.71,
+        "portatili": 32.71,
+        "palmari": 5.57
+      },
+      {
+        "anno": 2029,
+        "carrellati": 61.51,
+        "portatili": 32.76,
+        "palmari": 5.73
+      },
+      {
+        "anno": 2030,
+        "carrellati": 61.31,
+        "portatili": 32.81,
+        "palmari": 5.88
+      },
+      {
+        "anno": 2031,
+        "carrellati": 61.11,
+        "portatili": 32.86,
+        "palmari": 6.03
+      },
+      {
+        "anno": 2032,
+        "carrellati": 60.91,
+        "portatili": 32.91,
+        "palmari": 6.18
+      },
+      {
+        "anno": 2033,
+        "carrellati": 60.71,
+        "portatili": 32.96,
+        "palmari": 6.33
+      },
+      {
+        "anno": 2034,
+        "carrellati": 60.51,
+        "portatili": 33.01,
+        "palmari": 6.48
+      },
+      {
+        "anno": 2035,
+        "carrellati": 60.31,
+        "portatili": 33.06,
+        "palmari": 6.63
+      }
+    ],
+    "parcoIT": [
+      {
+        "anno": 2025,
+        "basso": 45708,
+        "centrale": 54383,
+        "alto": 63800
+      },
+      {
+        "anno": 2026,
+        "basso": 47890,
+        "centrale": 56415,
+        "alto": 65811
+      },
+      {
+        "anno": 2027,
+        "basso": 50147,
+        "centrale": 58554,
+        "alto": 67950
+      },
+      {
+        "anno": 2028,
+        "basso": 52482,
+        "centrale": 60802,
+        "alto": 70220
+      },
+      {
+        "anno": 2029,
+        "basso": 54901,
+        "centrale": 63164,
+        "alto": 72625
+      },
+      {
+        "anno": 2030,
+        "basso": 57409,
+        "centrale": 65642,
+        "alto": 75167
+      },
+      {
+        "anno": 2031,
+        "basso": 60011,
+        "centrale": 68242,
+        "alto": 77851
+      },
+      {
+        "anno": 2032,
+        "basso": 62711,
+        "centrale": 70966,
+        "alto": 80681
+      },
+      {
+        "anno": 2033,
+        "basso": 65515,
+        "centrale": 73819,
+        "alto": 83661
+      },
+      {
+        "anno": 2034,
+        "basso": 68428,
+        "centrale": 76805,
+        "alto": 86795
+      },
+      {
+        "anno": 2035,
+        "basso": 71455,
+        "centrale": 79931,
+        "alto": 90090
+      }
+    ],
+    "configurazione": {
+      "annoTarget": 2030,
+      "marketShare": 1,
+      "scenarioParco": "basso",
+      "regioniVisibili": [
+        "Italia",
+        "Europa",
+        "Cina",
+        "Stati Uniti"
+      ],
+      "tipologieTarget": [
+        "Palmari"
+      ]
+    }
+  },
+  "metadata": {
+    "createdBy": "Sistema Eco3D - Import da Excel",
+    "createdAt": "2025-10-06T11:47:27.180303",
+    "sourceFile": "Eco_ITA_MASTER.xlsx",
+    "sourceSheet": "ECO_Riepilogo",
+    "sources": {
+      "mercatoEcografie": "Dati reali dal foglio ECO_Riepilogo con % Extra-SSN specifica",
+      "regioniMondiali": "Moltiplicatori regionali basati su popolazione e PIL sanitario",
+      "mercatoEcografi": "Dati da ECO_Proiezioni_Ecografi_2025_2030.xlsx e ECO_Mercato_Ecografi_IT_Riepilogo.xlsx",
+      "materialiConsumabili": "Placeholder - da implementare"
+    },
+    "validationRules": {
+      "U_B_D_P": "Tutti i valori devono essere >= 0",
+      "percentualeExtraSSN": "Valore tra 0 e 100 per ogni prestazione",
+      "moltiplicatori": "Valori > 0"
+    }
+  }
+}
