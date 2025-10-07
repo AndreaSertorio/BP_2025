@@ -21,6 +21,7 @@ import { SectorMarketConfig } from './SectorMarketConfig';
 import { MetricsExplainer } from './MetricsExplainer';
 import { OldDashboard } from './OldDashboard';
 import { MercatoWrapper } from './MercatoWrapper';
+import { BudgetWrapper } from './BudgetWrapper';
 import { LoadingCard, LoadingChart } from './ui/loading-spinner';
 import { MetricTooltip } from './ui/enhanced-tooltip';
 import { exportCompleteScenario, exportMonthlyData, exportAnnualData, exportKPIs, exportAdvancedMetrics, exportCashFlowStatements, exportGrowthMetrics } from '@/lib/exportUtils';
@@ -367,6 +368,7 @@ export function MasterDashboard() {
             <TabsList>
               <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
               <TabsTrigger value="mercato">🌍 Mercato</TabsTrigger>
+              <TabsTrigger value="budget">💰 Budget</TabsTrigger>
               <TabsTrigger value="old-tabs">🗂️ Vecchi Tab</TabsTrigger>
             </TabsList>
           </div>
@@ -417,6 +419,10 @@ export function MasterDashboard() {
 
         <TabsContent value="mercato" className="mt-0">
           <MercatoWrapper />
+        </TabsContent>
+
+        <TabsContent value="budget" className="mt-0">
+          <BudgetWrapper />
         </TabsContent>
 
         <TabsContent value="funnel" className="mt-0">

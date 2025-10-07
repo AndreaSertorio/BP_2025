@@ -8,9 +8,11 @@
  * 
  * FILOSOFIA:
  * - Un unico file JSON con tutti i dati
- * - Caricamento sincrono (import diretto)
+ * - Caricamento sincrono (import diretto) - Read-only mercato data
  * - Type-safe con TypeScript
  * - Facile da ispezionare e modificare manualmente
+ * 
+ * NOTE: Per dati Budget editabili, usare BudgetContext che fa fetch dinamico
  * 
  * Created: 2025-01-06
  */

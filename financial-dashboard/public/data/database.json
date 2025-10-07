@@ -716,7 +716,7 @@
     ],
     "configurazione": {
       "annoTarget": 2030,
-      "marketShare": 2,
+      "marketShare": 1,
       "scenarioParco": "basso",
       "regioniVisibili": [
         "Italia"
@@ -967,10 +967,13 @@
                 "categoryId": "cat_1",
                 "values": {
                   "tot_all": 30,
-                  "q1_25": 11,
+                  "q1_25": 21,
                   "q2_25": 8,
-                  "q3_25": 8,
-                  "tot_25": 30
+                  "q3_25": 24,
+                  "tot_25": 30,
+                  "q4_2025": 4,
+                  "q1_26": 1,
+                  "q2_26": 0
                 },
                 "formula": null,
                 "note": null,
@@ -979,7 +982,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010022",
-                "lastModified": "2025-10-06T22:41:03.338Z"
+                "lastModified": "2025-10-07T14:53:38.075Z"
               },
               {
                 "id": "item_3",
@@ -993,7 +996,8 @@
                   "q1_25": 3.67,
                   "q2_25": 6.67,
                   "q3_25": 6.67,
-                  "tot_25": 20.01
+                  "tot_25": 20.01,
+                  "q4_2025": 0
                 },
                 "formula": null,
                 "note": null,
@@ -1002,7 +1006,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010026",
-                "lastModified": "2025-10-06T22:40:56.836Z"
+                "lastModified": "2025-10-07T11:18:46.043Z"
               },
               {
                 "id": "item_4",
@@ -1012,10 +1016,12 @@
                 "parentId": "subcat_1_1",
                 "categoryId": "cat_1",
                 "values": {
-                  "q1_25": -0.33,
+                  "q1_25": 2.67,
                   "q2_25": 1.67,
-                  "q3_25": 1.67,
-                  "tot_25": 5.01
+                  "q3_25": 5.67,
+                  "tot_25": 7.01,
+                  "q4_2025": 4,
+                  "q1_26": 0
                 },
                 "formula": null,
                 "note": null,
@@ -1024,7 +1030,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010029",
-                "lastModified": "2025-10-06T22:40:58.888Z"
+                "lastModified": "2025-10-07T11:29:51.955Z"
               },
               {
                 "id": "item_5",
@@ -1035,10 +1041,12 @@
                 "categoryId": "cat_1",
                 "values": {
                   "tot_all": 5,
-                  "q1_25": 1.67,
+                  "q1_25": 4.67,
                   "q2_25": 1.67,
                   "q3_25": 1.67,
-                  "tot_25": 5.01
+                  "tot_25": 5.01,
+                  "q4_2025": 1,
+                  "q1_27": 5
                 },
                 "formula": null,
                 "note": null,
@@ -1047,7 +1055,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010033",
-                "lastModified": "2025-10-06T22:49:03.010034"
+                "lastModified": "2025-10-07T15:29:55.881Z"
               },
               {
                 "id": "item_6",
@@ -1057,11 +1065,15 @@
                 "parentId": "subcat_1_1",
                 "categoryId": "cat_1",
                 "values": {
-                  "q4_2025": 5,
+                  "q4_2025": 9,
                   "q1_26": 8,
                   "q2_26": 8,
                   "tot_26": 16,
-                  "tot_all": 21
+                  "tot_all": 21,
+                  "q2_25": 2,
+                  "q1_25": 3,
+                  "q3_25": 4,
+                  "tot_25": 3
                 },
                 "formula": null,
                 "note": null,
@@ -1070,7 +1082,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010039",
-                "lastModified": "2025-10-06T22:49:03.010040"
+                "lastModified": "2025-10-07T12:18:28.872Z"
               }
             ],
             "isExpanded": true
@@ -1091,10 +1103,13 @@
                 "parentId": "subcat_1_2",
                 "categoryId": "cat_1",
                 "values": {
-                  "q1_26": 12,
+                  "q1_26": 15,
                   "q2_26": 12,
                   "tot_26": 24,
-                  "tot_all": 24
+                  "tot_all": 24,
+                  "q2_25": 3,
+                  "q3_25": 3,
+                  "q4_2025": 4
                 },
                 "formula": "=3*1000/MESE",
                 "note": null,
@@ -1103,7 +1118,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010047",
-                "lastModified": "2025-10-06T22:49:03.010048"
+                "lastModified": "2025-10-07T12:19:05.417Z"
               }
             ],
             "isExpanded": true
@@ -1130,7 +1145,9 @@
                   "q3_26": 27,
                   "q4_26": 27,
                   "tot_26": 108,
-                  "tot_all": 117
+                  "tot_all": 117,
+                  "q1_25": 4,
+                  "q3_25": 10
                 },
                 "formula": "=3*3000/MESE",
                 "note": null,
@@ -1139,7 +1156,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010056",
-                "lastModified": "2025-10-06T22:49:03.010057"
+                "lastModified": "2025-10-07T14:52:56.194Z"
               }
             ],
             "isExpanded": true
@@ -1165,7 +1182,9 @@
                   "q3_26": 12,
                   "q4_26": 12,
                   "tot_26": 48,
-                  "tot_all": 48
+                  "tot_all": 48,
+                  "q3_25": 6,
+                  "q1_27": 3
                 },
                 "formula": "=3*1000/MESE",
                 "note": null,
@@ -1174,7 +1193,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010065",
-                "lastModified": "2025-10-06T22:49:03.010066"
+                "lastModified": "2025-10-07T15:29:50.300Z"
               }
             ],
             "isExpanded": true
@@ -1195,17 +1214,18 @@
                 "parentId": "subcat_1_5",
                 "categoryId": "cat_1",
                 "values": {
-                  "q4_2025": 19,
-                  "q1_26": 64,
+                  "q4_2025": 21,
+                  "q1_26": 67,
                   "q2_26": 64,
                   "q3_26": 44,
                   "q4_26": 44,
                   "tot_26": 216,
                   "tot_all": 290,
-                  "q1_25": 20,
+                  "q1_25": 22,
                   "q2_25": 20,
                   "q3_25": 20,
-                  "tot_25": 79
+                  "tot_25": 79,
+                  "q2_27": 2
                 },
                 "formula": null,
                 "note": null,
@@ -1214,7 +1234,7 @@
                 "isEditable": false,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010078",
-                "lastModified": "2025-10-06T22:49:03.010079"
+                "lastModified": "2025-10-07T12:50:35.180Z"
               }
             ],
             "isExpanded": true
@@ -1280,9 +1300,13 @@
                   "q1_26": 3,
                   "q2_26": 3,
                   "q3_26": 3,
-                  "q4_26": 3,
+                  "q4_26": 0,
                   "tot_26": 12,
-                  "tot_all": 12
+                  "tot_all": 12,
+                  "q1_25": 3,
+                  "q3_25": 2,
+                  "q2_25": 2,
+                  "q1_27": 0
                 },
                 "formula": "=1*1000/MESE",
                 "note": null,
@@ -1291,7 +1315,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010092",
-                "lastModified": "2025-10-06T22:49:03.010093"
+                "lastModified": "2025-10-07T15:00:26.044Z"
               },
               {
                 "id": "item_18",
@@ -1306,7 +1330,8 @@
                   "q3_26": 3,
                   "q4_26": 3,
                   "tot_26": 12,
-                  "tot_all": 12
+                  "tot_all": 12,
+                  "q3_25": 5
                 },
                 "formula": "=1*1000/MESE",
                 "note": null,
@@ -1315,7 +1340,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010098",
-                "lastModified": "2025-10-06T22:49:03.010098"
+                "lastModified": "2025-10-07T14:59:00.111Z"
               }
             ],
             "isExpanded": true
@@ -1341,7 +1366,9 @@
                   "q3_26": 3,
                   "q4_26": 3,
                   "tot_26": 12,
-                  "tot_all": 12
+                  "tot_all": 12,
+                  "q4_2025": 4,
+                  "q3_25": 2
                 },
                 "formula": "=1*1000/MESE",
                 "note": null,
@@ -1350,7 +1377,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010108",
-                "lastModified": "2025-10-06T22:49:03.010109"
+                "lastModified": "2025-10-07T12:44:15.252Z"
               }
             ],
             "isExpanded": true
@@ -1387,7 +1414,10 @@
                   "q1_27": 60,
                   "q2_27": 60,
                   "tot_27": 120,
-                  "tot_all": 240
+                  "tot_all": 240,
+                  "q1_26": 2,
+                  "q3_25": 1,
+                  "q2_26": 2
                 },
                 "formula": 30,
                 "note": null,
@@ -1396,7 +1426,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010124",
-                "lastModified": "2025-10-06T22:49:03.010125"
+                "lastModified": "2025-10-07T13:46:24.283Z"
               }
             ],
             "isExpanded": true
@@ -1423,7 +1453,9 @@
                   "q1_27": 10,
                   "q2_27": 10,
                   "tot_27": 20,
-                  "tot_all": 40
+                  "tot_all": 40,
+                  "q2_26": 3,
+                  "q3_25": 1
                 },
                 "formula": null,
                 "note": null,
@@ -1432,7 +1464,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010133",
-                "lastModified": "2025-10-06T22:49:03.010134"
+                "lastModified": "2025-10-07T13:46:45.725Z"
               }
             ],
             "isExpanded": true
@@ -1461,7 +1493,8 @@
                   "q3_27": 3,
                   "q4_27": 3,
                   "tot_27": 12,
-                  "tot_all": 18
+                  "tot_all": 18,
+                  "q3_25": 2
                 },
                 "formula": null,
                 "note": null,
@@ -1470,7 +1503,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010143",
-                "lastModified": "2025-10-06T22:49:03.010144"
+                "lastModified": "2025-10-07T13:54:02.397Z"
               }
             ],
             "isExpanded": true
@@ -1588,7 +1621,8 @@
                   "q3_28": 10,
                   "q4_28": 10,
                   "tot_28": 40,
-                  "tot_all": 40
+                  "tot_all": 40,
+                  "q3_25": 1
                 },
                 "formula": null,
                 "note": null,
@@ -1597,7 +1631,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010178",
-                "lastModified": "2025-10-06T22:41:44.321Z"
+                "lastModified": "2025-10-07T13:54:38.005Z"
               }
             ],
             "isExpanded": true
@@ -1625,7 +1659,10 @@
                   "q3_28": 100,
                   "q4_28": 100,
                   "tot_28": 400,
-                  "tot_all": 500
+                  "tot_all": 500,
+                  "q2_25": 1,
+                  "q3_25": 1,
+                  "q1_26": 1
                 },
                 "formula": null,
                 "note": null,
@@ -1634,7 +1671,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010190",
-                "lastModified": "2025-10-06T22:49:03.010190"
+                "lastModified": "2025-10-07T13:58:24.820Z"
               }
             ],
             "isExpanded": true
@@ -1715,7 +1752,8 @@
                   "q3_28": 145,
                   "q4_28": 145,
                   "tot_28": 580,
-                  "tot_all": 680
+                  "tot_all": 680,
+                  "q4_2025": 2
                 },
                 "formula": null,
                 "note": null,
@@ -1724,7 +1762,7 @@
                 "isEditable": false,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010222",
-                "lastModified": "2025-10-06T22:49:03.010223"
+                "lastModified": "2025-10-07T12:33:32.063Z"
               }
             ],
             "isExpanded": true
@@ -1933,7 +1971,9 @@
                 "level": 4,
                 "parentId": "subcat_5_4",
                 "categoryId": "cat_5",
-                "values": {},
+                "values": {
+                  "q1_25": 2
+                },
                 "formula": null,
                 "note": null,
                 "isCategory": false,
@@ -1941,7 +1981,7 @@
                 "isEditable": false,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010375",
-                "lastModified": "2025-10-06T22:49:03.010375"
+                "lastModified": "2025-10-07T12:34:59.927Z"
               }
             ],
             "isExpanded": true
@@ -2229,10 +2269,13 @@
         "categoryId": "cat_1",
         "values": {
           "tot_all": 30,
-          "q1_25": 11,
+          "q1_25": 21,
           "q2_25": 8,
-          "q3_25": 8,
-          "tot_25": 30
+          "q3_25": 24,
+          "tot_25": 30,
+          "q4_2025": 4,
+          "q1_26": 1,
+          "q2_26": 0
         },
         "formula": null,
         "note": null,
@@ -2241,7 +2284,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010022",
-        "lastModified": "2025-10-06T22:41:03.338Z"
+        "lastModified": "2025-10-07T14:53:38.075Z"
       },
       {
         "id": "item_3",
@@ -2255,7 +2298,8 @@
           "q1_25": 3.67,
           "q2_25": 6.67,
           "q3_25": 6.67,
-          "tot_25": 20.01
+          "tot_25": 20.01,
+          "q4_2025": 0
         },
         "formula": null,
         "note": null,
@@ -2264,7 +2308,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010026",
-        "lastModified": "2025-10-06T22:40:56.836Z"
+        "lastModified": "2025-10-07T11:18:46.043Z"
       },
       {
         "id": "item_4",
@@ -2274,10 +2318,12 @@
         "parentId": "subcat_1_1",
         "categoryId": "cat_1",
         "values": {
-          "q1_25": -0.33,
+          "q1_25": 2.67,
           "q2_25": 1.67,
-          "q3_25": 1.67,
-          "tot_25": 5.01
+          "q3_25": 5.67,
+          "tot_25": 7.01,
+          "q4_2025": 4,
+          "q1_26": 0
         },
         "formula": null,
         "note": null,
@@ -2286,7 +2332,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010029",
-        "lastModified": "2025-10-06T22:40:58.888Z"
+        "lastModified": "2025-10-07T11:29:51.955Z"
       },
       {
         "id": "item_5",
@@ -2297,10 +2343,12 @@
         "categoryId": "cat_1",
         "values": {
           "tot_all": 5,
-          "q1_25": 1.67,
+          "q1_25": 4.67,
           "q2_25": 1.67,
           "q3_25": 1.67,
-          "tot_25": 5.01
+          "tot_25": 5.01,
+          "q4_2025": 1,
+          "q1_27": 5
         },
         "formula": null,
         "note": null,
@@ -2309,7 +2357,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010033",
-        "lastModified": "2025-10-06T22:49:03.010034"
+        "lastModified": "2025-10-07T15:29:55.881Z"
       },
       {
         "id": "item_6",
@@ -2319,11 +2367,15 @@
         "parentId": "subcat_1_1",
         "categoryId": "cat_1",
         "values": {
-          "q4_2025": 5,
+          "q4_2025": 9,
           "q1_26": 8,
           "q2_26": 8,
           "tot_26": 16,
-          "tot_all": 21
+          "tot_all": 21,
+          "q2_25": 2,
+          "q1_25": 3,
+          "q3_25": 4,
+          "tot_25": 3
         },
         "formula": null,
         "note": null,
@@ -2332,7 +2384,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010039",
-        "lastModified": "2025-10-06T22:49:03.010040"
+        "lastModified": "2025-10-07T12:18:28.872Z"
       },
       {
         "id": "item_7",
@@ -2359,10 +2411,13 @@
         "parentId": "subcat_1_2",
         "categoryId": "cat_1",
         "values": {
-          "q1_26": 12,
+          "q1_26": 15,
           "q2_26": 12,
           "tot_26": 24,
-          "tot_all": 24
+          "tot_all": 24,
+          "q2_25": 3,
+          "q3_25": 3,
+          "q4_2025": 4
         },
         "formula": "=3*1000/MESE",
         "note": null,
@@ -2371,7 +2426,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010047",
-        "lastModified": "2025-10-06T22:49:03.010048"
+        "lastModified": "2025-10-07T12:19:05.417Z"
       },
       {
         "id": "item_9",
@@ -2404,7 +2459,9 @@
           "q3_26": 27,
           "q4_26": 27,
           "tot_26": 108,
-          "tot_all": 117
+          "tot_all": 117,
+          "q1_25": 4,
+          "q3_25": 10
         },
         "formula": "=3*3000/MESE",
         "note": null,
@@ -2413,7 +2470,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010056",
-        "lastModified": "2025-10-06T22:49:03.010057"
+        "lastModified": "2025-10-07T14:52:56.194Z"
       },
       {
         "id": "item_11",
@@ -2445,7 +2502,9 @@
           "q3_26": 12,
           "q4_26": 12,
           "tot_26": 48,
-          "tot_all": 48
+          "tot_all": 48,
+          "q3_25": 6,
+          "q1_27": 3
         },
         "formula": "=3*1000/MESE",
         "note": null,
@@ -2454,7 +2513,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010065",
-        "lastModified": "2025-10-06T22:49:03.010066"
+        "lastModified": "2025-10-07T15:29:50.300Z"
       },
       {
         "id": "item_13",
@@ -2489,17 +2548,18 @@
         "parentId": "subcat_1_5",
         "categoryId": "cat_1",
         "values": {
-          "q4_2025": 19,
-          "q1_26": 64,
+          "q4_2025": 21,
+          "q1_26": 67,
           "q2_26": 64,
           "q3_26": 44,
           "q4_26": 44,
           "tot_26": 216,
           "tot_all": 290,
-          "q1_25": 20,
+          "q1_25": 22,
           "q2_25": 20,
           "q3_25": 20,
-          "tot_25": 79
+          "tot_25": 79,
+          "q2_27": 2
         },
         "formula": null,
         "note": null,
@@ -2508,7 +2568,7 @@
         "isEditable": false,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010078",
-        "lastModified": "2025-10-06T22:49:03.010079"
+        "lastModified": "2025-10-07T12:50:35.180Z"
       },
       {
         "id": "item_15",
@@ -2555,9 +2615,13 @@
           "q1_26": 3,
           "q2_26": 3,
           "q3_26": 3,
-          "q4_26": 3,
+          "q4_26": 0,
           "tot_26": 12,
-          "tot_all": 12
+          "tot_all": 12,
+          "q1_25": 3,
+          "q3_25": 2,
+          "q2_25": 2,
+          "q1_27": 0
         },
         "formula": "=1*1000/MESE",
         "note": null,
@@ -2566,7 +2630,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010092",
-        "lastModified": "2025-10-06T22:49:03.010093"
+        "lastModified": "2025-10-07T15:00:26.044Z"
       },
       {
         "id": "item_18",
@@ -2581,7 +2645,8 @@
           "q3_26": 3,
           "q4_26": 3,
           "tot_26": 12,
-          "tot_all": 12
+          "tot_all": 12,
+          "q3_25": 5
         },
         "formula": "=1*1000/MESE",
         "note": null,
@@ -2590,7 +2655,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010098",
-        "lastModified": "2025-10-06T22:49:03.010098"
+        "lastModified": "2025-10-07T14:59:00.111Z"
       },
       {
         "id": "item_19",
@@ -2624,7 +2689,9 @@
           "q3_26": 3,
           "q4_26": 3,
           "tot_26": 12,
-          "tot_all": 12
+          "tot_all": 12,
+          "q4_2025": 4,
+          "q3_25": 2
         },
         "formula": "=1*1000/MESE",
         "note": null,
@@ -2633,7 +2700,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010108",
-        "lastModified": "2025-10-06T22:49:03.010109"
+        "lastModified": "2025-10-07T12:44:15.252Z"
       },
       {
         "id": "item_21",
@@ -2690,7 +2757,10 @@
           "q1_27": 60,
           "q2_27": 60,
           "tot_27": 120,
-          "tot_all": 240
+          "tot_all": 240,
+          "q1_26": 2,
+          "q3_25": 1,
+          "q2_26": 2
         },
         "formula": 30,
         "note": null,
@@ -2699,7 +2769,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010124",
-        "lastModified": "2025-10-06T22:49:03.010125"
+        "lastModified": "2025-10-07T13:46:24.283Z"
       },
       {
         "id": "item_24",
@@ -2732,7 +2802,9 @@
           "q1_27": 10,
           "q2_27": 10,
           "tot_27": 20,
-          "tot_all": 40
+          "tot_all": 40,
+          "q2_26": 3,
+          "q3_25": 1
         },
         "formula": null,
         "note": null,
@@ -2741,7 +2813,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010133",
-        "lastModified": "2025-10-06T22:49:03.010134"
+        "lastModified": "2025-10-07T13:46:45.725Z"
       },
       {
         "id": "item_26",
@@ -2776,7 +2848,8 @@
           "q3_27": 3,
           "q4_27": 3,
           "tot_27": 12,
-          "tot_all": 18
+          "tot_all": 18,
+          "q3_25": 2
         },
         "formula": null,
         "note": null,
@@ -2785,7 +2858,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010143",
-        "lastModified": "2025-10-06T22:49:03.010144"
+        "lastModified": "2025-10-07T13:54:02.397Z"
       },
       {
         "id": "item_28",
@@ -2895,7 +2968,8 @@
           "q3_28": 10,
           "q4_28": 10,
           "tot_28": 40,
-          "tot_all": 40
+          "tot_all": 40,
+          "q3_25": 1
         },
         "formula": null,
         "note": null,
@@ -2904,7 +2978,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010178",
-        "lastModified": "2025-10-06T22:41:44.321Z"
+        "lastModified": "2025-10-07T13:54:38.005Z"
       },
       {
         "id": "item_33",
@@ -2940,7 +3014,10 @@
           "q3_28": 100,
           "q4_28": 100,
           "tot_28": 400,
-          "tot_all": 500
+          "tot_all": 500,
+          "q2_25": 1,
+          "q3_25": 1,
+          "q1_26": 1
         },
         "formula": null,
         "note": null,
@@ -2949,7 +3026,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010190",
-        "lastModified": "2025-10-06T22:49:03.010190"
+        "lastModified": "2025-10-07T13:58:24.820Z"
       },
       {
         "id": "item_35",
@@ -3058,7 +3135,8 @@
           "q3_28": 145,
           "q4_28": 145,
           "tot_28": 580,
-          "tot_all": 680
+          "tot_all": 680,
+          "q4_2025": 2
         },
         "formula": null,
         "note": null,
@@ -3067,7 +3145,7 @@
         "isEditable": false,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010222",
-        "lastModified": "2025-10-06T22:49:03.010223"
+        "lastModified": "2025-10-07T12:33:32.063Z"
       },
       {
         "id": "item_40",
@@ -3560,7 +3638,9 @@
         "level": 4,
         "parentId": "subcat_5_4",
         "categoryId": "cat_5",
-        "values": {},
+        "values": {
+          "q1_25": 2
+        },
         "formula": null,
         "note": null,
         "isCategory": false,
@@ -3568,7 +3648,7 @@
         "isEditable": false,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010375",
-        "lastModified": "2025-10-06T22:49:03.010375"
+        "lastModified": "2025-10-07T12:34:59.927Z"
       },
       {
         "id": "item_59",

@@ -1,6 +1,6 @@
 {
-  "version": "1.0.3",
-  "lastUpdate": "2025-10-07",
+  "version": "1.0.2",
+  "lastUpdate": "2025-10-06",
   "description": "Database centralizzato per Eco 3D - Dati reali da Eco_ITA_MASTER.xlsx con % Extra-SSN per prestazione",
   "mercatoEcografie": {
     "italia": {
@@ -716,7 +716,7 @@
     ],
     "configurazione": {
       "annoTarget": 2030,
-      "marketShare": 2,
+      "marketShare": 1,
       "scenarioParco": "basso",
       "regioniVisibili": [
         "Italia"
@@ -751,84 +751,57 @@
     "currency": "EUR",
     "periods": [
       {
-        "id": "q1_25",
-        "name": "1 Tr 25",
-        "type": "quarter",
-        "year": 2025,
-        "quarter": 1,
+        "id": "ytd_25",
+        "name": "YTD 25",
+        "type": "ytd",
+        "year": 25,
+        "quarter": null,
         "column": 0,
         "isVisible": true
       },
       {
-        "id": "q2_25",
-        "name": "2 Tr 25",
+        "id": "q4_2025",
+        "name": "4 2025",
         "type": "quarter",
         "year": 2025,
-        "quarter": 2,
+        "quarter": 4,
         "column": 1,
         "isVisible": true
       },
       {
-        "id": "q3_25",
-        "name": "3 Tr 25",
+        "id": "q1_26",
+        "name": "1 Qtr 26",
         "type": "quarter",
-        "year": 2025,
-        "quarter": 3,
+        "year": 26,
+        "quarter": 1,
         "column": 2,
         "isVisible": true
       },
       {
-        "id": "q4_2025",
-        "name": "4 Tr 25",
+        "id": "q2_26",
+        "name": "2 Qtr 26",
         "type": "quarter",
-        "year": 2025,
-        "quarter": 4,
+        "year": 26,
+        "quarter": 2,
         "column": 3,
         "isVisible": true
       },
       {
-        "id": "tot_25",
-        "name": "TOT 2025",
-        "type": "year_total",
-        "year": 2025,
-        "quarter": null,
+        "id": "q3_26",
+        "name": "3 Qtr 26",
+        "type": "quarter",
+        "year": 26,
+        "quarter": 3,
         "column": 4,
         "isVisible": true
       },
       {
-        "id": "q1_26",
-        "name": "1 Tr 26",
-        "type": "quarter",
-        "year": 26,
-        "quarter": 1,
-        "column": 6,
-        "isVisible": true
-      },
-      {
-        "id": "q2_26",
-        "name": "2 Tr 26",
-        "type": "quarter",
-        "year": 26,
-        "quarter": 2,
-        "column": 7,
-        "isVisible": true
-      },
-      {
-        "id": "q3_26",
-        "name": "3 Tr 26",
-        "type": "quarter",
-        "year": 26,
-        "quarter": 3,
-        "column": 8,
-        "isVisible": true
-      },
-      {
         "id": "q4_26",
-        "name": "4 Tr 26",
+        "name": "4 Qtr 26",
         "type": "quarter",
         "year": 26,
         "quarter": 4,
-        "column": 9,
+        "column": 5,
         "isVisible": true
       },
       {
@@ -837,43 +810,43 @@
         "type": "year_total",
         "year": 26,
         "quarter": null,
-        "column": 10,
+        "column": 6,
         "isVisible": true
       },
       {
         "id": "q1_27",
-        "name": "1 Tr 27",
+        "name": "1 Qtr 27",
         "type": "quarter",
         "year": 27,
         "quarter": 1,
-        "column": 11,
+        "column": 7,
         "isVisible": true
       },
       {
         "id": "q2_27",
-        "name": "2 Tr 27",
+        "name": "2 Qtr 27",
         "type": "quarter",
         "year": 27,
         "quarter": 2,
-        "column": 12,
+        "column": 8,
         "isVisible": true
       },
       {
         "id": "q3_27",
-        "name": "3 Tr 27",
+        "name": "3 Qtr 27",
         "type": "quarter",
         "year": 27,
         "quarter": 3,
-        "column": 13,
+        "column": 9,
         "isVisible": true
       },
       {
         "id": "q4_27",
-        "name": "4 Tr 27",
+        "name": "4 Qtr 27",
         "type": "quarter",
         "year": 27,
         "quarter": 4,
-        "column": 14,
+        "column": 10,
         "isVisible": true
       },
       {
@@ -882,43 +855,43 @@
         "type": "year_total",
         "year": 27,
         "quarter": null,
-        "column": 15,
+        "column": 11,
         "isVisible": true
       },
       {
         "id": "q1_28",
-        "name": "1 Tr 28",
+        "name": "1 Qtr 28",
         "type": "quarter",
         "year": 28,
         "quarter": 1,
-        "column": 16,
+        "column": 12,
         "isVisible": true
       },
       {
         "id": "q2_28",
-        "name": "2 Tr 28",
+        "name": "2 Qtr 28",
         "type": "quarter",
         "year": 28,
         "quarter": 2,
-        "column": 17,
+        "column": 13,
         "isVisible": true
       },
       {
         "id": "q3_28",
-        "name": "3 Tr 28",
+        "name": "3 Qtr 28",
         "type": "quarter",
         "year": 28,
         "quarter": 3,
-        "column": 18,
+        "column": 14,
         "isVisible": true
       },
       {
         "id": "q4_28",
-        "name": "4 Tr 28",
+        "name": "4 Qtr 28",
         "type": "quarter",
         "year": 28,
         "quarter": 4,
-        "column": 19,
+        "column": 15,
         "isVisible": true
       },
       {
@@ -927,7 +900,7 @@
         "type": "year_total",
         "year": 28,
         "quarter": null,
-        "column": 20,
+        "column": 16,
         "isVisible": true
       },
       {
@@ -936,7 +909,7 @@
         "type": "overall_total",
         "year": 2026,
         "quarter": null,
-        "column": 21,
+        "column": 17,
         "isVisible": true
       }
     ],
@@ -966,11 +939,8 @@
                 "parentId": "subcat_1_1",
                 "categoryId": "cat_1",
                 "values": {
-                  "tot_all": 30,
-                  "q1_25": 11,
-                  "q2_25": 8,
-                  "q3_25": 8,
-                  "tot_25": 30
+                  "ytd_25": 30,
+                  "tot_all": 30
                 },
                 "formula": null,
                 "note": null,
@@ -979,7 +949,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010022",
-                "lastModified": "2025-10-06T22:41:03.338Z"
+                "lastModified": "2025-10-06T22:49:03.010023"
               },
               {
                 "id": "item_3",
@@ -989,11 +959,8 @@
                 "parentId": "subcat_1_1",
                 "categoryId": "cat_1",
                 "values": {
-                  "tot_all": 20,
-                  "q1_25": 3.67,
-                  "q2_25": 6.67,
-                  "q3_25": 6.67,
-                  "tot_25": 20.01
+                  "ytd_25": 20,
+                  "tot_all": 20
                 },
                 "formula": null,
                 "note": null,
@@ -1002,7 +969,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010026",
-                "lastModified": "2025-10-06T22:40:56.836Z"
+                "lastModified": "2025-10-06T22:49:03.010027"
               },
               {
                 "id": "item_4",
@@ -1012,10 +979,7 @@
                 "parentId": "subcat_1_1",
                 "categoryId": "cat_1",
                 "values": {
-                  "q1_25": -0.33,
-                  "q2_25": 1.67,
-                  "q3_25": 1.67,
-                  "tot_25": 5.01
+                  "ytd_25": 5
                 },
                 "formula": null,
                 "note": null,
@@ -1024,7 +988,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010029",
-                "lastModified": "2025-10-06T22:40:58.888Z"
+                "lastModified": "2025-10-06T22:49:03.010030"
               },
               {
                 "id": "item_5",
@@ -1034,11 +998,8 @@
                 "parentId": "subcat_1_1",
                 "categoryId": "cat_1",
                 "values": {
-                  "tot_all": 5,
-                  "q1_25": 1.67,
-                  "q2_25": 1.67,
-                  "q3_25": 1.67,
-                  "tot_25": 5.01
+                  "ytd_25": 5,
+                  "tot_all": 5
                 },
                 "formula": null,
                 "note": null,
@@ -1195,17 +1156,14 @@
                 "parentId": "subcat_1_5",
                 "categoryId": "cat_1",
                 "values": {
+                  "ytd_25": 60,
                   "q4_2025": 19,
                   "q1_26": 64,
                   "q2_26": 64,
                   "q3_26": 44,
                   "q4_26": 44,
                   "tot_26": 216,
-                  "tot_all": 290,
-                  "q1_25": 20,
-                  "q2_25": 20,
-                  "q3_25": 20,
-                  "tot_25": 79
+                  "tot_all": 290
                 },
                 "formula": null,
                 "note": null,
@@ -1230,17 +1188,14 @@
           "parentId": "subcat_1_5",
           "categoryId": "cat_1",
           "values": {
+            "ytd_25": 60,
             "q4_2025": 19,
             "q1_26": 64,
             "q2_26": 64,
             "q3_26": 44,
             "q4_26": 44,
             "tot_26": 216,
-            "tot_all": 290,
-            "q1_25": 20,
-            "q2_25": 20,
-            "q3_25": 20,
-            "tot_25": 79
+            "tot_all": 290
           },
           "formula": null,
           "note": null,
@@ -1584,7 +1539,7 @@
                 "categoryId": "cat_3",
                 "values": {
                   "q1_28": 10,
-                  "q2_28": 12,
+                  "q2_28": 10,
                   "q3_28": 10,
                   "q4_28": 10,
                   "tot_28": 40,
@@ -1597,7 +1552,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010178",
-                "lastModified": "2025-10-06T22:41:44.321Z"
+                "lastModified": "2025-10-06T22:49:03.010179"
               }
             ],
             "isExpanded": true
@@ -1985,6 +1940,7 @@
             "parentId": null,
             "categoryId": "cat_8",
             "values": {
+              "ytd_25": 60,
               "q4_2025": 22,
               "q1_26": 84,
               "q2_26": 84,
@@ -2001,11 +1957,7 @@
               "q3_28": 195,
               "q4_28": 198,
               "tot_28": 783,
-              "tot_all": 1800,
-              "q1_25": 20,
-              "q2_25": 20,
-              "q3_25": 20,
-              "tot_25": 82
+              "tot_all": 1800
             },
             "formula": null,
             "note": null,
@@ -2026,6 +1978,7 @@
           "parentId": null,
           "categoryId": "cat_8",
           "values": {
+            "ytd_25": 60,
             "q4_2025": 22,
             "q1_26": 84,
             "q2_26": 84,
@@ -2042,11 +1995,7 @@
             "q3_28": 195,
             "q4_28": 198,
             "tot_28": 783,
-            "tot_all": 1800,
-            "q1_25": 20,
-            "q2_25": 20,
-            "q3_25": 20,
-            "tot_25": 82
+            "tot_all": 1800
           },
           "formula": null,
           "note": null,
@@ -2228,11 +2177,8 @@
         "parentId": "subcat_1_1",
         "categoryId": "cat_1",
         "values": {
-          "tot_all": 30,
-          "q1_25": 11,
-          "q2_25": 8,
-          "q3_25": 8,
-          "tot_25": 30
+          "ytd_25": 30,
+          "tot_all": 30
         },
         "formula": null,
         "note": null,
@@ -2241,7 +2187,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010022",
-        "lastModified": "2025-10-06T22:41:03.338Z"
+        "lastModified": "2025-10-06T22:49:03.010023"
       },
       {
         "id": "item_3",
@@ -2251,11 +2197,8 @@
         "parentId": "subcat_1_1",
         "categoryId": "cat_1",
         "values": {
-          "tot_all": 20,
-          "q1_25": 3.67,
-          "q2_25": 6.67,
-          "q3_25": 6.67,
-          "tot_25": 20.01
+          "ytd_25": 20,
+          "tot_all": 20
         },
         "formula": null,
         "note": null,
@@ -2264,7 +2207,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010026",
-        "lastModified": "2025-10-06T22:40:56.836Z"
+        "lastModified": "2025-10-06T22:49:03.010027"
       },
       {
         "id": "item_4",
@@ -2274,10 +2217,7 @@
         "parentId": "subcat_1_1",
         "categoryId": "cat_1",
         "values": {
-          "q1_25": -0.33,
-          "q2_25": 1.67,
-          "q3_25": 1.67,
-          "tot_25": 5.01
+          "ytd_25": 5
         },
         "formula": null,
         "note": null,
@@ -2286,7 +2226,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010029",
-        "lastModified": "2025-10-06T22:40:58.888Z"
+        "lastModified": "2025-10-06T22:49:03.010030"
       },
       {
         "id": "item_5",
@@ -2296,11 +2236,8 @@
         "parentId": "subcat_1_1",
         "categoryId": "cat_1",
         "values": {
-          "tot_all": 5,
-          "q1_25": 1.67,
-          "q2_25": 1.67,
-          "q3_25": 1.67,
-          "tot_25": 5.01
+          "ytd_25": 5,
+          "tot_all": 5
         },
         "formula": null,
         "note": null,
@@ -2489,17 +2426,14 @@
         "parentId": "subcat_1_5",
         "categoryId": "cat_1",
         "values": {
+          "ytd_25": 60,
           "q4_2025": 19,
           "q1_26": 64,
           "q2_26": 64,
           "q3_26": 44,
           "q4_26": 44,
           "tot_26": 216,
-          "tot_all": 290,
-          "q1_25": 20,
-          "q2_25": 20,
-          "q3_25": 20,
-          "tot_25": 79
+          "tot_all": 290
         },
         "formula": null,
         "note": null,
@@ -2891,7 +2825,7 @@
         "categoryId": "cat_3",
         "values": {
           "q1_28": 10,
-          "q2_28": 12,
+          "q2_28": 10,
           "q3_28": 10,
           "q4_28": 10,
           "tot_28": 40,
@@ -2904,7 +2838,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010178",
-        "lastModified": "2025-10-06T22:41:44.321Z"
+        "lastModified": "2025-10-06T22:49:03.010179"
       },
       {
         "id": "item_33",
@@ -3369,6 +3303,7 @@
         "parentId": "subcat_5_4",
         "categoryId": "cat_5",
         "values": {
+          "ytd_25": 0,
           "q4_2025": 3,
           "q1_26": 5,
           "q2_26": 5,
@@ -3385,11 +3320,7 @@
           "q3_28": 9,
           "q4_28": 9,
           "tot_28": 36,
-          "tot_all": 91,
-          "q1_25": 0,
-          "q2_25": 0,
-          "q3_25": 0,
-          "tot_25": 3
+          "tot_all": 91
         },
         "formula": null,
         "note": null,
@@ -3437,6 +3368,7 @@
         "parentId": null,
         "categoryId": "cat_8",
         "values": {
+          "ytd_25": 60,
           "q4_2025": 22,
           "q1_26": 84,
           "q2_26": 84,
@@ -3453,11 +3385,7 @@
           "q3_28": 195,
           "q4_28": 198,
           "tot_28": 783,
-          "tot_all": 1800,
-          "q1_25": 20,
-          "q2_25": 20,
-          "q3_25": 20,
-          "tot_25": 82
+          "tot_all": 1800
         },
         "formula": null,
         "note": null,

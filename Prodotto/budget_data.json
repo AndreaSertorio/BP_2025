@@ -1,0 +1,977 @@
+{
+  "header": {
+    "title": "COSTI DI SVILUPPO",
+    "periods": [
+      {
+        "column": 4,
+        "name": "YTD 25"
+      },
+      {
+        "column": 5,
+        "name": "4 2025"
+      },
+      {
+        "column": 6,
+        "name": "1 Qtr 26"
+      },
+      {
+        "column": 7,
+        "name": "2 Qtr 26"
+      },
+      {
+        "column": 8,
+        "name": "3 Qtr 26"
+      },
+      {
+        "column": 9,
+        "name": "4 Qtr 26"
+      },
+      {
+        "column": 10,
+        "name": "TOT 26"
+      },
+      {
+        "column": 11,
+        "name": "1 Qtr 27"
+      },
+      {
+        "column": 12,
+        "name": "2 Qtr 27"
+      },
+      {
+        "column": 13,
+        "name": "3 Qtr 27"
+      },
+      {
+        "column": 14,
+        "name": "4 Qtr 27"
+      },
+      {
+        "column": 15,
+        "name": "TOT 27"
+      },
+      {
+        "column": 16,
+        "name": "1 Qtr 28"
+      },
+      {
+        "column": 17,
+        "name": "2 Qtr 28"
+      },
+      {
+        "column": 18,
+        "name": "3 Qtr 28"
+      },
+      {
+        "column": 19,
+        "name": "4 Qtr 28"
+      },
+      {
+        "column": 20,
+        "name": "TOT 28"
+      },
+      {
+        "column": 21,
+        "name": "Totale 2026-28"
+      }
+    ]
+  },
+  "categories": [],
+  "all_items": [
+    {
+      "row": 5,
+      "code": 1,
+      "description": "Realizzazione Prototipo",
+      "level": 1,
+      "values": {},
+      "formula": null
+    },
+    {
+      "row": 6,
+      "code": "1.1",
+      "description": "Materiali e Componenti",
+      "level": 2,
+      "values": {},
+      "formula": null
+    },
+    {
+      "row": 7,
+      "code": "1.1.2",
+      "description": "l’acquisto di macchinari e strumenti di prova",
+      "level": 3,
+      "values": {
+        "YTD 25": 30.0,
+        "Totale 2026-28": 30.0
+      },
+      "formula": null
+    },
+    {
+      "row": 8,
+      "code": "1.1.3",
+      "description": "Primo prototipo",
+      "level": 3,
+      "values": {
+        "YTD 25": 20.0,
+        "Totale 2026-28": 20.0
+      },
+      "formula": null
+    },
+    {
+      "row": 9,
+      "code": "1.1.4",
+      "description": "Costituzione Startup ECO3D",
+      "level": 3,
+      "values": {
+        "YTD 25": 5.0
+      },
+      "formula": null
+    },
+    {
+      "row": 10,
+      "code": "1.1.5",
+      "description": "Deposito brevetti",
+      "level": 3,
+      "values": {
+        "YTD 25": 5.0,
+        "Totale 2026-28": 5.0
+      },
+      "formula": null
+    },
+    {
+      "row": 11,
+      "code": null,
+      "description": "Prototipo Beta",
+      "level": 4,
+      "values": {
+        "4 2025": 5.0,
+        "1 Qtr 26": 8.0,
+        "2 Qtr 26": 8.0,
+        "TOT 26": 16.0,
+        "Totale 2026-28": 21.0
+      },
+      "formula": null
+    },
+    {
+      "row": 12,
+      "code": "1.2",
+      "description": "Consulenze e Servizi Tecnici Esterni",
+      "level": 2,
+      "values": {},
+      "formula": null
+    },
+    {
+      "row": 13,
+      "code": null,
+      "description": "outsourcing di parti di progettazione, design industriale, sviluppo software specialistico o algoritmi di intelligenza artificiale",
+      "level": 4,
+      "values": {
+        "1 Qtr 26": 12.0,
+        "2 Qtr 26": 12.0,
+        "TOT 26": 24.0,
+        "Totale 2026-28": 24.0
+      },
+      "formula": "=3*1000/MESE"
+    },
+    {
+      "row": 14,
+      "code": "1.3",
+      "description": "Personale R&D",
+      "level": 2,
+      "values": {},
+      "formula": null
+    },
+    {
+      "row": 15,
+      "code": null,
+      "description": "ingegneri, sviluppatori software e ricercatori dedicati al progetto e founder",
+      "level": 4,
+      "values": {
+        "4 2025": 9.0,
+        "1 Qtr 26": 27.0,
+        "2 Qtr 26": 27.0,
+        "3 Qtr 26": 27.0,
+        "4 Qtr 26": 27.0,
+        "TOT 26": 108.0,
+        "Totale 2026-28": 117.0
+      },
+      "formula": "=3*3000/MESE"
+    },
+    {
+      "row": 16,
+      "code": "1.4",
+      "description": "Test e Validazioni di Laboratorio",
+      "level": 2,
+      "values": {},
+      "formula": null
+    },
+    {
+      "row": 17,
+      "code": null,
+      "description": "prove su phantom ecografici, tarature, sperimentazioni su modelli preclinici per verificare prestazioni e sicurezza del dispositivo",
+      "level": 4,
+      "values": {
+        "1 Qtr 26": 12.0,
+        "2 Qtr 26": 12.0,
+        "3 Qtr 26": 12.0,
+        "4 Qtr 26": 12.0,
+        "TOT 26": 48.0,
+        "Totale 2026-28": 48.0
+      },
+      "formula": "=3*1000/MESE"
+    },
+    {
+      "row": 18,
+      "code": "1.5",
+      "description": "Contingencies",
+      "level": 2,
+      "values": {
+        "4 2025": 5.0,
+        "1 Qtr 26": 5.0,
+        "2 Qtr 26": 5.0,
+        "3 Qtr 26": 5.0,
+        "4 Qtr 26": 5.0,
+        "TOT 26": 20.0,
+        "Totale 2026-28": 25.0
+      },
+      "formula": null
+    },
+    {
+      "row": 19,
+      "code": null,
+      "description": "Totale Prototipo",
+      "level": 4,
+      "values": {
+        "YTD 25": 60.0,
+        "4 2025": 19.0,
+        "1 Qtr 26": 64.0,
+        "2 Qtr 26": 64.0,
+        "3 Qtr 26": 44.0,
+        "4 Qtr 26": 44.0,
+        "TOT 26": 216.0,
+        "Totale 2026-28": 290.0
+      },
+      "formula": null
+    },
+    {
+      "row": 20,
+      "code": 2,
+      "description": "Percorso Regolatorio e Certificazioni (CE/MDR)",
+      "level": 1,
+      "values": {},
+      "formula": null
+    },
+    {
+      "row": 21,
+      "code": "2.1",
+      "description": "Consulenza Regolatoria e QA",
+      "level": 2,
+      "values": {},
+      "formula": null
+    },
+    {
+      "row": 22,
+      "code": "2.1.1",
+      "description": "Esperto Regulatory affairs",
+      "level": 3,
+      "values": {
+        "1 Qtr 26": 3.0,
+        "2 Qtr 26": 3.0,
+        "3 Qtr 26": 3.0,
+        "4 Qtr 26": 3.0,
+        "TOT 26": 12.0,
+        "Totale 2026-28": 12.0
+      },
+      "formula": "=1*1000/MESE"
+    },
+    {
+      "row": 23,
+      "code": "2.1.2",
+      "description": "ISO 13485",
+      "level": 3,
+      "values": {
+        "1 Qtr 26": 3.0,
+        "2 Qtr 26": 3.0,
+        "3 Qtr 26": 3.0,
+        "4 Qtr 26": 3.0,
+        "TOT 26": 12.0,
+        "Totale 2026-28": 12.0
+      },
+      "formula": "=1*1000/MESE"
+    },
+    {
+      "row": 24,
+      "code": "2.2",
+      "description": "Documentazione Tecnica e Qualità",
+      "level": 2,
+      "values": {
+        "Totale 2026-28": 0.0
+      },
+      "formula": null
+    },
+    {
+      "row": 25,
+      "code": null,
+      "description": "Technical File completo (specifiche, analisi dei rischi, requisiti essenziali, usabilità, ecc.) e implementazione di procedure QA",
+      "level": 4,
+      "values": {
+        "1 Qtr 26": 3.0,
+        "2 Qtr 26": 3.0,
+        "3 Qtr 26": 3.0,
+        "4 Qtr 26": 3.0,
+        "TOT 26": 12.0,
+        "Totale 2026-28": 12.0
+      },
+      "formula": "=1*1000/MESE"
+    },
+    {
+      "row": 26,
+      "code": "2.3",
+      "description": "Fee di Organismi Notificati",
+      "level": 2,
+      "values": {
+        "1 Qtr 27": 5.0,
+        "2 Qtr 27": 5.0,
+        "3 Qtr 27": 5.0,
+        "4 Qtr 27": 5.0,
+        "TOT 27": 20.0,
+        "Totale 2026-28": 20.0
+      },
+      "formula": 20
+    },
+    {
+      "row": 28,
+      "code": "2.4",
+      "description": "Test di Laboratorio e Certificazioni di Sicurezza:",
+      "level": 2,
+      "values": {},
+      "formula": 250
+    },
+    {
+      "row": 29,
+      "code": null,
+      "description": "prove obbligatorie su prototipi per marcatura CE (es. test elettrici EN 60601, compatibilità elettromagnetica, sicurezza meccanica) svolti da laboratori accreditati",
+      "level": 4,
+      "values": {
+        "3 Qtr 26": 60.0,
+        "4 Qtr 26": 60.0,
+        "TOT 26": 120.0,
+        "1 Qtr 27": 60.0,
+        "2 Qtr 27": 60.0,
+        "TOT 27": 120.0,
+        "Totale 2026-28": 240.0
+      },
+      "formula": 30
+    },
+    {
+      "row": 30,
+      "code": "2.5",
+      "description": "Implementazione UDI e Registrazione EUDAMED:",
+      "level": 2,
+      "values": {},
+      "formula": 50
+    },
+    {
+      "row": 31,
+      "code": null,
+      "description": "(software per generare/tracciare UDI e aggiornamenti",
+      "level": 4,
+      "values": {
+        "3 Qtr 26": 10.0,
+        "4 Qtr 26": 10.0,
+        "TOT 26": 20.0,
+        "1 Qtr 27": 10.0,
+        "2 Qtr 27": 10.0,
+        "TOT 27": 20.0,
+        "Totale 2026-28": 40.0
+      },
+      "formula": null
+    },
+    {
+      "row": 32,
+      "code": "2.6",
+      "description": "Team e formazione",
+      "level": 2,
+      "values": {},
+      "formula": null
+    },
+    {
+      "row": 33,
+      "code": null,
+      "description": "formazione continua del team sulle normative (workshop, corsi MDR), l’aggiornamento dei documenti tecnici man mano che il prodotto evolve e l mantenimento annuale delle certificazioni",
+      "level": 4,
+      "values": {
+        "3 Qtr 26": 3.0,
+        "4 Qtr 26": 3.0,
+        "TOT 26": 6.0,
+        "1 Qtr 27": 3.0,
+        "2 Qtr 27": 3.0,
+        "3 Qtr 27": 3.0,
+        "4 Qtr 27": 3.0,
+        "TOT 27": 12.0,
+        "Totale 2026-28": 18.0
+      },
+      "formula": null
+    },
+    {
+      "row": 34,
+      "code": "2.7",
+      "description": "Contingencies",
+      "level": 2,
+      "values": {
+        "3 Qtr 26": 5.0,
+        "4 Qtr 26": 5.0,
+        "TOT 26": 10.0,
+        "1 Qtr 27": 5.0,
+        "2 Qtr 27": 5.0,
+        "3 Qtr 27": 5.0,
+        "4 Qtr 27": 5.0,
+        "TOT 27": 20.0,
+        "Totale 2026-28": 30.0
+      },
+      "formula": null
+    },
+    {
+      "row": 35,
+      "code": null,
+      "description": "Totale Regolatorio e Certificazioni",
+      "level": 4,
+      "values": {
+        "1 Qtr 26": 9.0,
+        "2 Qtr 26": 9.0,
+        "3 Qtr 26": 87.0,
+        "4 Qtr 26": 87.0,
+        "TOT 26": 192.0,
+        "1 Qtr 27": 83.0,
+        "2 Qtr 27": 83.0,
+        "3 Qtr 27": 13.0,
+        "4 Qtr 27": 13.0,
+        "TOT 27": 192.0,
+        "1 Qtr 28": 0.0,
+        "2 Qtr 28": 0.0,
+        "3 Qtr 28": 0.0,
+        "4 Qtr 28": 0.0,
+        "TOT 28": 0.0,
+        "Totale 2026-28": 384.0
+      },
+      "formula": null
+    },
+    {
+      "row": 36,
+      "code": 3,
+      "description": "Validazione Preclinica e Studi Clinici",
+      "level": 1,
+      "values": {},
+      "formula": null
+    },
+    {
+      "row": 37,
+      "code": "3.1",
+      "description": "Validazioni Precliniche",
+      "level": 2,
+      "values": {},
+      "formula": null
+    },
+    {
+      "row": 38,
+      "code": null,
+      "description": "test non clinici sul dispositivo",
+      "level": 4,
+      "values": {
+        "1 Qtr 28": 10.0,
+        "2 Qtr 28": 10.0,
+        "3 Qtr 28": 10.0,
+        "4 Qtr 28": 10.0,
+        "TOT 28": 40.0,
+        "Totale 2026-28": 40.0
+      },
+      "formula": null
+    },
+    {
+      "row": 39,
+      "code": "3.2",
+      "description": "Studio Clinico Pilota",
+      "level": 2,
+      "values": {
+        "Totale 2026-28": 0.0
+      },
+      "formula": null
+    },
+    {
+      "row": 40,
+      "code": null,
+      "description": "trial pilota moncentro, 30-50 pazienti",
+      "level": 4,
+      "values": {
+        "4 Qtr 27": 100.0,
+        "TOT 27": 100.0,
+        "1 Qtr 28": 100.0,
+        "2 Qtr 28": 100.0,
+        "3 Qtr 28": 100.0,
+        "4 Qtr 28": 100.0,
+        "TOT 28": 400.0,
+        "Totale 2026-28": 500.0
+      },
+      "formula": null
+    },
+    {
+      "row": 41,
+      "code": "3.3",
+      "description": "Studio Clinico Pivotal multicentrico (eventuale)",
+      "level": 2,
+      "values": {
+        "Totale 2026-28": 0.0
+      },
+      "formula": null
+    },
+    {
+      "row": 42,
+      "code": "3.4",
+      "description": "Early marketing (dispotivi pilota)",
+      "level": 2,
+      "values": {},
+      "formula": null
+    },
+    {
+      "row": 43,
+      "code": null,
+      "description": "produzione delle unità pilota aggiuntive e lʼassistenza tecnica presso i centri coinvolti.",
+      "level": 4,
+      "values": {
+        "1 Qtr 28": 30.0,
+        "2 Qtr 28": 30.0,
+        "3 Qtr 28": 30.0,
+        "4 Qtr 28": 30.0,
+        "TOT 28": 120.0,
+        "Totale 2026-28": 120.0
+      },
+      "formula": null
+    },
+    {
+      "row": 44,
+      "code": "3.5",
+      "description": "Contingencies",
+      "level": 2,
+      "values": {
+        "1 Qtr 28": 5.0,
+        "2 Qtr 28": 5.0,
+        "3 Qtr 28": 5.0,
+        "4 Qtr 28": 5.0,
+        "TOT 28": 20.0,
+        "Totale 2026-28": 20.0
+      },
+      "formula": null
+    },
+    {
+      "row": 45,
+      "code": null,
+      "description": "Totale Validazione Preclinica",
+      "level": 4,
+      "values": {
+        "1 Qtr 26": 0.0,
+        "2 Qtr 26": 0.0,
+        "3 Qtr 26": 0.0,
+        "4 Qtr 26": 0.0,
+        "TOT 26": 0.0,
+        "1 Qtr 27": 0.0,
+        "2 Qtr 27": 0.0,
+        "3 Qtr 27": 0.0,
+        "4 Qtr 27": 100.0,
+        "TOT 27": 100.0,
+        "1 Qtr 28": 145.0,
+        "2 Qtr 28": 145.0,
+        "3 Qtr 28": 145.0,
+        "4 Qtr 28": 145.0,
+        "TOT 28": 580.0,
+        "Totale 2026-28": 680.0
+      },
+      "formula": null
+    },
+    {
+      "row": 46,
+      "code": 4,
+      "description": "Strutturazione del Team e Risorse Umane",
+      "level": 1,
+      "values": {},
+      "formula": null
+    },
+    {
+      "row": 47,
+      "code": "4.1",
+      "description": "Fondatori",
+      "level": 2,
+      "values": {
+        "1 Qtr 26": 6.0,
+        "2 Qtr 26": 6.0,
+        "3 Qtr 26": 6.0,
+        "4 Qtr 26": 6.0,
+        "TOT 26": 24.0,
+        "1 Qtr 27": 6.0,
+        "2 Qtr 27": 6.0,
+        "3 Qtr 27": 6.0,
+        "4 Qtr 27": 6.0,
+        "TOT 27": 24.0,
+        "1 Qtr 28": 6.0,
+        "2 Qtr 28": 6.0,
+        "3 Qtr 28": 6.0,
+        "4 Qtr 28": 6.0,
+        "TOT 28": 24.0,
+        "Totale 2026-28": 72.0
+      },
+      "formula": null
+    },
+    {
+      "row": 48,
+      "code": "4.2",
+      "description": "Ingegneri biomedici, elettronici, software",
+      "level": 2,
+      "values": {
+        "1 Qtr 27": 27.0,
+        "2 Qtr 27": 27.0,
+        "3 Qtr 27": 27.0,
+        "4 Qtr 27": 27.0,
+        "TOT 27": 108.0,
+        "1 Qtr 28": 27.0,
+        "2 Qtr 28": 27.0,
+        "3 Qtr 28": 27.0,
+        "4 Qtr 28": 27.0,
+        "TOT 28": 108.0,
+        "Totale 2026-28": 216.0
+      },
+      "formula": null
+    },
+    {
+      "row": 49,
+      "code": "4.3",
+      "description": "Reclutamento, formazione e training",
+      "level": 2,
+      "values": {
+        "1 Qtr 27": 3.0,
+        "2 Qtr 27": 3.0,
+        "3 Qtr 27": 3.0,
+        "4 Qtr 27": 3.0,
+        "TOT 27": 12.0,
+        "1 Qtr 28": 3.0,
+        "2 Qtr 28": 3.0,
+        "3 Qtr 28": 3.0,
+        "4 Qtr 28": 3.0,
+        "TOT 28": 12.0,
+        "Totale 2026-28": 24.0
+      },
+      "formula": null
+    },
+    {
+      "row": 50,
+      "code": null,
+      "description": "Totale Team e Risorse Umane",
+      "level": 4,
+      "values": {
+        "1 Qtr 26": 6.0,
+        "2 Qtr 26": 6.0,
+        "3 Qtr 26": 6.0,
+        "4 Qtr 26": 6.0,
+        "TOT 26": 24.0,
+        "1 Qtr 27": 36.0,
+        "2 Qtr 27": 36.0,
+        "3 Qtr 27": 36.0,
+        "4 Qtr 27": 36.0,
+        "TOT 27": 144.0,
+        "1 Qtr 28": 36.0,
+        "2 Qtr 28": 36.0,
+        "3 Qtr 28": 36.0,
+        "4 Qtr 28": 36.0,
+        "TOT 28": 144.0,
+        "Totale 2026-28": 312.0
+      },
+      "formula": null
+    },
+    {
+      "row": 51,
+      "code": 5,
+      "description": "Overhead",
+      "level": 1,
+      "values": {},
+      "formula": null
+    },
+    {
+      "row": 52,
+      "code": "5.1",
+      "description": "Laboratorio e ufficio",
+      "level": 2,
+      "values": {
+        "4 2025": 3.0,
+        "1 Qtr 26": 3.0,
+        "2 Qtr 26": 3.0,
+        "3 Qtr 26": 3.0,
+        "4 Qtr 26": 3.0,
+        "TOT 26": 12.0,
+        "1 Qtr 27": 5.0,
+        "2 Qtr 27": 5.0,
+        "3 Qtr 27": 5.0,
+        "4 Qtr 27": 5.0,
+        "TOT 27": 20.0,
+        "1 Qtr 28": 5.0,
+        "2 Qtr 28": 5.0,
+        "3 Qtr 28": 5.0,
+        "4 Qtr 28": 5.0,
+        "TOT 28": 20.0,
+        "Totale 2026-28": 55.0
+      },
+      "formula": null
+    },
+    {
+      "row": 53,
+      "code": "5.2",
+      "description": "Assicurazioni",
+      "level": 2,
+      "values": {
+        "1 Qtr 27": 1.0,
+        "2 Qtr 27": 1.0,
+        "3 Qtr 27": 1.0,
+        "4 Qtr 27": 1.0,
+        "TOT 27": 4.0,
+        "1 Qtr 28": 2.0,
+        "2 Qtr 28": 2.0,
+        "3 Qtr 28": 2.0,
+        "4 Qtr 28": 2.0,
+        "TOT 28": 8.0,
+        "Totale 2026-28": 12.0
+      },
+      "formula": null
+    },
+    {
+      "row": 54,
+      "code": "5.3",
+      "description": "Amministrative e legali",
+      "level": 2,
+      "values": {
+        "1 Qtr 26": 1.0,
+        "2 Qtr 26": 1.0,
+        "3 Qtr 26": 1.0,
+        "4 Qtr 26": 1.0,
+        "TOT 26": 4.0,
+        "1 Qtr 27": 1.0,
+        "2 Qtr 27": 1.0,
+        "3 Qtr 27": 1.0,
+        "4 Qtr 27": 1.0,
+        "TOT 27": 4.0,
+        "1 Qtr 28": 1.0,
+        "2 Qtr 28": 1.0,
+        "3 Qtr 28": 1.0,
+        "4 Qtr 28": 1.0,
+        "TOT 28": 4.0,
+        "Totale 2026-28": 12.0
+      },
+      "formula": null
+    },
+    {
+      "row": 55,
+      "code": "5.4",
+      "description": "Viaggi e trasferte",
+      "level": 2,
+      "values": {
+        "1 Qtr 26": 1.0,
+        "2 Qtr 26": 1.0,
+        "3 Qtr 26": 1.0,
+        "4 Qtr 26": 1.0,
+        "TOT 26": 4.0,
+        "1 Qtr 27": 1.0,
+        "2 Qtr 27": 1.0,
+        "3 Qtr 27": 1.0,
+        "4 Qtr 27": 1.0,
+        "TOT 27": 4.0,
+        "1 Qtr 28": 1.0,
+        "2 Qtr 28": 1.0,
+        "3 Qtr 28": 1.0,
+        "4 Qtr 28": 1.0,
+        "TOT 28": 4.0,
+        "Totale 2026-28": 12.0
+      },
+      "formula": null
+    },
+    {
+      "row": 56,
+      "code": null,
+      "description": "Totale Overhead",
+      "level": 4,
+      "values": {
+        "YTD 25": 0.0,
+        "4 2025": 3.0,
+        "1 Qtr 26": 5.0,
+        "2 Qtr 26": 5.0,
+        "3 Qtr 26": 5.0,
+        "4 Qtr 26": 5.0,
+        "TOT 26": 20.0,
+        "1 Qtr 27": 8.0,
+        "2 Qtr 27": 8.0,
+        "3 Qtr 27": 8.0,
+        "4 Qtr 27": 8.0,
+        "TOT 27": 32.0,
+        "1 Qtr 28": 9.0,
+        "2 Qtr 28": 9.0,
+        "3 Qtr 28": 9.0,
+        "4 Qtr 28": 9.0,
+        "TOT 28": 36.0,
+        "Totale 2026-28": 91.0
+      },
+      "formula": null
+    },
+    {
+      "row": 57,
+      "code": 8,
+      "description": "Contingiencies",
+      "level": 1,
+      "values": {
+        "1 Qtr 27": 5.0,
+        "2 Qtr 27": 5.0,
+        "3 Qtr 27": 5.0,
+        "4 Qtr 27": 5.0,
+        "TOT 27": 20.0,
+        "1 Qtr 28": 5.0,
+        "2 Qtr 28": 5.0,
+        "3 Qtr 28": 5.0,
+        "4 Qtr 28": 8.0,
+        "TOT 28": 23.0,
+        "Totale 2026-28": 43.0
+      },
+      "formula": null
+    },
+    {
+      "row": 58,
+      "code": null,
+      "description": "TOTALE COSTI DI SVILUPPO",
+      "level": 4,
+      "values": {
+        "YTD 25": 60.0,
+        "4 2025": 22.0,
+        "1 Qtr 26": 84.0,
+        "2 Qtr 26": 84.0,
+        "3 Qtr 26": 142.0,
+        "4 Qtr 26": 142.0,
+        "TOT 26": 452.0,
+        "1 Qtr 27": 132.0,
+        "2 Qtr 27": 132.0,
+        "3 Qtr 27": 62.0,
+        "4 Qtr 27": 162.0,
+        "TOT 27": 488.0,
+        "1 Qtr 28": 195.0,
+        "2 Qtr 28": 195.0,
+        "3 Qtr 28": 195.0,
+        "4 Qtr 28": 198.0,
+        "TOT 28": 783.0,
+        "Totale 2026-28": 1800.0
+      },
+      "formula": null
+    },
+    {
+      "row": 60,
+      "code": 5,
+      "description": "Asset Industriali Minimi e Setup Produttivo",
+      "level": 1,
+      "values": {},
+      "formula": null
+    },
+    {
+      "row": 61,
+      "code": "5.1",
+      "description": "Attrezzature e Infrastrutture di Produzione",
+      "level": 2,
+      "values": {},
+      "formula": null
+    },
+    {
+      "row": 63,
+      "code": "5.2",
+      "description": "Progettazione per la Produzione (DfM)",
+      "level": 2,
+      "values": {},
+      "formula": null
+    },
+    {
+      "row": 65,
+      "code": "5.3",
+      "description": "Supply Chain e Lotti Pilota",
+      "level": 2,
+      "values": {},
+      "formula": null
+    },
+    {
+      "row": 67,
+      "code": "5.4",
+      "description": "manuali d’uso, packaging e etichettature conformi",
+      "level": 2,
+      "values": {},
+      "formula": null
+    },
+    {
+      "row": 69,
+      "code": null,
+      "description": "Totale Setup Produttivo",
+      "level": 4,
+      "values": {},
+      "formula": null
+    },
+    {
+      "row": 71,
+      "code": 6,
+      "description": "Strategie Commerciali Iniziali e Go-to-Market",
+      "level": 1,
+      "values": {},
+      "formula": null
+    },
+    {
+      "row": 72,
+      "code": null,
+      "description": "Marketing e Comunicazione",
+      "level": 4,
+      "values": {},
+      "formula": null
+    },
+    {
+      "row": 74,
+      "code": null,
+      "description": "Business Development & Vendite",
+      "level": 4,
+      "values": {},
+      "formula": null
+    },
+    {
+      "row": 76,
+      "code": null,
+      "description": "Pilot Customer Programs",
+      "level": 4,
+      "values": {},
+      "formula": null
+    },
+    {
+      "row": 78,
+      "code": null,
+      "description": "Supporto Clinico e Customer Service",
+      "level": 4,
+      "values": {},
+      "formula": null
+    },
+    {
+      "row": 80,
+      "code": null,
+      "description": "Totale Go-to-Market",
+      "level": 4,
+      "values": {},
+      "formula": null
+    },
+    {
+      "row": 82,
+      "code": "3.3",
+      "description": "Studio Clinico Pivotal multicentrico (eventuale)",
+      "level": 2,
+      "values": {
+        "1 Qtr 28": 200.0,
+        "2 Qtr 28": 200.0,
+        "3 Qtr 28": 200.0,
+        "4 Qtr 28": 200.0,
+        "TOT 28": 800.0,
+        "Totale 2026-28": 800.0
+      },
+      "formula": null
+    }
+  ]
+}
