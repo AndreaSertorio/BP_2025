@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { useDatabase } from '@/contexts/DatabaseContext';
 import {
   Target,
   TrendingUp,
@@ -92,43 +93,33 @@ interface MarketData {
 }
 
 export function TamSamSomDashboard() {
-  const [marketData, setMarketData] = useState<MarketData | null>(null);
-  const [mercatoEcografie, setMercatoEcografie] = useState<MercatoEcografie | null>(null);
-  const [loading, setLoading] = useState(true);
+  // Usa DatabaseContext per sincronizzazione globale
+  const { database, loading, error, updatePrestazioneAggredibile, saveToBackend } = useDatabase();
+  
   const [activeView, setActiveView] = useState<'procedures' | 'devices'>('procedures');
   const [selectedRegion, setSelectedRegion] = useState('IT');
   const [samPercentage, setSamPercentage] = useState(35);
   const [hasChanges, setHasChanges] = useState(false);
 
+  // Estrai dati dal database
+  const marketData = database?.market || null;
+  const mercatoEcografie = database?.mercatoEcografie || null;
+
+  // Inizializza SAM percentage dal database
   useEffect(() => {
-    loadMarketData();
-  }, []);
-
-  async function loadMarketData() {
-    try {
-      const response = await fetch('/data/database.json');
-      const database = await response.json();
-      setMarketData(database.market);
-      setMercatoEcografie(database.mercatoEcografie);
-      // Load initial SAM percentage from data
-      setSamPercentage(database.market.tamSamSom.assumptions.serviceable.procedures * 100);
-      setLoading(false);
-    } catch (error) {
-      console.error('Errore caricamento dati market:', error);
-      setLoading(false);
+    if (marketData?.tamSamSom?.assumptions?.serviceable) {
+      setSamPercentage(marketData.tamSamSom.assumptions.serviceable.procedures * 100);
     }
-  }
+  }, [marketData]);
 
-  // Funzione per modificare aggredibilità procedura (modifica mercatoEcografie)
+  // Funzione per modificare aggredibilità procedura (usa DatabaseContext)
   function toggleAggredibile(code: string) {
     if (!mercatoEcografie) return;
     
-    const newData = { ...mercatoEcografie };
-    const prestazione = newData.italia.prestazioni.find(p => p.codice === code);
-    
+    const prestazione = mercatoEcografie.italia.prestazioni.find(p => p.codice === code);
     if (prestazione) {
-      prestazione.aggredibile = !prestazione.aggredibile;
-      setMercatoEcografie(newData);
+      // Usa il context per aggiornare globalmente
+      updatePrestazioneAggredibile(code, !prestazione.aggredibile);
       setHasChanges(true);
     }
   }
@@ -140,21 +131,13 @@ export function TamSamSomDashboard() {
     return prestazione?.aggredibile || false;
   }
 
-  // Funzione per salvare le modifiche
+  // Funzione per salvare le modifiche (usa DatabaseContext)
   async function saveChanges() {
-    if (!marketData) return;
-    
     try {
-      // In produzione, chiamare API backend per salvare
-      // Per ora simuliamo il salvataggio
-      console.log('Salvando modifiche nel database.json...', marketData);
-      
-      // Simulazione successo
-      alert('✅ Modifiche salvate con successo nel database.json!');
+      await saveToBackend();
       setHasChanges(false);
     } catch (error) {
       console.error('Errore durante il salvataggio:', error);
-      alert('❌ Errore durante il salvataggio');
     }
   }
 
@@ -173,25 +156,25 @@ export function TamSamSomDashboard() {
       
       let totalTAM = 0;
       
-      marketData.procedures.regions.forEach(region => {
+      marketData.procedures.regions.forEach((region: string) => {
         const procedures = marketData.procedures.regionalPricing?.[region] || [];
         
         // Filtra solo procedure aggredibili usando mercatoEcografie come fonte
-        const aggredibili = procedures.filter(p => isAggredibile(p.code));
+        const aggredibili = procedures.filter((p: any) => isAggredibile(p.code));
         
         if (aggredibili.length === 0) {
           // Se nessuna procedura aggredibile, TAM per questa regione = 0
           return;
         }
         
-        const avgPrice = aggredibili.reduce((sum, p) => sum + p.privatePrice, 0) / aggredibili.length;
+        const avgPrice = aggredibili.reduce((sum: number, p: any) => sum + p.privatePrice, 0) / aggredibili.length;
         const volumeForRegion = (marketData.procedures.volumes[region] || 0) * (aggredibili.length / procedures.length);
         totalTAM += volumeForRegion * avgPrice;
       });
       
       return totalTAM;
     } else {
-      const totalSales = Object.values(marketData.devices.unitSales).reduce((sum, v) => sum + v, 0);
+      const totalSales = Object.values(marketData.devices.unitSales).reduce((sum: number, v: any) => sum + v, 0);
       const avgASP = 
         (marketData.devices.asp.cart * marketData.devices.typologySplit.cart) +
         (marketData.devices.asp.portable * marketData.devices.typologySplit.portable) +
@@ -363,7 +346,7 @@ export function TamSamSomDashboard() {
       <Card className="p-4">
         <div className="flex items-center gap-4">
           <span className="text-sm font-semibold text-gray-700">Regione:</span>
-          {marketData.procedures.regions.map(region => (
+          {marketData.procedures.regions.map((region: string) => (
             <Button
               key={region}
               variant={selectedRegion === region ? 'default' : 'outline'}
@@ -475,10 +458,10 @@ export function TamSamSomDashboard() {
             {/* Statistics Aggredibili */}
             {marketData.procedures.regionalPricing?.[selectedRegion] && (() => {
               const allProcs = marketData.procedures.regionalPricing[selectedRegion];
-              const aggredibili = allProcs.filter(p => isAggredibile(p.code));
-              const avgAll = allProcs.reduce((sum, p) => sum + p.privatePrice, 0) / allProcs.length;
+              const aggredibili = allProcs.filter((p: any) => isAggredibile(p.code));
+              const avgAll = allProcs.reduce((sum: number, p: any) => sum + p.privatePrice, 0) / allProcs.length;
               const avgAggredibili = aggredibili.length > 0 
-                ? aggredibili.reduce((sum, p) => sum + p.privatePrice, 0) / aggredibili.length 
+                ? aggredibili.reduce((sum: number, p: any) => sum + p.privatePrice, 0) / aggredibili.length 
                 : 0;
               
               return (
@@ -651,7 +634,7 @@ export function TamSamSomDashboard() {
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
           <h4 className="font-semibold text-blue-900 mb-2">📝 Note Metodologiche</h4>
           <ul className="space-y-1">
-            {marketData.tamSamSom.notes.map((note, idx) => (
+            {marketData.tamSamSom.notes.map((note: string, idx: number) => (
               <li key={idx} className="text-sm text-blue-800">• {note}</li>
             ))}
           </ul>
