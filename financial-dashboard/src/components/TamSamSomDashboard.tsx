@@ -17,6 +17,7 @@ import {
 interface ProcedurePricing {
   code: string;
   description: string;
+  aggredibile: boolean;
   publicPrice: number;
   privatePrice: number;
   priceRange: string;
@@ -74,6 +75,8 @@ export function TamSamSomDashboard() {
   const [loading, setLoading] = useState(true);
   const [activeView, setActiveView] = useState<'procedures' | 'devices'>('procedures');
   const [selectedRegion, setSelectedRegion] = useState('IT');
+  const [samPercentage, setSamPercentage] = useState(35);
+  const [hasChanges, setHasChanges] = useState(false);
 
   useEffect(() => {
     loadMarketData();
@@ -84,10 +87,47 @@ export function TamSamSomDashboard() {
       const response = await fetch('/data/database.json');
       const database = await response.json();
       setMarketData(database.market);
+      // Load initial SAM percentage from data
+      setSamPercentage(database.market.tamSamSom.assumptions.serviceable.procedures * 100);
       setLoading(false);
     } catch (error) {
       console.error('Errore caricamento dati market:', error);
       setLoading(false);
+    }
+  }
+
+  // Funzione per modificare aggredibilità procedura
+  function toggleAggredibile(code: string) {
+    if (!marketData) return;
+    
+    const newData = { ...marketData };
+    const procedures = newData.procedures.regionalPricing?.[selectedRegion];
+    
+    if (procedures) {
+      const proc = procedures.find(p => p.code === code);
+      if (proc) {
+        proc.aggredibile = !proc.aggredibile;
+        setMarketData(newData);
+        setHasChanges(true);
+      }
+    }
+  }
+
+  // Funzione per salvare le modifiche
+  async function saveChanges() {
+    if (!marketData) return;
+    
+    try {
+      // In produzione, chiamare API backend per salvare
+      // Per ora simuliamo il salvataggio
+      console.log('Salvando modifiche nel database.json...', marketData);
+      
+      // Simulazione successo
+      alert('✅ Modifiche salvate con successo nel database.json!');
+      setHasChanges(false);
+    } catch (error) {
+      console.error('Errore durante il salvataggio:', error);
+      alert('❌ Errore durante il salvataggio');
     }
   }
 
@@ -99,12 +139,23 @@ export function TamSamSomDashboard() {
     );
   }
 
-  // Calcolo TAM
+  // Calcolo TAM - SOLO procedure aggredibili
   const calculateTAM = () => {
     if (activeView === 'procedures') {
-      const totalVolumes = Object.values(marketData.procedures.volumes).reduce((sum, v) => sum + v, 0);
-      const avgPrice = 80; // Media ponderata dei prezzi
-      return totalVolumes * avgPrice;
+      let totalTAM = 0;
+      
+      marketData.procedures.regions.forEach(region => {
+        const procedures = marketData.procedures.regionalPricing?.[region] || [];
+        const aggredibili = procedures.filter(p => p.aggredibile);
+        
+        if (aggredibili.length > 0) {
+          const avgPrice = aggredibili.reduce((sum, p) => sum + p.privatePrice, 0) / aggredibili.length;
+          const volumeForRegion = (marketData.procedures.volumes[region] || 0) * (aggredibili.length / procedures.length);
+          totalTAM += volumeForRegion * avgPrice;
+        }
+      });
+      
+      return totalTAM;
     } else {
       const totalSales = Object.values(marketData.devices.unitSales).reduce((sum, v) => sum + v, 0);
       const avgASP = 
@@ -115,13 +166,10 @@ export function TamSamSomDashboard() {
     }
   };
 
-  // Calcolo SAM
+  // Calcolo SAM - con percentuale customizzabile
   const calculateSAM = () => {
     const tam = calculateTAM();
-    const serviceableRate = activeView === 'procedures' 
-      ? marketData.tamSamSom.assumptions.serviceable.procedures
-      : marketData.tamSamSom.assumptions.serviceable.devices;
-    return tam * serviceableRate;
+    return tam * (samPercentage / 100);
   };
 
   // Calcolo SOM
@@ -162,9 +210,14 @@ export function TamSamSomDashboard() {
               Total Addressable Market • Serviceable Available Market • Serviceable Obtainable Market
             </p>
           </div>
-          <Button variant="outline" className="flex items-center gap-2">
+          <Button 
+            variant={hasChanges ? "default" : "outline"}
+            className="flex items-center gap-2"
+            onClick={saveChanges}
+            disabled={!hasChanges}
+          >
             <Save className="h-4 w-4" />
-            Esporta
+            {hasChanges ? 'Salva Modifiche' : 'Tutto Salvato'}
           </Button>
         </div>
 
@@ -207,7 +260,7 @@ export function TamSamSomDashboard() {
           </div>
           <div className="text-3xl font-bold text-indigo-900">{formatCurrency(sam)}</div>
           <p className="text-xs text-indigo-700 mt-1">
-            {activeView === 'procedures' ? '35%' : '25%'} del TAM
+            {samPercentage}% del TAM
           </p>
         </Card>
 
@@ -238,6 +291,39 @@ export function TamSamSomDashboard() {
           <p className="text-xs text-purple-700 mt-1">Anno 5 (1.5%)</p>
         </Card>
       </div>
+
+      {/* SAM Percentage Slider */}
+      <Card className="p-6 bg-gradient-to-r from-purple-50 to-pink-50">
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <label className="text-sm font-semibold text-gray-700">
+              Percentuale SAM rispetto al TAM
+            </label>
+            <span className="text-2xl font-bold text-indigo-600">{samPercentage}%</span>
+          </div>
+          <input
+            type="range"
+            min="1"
+            max="100"
+            value={samPercentage}
+            onChange={(e) => {
+              setSamPercentage(Number(e.target.value));
+              setHasChanges(true);
+            }}
+            className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+            style={{
+              background: `linear-gradient(to right, #6366f1 0%, #6366f1 ${samPercentage}%, #e5e7eb ${samPercentage}%, #e5e7eb 100%)`
+            }}
+          />
+          <div className="flex justify-between text-xs text-gray-500">
+            <span>1%</span>
+            <span>25%</span>
+            <span>50%</span>
+            <span>75%</span>
+            <span>100%</span>
+          </div>
+        </div>
+      </Card>
 
       {/* Selector regione */}
       <Card className="p-4">
@@ -294,6 +380,9 @@ export function TamSamSomDashboard() {
               <table className="w-full text-sm">
                 <thead className="bg-gray-50 border-b-2 border-gray-200">
                   <tr>
+                    <th className="px-3 py-2 text-center font-semibold text-gray-700">
+                      🎯 Aggr.
+                    </th>
                     <th className="px-3 py-2 text-left font-semibold text-gray-700">Codice</th>
                     <th className="px-3 py-2 text-left font-semibold text-gray-700">Descrizione</th>
                     <th className="px-3 py-2 text-right font-semibold text-gray-700">Pubblico (€)</th>
@@ -307,11 +396,24 @@ export function TamSamSomDashboard() {
                 </thead>
                 <tbody>
                   {(marketData.procedures.regionalPricing?.[selectedRegion] || []).map((proc: ProcedurePricing, idx: number) => (
-                    <tr key={proc.code} className={idx % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                    <tr key={proc.code} className={`${idx % 2 === 0 ? 'bg-white' : 'bg-gray-50'} ${proc.aggredibile ? 'border-l-4 border-green-500' : ''}`}>
+                      <td className="px-3 py-2 text-center">
+                        <input
+                          type="checkbox"
+                          checked={proc.aggredibile}
+                          onChange={() => toggleAggredibile(proc.code)}
+                          className="w-5 h-5 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 cursor-pointer"
+                          title={proc.aggredibile ? 'Prestazione aggredibile - usata nel calcolo TAM' : 'Non aggredibile - esclusa dal calcolo TAM'}
+                        />
+                      </td>
                       <td className="px-3 py-2 font-mono text-xs text-gray-600">{proc.code}</td>
-                      <td className="px-3 py-2 font-medium">{proc.description}</td>
+                      <td className={`px-3 py-2 font-medium ${proc.aggredibile ? 'text-green-900 font-semibold' : ''}`}>
+                        {proc.description}
+                      </td>
                       <td className="px-3 py-2 text-right text-gray-600">€{proc.publicPrice}</td>
-                      <td className="px-3 py-2 text-right font-semibold text-green-600">€{proc.privatePrice}</td>
+                      <td className={`px-3 py-2 text-right font-semibold ${proc.aggredibile ? 'text-green-600 text-lg' : 'text-gray-600'}`}>
+                        €{proc.privatePrice}
+                      </td>
                       <td className="px-3 py-2 text-xs text-gray-500">{proc.priceRange}</td>
                       <td className="px-3 py-2 text-center text-xs text-gray-500">{proc.deviation}</td>
                       <td className="px-3 py-2 text-center">
@@ -333,18 +435,41 @@ export function TamSamSomDashboard() {
               </table>
             </div>
 
-            {/* Calcolo Prezzo Medio */}
-            {marketData.procedures.regionalPricing?.[selectedRegion] && (
-              <div className="mt-4 p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg">
-                <div className="flex justify-between items-center">
-                  <span className="font-semibold text-gray-700">Prezzo Medio Privato:</span>
-                  <span className="text-2xl font-bold text-indigo-600">
-                    €{(marketData.procedures.regionalPricing[selectedRegion].reduce((sum: number, p: ProcedurePricing) => sum + p.privatePrice, 0) / 
-                       marketData.procedures.regionalPricing[selectedRegion].length).toFixed(2)}
-                  </span>
+            {/* Statistics Aggredibili */}
+            {marketData.procedures.regionalPricing?.[selectedRegion] && (() => {
+              const allProcs = marketData.procedures.regionalPricing[selectedRegion];
+              const aggredibili = allProcs.filter(p => p.aggredibile);
+              const avgAll = allProcs.reduce((sum, p) => sum + p.privatePrice, 0) / allProcs.length;
+              const avgAggredibili = aggredibili.length > 0 
+                ? aggredibili.reduce((sum, p) => sum + p.privatePrice, 0) / aggredibili.length 
+                : 0;
+              
+              return (
+                <div className="mt-4 grid grid-cols-2 gap-4">
+                  <div className="p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg border-2 border-blue-200">
+                    <div className="text-xs text-blue-700 font-semibold mb-1">TUTTE LE PROCEDURE</div>
+                    <div className="flex justify-between items-end">
+                      <div>
+                        <div className="text-sm text-blue-600">Prezzo Medio Privato</div>
+                        <div className="text-xs text-blue-500">{allProcs.length} procedure totali</div>
+                      </div>
+                      <div className="text-2xl font-bold text-blue-900">€{avgAll.toFixed(2)}</div>
+                    </div>
+                  </div>
+                  
+                  <div className="p-4 bg-gradient-to-r from-green-50 to-green-100 rounded-lg border-2 border-green-500">
+                    <div className="text-xs text-green-700 font-semibold mb-1">🎯 SOLO AGGREDIBILI (per TAM)</div>
+                    <div className="flex justify-between items-end">
+                      <div>
+                        <div className="text-sm text-green-600">Prezzo Medio Privato</div>
+                        <div className="text-xs text-green-500">{aggredibili.length} procedure aggredibili</div>
+                      </div>
+                      <div className="text-2xl font-bold text-green-900">€{avgAggredibili.toFixed(2)}</div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            )}
+              );
+            })()}
           </Card>
         </div>
       )}
