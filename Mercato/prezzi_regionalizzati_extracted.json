@@ -1,0 +1,868 @@
+{
+  "version": "1.0.0",
+  "source": "Prezzi_Ecografie_Regionalizzati_Completo.xlsx",
+  "lastUpdated": "2025-10-08",
+  "description": "Prezzi ecografie regionalizzati per TAM/SAM/SOM calculations",
+  "regions": {
+    "IT": {
+      "name": "Italia",
+      "code": "IT",
+      "procedures": [
+        {
+          "code": "88.71.4",
+          "description": "Capo e collo",
+          "publicPrice": 36.0,
+          "privatePrice": 95.0,
+          "priceRange": "28–250",
+          "deviation": "±35%",
+          "confidence": "A",
+          "sources": 12,
+          "notes": "Tariffa SSN uniforme; ampia offerta privata; range Nord 80–150, Sud 60–110"
+        },
+        {
+          "code": "88.72.2",
+          "description": "Cardiaca (ecocardiogramma)",
+          "publicPrice": 36.0,
+          "privatePrice": 160.0,
+          "priceRange": "50–206",
+          "deviation": "±40%",
+          "confidence": "B",
+          "sources": 9,
+          "notes": "Prezzi dipendono da Doppler e struttura; Nord più alto"
+        },
+        {
+          "code": "88.73.5",
+          "description": "TSA (tronchi sovra-aortici)",
+          "publicPrice": 36.0,
+          "privatePrice": 140.0,
+          "priceRange": "40–220",
+          "deviation": "±30%",
+          "confidence": "A",
+          "sources": 8,
+          "notes": "Alta domanda; liste d’attesa SSN lunghe, forte quota privata"
+        },
+        {
+          "code": "88.77.4",
+          "description": "Arti inferiori (Doppler)",
+          "publicPrice": 36.0,
+          "privatePrice": 130.0,
+          "priceRange": "25–300",
+          "deviation": "±35%",
+          "confidence": "B",
+          "sources": 10,
+          "notes": "Range ampio; differenze legate a bilateralità"
+        },
+        {
+          "code": "88.77.6",
+          "description": "Arti superiori (Doppler)",
+          "publicPrice": 36.0,
+          "privatePrice": 120.0,
+          "priceRange": "25–200",
+          "deviation": "±30%",
+          "confidence": "B",
+          "sources": 8,
+          "notes": "Minore frequenza, prezzi simili agli arti inferiori"
+        },
+        {
+          "code": "88.76.3",
+          "description": "Grossi vasi addominali",
+          "publicPrice": 36.0,
+          "privatePrice": 110.0,
+          "priceRange": "32–160",
+          "deviation": "±25%",
+          "confidence": "A",
+          "sources": 7,
+          "notes": "Tariffe SSN standardizzate; domanda stabile"
+        },
+        {
+          "code": "88.78.2",
+          "description": "Ecografia ginecologica",
+          "publicPrice": 36.0,
+          "privatePrice": 100.0,
+          "priceRange": "50–200",
+          "deviation": "±30%",
+          "confidence": "A",
+          "sources": 12,
+          "notes": "Ampia offerta privata, variazioni minime regionali"
+        },
+        {
+          "code": "88.76.1",
+          "description": "Addome completo",
+          "publicPrice": 36.0,
+          "privatePrice": 115.0,
+          "priceRange": "45–255",
+          "deviation": "±35%",
+          "confidence": "A",
+          "sources": 15,
+          "notes": "Tra le più richieste; range Nord 90–130, Sud 70–110"
+        },
+        {
+          "code": "88.75.1",
+          "description": "Addome inferiore",
+          "publicPrice": 36.0,
+          "privatePrice": 95.0,
+          "priceRange": "30–220",
+          "deviation": "±30%",
+          "confidence": "B",
+          "sources": 9,
+          "notes": "In SSN inclusa in pacchetti multipli"
+        },
+        {
+          "code": "88.74.1",
+          "description": "Addome superiore",
+          "publicPrice": 36.0,
+          "privatePrice": 100.0,
+          "priceRange": "40–220",
+          "deviation": "±30%",
+          "confidence": "B",
+          "sources": 9,
+          "notes": "Prezzo stabile, media 100€"
+        },
+        {
+          "code": "88.73.1",
+          "description": "Mammella bilaterale",
+          "publicPrice": 36.0,
+          "privatePrice": 105.0,
+          "priceRange": "36–220",
+          "deviation": "±35%",
+          "confidence": "A",
+          "sources": 10,
+          "notes": "Prezzo medio privato ~105€, bilaterale comune"
+        },
+        {
+          "code": "88.73.2",
+          "description": "Mammella monolaterale",
+          "publicPrice": 36.0,
+          "privatePrice": 85.0,
+          "priceRange": "30–150",
+          "deviation": "±30%",
+          "confidence": "A",
+          "sources": 10,
+          "notes": "Costo ~30% inferiore al bilaterale"
+        },
+        {
+          "code": "88.79.3",
+          "description": "Muscoloscheletrica (MSK)",
+          "publicPrice": 36.0,
+          "privatePrice": 90.0,
+          "priceRange": "28–130",
+          "deviation": "±35%",
+          "confidence": "B",
+          "sources": 8,
+          "notes": "Prezzo medio 90€, più frequente in ambito sportivo"
+        },
+        {
+          "code": "88.79.6",
+          "description": "Scrotale",
+          "publicPrice": 36.0,
+          "privatePrice": 95.0,
+          "priceRange": "35–250",
+          "deviation": "±30%",
+          "confidence": "A",
+          "sources": 10,
+          "notes": "Range ampio, media 95€"
+        },
+        {
+          "code": "88.79.E",
+          "description": "Doppler scrotale",
+          "publicPrice": 36.0,
+          "privatePrice": 110.0,
+          "priceRange": "40–220",
+          "deviation": "±30%",
+          "confidence": "B",
+          "sources": 9,
+          "notes": "Prezzo medio 110€, legato alla complessità"
+        }
+      ],
+      "totalProcedures": 15
+    },
+    "EU": {
+      "name": "Europa",
+      "code": "EU",
+      "procedures": [
+        {
+          "code": "88.71.4",
+          "description": "Capo e collo",
+          "publicPrice": 25.0,
+          "privatePrice": 100.0,
+          "priceRange": "50–300",
+          "deviation": "±30%",
+          "confidence": "A",
+          "sources": 15,
+          "notes": "Francia 52–70€, UK 170–340€, media 100€"
+        },
+        {
+          "code": "88.72.2",
+          "description": "Cardiaca",
+          "publicPrice": 40.0,
+          "privatePrice": 300.0,
+          "priceRange": "200–600",
+          "deviation": "±40%",
+          "confidence": "B",
+          "sources": 12,
+          "notes": "DE 130–260€, UK 290–580€"
+        },
+        {
+          "code": "88.73.5",
+          "description": "TSA",
+          "publicPrice": 35.0,
+          "privatePrice": 250.0,
+          "priceRange": "150–400",
+          "deviation": "±35%",
+          "confidence": "A",
+          "sources": 10,
+          "notes": "UK 230–460€, media 250€"
+        },
+        {
+          "code": "88.77.4",
+          "description": "Arti inferiori",
+          "publicPrice": 35.0,
+          "privatePrice": 300.0,
+          "priceRange": "180–500",
+          "deviation": "±35%",
+          "confidence": "B",
+          "sources": 9,
+          "notes": "Prezzi privati alti in UK"
+        },
+        {
+          "code": "88.77.6",
+          "description": "Arti superiori",
+          "publicPrice": 35.0,
+          "privatePrice": 250.0,
+          "priceRange": "150–400",
+          "deviation": "±35%",
+          "confidence": "B",
+          "sources": 8,
+          "notes": "Simile agli arti inferiori"
+        },
+        {
+          "code": "88.76.3",
+          "description": "Grossi vasi addominali",
+          "publicPrice": 25.0,
+          "privatePrice": 150.0,
+          "priceRange": "100–300",
+          "deviation": "±25%",
+          "confidence": "A",
+          "sources": 8,
+          "notes": "Francia 52–76€, UK 170–340€"
+        },
+        {
+          "code": "88.78.2",
+          "description": "Ginecologica",
+          "publicPrice": 25.0,
+          "privatePrice": 200.0,
+          "priceRange": "150–350",
+          "deviation": "±30%",
+          "confidence": "A",
+          "sources": 12,
+          "notes": "Francia 52–70€, media UE 200€"
+        },
+        {
+          "code": "88.76.1",
+          "description": "Addome completo",
+          "publicPrice": 25.0,
+          "privatePrice": 200.0,
+          "priceRange": "150–350",
+          "deviation": "±30%",
+          "confidence": "A",
+          "sources": 14,
+          "notes": "Francia 54€, UK 170–340€"
+        },
+        {
+          "code": "88.75.1",
+          "description": "Addome inferiore",
+          "publicPrice": 25.0,
+          "privatePrice": 180.0,
+          "priceRange": "150–300",
+          "deviation": "±30%",
+          "confidence": "B",
+          "sources": 8,
+          "notes": "Prezzo medio 180€"
+        },
+        {
+          "code": "88.74.1",
+          "description": "Addome superiore",
+          "publicPrice": 25.0,
+          "privatePrice": 200.0,
+          "priceRange": "150–350",
+          "deviation": "±30%",
+          "confidence": "B",
+          "sources": 8,
+          "notes": "Prezzo medio 200€"
+        },
+        {
+          "code": "88.73.1",
+          "description": "Mammella bilaterale",
+          "publicPrice": 25.0,
+          "privatePrice": 200.0,
+          "priceRange": "150–300",
+          "deviation": "±30%",
+          "confidence": "A",
+          "sources": 10,
+          "notes": "Francia 41–69€, UK 170–340€"
+        },
+        {
+          "code": "88.73.2",
+          "description": "Mammella monolaterale",
+          "publicPrice": 25.0,
+          "privatePrice": 150.0,
+          "priceRange": "130–250",
+          "deviation": "±25%",
+          "confidence": "A",
+          "sources": 10,
+          "notes": "Prezzo ~25% inferiore al bilaterale"
+        },
+        {
+          "code": "88.79.3",
+          "description": "Muscoloscheletrica",
+          "publicPrice": 25.0,
+          "privatePrice": 200.0,
+          "priceRange": "150–350",
+          "deviation": "±30%",
+          "confidence": "B",
+          "sources": 9,
+          "notes": "UK 170–340€"
+        },
+        {
+          "code": "88.79.6",
+          "description": "Scrotale",
+          "publicPrice": 25.0,
+          "privatePrice": 180.0,
+          "priceRange": "150–300",
+          "deviation": "±25%",
+          "confidence": "B",
+          "sources": 9,
+          "notes": "UK 170–340€, media 180€"
+        },
+        {
+          "code": "88.79.E",
+          "description": "Doppler scrotale",
+          "publicPrice": 25.0,
+          "privatePrice": 250.0,
+          "priceRange": "180–400",
+          "deviation": "±30%",
+          "confidence": "B",
+          "sources": 9,
+          "notes": "Prezzo simile al Doppler carotideo"
+        }
+      ],
+      "totalProcedures": 15
+    },
+    "US": {
+      "name": "USA",
+      "code": "US",
+      "procedures": [
+        {
+          "code": "88.71.4",
+          "description": "Capo e collo",
+          "publicPrice": 0,
+          "privatePrice": 320.0,
+          "priceRange": "90–550",
+          "deviation": "±45%",
+          "confidence": "B",
+          "sources": 8,
+          "notes": "Prezzo varia per assicurazione e sede"
+        },
+        {
+          "code": "88.72.2",
+          "description": "Cardiaca",
+          "publicPrice": 0,
+          "privatePrice": 800.0,
+          "priceRange": "330–1230",
+          "deviation": "±50%",
+          "confidence": "C",
+          "sources": 10,
+          "notes": "Ecocardio molto costoso fuori rete"
+        },
+        {
+          "code": "88.73.5",
+          "description": "TSA",
+          "publicPrice": 0,
+          "privatePrice": 260.0,
+          "priceRange": "140–380",
+          "deviation": "±40%",
+          "confidence": "B",
+          "sources": 7,
+          "notes": "Prezzo medio $300, alta variabilità"
+        },
+        {
+          "code": "88.77.4",
+          "description": "Arti inferiori",
+          "publicPrice": 0,
+          "privatePrice": 400.0,
+          "priceRange": "220–660",
+          "deviation": "±40%",
+          "confidence": "C",
+          "sources": 8,
+          "notes": "Differenze enormi per tipo e copertura"
+        },
+        {
+          "code": "88.77.6",
+          "description": "Arti superiori",
+          "publicPrice": 0,
+          "privatePrice": 350.0,
+          "priceRange": "180–600",
+          "deviation": "±40%",
+          "confidence": "C",
+          "sources": 8,
+          "notes": "Simile agli arti inferiori"
+        },
+        {
+          "code": "88.76.3",
+          "description": "Grossi vasi addominali",
+          "publicPrice": 0,
+          "privatePrice": 370.0,
+          "priceRange": "180–560",
+          "deviation": "±40%",
+          "confidence": "B",
+          "sources": 8,
+          "notes": "Costo medio 370€"
+        },
+        {
+          "code": "88.78.2",
+          "description": "Ginecologica",
+          "publicPrice": 0,
+          "privatePrice": 200.0,
+          "priceRange": "90–330",
+          "deviation": "±35%",
+          "confidence": "B",
+          "sources": 9,
+          "notes": "Prezzo medio $200"
+        },
+        {
+          "code": "88.76.1",
+          "description": "Addome completo",
+          "publicPrice": 0,
+          "privatePrice": 320.0,
+          "priceRange": "110–600",
+          "deviation": "±40%",
+          "confidence": "B",
+          "sources": 10,
+          "notes": "Molto diffuso, coperto da assicurazioni"
+        },
+        {
+          "code": "88.75.1",
+          "description": "Addome inferiore",
+          "publicPrice": 0,
+          "privatePrice": 250.0,
+          "priceRange": "45–380",
+          "deviation": "±40%",
+          "confidence": "B",
+          "sources": 7,
+          "notes": "Prezzo medio $250"
+        },
+        {
+          "code": "88.74.1",
+          "description": "Addome superiore",
+          "publicPrice": 0,
+          "privatePrice": 300.0,
+          "priceRange": "110–600",
+          "deviation": "±35%",
+          "confidence": "B",
+          "sources": 8,
+          "notes": "Media $330"
+        },
+        {
+          "code": "88.73.1",
+          "description": "Mammella bilaterale",
+          "publicPrice": 0,
+          "privatePrice": 350.0,
+          "priceRange": "140–550",
+          "deviation": "±35%",
+          "confidence": "B",
+          "sources": 8,
+          "notes": "Prezzi simili eco muscolo"
+        },
+        {
+          "code": "88.73.2",
+          "description": "Mammella monolaterale",
+          "publicPrice": 0,
+          "privatePrice": 250.0,
+          "priceRange": "85–450",
+          "deviation": "±35%",
+          "confidence": "B",
+          "sources": 8,
+          "notes": "Prezzo inferiore di 25% al bilaterale"
+        },
+        {
+          "code": "88.79.3",
+          "description": "Muscoloscheletrica",
+          "publicPrice": 0,
+          "privatePrice": 270.0,
+          "priceRange": "90–380",
+          "deviation": "±40%",
+          "confidence": "B",
+          "sources": 8,
+          "notes": "Prezzo medio $270"
+        },
+        {
+          "code": "88.79.6",
+          "description": "Scrotale",
+          "publicPrice": 0,
+          "privatePrice": 270.0,
+          "priceRange": "85–450",
+          "deviation": "±35%",
+          "confidence": "B",
+          "sources": 7,
+          "notes": "Prezzo medio $270"
+        },
+        {
+          "code": "88.79.E",
+          "description": "Doppler scrotale",
+          "publicPrice": 0,
+          "privatePrice": 300.0,
+          "priceRange": "100–500",
+          "deviation": "±40%",
+          "confidence": "C",
+          "sources": 7,
+          "notes": "Prezzo medio $300"
+        }
+      ],
+      "totalProcedures": 15
+    },
+    "CN": {
+      "name": "Cina",
+      "code": "CN",
+      "procedures": [
+        {
+          "code": "88.71.4",
+          "description": "Capo e collo",
+          "publicPrice": 5.0,
+          "privatePrice": 25.0,
+          "priceRange": "10–45",
+          "deviation": "±25%",
+          "confidence": "B",
+          "sources": 6,
+          "notes": "Prezzo urbano ~20€, rurale ~10€, costo molto accessibile"
+        },
+        {
+          "code": "88.72.2",
+          "description": "Cardiaca",
+          "publicPrice": 10.0,
+          "privatePrice": 40.0,
+          "priceRange": "20–75",
+          "deviation": "±30%",
+          "confidence": "B",
+          "sources": 6,
+          "notes": "Prezzo tipico in cliniche 45–75€, copertura pubblica alta"
+        },
+        {
+          "code": "88.73.5",
+          "description": "TSA",
+          "publicPrice": 8.0,
+          "privatePrice": 40.0,
+          "priceRange": "15–75",
+          "deviation": "±30%",
+          "confidence": "B",
+          "sources": 5,
+          "notes": "Ampia variabilità urbana/rurale"
+        },
+        {
+          "code": "88.77.4",
+          "description": "Arti inferiori (Doppler)",
+          "publicPrice": 8.0,
+          "privatePrice": 45.0,
+          "priceRange": "20–75",
+          "deviation": "±30%",
+          "confidence": "B",
+          "sources": 5,
+          "notes": "Prezzo medio 45€, cresce nelle metropoli"
+        },
+        {
+          "code": "88.77.6",
+          "description": "Arti superiori (Doppler)",
+          "publicPrice": 8.0,
+          "privatePrice": 40.0,
+          "priceRange": "15–70",
+          "deviation": "±25%",
+          "confidence": "B",
+          "sources": 5,
+          "notes": "Range simile agli arti inferiori"
+        },
+        {
+          "code": "88.76.3",
+          "description": "Grossi vasi addominali",
+          "publicPrice": 8.0,
+          "privatePrice": 35.0,
+          "priceRange": "15–65",
+          "deviation": "±25%",
+          "confidence": "B",
+          "sources": 5,
+          "notes": "Prezzi bassi, ampia offerta pubblica"
+        },
+        {
+          "code": "88.78.2",
+          "description": "Ginecologica",
+          "publicPrice": 5.0,
+          "privatePrice": 30.0,
+          "priceRange": "13–45",
+          "deviation": "±25%",
+          "confidence": "A",
+          "sources": 7,
+          "notes": "Altissima frequenza d’uso, bassa variabilità"
+        },
+        {
+          "code": "88.76.1",
+          "description": "Addome completo",
+          "publicPrice": 8.0,
+          "privatePrice": 35.0,
+          "priceRange": "13–45",
+          "deviation": "±25%",
+          "confidence": "A",
+          "sources": 7,
+          "notes": "Esame di base, costo medio 35€"
+        },
+        {
+          "code": "88.75.1",
+          "description": "Addome inferiore",
+          "publicPrice": 8.0,
+          "privatePrice": 30.0,
+          "priceRange": "13–45",
+          "deviation": "±25%",
+          "confidence": "B",
+          "sources": 5,
+          "notes": "Prezzo simile all’addome completo"
+        },
+        {
+          "code": "88.74.1",
+          "description": "Addome superiore",
+          "publicPrice": 8.0,
+          "privatePrice": 35.0,
+          "priceRange": "13–45",
+          "deviation": "±25%",
+          "confidence": "B",
+          "sources": 5,
+          "notes": "Costo medio urbano ~30–40€"
+        },
+        {
+          "code": "88.73.1",
+          "description": "Mammella bilaterale",
+          "publicPrice": 8.0,
+          "privatePrice": 35.0,
+          "priceRange": "13–45",
+          "deviation": "±25%",
+          "confidence": "B",
+          "sources": 5,
+          "notes": "Prezzo medio simile all’addome"
+        },
+        {
+          "code": "88.73.2",
+          "description": "Mammella monolaterale",
+          "publicPrice": 8.0,
+          "privatePrice": 25.0,
+          "priceRange": "10–35",
+          "deviation": "±25%",
+          "confidence": "B",
+          "sources": 5,
+          "notes": "Prezzo medio inferiore del 25% al bilaterale"
+        },
+        {
+          "code": "88.79.3",
+          "description": "Muscoloscheletrica",
+          "publicPrice": 8.0,
+          "privatePrice": 35.0,
+          "priceRange": "13–45",
+          "deviation": "±25%",
+          "confidence": "B",
+          "sources": 5,
+          "notes": "Esame comune, prezzi contenuti"
+        },
+        {
+          "code": "88.79.6",
+          "description": "Scrotale",
+          "publicPrice": 8.0,
+          "privatePrice": 35.0,
+          "priceRange": "13–45",
+          "deviation": "±25%",
+          "confidence": "B",
+          "sources": 5,
+          "notes": "Prezzo tipico ospedaliero 30–40€"
+        },
+        {
+          "code": "88.79.E",
+          "description": "Doppler scrotale",
+          "publicPrice": 8.0,
+          "privatePrice": 40.0,
+          "priceRange": "15–50",
+          "deviation": "±25%",
+          "confidence": "B",
+          "sources": 5,
+          "notes": "Leggero sovrapprezzo per uso Doppler"
+        }
+      ],
+      "totalProcedures": 15
+    },
+    "ROW": {
+      "name": "Mondo",
+      "code": "ROW",
+      "procedures": [
+        {
+          "code": "88.71.4",
+          "description": "Capo e collo",
+          "publicPrice": 20.0,
+          "privatePrice": 70.0,
+          "priceRange": "10–800",
+          "deviation": "±50%",
+          "confidence": "C",
+          "sources": 10,
+          "notes": "Varia enormemente tra regioni; media globale ~70€"
+        },
+        {
+          "code": "88.72.2",
+          "description": "Cardiaca",
+          "publicPrice": 25.0,
+          "privatePrice": 100.0,
+          "priceRange": "40–1800",
+          "deviation": "±60%",
+          "confidence": "C",
+          "sources": 10,
+          "notes": "Prezzi estremi in USA; media mondiale ~100€"
+        },
+        {
+          "code": "88.73.5",
+          "description": "TSA",
+          "publicPrice": 20.0,
+          "privatePrice": 80.0,
+          "priceRange": "40–800",
+          "deviation": "±55%",
+          "confidence": "C",
+          "sources": 9,
+          "notes": "Ampia dispersione, media globale ~80€"
+        },
+        {
+          "code": "88.77.4",
+          "description": "Arti inferiori",
+          "publicPrice": 20.0,
+          "privatePrice": 90.0,
+          "priceRange": "40–900",
+          "deviation": "±60%",
+          "confidence": "C",
+          "sources": 9,
+          "notes": "Prezzi più bassi in Asia, alti in USA"
+        },
+        {
+          "code": "88.77.6",
+          "description": "Arti superiori",
+          "publicPrice": 20.0,
+          "privatePrice": 80.0,
+          "priceRange": "40–800",
+          "deviation": "±55%",
+          "confidence": "C",
+          "sources": 9,
+          "notes": "Andamento simile agli arti inferiori"
+        },
+        {
+          "code": "88.76.3",
+          "description": "Grossi vasi addominali",
+          "publicPrice": 20.0,
+          "privatePrice": 70.0,
+          "priceRange": "40–800",
+          "deviation": "±55%",
+          "confidence": "C",
+          "sources": 8,
+          "notes": "Prezzi medi 70€ globalmente"
+        },
+        {
+          "code": "88.78.2",
+          "description": "Ginecologica",
+          "publicPrice": 20.0,
+          "privatePrice": 60.0,
+          "priceRange": "10–500",
+          "deviation": "±45%",
+          "confidence": "B",
+          "sources": 10,
+          "notes": "Prezzi medi 60€; spesso gratuiti nei sistemi pubblici"
+        },
+        {
+          "code": "88.76.1",
+          "description": "Addome completo",
+          "publicPrice": 20.0,
+          "privatePrice": 70.0,
+          "priceRange": "10–700",
+          "deviation": "±55%",
+          "confidence": "C",
+          "sources": 11,
+          "notes": "Esame più comune al mondo; media globale ~70€"
+        },
+        {
+          "code": "88.75.1",
+          "description": "Addome inferiore",
+          "publicPrice": 20.0,
+          "privatePrice": 60.0,
+          "priceRange": "10–500",
+          "deviation": "±50%",
+          "confidence": "C",
+          "sources": 9,
+          "notes": "Prezzi simili all’addome completo"
+        },
+        {
+          "code": "88.74.1",
+          "description": "Addome superiore",
+          "publicPrice": 20.0,
+          "privatePrice": 70.0,
+          "priceRange": "10–700",
+          "deviation": "±55%",
+          "confidence": "C",
+          "sources": 9,
+          "notes": "Prezzi globali medi 70€"
+        },
+        {
+          "code": "88.73.1",
+          "description": "Mammella bilaterale",
+          "publicPrice": 20.0,
+          "privatePrice": 70.0,
+          "priceRange": "10–500",
+          "deviation": "±50%",
+          "confidence": "C",
+          "sources": 8,
+          "notes": "Screening gratuito in molti paesi pubblici"
+        },
+        {
+          "code": "88.73.2",
+          "description": "Mammella monolaterale",
+          "publicPrice": 20.0,
+          "privatePrice": 60.0,
+          "priceRange": "10–400",
+          "deviation": "±45%",
+          "confidence": "C",
+          "sources": 8,
+          "notes": "Prezzo inferiore del 20% al bilaterale"
+        },
+        {
+          "code": "88.79.3",
+          "description": "Muscoloscheletrica",
+          "publicPrice": 20.0,
+          "privatePrice": 65.0,
+          "priceRange": "10–500",
+          "deviation": "±50%",
+          "confidence": "C",
+          "sources": 8,
+          "notes": "Prezzi molto variabili"
+        },
+        {
+          "code": "88.79.6",
+          "description": "Scrotale",
+          "publicPrice": 20.0,
+          "privatePrice": 65.0,
+          "priceRange": "10–500",
+          "deviation": "±50%",
+          "confidence": "C",
+          "sources": 8,
+          "notes": "Prezzo medio globale 65€"
+        },
+        {
+          "code": "88.79.E",
+          "description": "Doppler scrotale",
+          "publicPrice": 20.0,
+          "privatePrice": 75.0,
+          "priceRange": "10–600",
+          "deviation": "±55%",
+          "confidence": "C",
+          "sources": 8,
+          "notes": "Prezzi molto eterogenei"
+        }
+      ],
+      "totalProcedures": 15
+    }
+  }
+}
