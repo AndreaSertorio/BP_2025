@@ -1282,7 +1282,8 @@
                   "q3_26": 3,
                   "q4_26": 3,
                   "tot_26": 12,
-                  "tot_all": 12
+                  "tot_all": 12,
+                  "q3_25": 1
                 },
                 "formula": "=1*1000/MESE",
                 "note": null,
@@ -1291,7 +1292,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010092",
-                "lastModified": "2025-10-06T22:49:03.010093"
+                "lastModified": "2025-10-08T16:22:53.045Z"
               },
               {
                 "id": "item_18",
@@ -2557,7 +2558,8 @@
           "q3_26": 3,
           "q4_26": 3,
           "tot_26": 12,
-          "tot_all": 12
+          "tot_all": 12,
+          "q3_25": 1
         },
         "formula": "=1*1000/MESE",
         "note": null,
@@ -2566,7 +2568,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010092",
-        "lastModified": "2025-10-06T22:49:03.010093"
+        "lastModified": "2025-10-08T16:22:53.045Z"
       },
       {
         "id": "item_18",
