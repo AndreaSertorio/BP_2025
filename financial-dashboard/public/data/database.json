@@ -716,199 +716,13 @@
     ],
     "configurazione": {
       "annoTarget": 2030,
-      "marketShare": 1,
+      "marketShare": 2,
       "scenarioParco": "basso",
       "regioniVisibili": [
         "Italia"
       ],
       "tipologieTarget": [
         "Palmari"
-      ]
-    }
-  },
-  "market": {
-    "version": "1.0.0",
-    "lastUpdated": "2025-10-08",
-    "description": "TAM/SAM/SOM - Basi assolute per proiezioni finanziarie",
-    "procedures": {
-      "version": "1.0.0",
-      "source": "Prezzi_Ecografie_Regionalizzati_Completo.xlsx",
-      "lastUpdated": "2025-10-08",
-      "description": "Mercato esami ecografici - modello per-esame con prezzi regionalizzati",
-      "year": 2025,
-      "regions": ["IT", "EU", "US", "CN", "ROW"],
-      "volumes": {
-        "IT": 105974,
-        "EU": 450000,
-        "US": 850000,
-        "CN": 620000,
-        "ROW": 380000
-      },
-      "volumeMultiplier": {
-        "IT": 1.0,
-        "EU": 1.05,
-        "US": 1.15,
-        "CN": 1.30,
-        "ROW": 0.95
-      },
-      "growthRate": {
-        "IT": 0.025,
-        "EU": 0.030,
-        "US": 0.035,
-        "CN": 0.080,
-        "ROW": 0.040
-      },
-      "regionalPricing": {
-        "IT": [
-          {"code": "88.71.4", "description": "Capo e collo", "publicPrice": 36, "privatePrice": 95, "priceRange": "28–250", "deviation": "±35%", "confidence": "A", "sources": 12, "notes": "Tariffa SSN uniforme; ampia offerta privata"},
-          {"code": "88.72.2", "description": "Cardiaca", "publicPrice": 36, "privatePrice": 160, "priceRange": "50–206", "deviation": "±40%", "confidence": "B", "sources": 9, "notes": "Prezzi dipendono da Doppler e struttura"},
-          {"code": "88.73.5", "description": "TSA", "publicPrice": 36, "privatePrice": 140, "priceRange": "40–220", "deviation": "±30%", "confidence": "A", "sources": 8, "notes": "Alta domanda; forte quota privata"},
-          {"code": "88.77.4", "description": "Arti inferiori", "publicPrice": 36, "privatePrice": 130, "priceRange": "25–300", "deviation": "±35%", "confidence": "B", "sources": 10, "notes": "Range ampio; differenze legate a bilateralità"},
-          {"code": "88.77.6", "description": "Arti superiori", "publicPrice": 36, "privatePrice": 120, "priceRange": "25–200", "deviation": "±30%", "confidence": "B", "sources": 8, "notes": "Prezzi simili agli arti inferiori"},
-          {"code": "88.76.3", "description": "Grossi vasi addominali", "publicPrice": 36, "privatePrice": 110, "priceRange": "32–160", "deviation": "±25%", "confidence": "A", "sources": 7, "notes": "Tariffe SSN standardizzate"},
-          {"code": "88.78.2", "description": "Ginecologica", "publicPrice": 36, "privatePrice": 100, "priceRange": "50–200", "deviation": "±30%", "confidence": "A", "sources": 12, "notes": "Ampia offerta privata"},
-          {"code": "88.76.1", "description": "Addome completo", "publicPrice": 36, "privatePrice": 115, "priceRange": "45–255", "deviation": "±35%", "confidence": "A", "sources": 15, "notes": "Tra le più richieste"},
-          {"code": "88.75.1", "description": "Addome inferiore", "publicPrice": 36, "privatePrice": 95, "priceRange": "30–220", "deviation": "±30%", "confidence": "B", "sources": 9, "notes": "Inclusa in pacchetti SSN"},
-          {"code": "88.74.1", "description": "Addome superiore", "publicPrice": 36, "privatePrice": 100, "priceRange": "40–220", "deviation": "±30%", "confidence": "B", "sources": 9, "notes": "Prezzo stabile, media 100€"},
-          {"code": "88.73.1", "description": "Mammella bilaterale", "publicPrice": 36, "privatePrice": 105, "priceRange": "36–220", "deviation": "±35%", "confidence": "A", "sources": 10, "notes": "Prezzo medio privato ~105€"},
-          {"code": "88.73.2", "description": "Mammella monolaterale", "publicPrice": 36, "privatePrice": 85, "priceRange": "30–150", "deviation": "±30%", "confidence": "A", "sources": 10, "notes": "~30% inferiore al bilaterale"},
-          {"code": "88.79.3", "description": "Muscoloscheletrica", "publicPrice": 36, "privatePrice": 90, "priceRange": "28–130", "deviation": "±35%", "confidence": "B", "sources": 8, "notes": "Più frequente in ambito sportivo"},
-          {"code": "88.79.6", "description": "Scrotale", "publicPrice": 36, "privatePrice": 95, "priceRange": "35–250", "deviation": "±30%", "confidence": "A", "sources": 10, "notes": "Range ampio, media 95€"},
-          {"code": "88.79.E", "description": "Doppler scrotale", "publicPrice": 36, "privatePrice": 110, "priceRange": "40–220", "deviation": "±30%", "confidence": "B", "sources": 9, "notes": "Legato alla complessità"}
-        ],
-        "EU": [
-          {"code": "88.71.4", "description": "Capo e collo", "publicPrice": 25, "privatePrice": 100, "priceRange": "50–300", "deviation": "±30%", "confidence": "A", "sources": 15, "notes": "Francia 52–70€, UK 170–340€"},
-          {"code": "88.72.2", "description": "Cardiaca", "publicPrice": 40, "privatePrice": 300, "priceRange": "200–600", "deviation": "±40%", "confidence": "B", "sources": 12, "notes": "DE 130–260€, UK 290–580€"},
-          {"code": "88.73.5", "description": "TSA", "publicPrice": 35, "privatePrice": 250, "priceRange": "150–400", "deviation": "±35%", "confidence": "A", "sources": 10, "notes": "UK 230–460€, media 250€"},
-          {"code": "88.77.4", "description": "Arti inferiori", "publicPrice": 35, "privatePrice": 300, "priceRange": "180–500", "deviation": "±35%", "confidence": "B", "sources": 9, "notes": "Prezzi privati alti in UK"},
-          {"code": "88.77.6", "description": "Arti superiori", "publicPrice": 35, "privatePrice": 250, "priceRange": "150–400", "deviation": "±35%", "confidence": "B", "sources": 8, "notes": "Simile agli arti inferiori"},
-          {"code": "88.76.3", "description": "Grossi vasi addominali", "publicPrice": 25, "privatePrice": 150, "priceRange": "100–300", "deviation": "±25%", "confidence": "A", "sources": 8, "notes": "Francia 52–76€, UK 170–340€"},
-          {"code": "88.78.2", "description": "Ginecologica", "publicPrice": 25, "privatePrice": 200, "priceRange": "150–350", "deviation": "±30%", "confidence": "A", "sources": 12, "notes": "Media UE 200€"},
-          {"code": "88.76.1", "description": "Addome completo", "publicPrice": 25, "privatePrice": 200, "priceRange": "150–350", "deviation": "±30%", "confidence": "A", "sources": 14, "notes": "Francia 54€, UK 170–340€"},
-          {"code": "88.75.1", "description": "Addome inferiore", "publicPrice": 25, "privatePrice": 180, "priceRange": "150–300", "deviation": "±30%", "confidence": "B", "sources": 8, "notes": "Prezzo medio 180€"},
-          {"code": "88.74.1", "description": "Addome superiore", "publicPrice": 25, "privatePrice": 200, "priceRange": "150–350", "deviation": "±30%", "confidence": "B", "sources": 8, "notes": "Prezzo medio 200€"},
-          {"code": "88.73.1", "description": "Mammella bilaterale", "publicPrice": 25, "privatePrice": 200, "priceRange": "150–300", "deviation": "±30%", "confidence": "A", "sources": 10, "notes": "Francia 41–69€, UK 170–340€"},
-          {"code": "88.73.2", "description": "Mammella monolaterale", "publicPrice": 25, "privatePrice": 150, "priceRange": "130–250", "deviation": "±25%", "confidence": "A", "sources": 10, "notes": "~25% inferiore al bilaterale"},
-          {"code": "88.79.3", "description": "Muscoloscheletrica", "publicPrice": 25, "privatePrice": 200, "priceRange": "150–350", "deviation": "±30%", "confidence": "B", "sources": 9, "notes": "UK 170–340€"},
-          {"code": "88.79.6", "description": "Scrotale", "publicPrice": 25, "privatePrice": 180, "priceRange": "150–300", "deviation": "±25%", "confidence": "B", "sources": 9, "notes": "UK 170–340€, media 180€"},
-          {"code": "88.79.E", "description": "Doppler scrotale", "publicPrice": 25, "privatePrice": 250, "priceRange": "180–400", "deviation": "±30%", "confidence": "B", "sources": 9, "notes": "Simile al Doppler carotideo"}
-        ],
-        "US": [
-          {"code": "88.71.4", "description": "Capo e collo", "publicPrice": 0, "privatePrice": 320, "priceRange": "90–550", "deviation": "±45%", "confidence": "B", "sources": 8, "notes": "Varia per assicurazione e sede"},
-          {"code": "88.72.2", "description": "Cardiaca", "publicPrice": 0, "privatePrice": 800, "priceRange": "330–1230", "deviation": "±50%", "confidence": "C", "sources": 10, "notes": "Molto costoso fuori rete"},
-          {"code": "88.73.5", "description": "TSA", "publicPrice": 0, "privatePrice": 260, "priceRange": "140–380", "deviation": "±40%", "confidence": "B", "sources": 7, "notes": "Alta variabilità"},
-          {"code": "88.77.4", "description": "Arti inferiori", "publicPrice": 0, "privatePrice": 400, "priceRange": "220–660", "deviation": "±40%", "confidence": "C", "sources": 8, "notes": "Differenze enormi per tipo e copertura"},
-          {"code": "88.77.6", "description": "Arti superiori", "publicPrice": 0, "privatePrice": 350, "priceRange": "180–600", "deviation": "±40%", "confidence": "C", "sources": 8, "notes": "Simile agli arti inferiori"},
-          {"code": "88.76.3", "description": "Grossi vasi addominali", "publicPrice": 0, "privatePrice": 370, "priceRange": "180–560", "deviation": "±40%", "confidence": "B", "sources": 8, "notes": "Costo medio 370€"},
-          {"code": "88.78.2", "description": "Ginecologica", "publicPrice": 0, "privatePrice": 200, "priceRange": "90–330", "deviation": "±35%", "confidence": "B", "sources": 9, "notes": "Prezzo medio $200"},
-          {"code": "88.76.1", "description": "Addome completo", "publicPrice": 0, "privatePrice": 320, "priceRange": "110–600", "deviation": "±40%", "confidence": "B", "sources": 10, "notes": "Coperto da assicurazioni"},
-          {"code": "88.75.1", "description": "Addome inferiore", "publicPrice": 0, "privatePrice": 250, "priceRange": "45–380", "deviation": "±40%", "confidence": "B", "sources": 7, "notes": "Prezzo medio $250"},
-          {"code": "88.74.1", "description": "Addome superiore", "publicPrice": 0, "privatePrice": 300, "priceRange": "110–600", "deviation": "±35%", "confidence": "B", "sources": 8, "notes": "Media $330"},
-          {"code": "88.73.1", "description": "Mammella bilaterale", "publicPrice": 0, "privatePrice": 350, "priceRange": "140–550", "deviation": "±35%", "confidence": "B", "sources": 8, "notes": "Prezzi simili eco muscolo"},
-          {"code": "88.73.2", "description": "Mammella monolaterale", "publicPrice": 0, "privatePrice": 250, "priceRange": "85–450", "deviation": "±35%", "confidence": "B", "sources": 8, "notes": "~25% inferiore al bilaterale"},
-          {"code": "88.79.3", "description": "Muscoloscheletrica", "publicPrice": 0, "privatePrice": 270, "priceRange": "90–380", "deviation": "±40%", "confidence": "B", "sources": 8, "notes": "Prezzo medio $270"},
-          {"code": "88.79.6", "description": "Scrotale", "publicPrice": 0, "privatePrice": 270, "priceRange": "85–450", "deviation": "±35%", "confidence": "B", "sources": 7, "notes": "Prezzo medio $270"},
-          {"code": "88.79.E", "description": "Doppler scrotale", "publicPrice": 0, "privatePrice": 300, "priceRange": "100–500", "deviation": "±40%", "confidence": "C", "sources": 7, "notes": "Prezzo medio $300"}
-        ],
-        "CN": [
-          {"code": "88.71.4", "description": "Capo e collo", "publicPrice": 5, "privatePrice": 25, "priceRange": "10–45", "deviation": "±25%", "confidence": "B", "sources": 6, "notes": "Prezzo urbano ~20€, rurale ~10€"},
-          {"code": "88.72.2", "description": "Cardiaca", "publicPrice": 10, "privatePrice": 40, "priceRange": "20–75", "deviation": "±30%", "confidence": "B", "sources": 6, "notes": "Prezzo tipico 45–75€"},
-          {"code": "88.73.5", "description": "TSA", "publicPrice": 8, "privatePrice": 40, "priceRange": "15–75", "deviation": "±30%", "confidence": "B", "sources": 5, "notes": "Variabilità urbana/rurale"},
-          {"code": "88.77.4", "description": "Arti inferiori", "publicPrice": 8, "privatePrice": 45, "priceRange": "20–75", "deviation": "±30%", "confidence": "B", "sources": 5, "notes": "Cresce nelle metropoli"},
-          {"code": "88.77.6", "description": "Arti superiori", "publicPrice": 8, "privatePrice": 40, "priceRange": "15–70", "deviation": "±25%", "confidence": "B", "sources": 5, "notes": "Range simile arti inferiori"},
-          {"code": "88.76.3", "description": "Grossi vasi addominali", "publicPrice": 8, "privatePrice": 35, "priceRange": "15–65", "deviation": "±25%", "confidence": "B", "sources": 5, "notes": "Ampia offerta pubblica"},
-          {"code": "88.78.2", "description": "Ginecologica", "publicPrice": 5, "privatePrice": 30, "priceRange": "13–45", "deviation": "±25%", "confidence": "A", "sources": 7, "notes": "Altissima frequenza d'uso"},
-          {"code": "88.76.1", "description": "Addome completo", "publicPrice": 8, "privatePrice": 35, "priceRange": "13–45", "deviation": "±25%", "confidence": "A", "sources": 7, "notes": "Esame di base"},
-          {"code": "88.75.1", "description": "Addome inferiore", "publicPrice": 8, "privatePrice": 30, "priceRange": "13–45", "deviation": "±25%", "confidence": "B", "sources": 5, "notes": "Simile addome completo"},
-          {"code": "88.74.1", "description": "Addome superiore", "publicPrice": 8, "privatePrice": 35, "priceRange": "13–45", "deviation": "±25%", "confidence": "B", "sources": 5, "notes": "Costo medio urbano ~30–40€"},
-          {"code": "88.73.1", "description": "Mammella bilaterale", "publicPrice": 8, "privatePrice": 35, "priceRange": "13–45", "deviation": "±25%", "confidence": "B", "sources": 5, "notes": "Simile all'addome"},
-          {"code": "88.73.2", "description": "Mammella monolaterale", "publicPrice": 8, "privatePrice": 25, "priceRange": "10–35", "deviation": "±25%", "confidence": "B", "sources": 5, "notes": "~25% inferiore al bilaterale"},
-          {"code": "88.79.3", "description": "Muscoloscheletrica", "publicPrice": 8, "privatePrice": 35, "priceRange": "13–45", "deviation": "±25%", "confidence": "B", "sources": 5, "notes": "Prezzi contenuti"},
-          {"code": "88.79.6", "description": "Scrotale", "publicPrice": 8, "privatePrice": 35, "priceRange": "13–45", "deviation": "±25%", "confidence": "B", "sources": 5, "notes": "Prezzo ospedaliero 30–40€"},
-          {"code": "88.79.E", "description": "Doppler scrotale", "publicPrice": 8, "privatePrice": 40, "priceRange": "15–50", "deviation": "±25%", "confidence": "B", "sources": 5, "notes": "Sovrapprezzo per Doppler"}
-        ],
-        "ROW": [
-          {"code": "88.71.4", "description": "Capo e collo", "publicPrice": 20, "privatePrice": 70, "priceRange": "10–800", "deviation": "±50%", "confidence": "C", "sources": 10, "notes": "Varia enormemente tra regioni"},
-          {"code": "88.72.2", "description": "Cardiaca", "publicPrice": 25, "privatePrice": 100, "priceRange": "40–1800", "deviation": "±60%", "confidence": "C", "sources": 10, "notes": "Prezzi estremi in USA"},
-          {"code": "88.73.5", "description": "TSA", "publicPrice": 20, "privatePrice": 80, "priceRange": "40–800", "deviation": "±55%", "confidence": "C", "sources": 9, "notes": "Ampia dispersione"},
-          {"code": "88.77.4", "description": "Arti inferiori", "publicPrice": 20, "privatePrice": 90, "priceRange": "40–900", "deviation": "±60%", "confidence": "C", "sources": 9, "notes": "Bassi in Asia, alti in USA"},
-          {"code": "88.77.6", "description": "Arti superiori", "publicPrice": 20, "privatePrice": 80, "priceRange": "40–800", "deviation": "±55%", "confidence": "C", "sources": 9, "notes": "Simile arti inferiori"},
-          {"code": "88.76.3", "description": "Grossi vasi addominali", "publicPrice": 20, "privatePrice": 70, "priceRange": "40–800", "deviation": "±55%", "confidence": "C", "sources": 8, "notes": "Media globale 70€"},
-          {"code": "88.78.2", "description": "Ginecologica", "publicPrice": 20, "privatePrice": 60, "priceRange": "10–500", "deviation": "±45%", "confidence": "B", "sources": 10, "notes": "Spesso gratuiti nei sistemi pubblici"},
-          {"code": "88.76.1", "description": "Addome completo", "publicPrice": 20, "privatePrice": 70, "priceRange": "10–700", "deviation": "±55%", "confidence": "C", "sources": 11, "notes": "Esame più comune al mondo"},
-          {"code": "88.75.1", "description": "Addome inferiore", "publicPrice": 20, "privatePrice": 60, "priceRange": "10–500", "deviation": "±50%", "confidence": "C", "sources": 9, "notes": "Simile addome completo"},
-          {"code": "88.74.1", "description": "Addome superiore", "publicPrice": 20, "privatePrice": 70, "priceRange": "10–700", "deviation": "±55%", "confidence": "C", "sources": 9, "notes": "Media globale 70€"},
-          {"code": "88.73.1", "description": "Mammella bilaterale", "publicPrice": 20, "privatePrice": 70, "priceRange": "10–500", "deviation": "±50%", "confidence": "C", "sources": 8, "notes": "Screening gratuito in molti paesi"},
-          {"code": "88.73.2", "description": "Mammella monolaterale", "publicPrice": 20, "privatePrice": 60, "priceRange": "10–400", "deviation": "±45%", "confidence": "C", "sources": 8, "notes": "~20% inferiore al bilaterale"},
-          {"code": "88.79.3", "description": "Muscoloscheletrica", "publicPrice": 20, "privatePrice": 65, "priceRange": "10–500", "deviation": "±50%", "confidence": "C", "sources": 8, "notes": "Prezzi molto variabili"},
-          {"code": "88.79.6", "description": "Scrotale", "publicPrice": 20, "privatePrice": 65, "priceRange": "10–500", "deviation": "±50%", "confidence": "C", "sources": 8, "notes": "Media globale 65€"},
-          {"code": "88.79.E", "description": "Doppler scrotale", "publicPrice": 20, "privatePrice": 75, "priceRange": "10–600", "deviation": "±55%", "confidence": "C", "sources": 8, "notes": "Prezzi molto eterogenei"}
-        ]
-      }
-    },
-    "devices": {
-      "description": "Mercato ecografi - modello vendita dispositivi + base installata",
-      "year": 2025,
-      "regions": ["IT", "EU", "US", "CN", "ROW"],
-      "typologySplit": {
-        "cart": 0.45,
-        "portable": 0.35,
-        "handheld": 0.20
-      },
-      "unitSales": {
-        "IT": 1200,
-        "EU": 4500,
-        "US": 8500,
-        "CN": 12000,
-        "ROW": 3800
-      },
-      "installedBase": {
-        "IT": 12000,
-        "EU": 48000,
-        "US": 95000,
-        "CN": 110000,
-        "ROW": 35000
-      },
-      "asp": {
-        "cart": 45000,
-        "portable": 28000,
-        "handheld": 8500
-      },
-      "unitCost": {
-        "cart": 22500,
-        "portable": 14000,
-        "handheld": 4250
-      },
-      "replacementCycle": {
-        "cart": 8,
-        "portable": 6,
-        "handheld": 4
-      },
-      "growthRate": {
-        "IT": 0.020,
-        "EU": 0.025,
-        "US": 0.030,
-        "CN": 0.065,
-        "ROW": 0.035
-      }
-    },
-    "tamSamSom": {
-      "description": "Calcoli TAM/SAM/SOM automatici basati su procedures e devices",
-      "assumptions": {
-        "serviceable": {
-          "procedures": 0.35,
-          "devices": 0.25
-        },
-        "obtainable": {
-          "year1": 0.001,
-          "year3": 0.005,
-          "year5": 0.015
-        }
-      },
-      "notes": [
-        "TAM = Total Addressable Market (mercato totale teorico)",
-        "SAM = Serviceable Available Market (mercato raggiungibile con il modello di business)",
-        "SOM = Serviceable Obtainable Market (quota realistica nei primi 5 anni)"
       ]
     }
   },
@@ -1153,13 +967,10 @@
                 "categoryId": "cat_1",
                 "values": {
                   "tot_all": 30,
-                  "q1_25": 21,
+                  "q1_25": 11,
                   "q2_25": 8,
-                  "q3_25": 24,
-                  "tot_25": 30,
-                  "q4_2025": 4,
-                  "q1_26": 1,
-                  "q2_26": 1
+                  "q3_25": 8,
+                  "tot_25": 30
                 },
                 "formula": null,
                 "note": null,
@@ -1168,7 +979,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010022",
-                "lastModified": "2025-10-08T13:26:31.107Z"
+                "lastModified": "2025-10-06T22:41:03.338Z"
               },
               {
                 "id": "item_3",
@@ -1182,8 +993,7 @@
                   "q1_25": 3.67,
                   "q2_25": 6.67,
                   "q3_25": 6.67,
-                  "tot_25": 20.01,
-                  "q4_2025": 0
+                  "tot_25": 20.01
                 },
                 "formula": null,
                 "note": null,
@@ -1192,7 +1002,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010026",
-                "lastModified": "2025-10-07T11:18:46.043Z"
+                "lastModified": "2025-10-06T22:40:56.836Z"
               },
               {
                 "id": "item_4",
@@ -1202,12 +1012,10 @@
                 "parentId": "subcat_1_1",
                 "categoryId": "cat_1",
                 "values": {
-                  "q1_25": 2.67,
+                  "q1_25": -0.33,
                   "q2_25": 1.67,
-                  "q3_25": 5.67,
-                  "tot_25": 7.01,
-                  "q4_2025": 4,
-                  "q1_26": 0
+                  "q3_25": 1.67,
+                  "tot_25": 5.01
                 },
                 "formula": null,
                 "note": null,
@@ -1216,7 +1024,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010029",
-                "lastModified": "2025-10-07T11:29:51.955Z"
+                "lastModified": "2025-10-06T22:40:58.888Z"
               },
               {
                 "id": "item_5",
@@ -1227,12 +1035,10 @@
                 "categoryId": "cat_1",
                 "values": {
                   "tot_all": 5,
-                  "q1_25": 4.67,
+                  "q1_25": 1.67,
                   "q2_25": 1.67,
                   "q3_25": 1.67,
-                  "tot_25": 5.01,
-                  "q4_2025": 1,
-                  "q1_27": 5
+                  "tot_25": 5.01
                 },
                 "formula": null,
                 "note": null,
@@ -1241,7 +1047,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010033",
-                "lastModified": "2025-10-07T15:29:55.881Z"
+                "lastModified": "2025-10-06T22:49:03.010034"
               },
               {
                 "id": "item_6",
@@ -1251,15 +1057,11 @@
                 "parentId": "subcat_1_1",
                 "categoryId": "cat_1",
                 "values": {
-                  "q4_2025": 9,
+                  "q4_2025": 5,
                   "q1_26": 8,
                   "q2_26": 8,
                   "tot_26": 16,
-                  "tot_all": 21,
-                  "q2_25": 2,
-                  "q1_25": 3,
-                  "q3_25": 4,
-                  "tot_25": 3
+                  "tot_all": 21
                 },
                 "formula": null,
                 "note": null,
@@ -1268,7 +1070,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010039",
-                "lastModified": "2025-10-07T12:18:28.872Z"
+                "lastModified": "2025-10-06T22:49:03.010040"
               }
             ],
             "isExpanded": true
@@ -1289,13 +1091,10 @@
                 "parentId": "subcat_1_2",
                 "categoryId": "cat_1",
                 "values": {
-                  "q1_26": 15,
+                  "q1_26": 12,
                   "q2_26": 12,
                   "tot_26": 24,
-                  "tot_all": 24,
-                  "q2_25": 3,
-                  "q3_25": 3,
-                  "q4_2025": 4
+                  "tot_all": 24
                 },
                 "formula": "=3*1000/MESE",
                 "note": null,
@@ -1304,7 +1103,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010047",
-                "lastModified": "2025-10-07T12:19:05.417Z"
+                "lastModified": "2025-10-06T22:49:03.010048"
               }
             ],
             "isExpanded": true
@@ -1331,9 +1130,7 @@
                   "q3_26": 27,
                   "q4_26": 27,
                   "tot_26": 108,
-                  "tot_all": 117,
-                  "q1_25": 4,
-                  "q3_25": 10
+                  "tot_all": 117
                 },
                 "formula": "=3*3000/MESE",
                 "note": null,
@@ -1342,7 +1139,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010056",
-                "lastModified": "2025-10-07T14:52:56.194Z"
+                "lastModified": "2025-10-06T22:49:03.010057"
               }
             ],
             "isExpanded": true
@@ -1368,9 +1165,7 @@
                   "q3_26": 12,
                   "q4_26": 12,
                   "tot_26": 48,
-                  "tot_all": 48,
-                  "q3_25": 6,
-                  "q1_27": 3
+                  "tot_all": 48
                 },
                 "formula": "=3*1000/MESE",
                 "note": null,
@@ -1379,7 +1174,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010065",
-                "lastModified": "2025-10-07T15:29:50.300Z"
+                "lastModified": "2025-10-06T22:49:03.010066"
               }
             ],
             "isExpanded": true
@@ -1400,18 +1195,17 @@
                 "parentId": "subcat_1_5",
                 "categoryId": "cat_1",
                 "values": {
-                  "q4_2025": 21,
-                  "q1_26": 67,
+                  "q4_2025": 19,
+                  "q1_26": 64,
                   "q2_26": 64,
                   "q3_26": 44,
                   "q4_26": 44,
                   "tot_26": 216,
                   "tot_all": 290,
-                  "q1_25": 22,
+                  "q1_25": 20,
                   "q2_25": 20,
                   "q3_25": 20,
-                  "tot_25": 79,
-                  "q2_27": 2
+                  "tot_25": 79
                 },
                 "formula": null,
                 "note": null,
@@ -1420,7 +1214,7 @@
                 "isEditable": false,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010078",
-                "lastModified": "2025-10-07T12:50:35.180Z"
+                "lastModified": "2025-10-06T22:49:03.010079"
               }
             ],
             "isExpanded": true
@@ -1486,13 +1280,9 @@
                   "q1_26": 3,
                   "q2_26": 3,
                   "q3_26": 3,
-                  "q4_26": 0,
+                  "q4_26": 3,
                   "tot_26": 12,
-                  "tot_all": 12,
-                  "q1_25": 3,
-                  "q3_25": 2,
-                  "q2_25": 2,
-                  "q1_27": 0
+                  "tot_all": 12
                 },
                 "formula": "=1*1000/MESE",
                 "note": null,
@@ -1501,7 +1291,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010092",
-                "lastModified": "2025-10-07T15:00:26.044Z"
+                "lastModified": "2025-10-06T22:49:03.010093"
               },
               {
                 "id": "item_18",
@@ -1516,8 +1306,7 @@
                   "q3_26": 3,
                   "q4_26": 3,
                   "tot_26": 12,
-                  "tot_all": 12,
-                  "q3_25": 5
+                  "tot_all": 12
                 },
                 "formula": "=1*1000/MESE",
                 "note": null,
@@ -1526,7 +1315,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010098",
-                "lastModified": "2025-10-07T14:59:00.111Z"
+                "lastModified": "2025-10-06T22:49:03.010098"
               }
             ],
             "isExpanded": true
@@ -1552,9 +1341,7 @@
                   "q3_26": 3,
                   "q4_26": 3,
                   "tot_26": 12,
-                  "tot_all": 12,
-                  "q4_2025": 4,
-                  "q3_25": 2
+                  "tot_all": 12
                 },
                 "formula": "=1*1000/MESE",
                 "note": null,
@@ -1563,7 +1350,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010108",
-                "lastModified": "2025-10-07T12:44:15.252Z"
+                "lastModified": "2025-10-06T22:49:03.010109"
               }
             ],
             "isExpanded": true
@@ -1600,10 +1387,7 @@
                   "q1_27": 60,
                   "q2_27": 60,
                   "tot_27": 120,
-                  "tot_all": 240,
-                  "q1_26": 2,
-                  "q3_25": 1,
-                  "q2_26": 2
+                  "tot_all": 240
                 },
                 "formula": 30,
                 "note": null,
@@ -1612,7 +1396,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010124",
-                "lastModified": "2025-10-07T13:46:24.283Z"
+                "lastModified": "2025-10-06T22:49:03.010125"
               }
             ],
             "isExpanded": true
@@ -1639,9 +1423,7 @@
                   "q1_27": 10,
                   "q2_27": 10,
                   "tot_27": 20,
-                  "tot_all": 40,
-                  "q2_26": 3,
-                  "q3_25": 1
+                  "tot_all": 40
                 },
                 "formula": null,
                 "note": null,
@@ -1650,7 +1432,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010133",
-                "lastModified": "2025-10-07T13:46:45.725Z"
+                "lastModified": "2025-10-06T22:49:03.010134"
               }
             ],
             "isExpanded": true
@@ -1679,8 +1461,7 @@
                   "q3_27": 3,
                   "q4_27": 3,
                   "tot_27": 12,
-                  "tot_all": 18,
-                  "q3_25": 2
+                  "tot_all": 18
                 },
                 "formula": null,
                 "note": null,
@@ -1689,7 +1470,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010143",
-                "lastModified": "2025-10-07T13:54:02.397Z"
+                "lastModified": "2025-10-06T22:49:03.010144"
               }
             ],
             "isExpanded": true
@@ -1807,8 +1588,7 @@
                   "q3_28": 10,
                   "q4_28": 10,
                   "tot_28": 40,
-                  "tot_all": 40,
-                  "q3_25": 1
+                  "tot_all": 40
                 },
                 "formula": null,
                 "note": null,
@@ -1817,7 +1597,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010178",
-                "lastModified": "2025-10-07T13:54:38.005Z"
+                "lastModified": "2025-10-06T22:41:44.321Z"
               }
             ],
             "isExpanded": true
@@ -1845,10 +1625,7 @@
                   "q3_28": 100,
                   "q4_28": 100,
                   "tot_28": 400,
-                  "tot_all": 500,
-                  "q2_25": 1,
-                  "q3_25": 1,
-                  "q1_26": 1
+                  "tot_all": 500
                 },
                 "formula": null,
                 "note": null,
@@ -1857,7 +1634,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010190",
-                "lastModified": "2025-10-07T13:58:24.820Z"
+                "lastModified": "2025-10-06T22:49:03.010190"
               }
             ],
             "isExpanded": true
@@ -1938,8 +1715,7 @@
                   "q3_28": 145,
                   "q4_28": 145,
                   "tot_28": 580,
-                  "tot_all": 680,
-                  "q4_2025": 2
+                  "tot_all": 680
                 },
                 "formula": null,
                 "note": null,
@@ -1948,7 +1724,7 @@
                 "isEditable": false,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010222",
-                "lastModified": "2025-10-07T12:33:32.063Z"
+                "lastModified": "2025-10-06T22:49:03.010223"
               }
             ],
             "isExpanded": true
@@ -2157,9 +1933,7 @@
                 "level": 4,
                 "parentId": "subcat_5_4",
                 "categoryId": "cat_5",
-                "values": {
-                  "q1_25": 2
-                },
+                "values": {},
                 "formula": null,
                 "note": null,
                 "isCategory": false,
@@ -2167,7 +1941,7 @@
                 "isEditable": false,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010375",
-                "lastModified": "2025-10-07T12:34:59.927Z"
+                "lastModified": "2025-10-06T22:49:03.010375"
               }
             ],
             "isExpanded": true
@@ -2455,13 +2229,10 @@
         "categoryId": "cat_1",
         "values": {
           "tot_all": 30,
-          "q1_25": 21,
+          "q1_25": 11,
           "q2_25": 8,
-          "q3_25": 24,
-          "tot_25": 30,
-          "q4_2025": 4,
-          "q1_26": 1,
-          "q2_26": 1
+          "q3_25": 8,
+          "tot_25": 30
         },
         "formula": null,
         "note": null,
@@ -2470,7 +2241,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010022",
-        "lastModified": "2025-10-08T13:26:31.107Z"
+        "lastModified": "2025-10-06T22:41:03.338Z"
       },
       {
         "id": "item_3",
@@ -2484,8 +2255,7 @@
           "q1_25": 3.67,
           "q2_25": 6.67,
           "q3_25": 6.67,
-          "tot_25": 20.01,
-          "q4_2025": 0
+          "tot_25": 20.01
         },
         "formula": null,
         "note": null,
@@ -2494,7 +2264,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010026",
-        "lastModified": "2025-10-07T11:18:46.043Z"
+        "lastModified": "2025-10-06T22:40:56.836Z"
       },
       {
         "id": "item_4",
@@ -2504,12 +2274,10 @@
         "parentId": "subcat_1_1",
         "categoryId": "cat_1",
         "values": {
-          "q1_25": 2.67,
+          "q1_25": -0.33,
           "q2_25": 1.67,
-          "q3_25": 5.67,
-          "tot_25": 7.01,
-          "q4_2025": 4,
-          "q1_26": 0
+          "q3_25": 1.67,
+          "tot_25": 5.01
         },
         "formula": null,
         "note": null,
@@ -2518,7 +2286,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010029",
-        "lastModified": "2025-10-07T11:29:51.955Z"
+        "lastModified": "2025-10-06T22:40:58.888Z"
       },
       {
         "id": "item_5",
@@ -2529,12 +2297,10 @@
         "categoryId": "cat_1",
         "values": {
           "tot_all": 5,
-          "q1_25": 4.67,
+          "q1_25": 1.67,
           "q2_25": 1.67,
           "q3_25": 1.67,
-          "tot_25": 5.01,
-          "q4_2025": 1,
-          "q1_27": 5
+          "tot_25": 5.01
         },
         "formula": null,
         "note": null,
@@ -2543,7 +2309,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010033",
-        "lastModified": "2025-10-07T15:29:55.881Z"
+        "lastModified": "2025-10-06T22:49:03.010034"
       },
       {
         "id": "item_6",
@@ -2553,15 +2319,11 @@
         "parentId": "subcat_1_1",
         "categoryId": "cat_1",
         "values": {
-          "q4_2025": 9,
+          "q4_2025": 5,
           "q1_26": 8,
           "q2_26": 8,
           "tot_26": 16,
-          "tot_all": 21,
-          "q2_25": 2,
-          "q1_25": 3,
-          "q3_25": 4,
-          "tot_25": 3
+          "tot_all": 21
         },
         "formula": null,
         "note": null,
@@ -2570,7 +2332,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010039",
-        "lastModified": "2025-10-07T12:18:28.872Z"
+        "lastModified": "2025-10-06T22:49:03.010040"
       },
       {
         "id": "item_7",
@@ -2597,13 +2359,10 @@
         "parentId": "subcat_1_2",
         "categoryId": "cat_1",
         "values": {
-          "q1_26": 15,
+          "q1_26": 12,
           "q2_26": 12,
           "tot_26": 24,
-          "tot_all": 24,
-          "q2_25": 3,
-          "q3_25": 3,
-          "q4_2025": 4
+          "tot_all": 24
         },
         "formula": "=3*1000/MESE",
         "note": null,
@@ -2612,7 +2371,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010047",
-        "lastModified": "2025-10-07T12:19:05.417Z"
+        "lastModified": "2025-10-06T22:49:03.010048"
       },
       {
         "id": "item_9",
@@ -2645,9 +2404,7 @@
           "q3_26": 27,
           "q4_26": 27,
           "tot_26": 108,
-          "tot_all": 117,
-          "q1_25": 4,
-          "q3_25": 10
+          "tot_all": 117
         },
         "formula": "=3*3000/MESE",
         "note": null,
@@ -2656,7 +2413,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010056",
-        "lastModified": "2025-10-07T14:52:56.194Z"
+        "lastModified": "2025-10-06T22:49:03.010057"
       },
       {
         "id": "item_11",
@@ -2688,9 +2445,7 @@
           "q3_26": 12,
           "q4_26": 12,
           "tot_26": 48,
-          "tot_all": 48,
-          "q3_25": 6,
-          "q1_27": 3
+          "tot_all": 48
         },
         "formula": "=3*1000/MESE",
         "note": null,
@@ -2699,7 +2454,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010065",
-        "lastModified": "2025-10-07T15:29:50.300Z"
+        "lastModified": "2025-10-06T22:49:03.010066"
       },
       {
         "id": "item_13",
@@ -2734,18 +2489,17 @@
         "parentId": "subcat_1_5",
         "categoryId": "cat_1",
         "values": {
-          "q4_2025": 21,
-          "q1_26": 67,
+          "q4_2025": 19,
+          "q1_26": 64,
           "q2_26": 64,
           "q3_26": 44,
           "q4_26": 44,
           "tot_26": 216,
           "tot_all": 290,
-          "q1_25": 22,
+          "q1_25": 20,
           "q2_25": 20,
           "q3_25": 20,
-          "tot_25": 79,
-          "q2_27": 2
+          "tot_25": 79
         },
         "formula": null,
         "note": null,
@@ -2754,7 +2508,7 @@
         "isEditable": false,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010078",
-        "lastModified": "2025-10-07T12:50:35.180Z"
+        "lastModified": "2025-10-06T22:49:03.010079"
       },
       {
         "id": "item_15",
@@ -2801,13 +2555,9 @@
           "q1_26": 3,
           "q2_26": 3,
           "q3_26": 3,
-          "q4_26": 0,
+          "q4_26": 3,
           "tot_26": 12,
-          "tot_all": 12,
-          "q1_25": 3,
-          "q3_25": 2,
-          "q2_25": 2,
-          "q1_27": 0
+          "tot_all": 12
         },
         "formula": "=1*1000/MESE",
         "note": null,
@@ -2816,7 +2566,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010092",
-        "lastModified": "2025-10-07T15:00:26.044Z"
+        "lastModified": "2025-10-06T22:49:03.010093"
       },
       {
         "id": "item_18",
@@ -2831,8 +2581,7 @@
           "q3_26": 3,
           "q4_26": 3,
           "tot_26": 12,
-          "tot_all": 12,
-          "q3_25": 5
+          "tot_all": 12
         },
         "formula": "=1*1000/MESE",
         "note": null,
@@ -2841,7 +2590,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010098",
-        "lastModified": "2025-10-07T14:59:00.111Z"
+        "lastModified": "2025-10-06T22:49:03.010098"
       },
       {
         "id": "item_19",
@@ -2875,9 +2624,7 @@
           "q3_26": 3,
           "q4_26": 3,
           "tot_26": 12,
-          "tot_all": 12,
-          "q4_2025": 4,
-          "q3_25": 2
+          "tot_all": 12
         },
         "formula": "=1*1000/MESE",
         "note": null,
@@ -2886,7 +2633,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010108",
-        "lastModified": "2025-10-07T12:44:15.252Z"
+        "lastModified": "2025-10-06T22:49:03.010109"
       },
       {
         "id": "item_21",
@@ -2943,10 +2690,7 @@
           "q1_27": 60,
           "q2_27": 60,
           "tot_27": 120,
-          "tot_all": 240,
-          "q1_26": 2,
-          "q3_25": 1,
-          "q2_26": 2
+          "tot_all": 240
         },
         "formula": 30,
         "note": null,
@@ -2955,7 +2699,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010124",
-        "lastModified": "2025-10-07T13:46:24.283Z"
+        "lastModified": "2025-10-06T22:49:03.010125"
       },
       {
         "id": "item_24",
@@ -2988,9 +2732,7 @@
           "q1_27": 10,
           "q2_27": 10,
           "tot_27": 20,
-          "tot_all": 40,
-          "q2_26": 3,
-          "q3_25": 1
+          "tot_all": 40
         },
         "formula": null,
         "note": null,
@@ -2999,7 +2741,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010133",
-        "lastModified": "2025-10-07T13:46:45.725Z"
+        "lastModified": "2025-10-06T22:49:03.010134"
       },
       {
         "id": "item_26",
@@ -3034,8 +2776,7 @@
           "q3_27": 3,
           "q4_27": 3,
           "tot_27": 12,
-          "tot_all": 18,
-          "q3_25": 2
+          "tot_all": 18
         },
         "formula": null,
         "note": null,
@@ -3044,7 +2785,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010143",
-        "lastModified": "2025-10-07T13:54:02.397Z"
+        "lastModified": "2025-10-06T22:49:03.010144"
       },
       {
         "id": "item_28",
@@ -3154,8 +2895,7 @@
           "q3_28": 10,
           "q4_28": 10,
           "tot_28": 40,
-          "tot_all": 40,
-          "q3_25": 1
+          "tot_all": 40
         },
         "formula": null,
         "note": null,
@@ -3164,7 +2904,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010178",
-        "lastModified": "2025-10-07T13:54:38.005Z"
+        "lastModified": "2025-10-06T22:41:44.321Z"
       },
       {
         "id": "item_33",
@@ -3200,10 +2940,7 @@
           "q3_28": 100,
           "q4_28": 100,
           "tot_28": 400,
-          "tot_all": 500,
-          "q2_25": 1,
-          "q3_25": 1,
-          "q1_26": 1
+          "tot_all": 500
         },
         "formula": null,
         "note": null,
@@ -3212,7 +2949,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010190",
-        "lastModified": "2025-10-07T13:58:24.820Z"
+        "lastModified": "2025-10-06T22:49:03.010190"
       },
       {
         "id": "item_35",
@@ -3321,8 +3058,7 @@
           "q3_28": 145,
           "q4_28": 145,
           "tot_28": 580,
-          "tot_all": 680,
-          "q4_2025": 2
+          "tot_all": 680
         },
         "formula": null,
         "note": null,
@@ -3331,7 +3067,7 @@
         "isEditable": false,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010222",
-        "lastModified": "2025-10-07T12:33:32.063Z"
+        "lastModified": "2025-10-06T22:49:03.010223"
       },
       {
         "id": "item_40",
@@ -3824,9 +3560,7 @@
         "level": 4,
         "parentId": "subcat_5_4",
         "categoryId": "cat_5",
-        "values": {
-          "q1_25": 2
-        },
+        "values": {},
         "formula": null,
         "note": null,
         "isCategory": false,
@@ -3834,7 +3568,7 @@
         "isEditable": false,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010375",
-        "lastModified": "2025-10-07T12:34:59.927Z"
+        "lastModified": "2025-10-06T22:49:03.010375"
       },
       {
         "id": "item_59",
