@@ -17,7 +17,6 @@ import {
 interface ProcedurePricing {
   code: string;
   description: string;
-  aggredibile: boolean;
   publicPrice: number;
   privatePrice: number;
   priceRange: string;
@@ -25,6 +24,28 @@ interface ProcedurePricing {
   confidence: string;
   sources: number;
   notes: string;
+}
+
+interface PrestazioneITA {
+  codice: string;
+  nome: string;
+  U: number;
+  B: number;
+  D: number;
+  P: number;
+  percentualeExtraSSN: number;
+  aggredibile: boolean;
+  note: string;
+}
+
+interface MercatoEcografie {
+  italia: {
+    annoRiferimento: number;
+    percentualeExtraSSN: number;
+    note: string;
+    prestazioni: PrestazioneITA[];
+  };
+  regioniMondiali: any;
 }
 
 interface MarketData {
@@ -72,6 +93,7 @@ interface MarketData {
 
 export function TamSamSomDashboard() {
   const [marketData, setMarketData] = useState<MarketData | null>(null);
+  const [mercatoEcografie, setMercatoEcografie] = useState<MercatoEcografie | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeView, setActiveView] = useState<'procedures' | 'devices'>('procedures');
   const [selectedRegion, setSelectedRegion] = useState('IT');
@@ -87,6 +109,7 @@ export function TamSamSomDashboard() {
       const response = await fetch('/data/database.json');
       const database = await response.json();
       setMarketData(database.market);
+      setMercatoEcografie(database.mercatoEcografie);
       // Load initial SAM percentage from data
       setSamPercentage(database.market.tamSamSom.assumptions.serviceable.procedures * 100);
       setLoading(false);
@@ -96,21 +119,25 @@ export function TamSamSomDashboard() {
     }
   }
 
-  // Funzione per modificare aggredibilità procedura
+  // Funzione per modificare aggredibilità procedura (modifica mercatoEcografie)
   function toggleAggredibile(code: string) {
-    if (!marketData) return;
+    if (!mercatoEcografie) return;
     
-    const newData = { ...marketData };
-    const procedures = newData.procedures.regionalPricing?.[selectedRegion];
+    const newData = { ...mercatoEcografie };
+    const prestazione = newData.italia.prestazioni.find(p => p.codice === code);
     
-    if (procedures) {
-      const proc = procedures.find(p => p.code === code);
-      if (proc) {
-        proc.aggredibile = !proc.aggredibile;
-        setMarketData(newData);
-        setHasChanges(true);
-      }
+    if (prestazione) {
+      prestazione.aggredibile = !prestazione.aggredibile;
+      setMercatoEcografie(newData);
+      setHasChanges(true);
     }
+  }
+
+  // Helper: ottieni stato aggredibile da mercatoEcografie per codice
+  function isAggredibile(code: string): boolean {
+    if (!mercatoEcografie) return false;
+    const prestazione = mercatoEcografie.italia.prestazioni.find(p => p.codice === code);
+    return prestazione?.aggredibile || false;
   }
 
   // Funzione per salvare le modifiche
@@ -139,20 +166,27 @@ export function TamSamSomDashboard() {
     );
   }
 
-  // Calcolo TAM - SOLO procedure aggredibili
+  // Calcolo TAM - SOLO procedure aggredibili da mercatoEcografie
   const calculateTAM = () => {
     if (activeView === 'procedures') {
+      if (!mercatoEcografie) return 0;
+      
       let totalTAM = 0;
       
       marketData.procedures.regions.forEach(region => {
         const procedures = marketData.procedures.regionalPricing?.[region] || [];
-        const aggredibili = procedures.filter(p => p.aggredibile);
         
-        if (aggredibili.length > 0) {
-          const avgPrice = aggredibili.reduce((sum, p) => sum + p.privatePrice, 0) / aggredibili.length;
-          const volumeForRegion = (marketData.procedures.volumes[region] || 0) * (aggredibili.length / procedures.length);
-          totalTAM += volumeForRegion * avgPrice;
+        // Filtra solo procedure aggredibili usando mercatoEcografie come fonte
+        const aggredibili = procedures.filter(p => isAggredibile(p.code));
+        
+        if (aggredibili.length === 0) {
+          // Se nessuna procedura aggredibile, TAM per questa regione = 0
+          return;
         }
+        
+        const avgPrice = aggredibili.reduce((sum, p) => sum + p.privatePrice, 0) / aggredibili.length;
+        const volumeForRegion = (marketData.procedures.volumes[region] || 0) * (aggredibili.length / procedures.length);
+        totalTAM += volumeForRegion * avgPrice;
       });
       
       return totalTAM;
@@ -395,23 +429,25 @@ export function TamSamSomDashboard() {
                   </tr>
                 </thead>
                 <tbody>
-                  {(marketData.procedures.regionalPricing?.[selectedRegion] || []).map((proc: ProcedurePricing, idx: number) => (
-                    <tr key={proc.code} className={`${idx % 2 === 0 ? 'bg-white' : 'bg-gray-50'} ${proc.aggredibile ? 'border-l-4 border-green-500' : ''}`}>
+                  {(marketData.procedures.regionalPricing?.[selectedRegion] || []).map((proc: ProcedurePricing, idx: number) => {
+                    const aggredibile = isAggredibile(proc.code);
+                    return (
+                    <tr key={proc.code} className={`${idx % 2 === 0 ? 'bg-white' : 'bg-gray-50'} ${aggredibile ? 'border-l-4 border-green-500' : ''}`}>
                       <td className="px-3 py-2 text-center">
                         <input
                           type="checkbox"
-                          checked={proc.aggredibile}
+                          checked={aggredibile}
                           onChange={() => toggleAggredibile(proc.code)}
                           className="w-5 h-5 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 cursor-pointer"
-                          title={proc.aggredibile ? 'Prestazione aggredibile - usata nel calcolo TAM' : 'Non aggredibile - esclusa dal calcolo TAM'}
+                          title={aggredibile ? 'Prestazione aggredibile - usata nel calcolo TAM' : 'Non aggredibile - esclusa dal calcolo TAM'}
                         />
                       </td>
                       <td className="px-3 py-2 font-mono text-xs text-gray-600">{proc.code}</td>
-                      <td className={`px-3 py-2 font-medium ${proc.aggredibile ? 'text-green-900 font-semibold' : ''}`}>
+                      <td className={`px-3 py-2 font-medium ${aggredibile ? 'text-green-900 font-semibold' : ''}`}>
                         {proc.description}
                       </td>
                       <td className="px-3 py-2 text-right text-gray-600">€{proc.publicPrice}</td>
-                      <td className={`px-3 py-2 text-right font-semibold ${proc.aggredibile ? 'text-green-600 text-lg' : 'text-gray-600'}`}>
+                      <td className={`px-3 py-2 text-right font-semibold ${aggredibile ? 'text-green-600 text-lg' : 'text-gray-600'}`}>
                         €{proc.privatePrice}
                       </td>
                       <td className="px-3 py-2 text-xs text-gray-500">{proc.priceRange}</td>
@@ -430,7 +466,8 @@ export function TamSamSomDashboard() {
                         {proc.notes}
                       </td>
                     </tr>
-                  ))}
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
@@ -438,7 +475,7 @@ export function TamSamSomDashboard() {
             {/* Statistics Aggredibili */}
             {marketData.procedures.regionalPricing?.[selectedRegion] && (() => {
               const allProcs = marketData.procedures.regionalPricing[selectedRegion];
-              const aggredibili = allProcs.filter(p => p.aggredibile);
+              const aggredibili = allProcs.filter(p => isAggredibile(p.code));
               const avgAll = allProcs.reduce((sum, p) => sum + p.privatePrice, 0) / allProcs.length;
               const avgAggredibili = aggredibili.length > 0 
                 ? aggredibili.reduce((sum, p) => sum + p.privatePrice, 0) / aggredibili.length 

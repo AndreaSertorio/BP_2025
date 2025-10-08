@@ -1,6 +1,6 @@
 {
   "version": "1.0.3",
-  "lastUpdate": "2025-10-07",
+  "lastUpdate": "2025-10-08",
   "description": "Database centralizzato per Eco 3D - Dati reali da Eco_ITA_MASTER.xlsx con % Extra-SSN per prestazione",
   "mercatoEcografie": {
     "italia": {
@@ -16,7 +16,7 @@
           "D": 388559,
           "P": 562362,
           "percentualeExtraSSN": 50,
-          "aggredibile": true,
+          "aggredibile": false,
           "note": "Prestazione target per Eco3D"
         },
         {
@@ -38,7 +38,7 @@
           "D": 641145,
           "P": 888232,
           "percentualeExtraSSN": 50,
-          "aggredibile": true,
+          "aggredibile": false,
           "note": "Prestazione target per Eco3D"
         },
         {
