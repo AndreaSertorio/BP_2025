@@ -84,6 +84,8 @@ interface Database {
     globale: RegioneMondialeData;
   };
   mercatoEcografi?: MercatoEcografi;
+  market?: any; // Dati mercato per TAM/SAM/SOM (da definire tipo completo)
+  budget?: any; // Dati budget (da definire tipo completo)
   metadata?: Record<string, unknown>;
 }
 

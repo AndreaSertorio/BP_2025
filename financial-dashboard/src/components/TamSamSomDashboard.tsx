@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { useDatabase } from '@/contexts/DatabaseContext';
+import { useDatabase } from '@/contexts/DatabaseProvider';
 import {
   Target,
   TrendingUp,
@@ -93,8 +93,8 @@ interface MarketData {
 }
 
 export function TamSamSomDashboard() {
-  // Usa DatabaseContext per sincronizzazione globale
-  const { database, loading, error, updatePrestazioneAggredibile, saveToBackend } = useDatabase();
+  // Usa DatabaseProvider per sincronizzazione globale
+  const { data, loading, toggleAggredibile: toggleAggredibileDB } = useDatabase();
   
   const [activeView, setActiveView] = useState<'procedures' | 'devices'>('procedures');
   const [selectedRegion, setSelectedRegion] = useState('IT');
@@ -102,8 +102,8 @@ export function TamSamSomDashboard() {
   const [hasChanges, setHasChanges] = useState(false);
 
   // Estrai dati dal database
-  const marketData = database?.market || null;
-  const mercatoEcografie = database?.mercatoEcografie || null;
+  const marketData = data?.market || null;
+  const mercatoEcografie = data?.mercatoEcografie || null;
 
   // Inizializza SAM percentage dal database
   useEffect(() => {
@@ -112,15 +112,17 @@ export function TamSamSomDashboard() {
     }
   }, [marketData]);
 
-  // Funzione per modificare aggredibilità procedura (usa DatabaseContext)
-  function toggleAggredibile(code: string) {
+  // Funzione per modificare aggredibilità procedura (usa DatabaseProvider)
+  async function toggleAggredibile(code: string) {
     if (!mercatoEcografie) return;
     
-    const prestazione = mercatoEcografie.italia.prestazioni.find(p => p.codice === code);
-    if (prestazione) {
-      // Usa il context per aggiornare globalmente
-      updatePrestazioneAggredibile(code, !prestazione.aggredibile);
+    try {
+      // Usa il context per aggiornare globalmente (tramite API)
+      await toggleAggredibileDB(code);
       setHasChanges(true);
+    } catch (error) {
+      console.error('Errore toggle aggredibile:', error);
+      alert('Errore durante l\'aggiornamento delle modifiche. Riprova più tardi.');
     }
   }
 
@@ -131,14 +133,12 @@ export function TamSamSomDashboard() {
     return prestazione?.aggredibile || false;
   }
 
-  // Funzione per salvare le modifiche (usa DatabaseContext)
+  // Funzione per salvare le modifiche
   async function saveChanges() {
-    try {
-      await saveToBackend();
-      setHasChanges(false);
-    } catch (error) {
-      console.error('Errore durante il salvataggio:', error);
-    }
+    // Con DatabaseProvider le modifiche sono già salvate tramite API
+    // Questo button serve solo come feedback visivo
+    alert('✅ Tutte le modifiche sono già sincronizzate!');
+    setHasChanges(false);
   }
 
   if (loading || !marketData) {
