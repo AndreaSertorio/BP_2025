@@ -16,7 +16,7 @@
           "D": 388559,
           "P": 562362,
           "percentualeExtraSSN": 50,
-          "aggredibile": true,
+          "aggredibile": false,
           "note": "Prestazione target per Eco3D"
         },
         {
@@ -38,7 +38,7 @@
           "D": 641145,
           "P": 888232,
           "percentualeExtraSSN": 50,
-          "aggredibile": true,
+          "aggredibile": false,
           "note": "Prestazione target per Eco3D"
         },
         {
