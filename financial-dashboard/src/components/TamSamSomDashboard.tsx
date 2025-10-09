@@ -806,8 +806,7 @@ export function TamSamSomDashboard() {
       </Card>
 
       {/* Configurazione Prezzi Multi-Livello - Solo per Procedures */}
-      {activeView === 'procedures' && (
-      <Card className="p-6">
+      <Card className={`p-6 ${activeView !== 'procedures' ? 'hidden' : ''}`}>
         <div className="flex items-center justify-between mb-4">
           <div>
             <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
@@ -1026,7 +1025,6 @@ export function TamSamSomDashboard() {
           </div>
         )}
       </Card>
-      )}
 
       {/* Proiezioni SOM - Condizionali */}
       <Card className="p-6">
@@ -1151,8 +1149,7 @@ export function TamSamSomDashboard() {
       </Card>
 
       {/* Sezione Potenziale Ricavi (solo per Devices) */}
-      {activeView === 'devices' && (
-        <Card className="p-6 bg-gradient-to-br from-emerald-50 to-green-50 border-2 border-emerald-300">
+      <Card className={`p-6 bg-gradient-to-br from-emerald-50 to-green-50 border-2 border-emerald-300 ${activeView !== 'devices' ? 'hidden' : ''}`}>
           <h3 className="text-xl font-bold text-emerald-900 mb-4 flex items-center gap-2">
             <DollarSign className="h-5 w-5 text-emerald-600" />
             💰 Potenziale Ricavi (Prezzo Vendita × Dispositivi SOM)
@@ -1256,11 +1253,9 @@ export function TamSamSomDashboard() {
             </p>
           </div>
         </Card>
-      )}
 
       {/* Vista Procedures */}
-      {activeView === 'procedures' && (
-        <Card className="p-6">
+      <Card className={`p-6 ${activeView !== 'procedures' ? 'hidden' : ''}`}>
           <div className="mb-4">
             <h3 className="text-xl font-bold text-gray-900 mb-2">
               📋 Procedure Ecografiche Aggredibili
@@ -1497,11 +1492,10 @@ export function TamSamSomDashboard() {
             </table>
           </div>
         </Card>
-      )}
 
       {/* Vista Devices */}
-      {activeView === 'devices' && mercatoEcografi && (
-        <Card className="p-6">
+      {mercatoEcografi && (
+      <Card className={`p-6 ${activeView !== 'devices' ? 'hidden' : ''}`}>
           <TooltipProvider>
             <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
               🔬 Mercato Dispositivi Ecografi
