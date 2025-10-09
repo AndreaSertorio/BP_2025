@@ -5,6 +5,12 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { useDatabase } from '@/contexts/DatabaseProvider';
 import {
   Target,
@@ -23,7 +29,7 @@ export function TamSamSomDashboard() {
   const { data, loading, toggleAggredibile: toggleAggredibileDB } = useDatabase();
   
   const [activeView, setActiveView] = useState<'procedures' | 'devices'>('procedures');
-  const [selectedRegion, setSelectedRegion] = useState<'italia' | 'europa' | 'usa' | 'cina' | 'mondo'>('italia');
+  const [selectedRegion, setSelectedRegion] = useState<'italia' | 'europa' | 'usa' | 'cina'>('italia');
   const [samPercentage, setSamPercentage] = useState(35);
   const [somPercentages, setSomPercentages] = useState({ y1: 0.5, y3: 2, y5: 5 });
   const [prezzoMedioProcedura, setPrezzoMedioProcedura] = useState(77.5);
@@ -234,35 +240,136 @@ export function TamSamSomDashboard() {
         </div>
       </Card>
 
-      {/* Metriche Principali */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="p-6 bg-gradient-to-br from-blue-500 to-blue-600 text-white">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-lg font-semibold opacity-90">TAM</h3>
-            <Globe className="h-6 w-6 opacity-75" />
-          </div>
-          <div className="text-3xl font-bold mb-1">{formatCurrency(tam)}</div>
-          <p className="text-sm opacity-75">Mercato Totale Indirizzabile</p>
-        </Card>
+      {/* Metriche Principali con Tooltip */}
+      <TooltipProvider>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* TAM Card */}
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Card className="p-6 bg-gradient-to-br from-blue-500 to-blue-600 text-white cursor-help">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-lg font-semibold opacity-90">TAM</h3>
+                  <Globe className="h-6 w-6 opacity-75" />
+                </div>
+                <div className="text-3xl font-bold mb-1">{formatCurrency(tam)}</div>
+                <p className="text-sm opacity-75">Mercato Totale Indirizzabile</p>
+              </Card>
+            </TooltipTrigger>
+            <TooltipContent className="max-w-md p-4 bg-white border-2 border-blue-300">
+              <div className="space-y-2">
+                <div className="font-bold text-blue-900 text-sm">📊 Formula TAM:</div>
+                {priceMode === 'semplice' && (
+                  <div className="text-xs space-y-1">
+                    <div className="font-mono bg-blue-50 p-2 rounded">TAM = Σ(Volume × Prezzo medio)</div>
+                    <div className="text-gray-700">
+                      • Procedure aggredibili: <strong>{mercatoEcografie?.italia.prestazioni.filter(p => p.aggredibile).length || 0}</strong><br/>
+                      • Volume totale: <strong>{(mercatoEcografie?.italia.prestazioni.filter(p => p.aggredibile).reduce((sum, p) => sum + p.P, 0) || 0).toLocaleString('it-IT')}</strong><br/>
+                      • Prezzo medio: <strong>€{prezzoMedioProcedura.toFixed(2)}</strong><br/>
+                      • <strong>TAM = {formatCurrency(tam)}</strong>
+                    </div>
+                  </div>
+                )}
+                {priceMode === 'perProcedura' && (
+                  <div className="text-xs space-y-1">
+                    <div className="font-mono bg-blue-50 p-2 rounded">TAM = Σ(Volume × Prezzo specifico)</div>
+                    <div className="text-gray-700">
+                      • Modalità: <strong>Per Procedura (Italia)</strong><br/>
+                      • Tipo: <strong>{tipoPrezzo === 'pubblico' ? '💙 Pubblico' : tipoPrezzo === 'privato' ? '💚 Privato' : '💜 Media'}</strong><br/>
+                      • Procedure aggredibili: <strong>{mercatoEcografie?.italia.prestazioni.filter(p => p.aggredibile).length || 0}</strong><br/>
+                      • <strong>TAM = {formatCurrency(tam)}</strong>
+                    </div>
+                  </div>
+                )}
+                {priceMode === 'regionalizzato' && (
+                  <div className="text-xs space-y-1">
+                    <div className="font-mono bg-blue-50 p-2 rounded">TAM = Σ(Volume × Prezzo regionale)</div>
+                    <div className="text-gray-700">
+                      • Regione: <strong>{selectedRegion.toUpperCase()}</strong><br/>
+                      • Tipo: <strong>{tipoPrezzo === 'pubblico' ? '💙 Pubblico' : tipoPrezzo === 'privato' ? '💚 Privato' : '💜 Media'}</strong><br/>
+                      • Procedure aggredibili: <strong>{mercatoEcografie?.italia.prestazioni.filter(p => p.aggredibile).length || 0}</strong><br/>
+                      • <strong>TAM = {formatCurrency(tam)}</strong>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </TooltipContent>
+          </Tooltip>
 
-        <Card className="p-6 bg-gradient-to-br from-indigo-500 to-indigo-600 text-white">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-lg font-semibold opacity-90">SAM</h3>
-            <Target className="h-6 w-6 opacity-75" />
-          </div>
-          <div className="text-3xl font-bold mb-1">{formatCurrency(sam)}</div>
-          <p className="text-sm opacity-75">Mercato Servibile ({samPercentage}% TAM)</p>
-        </Card>
+          {/* SAM Card */}
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Card className="p-6 bg-gradient-to-br from-indigo-500 to-indigo-600 text-white cursor-help">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-lg font-semibold opacity-90">SAM</h3>
+                  <Target className="h-6 w-6 opacity-75" />
+                </div>
+                <div className="text-3xl font-bold mb-1">{formatCurrency(sam)}</div>
+                <p className="text-sm opacity-75">Mercato Servibile ({samPercentage}% TAM)</p>
+              </Card>
+            </TooltipTrigger>
+            <TooltipContent className="max-w-md p-4 bg-white border-2 border-indigo-300">
+              <div className="space-y-2">
+                <div className="font-bold text-indigo-900 text-sm">🎯 Formula SAM:</div>
+                <div className="text-xs space-y-1">
+                  <div className="font-mono bg-indigo-50 p-2 rounded">SAM = TAM × (SAM% / 100)</div>
+                  <div className="text-gray-700">
+                    • TAM: <strong>{formatCurrency(tam)}</strong><br/>
+                    • Percentuale SAM: <strong>{samPercentage}%</strong><br/>
+                    • Calcolo: {formatCurrency(tam)} × ({samPercentage}/100)<br/>
+                    • <strong>SAM = {formatCurrency(sam)}</strong>
+                  </div>
+                  <div className="mt-2 p-2 bg-indigo-50 rounded text-gray-600">
+                    💡 SAM è la porzione del TAM che puoi realisticamente raggiungere considerando limiti geografici, capacità operativa, concorrenza.
+                  </div>
+                </div>
+              </div>
+            </TooltipContent>
+          </Tooltip>
 
-        <Card className="p-6 bg-gradient-to-br from-purple-500 to-purple-600 text-white">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-lg font-semibold opacity-90">SOM Y1</h3>
-            <TrendingUp className="h-6 w-6 opacity-75" />
-          </div>
-          <div className="text-3xl font-bold mb-1">{formatCurrency(som1)}</div>
-          <p className="text-sm opacity-75">Mercato Ottenibile Anno 1</p>
-        </Card>
-      </div>
+          {/* SOM Card */}
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Card className="p-6 bg-gradient-to-br from-purple-500 to-purple-600 text-white cursor-help">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-lg font-semibold opacity-90">SOM Y1</h3>
+                  <TrendingUp className="h-6 w-6 opacity-75" />
+                </div>
+                <div className="text-3xl font-bold mb-1">{formatCurrency(som1)}</div>
+                <p className="text-sm opacity-75">Mercato Ottenibile Anno 1</p>
+              </Card>
+            </TooltipTrigger>
+            <TooltipContent className="max-w-md p-4 bg-white border-2 border-purple-300">
+              <div className="space-y-2">
+                <div className="font-bold text-purple-900 text-sm">📈 Formula SOM (Anno 1):</div>
+                <div className="text-xs space-y-1">
+                  <div className="font-mono bg-purple-50 p-2 rounded">SOM = SAM × (SOM% / 100)</div>
+                  <div className="text-gray-700">
+                    • SAM: <strong>{formatCurrency(sam)}</strong><br/>
+                    • Percentuale SOM (Y1): <strong>{somPercentages.y1}%</strong><br/>
+                    • Calcolo: {formatCurrency(sam)} × ({somPercentages.y1}/100)<br/>
+                    • <strong>SOM (Y1) = {formatCurrency(som1)}</strong>
+                  </div>
+                  <div className="mt-2 space-y-1">
+                    <div className="text-gray-600">📅 Proiezioni multi-anno:</div>
+                    <div className="p-2 bg-blue-50 rounded">
+                      • Anno 1 ({somPercentages.y1}%): <strong>{formatCurrency(som1)}</strong>
+                    </div>
+                    <div className="p-2 bg-indigo-50 rounded">
+                      • Anno 3 ({somPercentages.y3}%): <strong>{formatCurrency(som3)}</strong>
+                    </div>
+                    <div className="p-2 bg-purple-50 rounded">
+                      • Anno 5 ({somPercentages.y5}%): <strong>{formatCurrency(som5)}</strong>
+                    </div>
+                  </div>
+                  <div className="mt-2 p-2 bg-purple-50 rounded text-gray-600">
+                    💡 SOM è la quota di SAM che prevedi realisticamente di conquistare considerando risorse, tempo, strategia go-to-market.
+                  </div>
+                </div>
+              </div>
+            </TooltipContent>
+          </Tooltip>
+        </div>
+      </TooltipProvider>
 
       {/* SAM Percentage Slider */}
       <Card className="p-6">
@@ -456,8 +563,8 @@ export function TamSamSomDashboard() {
                   <label className="text-sm font-semibold text-gray-700 mb-2 block">
                     Regione
                   </label>
-                  <div className="grid grid-cols-5 gap-2">
-                    {['italia', 'europa', 'usa', 'cina', 'mondo'].map(region => (
+                  <div className="grid grid-cols-4 gap-2">
+                    {['italia', 'europa', 'usa', 'cina'].map(region => (
                       <button
                         key={region}
                         type="button"
@@ -468,12 +575,10 @@ export function TamSamSomDashboard() {
                             : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                         }`}
                       >
-                        {region === 'italia' && '🇮🇹'}
-                        {region === 'europa' && '🇪🇺'}
-                        {region === 'usa' && '🇺🇸'}
-                        {region === 'cina' && '🇨🇳'}
-                        {region === 'mondo' && '🌍'}
-                        {' '}{region}
+                        {region === 'italia' && '🇮🇹 Italia'}
+                        {region === 'europa' && '🇪🇺 Europa'}
+                        {region === 'usa' && '🇺🇸 USA'}
+                        {region === 'cina' && '🇨🇳 Cina'}
                       </button>
                     ))}
                   </div>
