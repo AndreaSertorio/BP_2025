@@ -455,8 +455,10 @@ export function TamSamSomDashboard() {
     };
   }, [calculateTAMValue, samPercentage, somPercentages]);
   
-  // Valori Devices (già memoizzato nel useCallback)
-  const devicesMetrics = calculateDevicesMetrics();
+  // Valori Devices (ANCHE QUESTI memoizzati!)
+  const devicesMetrics = useMemo(() => {
+    return calculateDevicesMetrics();
+  }, [calculateDevicesMetrics]);
   
   // Valori da mostrare nelle card (memoizzati per evitare refresh)
   const currentMetrics = useMemo(() => {
