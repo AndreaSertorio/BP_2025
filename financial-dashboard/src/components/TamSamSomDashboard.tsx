@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -26,7 +26,13 @@ import {
 } from 'lucide-react';
 
 export function TamSamSomDashboard() {
-  const { data, loading, toggleAggredibile: toggleAggredibileDB } = useDatabase();
+  const { 
+    data, 
+    loading, 
+    toggleAggredibile: toggleAggredibileDB,
+    updateConfigurazioneTamSamSomEcografie,
+    updatePrezzoEcografiaRegionalizzato
+  } = useDatabase();
   
   const [activeView, setActiveView] = useState<'procedures' | 'devices'>('procedures');
   const [selectedRegion, setSelectedRegion] = useState<'italia' | 'europa' | 'usa' | 'cina'>('italia');
@@ -34,13 +40,40 @@ export function TamSamSomDashboard() {
   const [somPercentages, setSomPercentages] = useState({ y1: 0.5, y3: 2, y5: 5 });
   const [prezzoMedioProcedura, setPrezzoMedioProcedura] = useState(77.5);
   const [showPriceEditor, setShowPriceEditor] = useState(false);
+  const [showRegionalPriceEditor, setShowRegionalPriceEditor] = useState(false);
   const [priceMode, setPriceMode] = useState<'semplice' | 'perProcedura' | 'regionalizzato'>('semplice');
   const [tipoPrezzo, setTipoPrezzo] = useState<'pubblico' | 'privato' | 'medio'>('medio');
+  const [volumeMode, setVolumeMode] = useState<'totale' | 'ssn' | 'extraSsn'>('totale');
   const [hasChanges, setHasChanges] = useState(false);
 
   const mercatoEcografie = data?.mercatoEcografie;
   const mercatoEcografi = data?.mercatoEcografi;
   const prezziRegionalizzati = data?.prezziEcografieRegionalizzati;
+  const configTamSamSom = data?.configurazioneTamSamSom?.ecografie;
+
+  // Carica configurazione salvata al mount
+  useEffect(() => {
+    if (configTamSamSom) {
+      setPriceMode(configTamSamSom.priceMode || 'semplice');
+      setPrezzoMedioProcedura(configTamSamSom.prezzoMedioProcedura || 77.5);
+      setTipoPrezzo(configTamSamSom.tipoPrezzo || 'medio');
+      setSelectedRegion(configTamSamSom.regioneSelezionata || 'italia');
+      setVolumeMode(configTamSamSom.volumeMode || 'totale');
+      setSamPercentage(configTamSamSom.samPercentage || 35);
+      setSomPercentages(configTamSamSom.somPercentages || { y1: 0.5, y3: 2, y5: 5 });
+      console.log('✅ Configurazione TAM/SAM/SOM caricata dal database');
+    }
+  }, [configTamSamSom]);
+
+  // Auto-save configurazione quando cambia
+  const saveConfiguration = useCallback(async (updates: any) => {
+    try {
+      await updateConfigurazioneTamSamSomEcografie(updates);
+      console.log('💾 Configurazione salvata');
+    } catch (error) {
+      console.error('❌ Errore salvataggio configurazione:', error);
+    }
+  }, [updateConfigurazioneTamSamSomEcografie]);
 
   // Toggle aggredibile
   async function toggleAggredibile(code: string) {
@@ -54,12 +87,119 @@ export function TamSamSomDashboard() {
     }
   }
 
-  // Helper
-  function isAggredibile(code: string): boolean {
-    if (!mercatoEcografie) return false;
-    const prestazione = mercatoEcografie.italia.prestazioni.find(p => p.codice === code);
-    return prestazione?.aggredibile || false;
-  }
+  // Helper per calcolare volumi SSN/ExtraSSN/Totale
+  const calculateVolumes = useCallback((prestazione: any) => {
+    const total = prestazione.P || 0;
+    const percExtraSSN = prestazione.percentualeExtraSSN || 0;
+    
+    return {
+      totale: total,
+      ssn: Math.round(total * (1 - percExtraSSN / 100)),
+      extraSsn: Math.round(total * (percExtraSSN / 100))
+    };
+  }, []);
+
+  // Helper per ottenere volume basato su volumeMode
+  const getVolume = useCallback((prestazione: any) => {
+    const volumes = calculateVolumes(prestazione);
+    switch (volumeMode) {
+      case 'ssn': return volumes.ssn;
+      case 'extraSsn': return volumes.extraSsn;
+      default: return volumes.totale;
+    }
+  }, [volumeMode, calculateVolumes]);
+
+  // Calcoli TAM/SAM/SOM (prima dei return condizionali per hooks)
+  const calculateTAMValue = useCallback(() => {
+    if (!mercatoEcografie) return 0;
+    
+    if (activeView === 'procedures') {
+      const prestazioni = mercatoEcografie.italia.prestazioni;
+      const aggredibili = prestazioni.filter(p => p.aggredibile);
+      
+      if (priceMode === 'semplice') {
+        const volumeTotale = aggredibili.reduce((sum, p) => sum + getVolume(p), 0);
+        return volumeTotale * prezzoMedioProcedura;
+      } else if (priceMode === 'perProcedura' && prezziRegionalizzati) {
+        const prezziItalia = prezziRegionalizzati.italia || [];
+        let tamTotale = 0;
+        
+        aggredibili.forEach(proc => {
+          const volume = getVolume(proc);
+          const prezzoInfo = prezziItalia.find((p: any) => p.codice === proc.codice);
+          if (prezzoInfo) {
+            let prezzo = prezzoMedioProcedura;
+            if (tipoPrezzo === 'pubblico') {
+              prezzo = prezzoInfo.prezzoPubblico || prezzoMedioProcedura;
+            } else if (tipoPrezzo === 'privato') {
+              prezzo = prezzoInfo.prezzoPrivato || prezzoMedioProcedura;
+            } else {
+              prezzo = (prezzoInfo.prezzoPubblico + prezzoInfo.prezzoPrivato) / 2;
+            }
+            tamTotale += volume * prezzo;
+          } else {
+            tamTotale += volume * prezzoMedioProcedura;
+          }
+        });
+        return tamTotale;
+      } else if (priceMode === 'regionalizzato' && prezziRegionalizzati) {
+        const prezziRegione = prezziRegionalizzati[selectedRegion] || [];
+        let tamTotale = 0;
+        
+        aggredibili.forEach(proc => {
+          const volume = getVolume(proc);
+          const prezzoInfo = prezziRegione.find((p: any) => p.codice === proc.codice);
+          if (prezzoInfo) {
+            let prezzo = prezzoMedioProcedura;
+            if (tipoPrezzo === 'pubblico') {
+              prezzo = prezzoInfo.prezzoPubblico || prezzoMedioProcedura;
+            } else if (tipoPrezzo === 'privato') {
+              prezzo = prezzoInfo.prezzoPrivato || prezzoMedioProcedura;
+            } else {
+              prezzo = (prezzoInfo.prezzoPubblico + prezzoInfo.prezzoPrivato) / 2;
+            }
+            tamTotale += volume * prezzo;
+          } else {
+            tamTotale += volume * prezzoMedioProcedura;
+          }
+        });
+        return tamTotale;
+      }
+      
+      const volumeTotale = aggredibili.reduce((sum, p) => sum + getVolume(p), 0);
+      return volumeTotale * prezzoMedioProcedura;
+    } else {
+      if (!mercatoEcografi) return 0;
+      const anno2025 = mercatoEcografi.proiezioniItalia?.find((p: any) => p.anno === 2025);
+      if (!anno2025) return 0;
+      const marketValueM = anno2025.media || anno2025.mediana || 0;
+      return marketValueM * 1000000;
+    }
+  }, [mercatoEcografie, mercatoEcografi, activeView, priceMode, volumeMode, prezzoMedioProcedura, tipoPrezzo, selectedRegion, prezziRegionalizzati, getVolume]);
+
+  const tam = calculateTAMValue();
+  const sam = tam * (samPercentage / 100);
+  const som1 = sam * (somPercentages.y1 / 100);
+  const som3 = sam * (somPercentages.y3 / 100);
+  const som5 = sam * (somPercentages.y5 / 100);
+
+  // Auto-save valori calcolati
+  useEffect(() => {
+    if (!mercatoEcografie) return;
+    const timer = setTimeout(() => {
+      saveConfiguration({
+        priceMode,
+        prezzoMedioProcedura,
+        tipoPrezzo,
+        regioneSelezionata: selectedRegion,
+        volumeMode,
+        samPercentage,
+        somPercentages,
+        valoriCalcolati: { tam, sam, som1, som3, som5 }
+      });
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [tam, sam, som1, som3, som5, priceMode, prezzoMedioProcedura, tipoPrezzo, selectedRegion, volumeMode, samPercentage, somPercentages, saveConfiguration, mercatoEcografie]);
 
   // Loading
   if (loading) {
@@ -82,104 +222,7 @@ export function TamSamSomDashboard() {
     );
   }
 
-  // === CALCOLI TAM/SAM/SOM ===
-  
-  const calculateTAM = () => {
-    if (activeView === 'procedures') {
-      // TAM basato su procedure aggredibili
-      const prestazioni = mercatoEcografie.italia.prestazioni;
-      const aggredibili = prestazioni.filter(p => p.aggredibile);
-      
-      if (priceMode === 'semplice') {
-        // MODALITÀ 1: Prezzo medio generale
-        const volumeTotale = aggredibili.reduce((sum, p) => sum + p.P, 0);
-        return volumeTotale * prezzoMedioProcedura;
-        
-      } else if (priceMode === 'perProcedura' && prezziRegionalizzati) {
-        // MODALITÀ 2: Prezzi specifici per procedura (Italia)
-        const prezziItalia = prezziRegionalizzati.italia || [];
-        let tamTotale = 0;
-        
-        aggredibili.forEach(proc => {
-          const prezzoInfo = prezziItalia.find((p: any) => p.codice === proc.codice);
-          if (prezzoInfo) {
-            let prezzo = prezzoMedioProcedura; // fallback
-            
-            if (tipoPrezzo === 'pubblico') {
-              prezzo = prezzoInfo.prezzoPubblico || prezzoMedioProcedura;
-            } else if (tipoPrezzo === 'privato') {
-              prezzo = prezzoInfo.prezzoPrivato || prezzoMedioProcedura;
-            } else {
-              // medio
-              prezzo = (prezzoInfo.prezzoPubblico + prezzoInfo.prezzoPrivato) / 2;
-            }
-            
-            tamTotale += proc.P * prezzo;
-          } else {
-            tamTotale += proc.P * prezzoMedioProcedura;
-          }
-        });
-        
-        return tamTotale;
-        
-      } else if (priceMode === 'regionalizzato' && prezziRegionalizzati) {
-        // MODALITÀ 3: Prezzi regionalizzati
-        const prezziRegione = prezziRegionalizzati[selectedRegion] || [];
-        let tamTotale = 0;
-        
-        aggredibili.forEach(proc => {
-          const prezzoInfo = prezziRegione.find((p: any) => p.codice === proc.codice);
-          if (prezzoInfo) {
-            let prezzo = prezzoMedioProcedura;
-            
-            if (tipoPrezzo === 'pubblico') {
-              prezzo = prezzoInfo.prezzoPubblico || prezzoMedioProcedura;
-            } else if (tipoPrezzo === 'privato') {
-              prezzo = prezzoInfo.prezzoPrivato || prezzoMedioProcedura;
-            } else {
-              prezzo = (prezzoInfo.prezzoPubblico + prezzoInfo.prezzoPrivato) / 2;
-            }
-            
-            tamTotale += proc.P * prezzo;
-          } else {
-            tamTotale += proc.P * prezzoMedioProcedura;
-          }
-        });
-        
-        return tamTotale;
-      }
-      
-      // Fallback
-      const volumeTotale = aggredibili.reduce((sum, p) => sum + p.P, 0);
-      return volumeTotale * prezzoMedioProcedura;
-    } else {
-      // TAM basato su ecografi (valore di mercato stimato)
-      if (!mercatoEcografi) return 0;
-      
-      const anno2025 = mercatoEcografi.proiezioniItalia?.find((p: any) => p.anno === 2025);
-      if (!anno2025) return 0;
-      
-      // Usa la media dei valori di mercato disponibili (in milioni)
-      const marketValueM = anno2025.media || anno2025.mediana || 0;
-      return marketValueM * 1000000; // Converti in unità base
-    }
-  };
-
-  const calculateSAM = () => {
-    const tam = calculateTAM();
-    return tam * (samPercentage / 100);
-  };
-
-  const calculateSOM = (year: 1 | 3 | 5) => {
-    const sam = calculateSAM();
-    const percentageMap = {
-      1: somPercentages.y1 / 100,
-      3: somPercentages.y3 / 100,
-      5: somPercentages.y5 / 100
-    };
-    return sam * percentageMap[year];
-  };
-
+  // Helper formatCurrency
   const formatCurrency = (value: number) => {
     if (value >= 1000000000) {
       return `€${(value / 1000000000).toFixed(2)}B`;
@@ -190,12 +233,6 @@ export function TamSamSomDashboard() {
     }
     return `€${value.toFixed(0)}`;
   };
-
-  const tam = calculateTAM();
-  const sam = calculateSAM();
-  const som1 = calculateSOM(1);
-  const som3 = calculateSOM(3);
-  const som5 = calculateSOM(5);
 
   const prestazioni = mercatoEcografie.italia.prestazioni;
   const aggredibili = prestazioni.filter(p => p.aggredibile);
