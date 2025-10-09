@@ -395,7 +395,8 @@ export function TamSamSomDashboard() {
   const calculateDevicesMetrics = useCallback(() => {
     if (!mercatoEcografi) return { tam: 0, sam: 0, som1: 0, som3: 0, som5: 0 };
     
-    const prezziMedi = configTamSamSomDevices?.prezziMediDispositivi || { carrellati: 50000, portatili: 25000, palmari: 8000 };
+    // USA LO STATE LOCALE, NON IL DATABASE! (per evitare loop infinito)
+    const prezziMedi = prezziDispositivi;
     const yearKey = `unita${selectedYear}` as keyof typeof mercatoEcografi.numeroEcografi[0];
     
     let tamDevices = 0;
@@ -428,7 +429,15 @@ export function TamSamSomDashboard() {
     const som5Devices = samDevices * (somPercentagesDevices.y5 / 100);
     
     return { tam: tamDevices, sam: samDevices, som1: som1Devices, som3: som3Devices, som5: som5Devices };
-  }, [mercatoEcografi, configTamSamSomDevices, selectedYear, regioniAttive, samPercentageDevices, somPercentagesDevices]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    mercatoEcografi,
+    selectedYear,
+    regioniAttiveJson, // ← SERIALIZZATO per evitare loop (invece di regioniAttive)
+    prezziDispositiviJson, // ← SERIALIZZATO per evitare loop (invece di prezziDispositivi)
+    samPercentageDevices,
+    somPercentagesDevices
+  ]);
   
   // Valori Procedures
   const tamProcedures = calculateTAMValue();
@@ -552,6 +561,14 @@ export function TamSamSomDashboard() {
                     </div>
                   </div>
                 )}
+                {activeView === 'procedures' && (
+                  <div className="mt-3 pt-3 border-t border-white/20">
+                    <div className="text-xs opacity-90 space-y-1">
+                      <div>🌍 Mercato: <strong>🇮🇹 Italia</strong></div>
+                      <div>📊 Prestazioni: <strong>{calculateTotalProcedures().toLocaleString('it-IT')}</strong></div>
+                    </div>
+                  </div>
+                )}
               </Card>
             </TooltipTrigger>
             <TooltipContent className="max-w-md p-4 bg-white border-2 border-blue-300">
@@ -635,7 +652,6 @@ export function TamSamSomDashboard() {
                 {activeView === 'procedures' && (
                   <div className="mt-3 pt-3 border-t border-white/20">
                     <div className="text-xs opacity-90 space-y-1">
-                      <div>🌍 Mercato: <strong>🇮🇹 Italia</strong></div>
                       <div>📊 Prestazioni: <strong>{Math.round(calculateTotalProcedures() * (currentSamPercentage / 100)).toLocaleString('it-IT')}</strong></div>
                       <div>🎯 SAM: <strong>{currentSamPercentage}% del TAM</strong></div>
                     </div>
@@ -684,7 +700,6 @@ export function TamSamSomDashboard() {
                 {activeView === 'procedures' && (
                   <div className="mt-3 pt-3 border-t border-white/20">
                     <div className="text-xs opacity-90 space-y-1">
-                      <div>🌍 Mercato: <strong>🇮🇹 Italia</strong></div>
                       <div>📊 Prestazioni: <strong>{Math.round(calculateTotalProcedures() * (currentSamPercentage / 100) * (currentSomPercentages.y1 / 100)).toLocaleString('it-IT')}</strong></div>
                       <div>📈 Y1: {currentSomPercentages.y1}% | Y3: {currentSomPercentages.y3}% | Y5: {currentSomPercentages.y5}%</div>
                     </div>
