@@ -106,11 +106,17 @@ export function TamSamSomDashboard() {
     if (configTamSamSomDevices) {
       setSamPercentageDevices(configTamSamSomDevices.samPercentage || 35);
       setSomPercentagesDevices(configTamSamSomDevices.somPercentages || { y1: 0.5, y3: 2, y5: 5 });
+      
+      // Carica regioni attive se salvate
+      if ((configTamSamSomDevices as any).regioniAttive) {
+        setRegioniAttive((configTamSamSomDevices as any).regioniAttive);
+      }
+      
       console.log('✅ Configurazione TAM/SAM/SOM Devices caricata dal database');
     }
   }, [configTamSamSomDevices]);
 
-  // Auto-salva configurazione quando cambiano i parametri (con debounce 1.5s)
+  // Auto-salva configurazione Procedures quando cambiano i parametri (con debounce 1.5s)
   useEffect(() => {
     // Skip primo mount (quando configTamSamSom non è ancora caricato)
     if (!configTamSamSom) return;
@@ -126,7 +132,7 @@ export function TamSamSomDashboard() {
         somPercentages
       } as any);
       
-      console.log('💾 Configurazione TAM/SAM/SOM salvata automaticamente');
+      console.log('💾 Configurazione TAM/SAM/SOM Procedures salvata automaticamente');
     }, 1500);
     
     return () => clearTimeout(timer);
@@ -138,6 +144,29 @@ export function TamSamSomDashboard() {
     volumeMode, 
     samPercentage, 
     somPercentages
+  ]);
+
+  // Auto-salva configurazione Devices quando cambiano i parametri (con debounce 1.5s)
+  useEffect(() => {
+    // Skip primo mount
+    if (!configTamSamSomDevices) return;
+    
+    const timer = setTimeout(async () => {
+      await updateConfigurazioneTamSamSomEcografi({
+        samPercentage: samPercentageDevices,
+        somPercentages: somPercentagesDevices,
+        regioniAttive: regioniAttive
+      } as any);
+      
+      console.log('💾 Configurazione TAM/SAM/SOM Devices salvata automaticamente');
+    }, 1500);
+    
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    samPercentageDevices,
+    somPercentagesDevices,
+    regioniAttive
   ]);
 
   // Toggle aggredibile (NO RELOAD!)
@@ -300,6 +329,34 @@ export function TamSamSomDashboard() {
     }
   }, [mercatoEcografie, mercatoEcografi, activeView, priceMode, volumeMode, prezzoMedioProcedura, selectedRegions, prezziRegionalizzati, getVolume, calculateVolumes]);
 
+  // Helper: Calcola numero totale dispositivi (con logica sovrapposizione Italia-Europa)
+  const calculateTotalDevices = useCallback(() => {
+    if (!mercatoEcografi) return 0;
+    
+    const yearKey = `unita${selectedYear}`;
+    let total = 0;
+    
+    // LOGICA SOVRAPPOSIZIONE: Se Italia ED Europa sono entrambi attivi, 
+    // NON sommare Italia (è già inclusa in Europa)
+    if (regioniAttive.italia && !regioniAttive.europa) {
+      total += Number((mercatoEcografi?.numeroEcografi?.find((m: any) => m.mercato === 'Italia') as any)?.[yearKey]) || 0;
+    }
+    
+    if (regioniAttive.europa) {
+      total += Number((mercatoEcografi?.numeroEcografi?.find((m: any) => m.mercato === 'Europa') as any)?.[yearKey]) || 0;
+    }
+    
+    if (regioniAttive.usa) {
+      total += Number((mercatoEcografi?.numeroEcografi?.find((m: any) => m.mercato === 'Stati Uniti') as any)?.[yearKey]) || 0;
+    }
+    
+    if (regioniAttive.cina) {
+      total += Number((mercatoEcografi?.numeroEcografi?.find((m: any) => m.mercato === 'Cina') as any)?.[yearKey]) || 0;
+    }
+    
+    return Math.round(total);
+  }, [mercatoEcografi, selectedYear, regioniAttive]);
+
   // Calcola TAM/SAM/SOM Devices
   const calculateDevicesMetrics = useCallback(() => {
     if (!mercatoEcografi) return { tam: 0, sam: 0, som1: 0, som3: 0, som5: 0 };
@@ -317,7 +374,12 @@ export function TamSamSomDashboard() {
                              categoriaId === 'portatili' ? prezziMedi.portatili :
                              prezziMedi.palmari;
       
-      const volumeItalia = regioniAttive.italia ? Math.round((Number(mercatoEcografi.numeroEcografi?.find((m: any) => m.mercato === 'Italia')?.[yearKey]) || 0) * (tipologia.quotaIT || 0)) : 0;
+      // LOGICA SOVRAPPOSIZIONE: Se Italia ED Europa sono entrambi attivi, 
+      // NON sommare Italia (è già inclusa in Europa)
+      const volumeItalia = (regioniAttive.italia && !regioniAttive.europa) 
+        ? Math.round((Number(mercatoEcografi.numeroEcografi?.find((m: any) => m.mercato === 'Italia')?.[yearKey]) || 0) * (tipologia.quotaIT || 0)) 
+        : 0;
+      
       const volumeEuropa = regioniAttive.europa ? Math.round((Number(mercatoEcografi.numeroEcografi?.find((m: any) => m.mercato === 'Europa')?.[yearKey]) || 0) * (tipologia.quotaGlobale || 0)) : 0;
       const volumeUSA = regioniAttive.usa ? Math.round((Number(mercatoEcografi.numeroEcografi?.find((m: any) => m.mercato === 'Stati Uniti')?.[yearKey]) || 0) * (tipologia.quotaGlobale || 0)) : 0;
       const volumeCina = regioniAttive.cina ? Math.round((Number(mercatoEcografi.numeroEcografi?.find((m: any) => m.mercato === 'Cina')?.[yearKey]) || 0) * (tipologia.quotaGlobale || 0)) : 0;
@@ -452,15 +514,7 @@ export function TamSamSomDashboard() {
                     <div className="text-xs opacity-90 space-y-1">
                       <div>📅 Anno: <strong>{selectedYear}</strong></div>
                       <div>🌍 {Object.entries(regioniAttive).filter(([_, v]) => v).map(([k]) => k === 'italia' ? '🇮🇹' : k === 'europa' ? '🇪🇺' : k === 'usa' ? '🇺🇸' : '🇨🇳').join(' ')}</div>
-                      <div>📊 Dispositivi: <strong>{(() => {
-                        const yearKey = `unita${selectedYear}`;
-                        let total = 0;
-                        if (regioniAttive.italia) total += Number((mercatoEcografi?.numeroEcografi?.find((m: any) => m.mercato === 'Italia') as any)?.[yearKey]) || 0;
-                        if (regioniAttive.europa) total += Number((mercatoEcografi?.numeroEcografi?.find((m: any) => m.mercato === 'Europa') as any)?.[yearKey]) || 0;
-                        if (regioniAttive.usa) total += Number((mercatoEcografi?.numeroEcografi?.find((m: any) => m.mercato === 'Stati Uniti') as any)?.[yearKey]) || 0;
-                        if (regioniAttive.cina) total += Number((mercatoEcografi?.numeroEcografi?.find((m: any) => m.mercato === 'Cina') as any)?.[yearKey]) || 0;
-                        return Math.round(total).toLocaleString('it-IT');
-                      })()}</strong></div>
+                      <div>📊 Dispositivi: <strong>{calculateTotalDevices().toLocaleString('it-IT')}</strong></div>
                     </div>
                   </div>
                 )}
@@ -475,16 +529,13 @@ export function TamSamSomDashboard() {
                     <div className="text-gray-700">
                       • Anno: <strong>{selectedYear}</strong><br/>
                       • Regioni attive: <strong>{Object.entries(regioniAttive).filter(([_, v]) => v).map(([k]) => k === 'italia' ? '🇮🇹 IT' : k === 'europa' ? '🇪🇺 EU' : k === 'usa' ? '🇺🇸 US' : '🇨🇳 CN').join(', ')}</strong><br/>
-                      • Dispositivi totali: <strong>{(() => {
-                        const yearKey = `unita${selectedYear}`;
-                        let total = 0;
-                        if (regioniAttive.italia) total += Number((mercatoEcografi?.numeroEcografi?.find((m: any) => m.mercato === 'Italia') as any)?.[yearKey]) || 0;
-                        if (regioniAttive.europa) total += Number((mercatoEcografi?.numeroEcografi?.find((m: any) => m.mercato === 'Europa') as any)?.[yearKey]) || 0;
-                        if (regioniAttive.usa) total += Number((mercatoEcografi?.numeroEcografi?.find((m: any) => m.mercato === 'Stati Uniti') as any)?.[yearKey]) || 0;
-                        if (regioniAttive.cina) total += Number((mercatoEcografi?.numeroEcografi?.find((m: any) => m.mercato === 'Cina') as any)?.[yearKey]) || 0;
-                        return Math.round(total).toLocaleString('it-IT');
-                      })()}</strong><br/>
+                      • Dispositivi totali: <strong>{calculateTotalDevices().toLocaleString('it-IT')}</strong><br/>
                       • <strong>TAM = {formatCurrency(tam)}</strong>
+                      {regioniAttive.italia && regioniAttive.europa && (
+                        <div className="mt-2 p-2 bg-yellow-50 rounded text-yellow-800">
+                          ⚠️ Italia è inclusa in Europa, conteggio automatico senza duplicati
+                        </div>
+                      )}
                     </div>
                   </div>
                 ) : (
@@ -542,6 +593,8 @@ export function TamSamSomDashboard() {
                   <div className="mt-3 pt-3 border-t border-white/20">
                     <div className="text-xs opacity-90 space-y-1">
                       <div>📅 Anno: <strong>{selectedYear}</strong></div>
+                      <div>🌍 {Object.entries(regioniAttive).filter(([_, v]) => v).map(([k]) => k === 'italia' ? '🇮🇹' : k === 'europa' ? '🇪🇺' : k === 'usa' ? '🇺🇸' : '🇨🇳').join(' ')}</div>
+                      <div>📊 Dispositivi: <strong>{calculateTotalDevices().toLocaleString('it-IT')}</strong></div>
                       <div>🎯 SAM: <strong>{currentSamPercentage}% del TAM</strong></div>
                     </div>
                   </div>
@@ -581,6 +634,8 @@ export function TamSamSomDashboard() {
                   <div className="mt-3 pt-3 border-t border-white/20">
                     <div className="text-xs opacity-90 space-y-1">
                       <div>📅 Anno: <strong>{selectedYear}</strong></div>
+                      <div>🌍 {Object.entries(regioniAttive).filter(([_, v]) => v).map(([k]) => k === 'italia' ? '🇮🇹' : k === 'europa' ? '🇪🇺' : k === 'usa' ? '🇺🇸' : '🇨🇳').join(' ')}</div>
+                      <div>📊 Dispositivi: <strong>{calculateTotalDevices().toLocaleString('it-IT')}</strong></div>
                       <div>📈 Y1: {currentSomPercentages.y1}% | Y3: {currentSomPercentages.y3}% | Y5: {currentSomPercentages.y5}%</div>
                     </div>
                   </div>

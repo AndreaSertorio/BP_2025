@@ -4419,7 +4419,7 @@
         "som3": 524548.5075000001,
         "som5": 1311371.26875
       },
-      "lastUpdate": "2025-10-09T18:06:50.794Z",
+      "lastUpdate": "2025-10-09T21:46:55.517Z",
       "regioniSelezionate": {
         "italia": true,
         "europa": false,
@@ -4448,7 +4448,13 @@
         "som3": 0,
         "som5": 0
       },
-      "lastUpdate": null
+      "lastUpdate": "2025-10-09T21:47:15.650Z",
+      "regioniAttive": {
+        "italia": true,
+        "europa": true,
+        "usa": true,
+        "cina": true
+      }
     }
   }
 }
