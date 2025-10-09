@@ -146,6 +146,9 @@ export function TamSamSomDashboard() {
     somPercentages
   ]);
 
+  // Serializza regioniAttive per evitare loop infinito nel useEffect
+  const regioniAttiveJson = JSON.stringify(regioniAttive);
+
   // Auto-salva configurazione Devices quando cambiano i parametri (con debounce 1.5s)
   useEffect(() => {
     // Skip primo mount
@@ -166,7 +169,7 @@ export function TamSamSomDashboard() {
   }, [
     samPercentageDevices,
     somPercentagesDevices,
-    regioniAttive
+    regioniAttiveJson // FIX: Usa serializzazione per evitare loop infinito
   ]);
 
   // Toggle aggredibile (NO RELOAD!)
@@ -593,7 +596,6 @@ export function TamSamSomDashboard() {
                   <div className="mt-3 pt-3 border-t border-white/20">
                     <div className="text-xs opacity-90 space-y-1">
                       <div>📅 Anno: <strong>{selectedYear}</strong></div>
-                      <div>🌍 {Object.entries(regioniAttive).filter(([_, v]) => v).map(([k]) => k === 'italia' ? '🇮🇹' : k === 'europa' ? '🇪🇺' : k === 'usa' ? '🇺🇸' : '🇨🇳').join(' ')}</div>
                       <div>📊 Dispositivi: <strong>{calculateTotalDevices().toLocaleString('it-IT')}</strong></div>
                       <div>🎯 SAM: <strong>{currentSamPercentage}% del TAM</strong></div>
                     </div>
@@ -634,7 +636,6 @@ export function TamSamSomDashboard() {
                   <div className="mt-3 pt-3 border-t border-white/20">
                     <div className="text-xs opacity-90 space-y-1">
                       <div>📅 Anno: <strong>{selectedYear}</strong></div>
-                      <div>🌍 {Object.entries(regioniAttive).filter(([_, v]) => v).map(([k]) => k === 'italia' ? '🇮🇹' : k === 'europa' ? '🇪🇺' : k === 'usa' ? '🇺🇸' : '🇨🇳').join(' ')}</div>
                       <div>📊 Dispositivi: <strong>{calculateTotalDevices().toLocaleString('it-IT')}</strong></div>
                       <div>📈 Y1: {currentSomPercentages.y1}% | Y3: {currentSomPercentages.y3}% | Y5: {currentSomPercentages.y5}%</div>
                     </div>
