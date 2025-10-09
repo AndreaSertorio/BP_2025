@@ -342,7 +342,8 @@ export function TamSamSomDashboard() {
       const marketValueM = anno2025.media || anno2025.mediana || 0;
       return marketValueM * 1000000;
     }
-  }, [mercatoEcografie, mercatoEcografi, activeView, priceMode, volumeMode, prezzoMedioProcedura, selectedRegions, prezziRegionalizzati, getVolume, calculateVolumes]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mercatoEcografie, mercatoEcografi, priceMode, volumeMode, prezzoMedioProcedura, selectedRegions, prezziRegionalizzati, getVolume, calculateVolumes]);
 
   // Helper: Calcola numero totale dispositivi TAM (con logica sovrapposizione Italia-Europa)
   const calculateTotalDevices = useCallback(() => {
@@ -377,14 +378,16 @@ export function TamSamSomDashboard() {
     const tamDevices = calculateTotalDevices();
     const percentage = activeView === 'procedures' ? samPercentage : samPercentageDevices;
     return Math.round(tamDevices * (percentage / 100));
-  }, [calculateTotalDevices, activeView, samPercentage, samPercentageDevices]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [calculateTotalDevices, samPercentage, samPercentageDevices]);
 
   // Helper: Calcola dispositivi SOM (proporzionale al SAM)
   const calculateSomDevices = useCallback((year: 'y1' | 'y3' | 'y5') => {
     const samDevices = calculateSamDevices();
     const percentages = activeView === 'procedures' ? somPercentages : somPercentagesDevices;
     return Math.round(samDevices * (percentages[year] / 100));
-  }, [calculateSamDevices, activeView, somPercentages, somPercentagesDevices]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [calculateSamDevices, somPercentages, somPercentagesDevices]);
 
   // Helper: Calcola numero totale prestazioni aggredibili per Procedures
   const calculateTotalProcedures = useCallback(() => {
