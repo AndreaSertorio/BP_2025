@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -146,8 +146,8 @@ export function TamSamSomDashboard() {
     somPercentages
   ]);
 
-  // Serializza regioniAttive per evitare loop infinito nel useEffect
-  const regioniAttiveJson = JSON.stringify(regioniAttive);
+  // Serializza regioniAttive con useMemo per evitare ricalcolo ad ogni render
+  const regioniAttiveJson = useMemo(() => JSON.stringify(regioniAttive), [regioniAttive]);
 
   // Auto-salva configurazione Devices quando cambiano i parametri (con debounce 1.5s)
   useEffect(() => {
@@ -169,7 +169,7 @@ export function TamSamSomDashboard() {
   }, [
     samPercentageDevices,
     somPercentagesDevices,
-    regioniAttiveJson // FIX: Usa serializzazione per evitare loop infinito
+    regioniAttiveJson // FIX: Usa useMemo per evitare loop infinito
   ]);
 
   // Toggle aggredibile (NO RELOAD!)
@@ -976,6 +976,13 @@ export function TamSamSomDashboard() {
             <div className="p-4 bg-indigo-50 rounded-lg border border-indigo-200">
               <div className="text-sm text-indigo-700 font-semibold mb-1">Anno 3 ({currentSomPercentages.y3}% SAM)</div>
               <div className="text-2xl font-bold text-indigo-900">{formatCurrency(som3)}</div>
+              {activeView === 'devices' && (
+                <div className="mt-2 pt-2 border-t border-indigo-300">
+                  <div className="text-xs text-indigo-600">
+                    📊 Dispositivi: <strong>{calculateTotalDevices().toLocaleString('it-IT')}</strong>
+                  </div>
+                </div>
+              )}
             </div>
             <div className="px-2">
               <Slider
@@ -1004,6 +1011,13 @@ export function TamSamSomDashboard() {
             <div className="p-4 bg-purple-50 rounded-lg border border-purple-200">
               <div className="text-sm text-purple-700 font-semibold mb-1">Anno 5 ({currentSomPercentages.y5}% SAM)</div>
               <div className="text-2xl font-bold text-purple-900">{formatCurrency(som5)}</div>
+              {activeView === 'devices' && (
+                <div className="mt-2 pt-2 border-t border-purple-300">
+                  <div className="text-xs text-purple-600">
+                    📊 Dispositivi: <strong>{calculateTotalDevices().toLocaleString('it-IT')}</strong>
+                  </div>
+                </div>
+              )}
             </div>
             <div className="px-2">
               <Slider
