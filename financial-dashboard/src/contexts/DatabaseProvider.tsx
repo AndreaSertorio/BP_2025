@@ -244,7 +244,7 @@ export function DatabaseProvider({ children }: { children: ReactNode }) {
     }
   }, [refreshData]);
 
-  // Toggle aggredibile (tramite API)
+  // Toggle aggredibile (tramite API) - OTTIMIZZATO: aggiorna solo lo stato locale
   const toggleAggredibile = useCallback(async (codice: string) => {
     try {
       const response = await fetch(`${API_BASE_URL}/database/toggle-aggredibile/${codice}`, {
@@ -258,12 +258,28 @@ export function DatabaseProvider({ children }: { children: ReactNode }) {
       const result = await response.json();
       console.log(`✅ Toggle aggredibile ${codice}: ${result.aggredibile}`);
       
-      // Ricarica dati dal server
-      await refreshData();
+      // OTTIMIZZAZIONE: Aggiorna solo lo stato locale invece di ricaricare tutto!
+      // Questo previene il reload completo della pagina
+      setData(prevData => {
+        if (!prevData) return prevData;
+        
+        return {
+          ...prevData,
+          mercatoEcografie: {
+            ...prevData.mercatoEcografie,
+            italia: {
+              ...prevData.mercatoEcografie.italia,
+              prestazioni: prevData.mercatoEcografie.italia.prestazioni.map(p =>
+                p.codice === codice ? { ...p, aggredibile: result.aggredibile } : p
+              )
+            }
+          }
+        };
+      });
     } catch (error) {
       console.error(`❌ Errore toggle aggredibile ${codice}:`, error);
     }
-  }, [refreshData]);
+  }, []);
 
   // Set percentuale Extra-SSN (tramite API)
   const setPercentualeExtraSSN = useCallback(async (codice: string, percentuale: number) => {
@@ -466,7 +482,7 @@ export function DatabaseProvider({ children }: { children: ReactNode }) {
     }
   }, [refreshData]);
 
-  // Update prezzo ecografia regionalizzato
+  // Update prezzo ecografia regionalizzato - OTTIMIZZATO: aggiorna solo lo stato locale
   const updatePrezzoEcografiaRegionalizzato = useCallback(async (regione: string, codice: string, updates: Partial<PrezzoEcografia>) => {
     try {
       const response = await fetch(`${API_BASE_URL}/database/prezzi-regionalizzati/${regione}/${codice}`, {
@@ -482,12 +498,29 @@ export function DatabaseProvider({ children }: { children: ReactNode }) {
       await response.json();
       console.log(`✅ Prezzo ${codice} (${regione}) aggiornato`);
       
-      // Ricarica dati dal server
-      await refreshData();
+      // OTTIMIZZAZIONE: Aggiorna solo lo stato locale invece di ricaricare tutto!
+      setData(prevData => {
+        if (!prevData || !prevData.prezziEcografieRegionalizzati) return prevData;
+        
+        const regioneKey = regione as keyof typeof prevData.prezziEcografieRegionalizzati;
+        const prezziRegione = prevData.prezziEcografieRegionalizzati[regioneKey];
+        
+        if (!prezziRegione || !Array.isArray(prezziRegione)) return prevData;
+        
+        return {
+          ...prevData,
+          prezziEcografieRegionalizzati: {
+            ...prevData.prezziEcografieRegionalizzati,
+            [regioneKey]: prezziRegione.map(p =>
+              p.codice === codice ? { ...p, ...updates } : p
+            )
+          }
+        };
+      });
     } catch (error) {
       console.error(`❌ Errore aggiornamento prezzo ${codice} (${regione}):`, error);
     }
-  }, [refreshData]);
+  }, []);
 
   // ============================================================================
   // GENERALI
