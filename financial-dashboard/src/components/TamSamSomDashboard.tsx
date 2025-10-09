@@ -19,7 +19,6 @@ import {
   DollarSign,
   CheckCircle2,
   XCircle,
-  Zap,
   RefreshCw,
   Calculator,
   Globe
@@ -38,8 +37,14 @@ export function TamSamSomDashboard() {
   
   const [activeView, setActiveView] = useState<'procedures' | 'devices'>('procedures');
   const [selectedRegion, setSelectedRegion] = useState<'italia' | 'europa' | 'usa' | 'cina'>('italia');
+  
+  // Stati per Procedures
   const [samPercentage, setSamPercentage] = useState(35);
   const [somPercentages, setSomPercentages] = useState({ y1: 0.5, y3: 2, y5: 5 });
+  
+  // Stati per Devices
+  const [samPercentageDevices, setSamPercentageDevices] = useState(35);
+  const [somPercentagesDevices, setSomPercentagesDevices] = useState({ y1: 0.5, y3: 2, y5: 5 });
   const [prezzoMedioProcedura, setPrezzoMedioProcedura] = useState(77.5);
   const [showPriceEditor, setShowPriceEditor] = useState(false);
   const [showRegionalPriceEditor, setShowRegionalPriceEditor] = useState(false);
@@ -71,8 +76,9 @@ export function TamSamSomDashboard() {
   const prezziRegionalizzati = data?.prezziEcografieRegionalizzati;
   const regioniMondiali = data?.regioniMondiali;
   const configTamSamSom = data?.configurazioneTamSamSom?.ecografie;
+  const configTamSamSomDevices = data?.configurazioneTamSamSom?.ecografi;
 
-  // Carica configurazione salvata al mount
+  // Carica configurazione Procedures salvata al mount
   useEffect(() => {
     if (configTamSamSom) {
       setPriceMode(configTamSamSom.priceMode || 'semplice');
@@ -82,9 +88,18 @@ export function TamSamSomDashboard() {
       setVolumeMode(configTamSamSom.volumeMode || 'totale');
       setSamPercentage(configTamSamSom.samPercentage || 35);
       setSomPercentages(configTamSamSom.somPercentages || { y1: 0.5, y3: 2, y5: 5 });
-      console.log('✅ Configurazione TAM/SAM/SOM caricata dal database');
+      console.log('✅ Configurazione TAM/SAM/SOM Procedures caricata dal database');
     }
   }, [configTamSamSom]);
+  
+  // Carica configurazione Devices salvata al mount
+  useEffect(() => {
+    if (configTamSamSomDevices) {
+      setSamPercentageDevices(configTamSamSomDevices.samPercentage || 35);
+      setSomPercentagesDevices(configTamSamSomDevices.somPercentages || { y1: 0.5, y3: 2, y5: 5 });
+      console.log('✅ Configurazione TAM/SAM/SOM Devices caricata dal database');
+    }
+  }, [configTamSamSomDevices]);
 
   // Auto-salva configurazione quando cambiano i parametri (con debounce 1.5s)
   useEffect(() => {
@@ -258,11 +273,60 @@ export function TamSamSomDashboard() {
     }
   }, [mercatoEcografie, mercatoEcografi, activeView, priceMode, volumeMode, prezzoMedioProcedura, tipoPrezzo, selectedRegion, prezziRegionalizzati, getVolume]);
 
-  const tam = calculateTAMValue();
-  const sam = tam * (samPercentage / 100);
-  const som1 = sam * (somPercentages.y1 / 100);
-  const som3 = sam * (somPercentages.y3 / 100);
-  const som5 = sam * (somPercentages.y5 / 100);
+  // Calcola TAM/SAM/SOM Devices
+  const calculateDevicesMetrics = useCallback(() => {
+    if (!mercatoEcografi) return { tam: 0, sam: 0, som1: 0, som3: 0, som5: 0 };
+    
+    const prezziMedi = configTamSamSomDevices?.prezziMediDispositivi || { carrellati: 50000, portatili: 25000, palmari: 8000 };
+    const yearKey = `unita${selectedYear}` as keyof typeof mercatoEcografi.numeroEcografi[0];
+    
+    let tamDevices = 0;
+    
+    ['carrellati', 'portatili', 'palmari'].forEach((categoriaId) => {
+      const tipologia = mercatoEcografi.tipologie?.find((t: any) => t.id === categoriaId);
+      if (!tipologia) return;
+      
+      const prezzoCategoria = categoriaId === 'carrellati' ? prezziMedi.carrellati :
+                             categoriaId === 'portatili' ? prezziMedi.portatili :
+                             prezziMedi.palmari;
+      
+      const volumeItalia = regioniAttive.italia ? Math.round((Number(mercatoEcografi.numeroEcografi?.find((m: any) => m.mercato === 'Italia')?.[yearKey]) || 0) * (tipologia.quotaIT || 0)) : 0;
+      const volumeEuropa = regioniAttive.europa ? Math.round((Number(mercatoEcografi.numeroEcografi?.find((m: any) => m.mercato === 'Europa')?.[yearKey]) || 0) * (tipologia.quotaGlobale || 0)) : 0;
+      const volumeUSA = regioniAttive.usa ? Math.round((Number(mercatoEcografi.numeroEcografi?.find((m: any) => m.mercato === 'Stati Uniti')?.[yearKey]) || 0) * (tipologia.quotaGlobale || 0)) : 0;
+      const volumeCina = regioniAttive.cina ? Math.round((Number(mercatoEcografi.numeroEcografi?.find((m: any) => m.mercato === 'Cina')?.[yearKey]) || 0) * (tipologia.quotaGlobale || 0)) : 0;
+      
+      const volumeTotale = volumeItalia + volumeEuropa + volumeUSA + volumeCina;
+      tamDevices += volumeTotale * prezzoCategoria;
+    });
+    
+    const samDevices = tamDevices * (samPercentageDevices / 100);
+    const som1Devices = samDevices * (somPercentagesDevices.y1 / 100);
+    const som3Devices = samDevices * (somPercentagesDevices.y3 / 100);
+    const som5Devices = samDevices * (somPercentagesDevices.y5 / 100);
+    
+    return { tam: tamDevices, sam: samDevices, som1: som1Devices, som3: som3Devices, som5: som5Devices };
+  }, [mercatoEcografi, configTamSamSomDevices, selectedYear, regioniAttive, samPercentageDevices, somPercentagesDevices]);
+  
+  // Valori Procedures
+  const tamProcedures = calculateTAMValue();
+  const samProcedures = tamProcedures * (samPercentage / 100);
+  const som1Procedures = samProcedures * (somPercentages.y1 / 100);
+  const som3Procedures = samProcedures * (somPercentages.y3 / 100);
+  const som5Procedures = samProcedures * (somPercentages.y5 / 100);
+  
+  // Valori Devices
+  const devicesMetrics = calculateDevicesMetrics();
+  
+  // Valori da mostrare nelle card (dipendono da activeView)
+  const tam = activeView === 'procedures' ? tamProcedures : devicesMetrics.tam;
+  const sam = activeView === 'procedures' ? samProcedures : devicesMetrics.sam;
+  const som1 = activeView === 'procedures' ? som1Procedures : devicesMetrics.som1;
+  const som3 = activeView === 'procedures' ? som3Procedures : devicesMetrics.som3;
+  const som5 = activeView === 'procedures' ? som5Procedures : devicesMetrics.som5;
+  
+  // Percentuali da mostrare nelle card (dipendono da activeView)
+  const currentSamPercentage = activeView === 'procedures' ? samPercentage : samPercentageDevices;
+  const currentSomPercentages = activeView === 'procedures' ? somPercentages : somPercentagesDevices;
 
   // DISABILITATO AUTO-SAVE - causava loop infinito e reload continui!
   // Salvataggio manuale solo quando utente modifica esplicitamente un valore
@@ -407,18 +471,18 @@ export function TamSamSomDashboard() {
                   <Target className="h-6 w-6 opacity-75" />
                 </div>
                 <div className="text-3xl font-bold mb-1">{formatCurrency(sam)}</div>
-                <p className="text-sm opacity-75">Mercato Servibile ({samPercentage}% TAM)</p>
+                <p className="text-sm opacity-75">Mercato Servibile ({currentSamPercentage}% TAM)</p>
               </Card>
             </TooltipTrigger>
             <TooltipContent className="max-w-md p-4 bg-white border-2 border-indigo-300">
               <div className="space-y-2">
-                <div className="font-bold text-indigo-900 text-sm">🎯 Formula SAM:</div>
+                <div className="font-bold text-indigo-900 text-sm">🎯 Formula SAM ({activeView === 'procedures' ? 'Procedures' : 'Devices'}):</div>
                 <div className="text-xs space-y-1">
                   <div className="font-mono bg-indigo-50 p-2 rounded">SAM = TAM × (SAM% / 100)</div>
                   <div className="text-gray-700">
                     • TAM: <strong>{formatCurrency(tam)}</strong><br/>
-                    • Percentuale SAM: <strong>{samPercentage}%</strong><br/>
-                    • Calcolo: {formatCurrency(tam)} × ({samPercentage}/100)<br/>
+                    • Percentuale SAM: <strong>{currentSamPercentage}%</strong><br/>
+                    • Calcolo: {formatCurrency(tam)} × ({currentSamPercentage}/100)<br/>
                     • <strong>SAM = {formatCurrency(sam)}</strong>
                   </div>
                   <div className="mt-2 p-2 bg-indigo-50 rounded text-gray-600">
@@ -448,20 +512,20 @@ export function TamSamSomDashboard() {
                   <div className="font-mono bg-purple-50 p-2 rounded">SOM = SAM × (SOM% / 100)</div>
                   <div className="text-gray-700">
                     • SAM: <strong>{formatCurrency(sam)}</strong><br/>
-                    • Percentuale SOM (Y1): <strong>{somPercentages.y1}%</strong><br/>
-                    • Calcolo: {formatCurrency(sam)} × ({somPercentages.y1}/100)<br/>
+                    • Percentuale SOM (Y1): <strong>{currentSomPercentages.y1}%</strong><br/>
+                    • Calcolo: {formatCurrency(sam)} × ({currentSomPercentages.y1}/100)<br/>
                     • <strong>SOM (Y1) = {formatCurrency(som1)}</strong>
                   </div>
                   <div className="mt-2 space-y-1">
                     <div className="text-gray-600">📅 Proiezioni multi-anno:</div>
                     <div className="p-2 bg-blue-50 rounded">
-                      • Anno 1 ({somPercentages.y1}%): <strong>{formatCurrency(som1)}</strong>
+                      • Anno 1 ({currentSomPercentages.y1}%): <strong>{formatCurrency(som1)}</strong>
                     </div>
                     <div className="p-2 bg-indigo-50 rounded">
-                      • Anno 3 ({somPercentages.y3}%): <strong>{formatCurrency(som3)}</strong>
+                      • Anno 3 ({currentSomPercentages.y3}%): <strong>{formatCurrency(som3)}</strong>
                     </div>
                     <div className="p-2 bg-purple-50 rounded">
-                      • Anno 5 ({somPercentages.y5}%): <strong>{formatCurrency(som5)}</strong>
+                      • Anno 5 ({currentSomPercentages.y5}%): <strong>{formatCurrency(som5)}</strong>
                     </div>
                   </div>
                   <div className="mt-2 p-2 bg-purple-50 rounded text-gray-600">
@@ -474,21 +538,27 @@ export function TamSamSomDashboard() {
         </div>
       </TooltipProvider>
 
-      {/* SAM Percentage Slider */}
+      {/* SAM Percentage Slider - Condizionale */}
       <Card className="p-6">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h3 className="text-lg font-semibold text-gray-900">Percentuale SAM Customizzabile</h3>
+            <h3 className="text-lg font-semibold text-gray-900">
+              Percentuale SAM Customizzabile <Badge variant="outline">{activeView === 'procedures' ? 'Procedures' : 'Devices'}</Badge>
+            </h3>
             <p className="text-sm text-gray-600">Regola la percentuale di TAM che consideri servibile</p>
           </div>
           <Badge variant="outline" className="text-lg px-4 py-2">
-            {samPercentage}%
+            {activeView === 'procedures' ? samPercentage : samPercentageDevices}%
           </Badge>
         </div>
         <Slider
-          value={[samPercentage]}
+          value={[activeView === 'procedures' ? samPercentage : samPercentageDevices]}
           onValueChange={(value) => {
-            setSamPercentage(value[0]);
+            if (activeView === 'procedures') {
+              setSamPercentage(value[0]);
+            } else {
+              setSamPercentageDevices(value[0]);
+            }
             setHasChanges(true);
           }}
           min={1}
@@ -505,7 +575,8 @@ export function TamSamSomDashboard() {
         </div>
       </Card>
 
-      {/* Configurazione Prezzi Multi-Livello */}
+      {/* Configurazione Prezzi Multi-Livello - Solo per Procedures */}
+      {activeView === 'procedures' && (
       <Card className="p-6">
         <div className="flex items-center justify-between mb-4">
           <div>
@@ -786,8 +857,9 @@ export function TamSamSomDashboard() {
           </div>
         )}
       </Card>
+      )}
 
-      {/* Proiezioni SOM */}
+      {/* Proiezioni SOM - Condizionali */}
       <Card className="p-6">
         <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
           <TrendingUp className="h-5 w-5 text-indigo-600" />
@@ -797,14 +869,18 @@ export function TamSamSomDashboard() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
           <div className="space-y-2">
             <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-              <div className="text-sm text-blue-700 font-semibold mb-1">Anno 1 ({somPercentages.y1}% SAM)</div>
+              <div className="text-sm text-blue-700 font-semibold mb-1">Anno 1 ({currentSomPercentages.y1}% SAM)</div>
               <div className="text-2xl font-bold text-blue-900">{formatCurrency(som1)}</div>
             </div>
             <div className="px-2">
               <Slider
-                value={[somPercentages.y1]}
+                value={[currentSomPercentages.y1]}
                 onValueChange={(value) => {
-                  setSomPercentages({...somPercentages, y1: value[0]});
+                  if (activeView === 'procedures') {
+                    setSomPercentages({...somPercentages, y1: value[0]});
+                  } else {
+                    setSomPercentagesDevices({...somPercentagesDevices, y1: value[0]});
+                  }
                   setHasChanges(true);
                 }}
                 min={0.1}
@@ -821,14 +897,18 @@ export function TamSamSomDashboard() {
           
           <div className="space-y-2">
             <div className="p-4 bg-indigo-50 rounded-lg border border-indigo-200">
-              <div className="text-sm text-indigo-700 font-semibold mb-1">Anno 3 ({somPercentages.y3}% SAM)</div>
+              <div className="text-sm text-indigo-700 font-semibold mb-1">Anno 3 ({currentSomPercentages.y3}% SAM)</div>
               <div className="text-2xl font-bold text-indigo-900">{formatCurrency(som3)}</div>
             </div>
             <div className="px-2">
               <Slider
-                value={[somPercentages.y3]}
+                value={[currentSomPercentages.y3]}
                 onValueChange={(value) => {
-                  setSomPercentages({...somPercentages, y3: value[0]});
+                  if (activeView === 'procedures') {
+                    setSomPercentages({...somPercentages, y3: value[0]});
+                  } else {
+                    setSomPercentagesDevices({...somPercentagesDevices, y3: value[0]});
+                  }
                   setHasChanges(true);
                 }}
                 min={0.1}
@@ -837,7 +917,7 @@ export function TamSamSomDashboard() {
               />
               <div className="flex justify-between text-xs text-gray-500 mt-1">
                 <span>0.1%</span>
-                <span>{somPercentages.y3}%</span>
+                <span>{currentSomPercentages.y3}%</span>
                 <span>20%</span>
               </div>
             </div>
@@ -845,14 +925,18 @@ export function TamSamSomDashboard() {
           
           <div className="space-y-2">
             <div className="p-4 bg-purple-50 rounded-lg border border-purple-200">
-              <div className="text-sm text-purple-700 font-semibold mb-1">Anno 5 ({somPercentages.y5}% SAM)</div>
+              <div className="text-sm text-purple-700 font-semibold mb-1">Anno 5 ({currentSomPercentages.y5}% SAM)</div>
               <div className="text-2xl font-bold text-purple-900">{formatCurrency(som5)}</div>
             </div>
             <div className="px-2">
               <Slider
-                value={[somPercentages.y5]}
+                value={[currentSomPercentages.y5]}
                 onValueChange={(value) => {
-                  setSomPercentages({...somPercentages, y5: value[0]});
+                  if (activeView === 'procedures') {
+                    setSomPercentages({...somPercentages, y5: value[0]});
+                  } else {
+                    setSomPercentagesDevices({...somPercentagesDevices, y5: value[0]});
+                  }
                   setHasChanges(true);
                 }}
                 min={0.1}
@@ -861,7 +945,7 @@ export function TamSamSomDashboard() {
               />
               <div className="flex justify-between text-xs text-gray-500 mt-1">
                 <span>0.1%</span>
-                <span>{somPercentages.y5}%</span>
+                <span>{currentSomPercentages.y5}%</span>
                 <span>30%</span>
               </div>
             </div>
@@ -1172,129 +1256,6 @@ export function TamSamSomDashboard() {
                   </label>
                 ))}
               </div>
-            </div>
-
-            {/* Metriche TAM/SAM/SOM Devices */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-6">
-              {(() => {
-                // Calcola TAM totale Devices dalle regioni attive
-                const configEcografi = data?.configurazioneTamSamSom?.ecografi;
-                const prezziMedi = configEcografi?.prezziMediDispositivi || { carrellati: 50000, portatili: 25000, palmari: 8000 };
-                const yearKey = `unita${selectedYear}` as keyof typeof mercatoEcografi.numeroEcografi[0];
-                
-                let tamDevices = 0;
-                
-                ['carrellati', 'portatili', 'palmari'].forEach((categoriaId) => {
-                  const tipologia = mercatoEcografi.tipologie?.find((t: any) => t.id === categoriaId);
-                  if (!tipologia) return;
-                  
-                  const prezzoCategoria = categoriaId === 'carrellati' ? prezziMedi.carrellati :
-                                         categoriaId === 'portatili' ? prezziMedi.portatili :
-                                         prezziMedi.palmari;
-                  
-                  const volumeItalia = regioniAttive.italia ? Math.round((Number(mercatoEcografi.numeroEcografi?.find((m: any) => m.mercato === 'Italia')?.[yearKey]) || 0) * (tipologia.quotaIT || 0)) : 0;
-                  const volumeEuropa = regioniAttive.europa ? Math.round((Number(mercatoEcografi.numeroEcografi?.find((m: any) => m.mercato === 'Europa')?.[yearKey]) || 0) * (tipologia.quotaGlobale || 0)) : 0;
-                  const volumeUSA = regioniAttive.usa ? Math.round((Number(mercatoEcografi.numeroEcografi?.find((m: any) => m.mercato === 'Stati Uniti')?.[yearKey]) || 0) * (tipologia.quotaGlobale || 0)) : 0;
-                  const volumeCina = regioniAttive.cina ? Math.round((Number(mercatoEcografi.numeroEcografi?.find((m: any) => m.mercato === 'Cina')?.[yearKey]) || 0) * (tipologia.quotaGlobale || 0)) : 0;
-                  
-                  const volumeTotale = volumeItalia + volumeEuropa + volumeUSA + volumeCina;
-                  tamDevices += volumeTotale * prezzoCategoria;
-                });
-
-                const samPercentageDevices = configEcografi?.samPercentage || 35;
-                const somPercentagesDevices = configEcografi?.somPercentages || { y1: 0.5, y3: 2, y5: 5 };
-                
-                const samDevices = tamDevices * (samPercentageDevices / 100);
-                const som1Devices = samDevices * (somPercentagesDevices.y1 / 100);
-                const som3Devices = samDevices * (somPercentagesDevices.y3 / 100);
-                const som5Devices = samDevices * (somPercentagesDevices.y5 / 100);
-
-                return (
-                  <>
-                    {/* TAM Card */}
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Card className="p-4 bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-200 cursor-help">
-                          <div className="flex items-center justify-between">
-                            <div>
-                              <p className="text-sm font-medium text-gray-600">TAM Devices</p>
-                              <p className="text-2xl font-bold text-blue-700">{formatCurrency(tamDevices)}</p>
-                              <p className="text-xs text-gray-500 mt-1">
-                                Anno {selectedYear} | {Object.values(regioniAttive).filter(Boolean).length} regioni
-                              </p>
-                            </div>
-                            <Target className="h-8 w-8 text-blue-500" />
-                          </div>
-                        </Card>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p className="max-w-xs">
-                          <strong>Total Addressable Market (Devices)</strong><br/>
-                          Mercato totale dispositivi ecografi basato su volumi regionali × quote categoria × prezzi medi.
-                          Regioni attive: {Object.entries(regioniAttive).filter(([_, v]) => v).map(([k]) => k).join(', ')}
-                        </p>
-                      </TooltipContent>
-                    </Tooltip>
-
-                    {/* SAM Card */}
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Card className="p-4 bg-gradient-to-br from-green-50 to-emerald-50 border-green-200 cursor-help">
-                          <div className="flex items-center justify-between">
-                            <div>
-                              <p className="text-sm font-medium text-gray-600">SAM Devices</p>
-                              <p className="text-2xl font-bold text-green-700">{formatCurrency(samDevices)}</p>
-                              <p className="text-xs text-gray-500 mt-1">{samPercentageDevices}% del TAM</p>
-                            </div>
-                            <TrendingUp className="h-8 w-8 text-green-500" />
-                          </div>
-                        </Card>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p className="max-w-xs">
-                          <strong>Serviceable Addressable Market (Devices)</strong><br/>
-                          Quota di mercato realisticamente raggiungibile. Attualmente {samPercentageDevices}% del TAM.
-                        </p>
-                      </TooltipContent>
-                    </Tooltip>
-
-                    {/* SOM Card */}
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Card className="p-4 bg-gradient-to-br from-purple-50 to-pink-50 border-purple-200 cursor-help">
-                          <div className="flex items-center justify-between">
-                            <div>
-                              <p className="text-sm font-medium text-gray-600">SOM Devices</p>
-                              <div className="space-y-1 mt-1">
-                                <div className="flex items-center gap-2">
-                                  <span className="text-xs text-gray-500">Y1:</span>
-                                  <span className="text-sm font-semibold text-purple-700">{formatCurrency(som1Devices)}</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                  <span className="text-xs text-gray-500">Y3:</span>
-                                  <span className="text-sm font-semibold text-purple-700">{formatCurrency(som3Devices)}</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                  <span className="text-xs text-gray-500">Y5:</span>
-                                  <span className="text-lg font-bold text-purple-700">{formatCurrency(som5Devices)}</span>
-                                </div>
-                              </div>
-                            </div>
-                            <Zap className="h-8 w-8 text-purple-500" />
-                          </div>
-                        </Card>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p className="max-w-xs">
-                          <strong>Serviceable Obtainable Market (Devices)</strong><br/>
-                          Quota mercato dispositivi effettivamente raggiungibile nei primi 5 anni.
-                          Y1: {somPercentagesDevices.y1}% | Y3: {somPercentagesDevices.y3}% | Y5: {somPercentagesDevices.y5}%
-                        </p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </>
-                );
-              })()}
             </div>
 
           {/* Tabella Categorie Hardware */}
