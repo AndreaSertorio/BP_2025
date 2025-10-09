@@ -31,6 +31,7 @@ export function TamSamSomDashboard() {
     loading, 
     toggleAggredibile: toggleAggredibileDB,
     updateConfigurazioneTamSamSomEcografie,
+    updateConfigurazioneTamSamSomEcografi,
     updatePrezzoEcografiaRegionalizzato,
     setPercentualeExtraSSN
   } = useDatabase();
@@ -45,6 +46,15 @@ export function TamSamSomDashboard() {
   const [priceMode, setPriceMode] = useState<'semplice' | 'perProcedura' | 'regionalizzato'>('semplice');
   const [tipoPrezzo, setTipoPrezzo] = useState<'pubblico' | 'privato' | 'medio'>('medio');
   const [volumeMode, setVolumeMode] = useState<'totale' | 'ssn' | 'extraSsn'>('totale');
+  
+  // State per Vista Devices
+  const [selectedYear, setSelectedYear] = useState(2025);
+  const [regioniAttive, setRegioniAttive] = useState({
+    italia: true,
+    europa: true,
+    usa: true,
+    cina: true
+  });
   const [hasChanges, setHasChanges] = useState(false);
   
   // State per editing inline prezzi (come nel Budget)
@@ -117,6 +127,28 @@ export function TamSamSomDashboard() {
       console.log('✅ Toggle salvato:', code);
     } catch (error) {
       console.error('❌ Errore toggle:', error);
+      alert('❌ Errore durante il salvataggio');
+    }
+  }
+
+  // Update prezzo dispositivo (NO RELOAD!)
+  async function updatePrezzoDispositivo(categoriaId: 'carrellati' | 'portatili' | 'palmari', nuovoPrezzo: number) {
+    try {
+      const configEcografi = data?.configurazioneTamSamSom?.ecografi;
+      const prezziAttuali = configEcografi?.prezziMediDispositivi || { carrellati: 50000, portatili: 25000, palmari: 8000 };
+      
+      const nuoviPrezzi = {
+        ...prezziAttuali,
+        [categoriaId]: nuovoPrezzo
+      };
+
+      await updateConfigurazioneTamSamSomEcografi({
+        prezziMediDispositivi: nuoviPrezzi
+      });
+      
+      console.log(`✅ Prezzo ${categoriaId} aggiornato: €${nuovoPrezzo.toLocaleString('it-IT')}`);
+    } catch (error) {
+      console.error('❌ Errore aggiornamento prezzo:', error);
       alert('❌ Errore durante il salvataggio');
     }
   }
@@ -1104,6 +1136,44 @@ export function TamSamSomDashboard() {
               </Tooltip>
             </h3>
 
+            {/* Controlli: Anno + Toggle Regioni */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              {/* Selector Anno */}
+              <div className="flex items-center gap-2">
+                <label className="text-sm font-semibold text-gray-700">Anno:</label>
+                <select
+                  value={selectedYear}
+                  onChange={(e) => setSelectedYear(Number(e.target.value))}
+                  className="px-3 py-2 border border-gray-300 rounded-md text-sm"
+                >
+                  {[2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035].map(year => (
+                    <option key={year} value={year}>📅 {year}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Toggle Regioni per Calcolo TAM */}
+              <div className="flex items-center gap-3 flex-wrap">
+                <span className="text-sm font-semibold text-gray-700">Regioni nel TAM:</span>
+                {['italia', 'europa', 'usa', 'cina'].map(regione => (
+                  <label key={regione} className="flex items-center gap-1 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={regioniAttive[regione as keyof typeof regioniAttive]}
+                      onChange={() => setRegioniAttive(prev => ({ ...prev, [regione]: !prev[regione as keyof typeof regioniAttive] }))}
+                      className="w-4 h-4"
+                    />
+                    <span className="text-sm">
+                      {regione === 'italia' && '🇮🇹 Italia'}
+                      {regione === 'europa' && '🇪🇺 Europa'}
+                      {regione === 'usa' && '🇺🇸 USA'}
+                      {regione === 'cina' && '🇨🇳 Cina'}
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
           {/* Tabella Categorie Hardware */}
           <div className="overflow-x-auto">
             <table className="w-full border-collapse">
@@ -1120,78 +1190,137 @@ export function TamSamSomDashboard() {
                 </tr>
               </thead>
               <tbody>
-                {/* Le 3 categorie principali: carrellati, portatili, palmari */}
-                {['carrellati', 'portatili', 'palmari'].map((categoriaId) => {
-                  const tipologia = mercatoEcografi.tipologie?.find((t: any) => t.id === categoriaId);
-                  if (!tipologia) return null;
+                {(() => {
+                  // Calcola volumi totali per riga finale
+                  let totalItalia = 0;
+                  let totalEuropa = 0;
+                  let totalUSA = 0;
+                  let totalCina = 0;
+                  let totalTAM = 0;
 
-                  // Prezzi medi da configurazione (usa sempre data perché configTamSamSom è solo per ecografie)
-                  const configEcografi = data?.configurazioneTamSamSom?.ecografi;
-                  const prezziMedi = configEcografi?.prezziMediDispositivi;
-                  let prezzoMedio = 0;
-                  if (prezziMedi) {
-                    if (categoriaId === 'carrellati') prezzoMedio = prezziMedi.carrellati;
-                    else if (categoriaId === 'portatili') prezzoMedio = prezziMedi.portatili;
-                    else if (categoriaId === 'palmari') prezzoMedio = prezziMedi.palmari;
-                  }
+                  const rows = ['carrellati', 'portatili', 'palmari'].map((categoriaId) => {
+                    const tipologia = mercatoEcografi.tipologie?.find((t: any) => t.id === categoriaId);
+                    if (!tipologia) return null;
 
-                  // Volumi per regione (anno 2025) × quota categoria
-                  const volumeItalia = Math.round((mercatoEcografi.numeroEcografi?.find((m: any) => m.mercato === 'Italia')?.unita2025 || 0) * (tipologia.quotaIT || 0));
-                  const volumeEuropa = Math.round((mercatoEcografi.numeroEcografi?.find((m: any) => m.mercato === 'Europa')?.unita2025 || 0) * (tipologia.quotaGlobale || 0));
-                  const volumeUSA = Math.round((mercatoEcografi.numeroEcografi?.find((m: any) => m.mercato === 'Stati Uniti')?.unita2025 || 0) * (tipologia.quotaGlobale || 0));
-                  const volumeCina = Math.round((mercatoEcografi.numeroEcografi?.find((m: any) => m.mercato === 'Cina')?.unita2025 || 0) * (tipologia.quotaGlobale || 0));
+                    // Prezzi medi da configurazione
+                    const configEcografi = data?.configurazioneTamSamSom?.ecografi;
+                    const prezziMedi = configEcografi?.prezziMediDispositivi;
+                    let prezzoMedio = 0;
+                    if (prezziMedi) {
+                      if (categoriaId === 'carrellati') prezzoMedio = prezziMedi.carrellati;
+                      else if (categoriaId === 'portatili') prezzoMedio = prezziMedi.portatili;
+                      else if (categoriaId === 'palmari') prezzoMedio = prezziMedi.palmari;
+                    }
 
-                  // TAM categoria = somma(volumi × prezzo)
-                  const tamCategoria = (volumeItalia + volumeEuropa + volumeUSA + volumeCina) * prezzoMedio;
+                    // Volumi per regione (anno selezionato) × quota categoria
+                    const yearKey = `unita${selectedYear}` as keyof typeof mercatoEcografi.numeroEcografi[0];
+                    const volumeItalia = Math.round((Number(mercatoEcografi.numeroEcografi?.find((m: any) => m.mercato === 'Italia')?.[yearKey]) || 0) * (tipologia.quotaIT || 0));
+                    const volumeEuropa = Math.round((Number(mercatoEcografi.numeroEcografi?.find((m: any) => m.mercato === 'Europa')?.[yearKey]) || 0) * (tipologia.quotaGlobale || 0));
+                    const volumeUSA = Math.round((Number(mercatoEcografi.numeroEcografi?.find((m: any) => m.mercato === 'Stati Uniti')?.[yearKey]) || 0) * (tipologia.quotaGlobale || 0));
+                    const volumeCina = Math.round((Number(mercatoEcografi.numeroEcografi?.find((m: any) => m.mercato === 'Cina')?.[yearKey]) || 0) * (tipologia.quotaGlobale || 0));
 
-                  return (
-                    <tr key={categoriaId} className="border-b border-gray-100 hover:bg-gray-50">
-                      {/* Categoria */}
-                      <td className="px-4 py-3">
-                        <div className="flex items-center gap-2">
-                          <span className="text-2xl">{tipologia.icon}</span>
-                          <div>
-                            <div className="font-semibold text-gray-900">{tipologia.nome}</div>
-                            <div className="text-xs text-gray-500">{tipologia.note?.split('-')[0]}</div>
+                    // TAM categoria = solo regioni attive × prezzo
+                    const tamCategoria = (
+                      (regioniAttive.italia ? volumeItalia : 0) +
+                      (regioniAttive.europa ? volumeEuropa : 0) +
+                      (regioniAttive.usa ? volumeUSA : 0) +
+                      (regioniAttive.cina ? volumeCina : 0)
+                    ) * prezzoMedio;
+
+                    // Accumula totali
+                    totalItalia += volumeItalia;
+                    totalEuropa += volumeEuropa;
+                    totalUSA += volumeUSA;
+                    totalCina += volumeCina;
+                    totalTAM += tamCategoria;
+
+                    return (
+                      <tr key={categoriaId} className="border-b border-gray-100 hover:bg-gray-50">
+                        {/* Categoria */}
+                        <td className="px-4 py-3">
+                          <div className="flex items-center gap-2">
+                            <span className="text-2xl">{tipologia.icon}</span>
+                            <div>
+                              <div className="font-semibold text-gray-900">{tipologia.nome}</div>
+                              <div className="text-xs text-gray-500">{tipologia.note?.split('-')[0]}</div>
+                            </div>
                           </div>
+                        </td>
+
+                        {/* % Mercato */}
+                        <td className="px-4 py-3 text-right">
+                          <Badge variant="outline">
+                            IT: {(tipologia.quotaIT * 100).toFixed(1)}%
+                          </Badge>
+                        </td>
+
+                        {/* Prezzo Medio Editabile */}
+                        <td 
+                          className="px-4 py-3 text-right group cursor-pointer"
+                          onClick={() => {
+                            const nuovoPrezzo = prompt(`Nuovo prezzo per ${tipologia.nome}:`, prezzoMedio.toString());
+                            if (nuovoPrezzo && !isNaN(Number(nuovoPrezzo))) {
+                              updatePrezzoDispositivo(categoriaId as 'carrellati' | 'portatili' | 'palmari', Number(nuovoPrezzo));
+                            }
+                          }}
+                        >
+                          <div className="px-2 py-1 rounded hover:bg-indigo-50 font-mono text-indigo-700 font-bold transition-colors">
+                            €{prezzoMedio.toLocaleString('it-IT')}
+                            <span className="ml-1 text-xs opacity-0 group-hover:opacity-100">✏️</span>
+                          </div>
+                        </td>
+
+                        {/* Volumi per regione */}
+                        <td className={`px-4 py-3 text-right font-mono ${regioniAttive.italia ? 'text-blue-700 font-semibold' : 'text-gray-400'}`}>
+                          {volumeItalia.toLocaleString('it-IT')}
+                        </td>
+                        <td className={`px-4 py-3 text-right font-mono ${regioniAttive.europa ? 'text-blue-700 font-semibold' : 'text-gray-400'}`}>
+                          {volumeEuropa.toLocaleString('it-IT')}
+                        </td>
+                        <td className={`px-4 py-3 text-right font-mono ${regioniAttive.usa ? 'text-blue-700 font-semibold' : 'text-gray-400'}`}>
+                          {volumeUSA.toLocaleString('it-IT')}
+                        </td>
+                        <td className={`px-4 py-3 text-right font-mono ${regioniAttive.cina ? 'text-blue-700 font-semibold' : 'text-gray-400'}`}>
+                          {volumeCina.toLocaleString('it-IT')}
+                        </td>
+
+                        {/* TAM Categoria */}
+                        <td className="px-4 py-3 text-right">
+                          <Badge className="bg-green-600">{formatCurrency(tamCategoria)}</Badge>
+                        </td>
+                      </tr>
+                    );
+                  });
+
+                  // Riga Totale
+                  rows.push(
+                    <tr key="totale" className="border-t-2 border-gray-300 bg-gray-50 font-bold">
+                      <td className="px-4 py-3" colSpan={3}>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xl">📊</span>
+                          <span className="font-bold text-gray-900">TOTALE</span>
                         </div>
                       </td>
-
-                      {/* % Mercato */}
+                      <td className={`px-4 py-3 text-right font-mono ${regioniAttive.italia ? 'text-blue-900' : 'text-gray-400'}`}>
+                        {totalItalia.toLocaleString('it-IT')}
+                      </td>
+                      <td className={`px-4 py-3 text-right font-mono ${regioniAttive.europa ? 'text-blue-900' : 'text-gray-400'}`}>
+                        {totalEuropa.toLocaleString('it-IT')}
+                      </td>
+                      <td className={`px-4 py-3 text-right font-mono ${regioniAttive.usa ? 'text-blue-900' : 'text-gray-400'}`}>
+                        {totalUSA.toLocaleString('it-IT')}
+                      </td>
+                      <td className={`px-4 py-3 text-right font-mono ${regioniAttive.cina ? 'text-blue-900' : 'text-gray-400'}`}>
+                        {totalCina.toLocaleString('it-IT')}
+                      </td>
                       <td className="px-4 py-3 text-right">
-                        <Badge variant="outline">
-                          IT: {(tipologia.quotaIT * 100).toFixed(1)}%
-                        </Badge>
-                      </td>
-
-                      {/* Prezzo Medio Editabile */}
-                      <td className="px-4 py-3 text-right group cursor-pointer">
-                        <div className="px-2 py-1 rounded hover:bg-indigo-50 font-mono text-indigo-700 font-bold">
-                          €{prezzoMedio.toLocaleString('it-IT')}
-                        </div>
-                      </td>
-
-                      {/* Volumi per regione */}
-                      <td className="px-4 py-3 text-right font-mono text-blue-700">
-                        {volumeItalia.toLocaleString('it-IT')}
-                      </td>
-                      <td className="px-4 py-3 text-right font-mono text-blue-700">
-                        {volumeEuropa.toLocaleString('it-IT')}
-                      </td>
-                      <td className="px-4 py-3 text-right font-mono text-blue-700">
-                        {volumeUSA.toLocaleString('it-IT')}
-                      </td>
-                      <td className="px-4 py-3 text-right font-mono text-blue-700">
-                        {volumeCina.toLocaleString('it-IT')}
-                      </td>
-
-                      {/* TAM Categoria */}
-                      <td className="px-4 py-3 text-right">
-                        <Badge className="bg-green-600">{formatCurrency(tamCategoria)}</Badge>
+                        <Badge className="bg-green-700 text-lg">{formatCurrency(totalTAM)}</Badge>
                       </td>
                     </tr>
                   );
-                })}
+
+                  return rows;
+                })()}
               </tbody>
             </table>
           </div>

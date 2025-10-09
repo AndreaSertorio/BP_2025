@@ -4405,7 +4405,7 @@
       "tipoPrezzo": "medio",
       "regioneSelezionata": "italia",
       "volumeMode": "totale",
-      "samPercentage": 3,
+      "samPercentage": 21,
       "somPercentages": {
         "y1": 0.5,
         "y3": 1.5,
@@ -4418,7 +4418,7 @@
         "som3": 524548.5075000001,
         "som5": 1311371.26875
       },
-      "lastUpdate": "2025-10-09T15:58:35.314Z"
+      "lastUpdate": "2025-10-09T16:05:37.624Z"
     },
     "ecografi": {
       "priceMode": "semplice",
