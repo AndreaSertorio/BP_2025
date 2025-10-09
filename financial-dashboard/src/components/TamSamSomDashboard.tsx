@@ -31,7 +31,8 @@ export function TamSamSomDashboard() {
     loading, 
     toggleAggredibile: toggleAggredibileDB,
     updateConfigurazioneTamSamSomEcografie,
-    updatePrezzoEcografiaRegionalizzato
+    updatePrezzoEcografiaRegionalizzato,
+    setPercentualeExtraSSN
   } = useDatabase();
   
   const [activeView, setActiveView] = useState<'procedures' | 'devices'>('procedures');
@@ -48,6 +49,12 @@ export function TamSamSomDashboard() {
   
   // State per editing inline prezzi (come nel Budget)
   const [editingPrice, setEditingPrice] = useState<{ codice: string; tipo: 'pubblico' | 'privato'; value: string } | null>(null);
+  
+  // State per regione tabella procedure (separato da selectedRegion usato per calcolo TAM)
+  const [tableRegion, setTableRegion] = useState<'italia' | 'europa' | 'usa' | 'cina'>('italia');
+  
+  // State per editing percentuale Extra SSN
+  const [editingExtraSSN, setEditingExtraSSN] = useState<{ codice: string; value: string } | null>(null);
 
   const mercatoEcografie = data?.mercatoEcografie;
   const mercatoEcografi = data?.mercatoEcografi;
@@ -794,8 +801,29 @@ export function TamSamSomDashboard() {
         <Card className="p-6">
           <div className="mb-4">
             <h3 className="text-xl font-bold text-gray-900 mb-2">
-              📋 Procedure Ecografiche Aggredibili - {selectedRegion}
+              📋 Procedure Ecografiche Aggredibili
             </h3>
+            <div className="flex items-center gap-4 mb-3">
+              <span className="text-sm text-gray-600 font-semibold">Seleziona Mercato:</span>
+              <div className="flex gap-2">
+                {(['italia', 'europa', 'usa', 'cina'] as const).map((region) => (
+                  <button
+                    key={region}
+                    type="button"
+                    onClick={() => setTableRegion(region)}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                      tableRegion === region
+                        ? 'bg-indigo-600 text-white shadow-md'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                  >
+                    {region === 'italia' ? '🇮🇹 Italia' : 
+                     region === 'europa' ? '🇪🇺 Europa' :
+                     region === 'usa' ? '🇺🇸 USA' : '🇨🇳 Cina'}
+                  </button>
+                ))}
+              </div>
+            </div>
             <div className="flex gap-4 text-sm">
               <span className="text-gray-600">Totale: <strong>{prestazioni.length}</strong></span>
               <span className="text-green-700">Aggredibili: <strong>{aggredibili.length}</strong></span>
@@ -821,7 +849,8 @@ export function TamSamSomDashboard() {
               <tbody>
                 {prestazioni.map((p) => {
                   const volumes = calculateVolumes(p);
-                  const prezzoInfo = prezziRegionalizzati?.italia?.find((pr: any) => pr.codice === p.codice);
+                  // Usa tableRegion per i prezzi della regione selezionata
+                  const prezzoInfo = prezziRegionalizzati?.[tableRegion]?.find((pr: any) => pr.codice === p.codice);
                   const prezzoSSN = prezzoInfo?.prezzoPubblico || Math.round(prezzoMedioProcedura);
                   const prezzoPrivato = prezzoInfo?.prezzoPrivato || Math.round(prezzoMedioProcedura * 1.3);
                   
@@ -864,9 +893,48 @@ export function TamSamSomDashboard() {
                       {volumes.extraSsn.toLocaleString('it-IT')}
                     </td>
                     
-                    {/* Extra SSN % */}
-                    <td className="px-4 py-3 text-right">
-                      <Badge variant="outline">{p.percentualeExtraSSN}%</Badge>
+                    {/* Extra SSN % Editabile */}
+                    <td 
+                      className="px-4 py-3 text-right group cursor-pointer"
+                      onClick={() => {
+                        if (!editingExtraSSN) {
+                          setEditingExtraSSN({ codice: p.codice, value: p.percentualeExtraSSN.toString() });
+                        }
+                      }}
+                    >
+                      {editingExtraSSN?.codice === p.codice ? (
+                        <input
+                          type="number"
+                          step="1"
+                          min="0"
+                          max="100"
+                          value={editingExtraSSN.value}
+                          onChange={(e) => setEditingExtraSSN({ ...editingExtraSSN, value: e.target.value })}
+                          onBlur={async () => {
+                            const newPerc = parseInt(editingExtraSSN.value);
+                            if (!isNaN(newPerc) && newPerc >= 0 && newPerc <= 100) {
+                              try {
+                                await setPercentualeExtraSSN(p.codice, newPerc);
+                                setHasChanges(true);
+                                setTimeout(() => setHasChanges(false), 3000);
+                              } catch (error) {
+                                console.error('❌ Errore salvataggio Extra SSN %:', error);
+                              }
+                            }
+                            setEditingExtraSSN(null);
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') e.currentTarget.blur();
+                            if (e.key === 'Escape') setEditingExtraSSN(null);
+                          }}
+                          className="w-16 px-2 py-1 text-right border-2 border-orange-400 rounded focus:outline-none focus:border-orange-600 font-mono"
+                          autoFocus
+                        />
+                      ) : (
+                        <div className="px-2 py-1 rounded hover:bg-orange-50">
+                          <Badge variant="outline">{p.percentualeExtraSSN}%</Badge>
+                        </div>
+                      )}
                     </td>
                     
                     {/* Prezzo SSN Editabile */}
@@ -889,7 +957,7 @@ export function TamSamSomDashboard() {
                             if (!isNaN(newPrice)) {
                               try {
                                 await updatePrezzoEcografiaRegionalizzato(
-                                  'italia',
+                                  tableRegion,
                                   p.codice,
                                   { prezzoPubblico: newPrice }
                                 );
@@ -935,7 +1003,7 @@ export function TamSamSomDashboard() {
                             if (!isNaN(newPrice)) {
                               try {
                                 await updatePrezzoEcografiaRegionalizzato(
-                                  'italia',
+                                  tableRegion,
                                   p.codice,
                                   { prezzoPrivato: newPrice }
                                 );
