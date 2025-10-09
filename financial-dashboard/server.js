@@ -445,6 +445,156 @@ app.patch('/api/ecografi/tipologia/:id', async (req, res) => {
   }
 });
 
+/**
+ * PATCH /api/database/tam-sam-som/ecografie
+ * Aggiorna configurazione TAM/SAM/SOM Ecografie
+ */
+app.patch('/api/database/tam-sam-som/ecografie', async (req, res) => {
+  try {
+    const updates = req.body;
+    
+    // Leggi database
+    const data = await fs.readFile(DB_PATH, 'utf-8');
+    const database = JSON.parse(data);
+    
+    // Inizializza se non esiste
+    if (!database.configurazioneTamSamSom) {
+      database.configurazioneTamSamSom = {
+        ecografie: {},
+        ecografi: {}
+      };
+    }
+    
+    // Aggiorna configurazione ecografie
+    database.configurazioneTamSamSom.ecografie = {
+      ...database.configurazioneTamSamSom.ecografie,
+      ...updates,
+      lastUpdate: new Date().toISOString()
+    };
+    
+    // Aggiorna lastUpdate
+    database.lastUpdate = new Date().toISOString().split('T')[0];
+    
+    // Salva
+    await fs.writeFile(
+      DB_PATH,
+      JSON.stringify(database, null, 2),
+      'utf-8'
+    );
+    
+    console.log('✅ Configurazione TAM/SAM/SOM Ecografie aggiornata');
+    res.json({
+      success: true,
+      configurazione: database.configurazioneTamSamSom.ecografie
+    });
+  } catch (error) {
+    console.error('❌ Errore aggiornamento configurazione TAM/SAM/SOM Ecografie:', error);
+    res.status(500).json({ error: 'Errore aggiornamento configurazione' });
+  }
+});
+
+/**
+ * PATCH /api/database/tam-sam-som/ecografi
+ * Aggiorna configurazione TAM/SAM/SOM Ecografi
+ */
+app.patch('/api/database/tam-sam-som/ecografi', async (req, res) => {
+  try {
+    const updates = req.body;
+    
+    // Leggi database
+    const data = await fs.readFile(DB_PATH, 'utf-8');
+    const database = JSON.parse(data);
+    
+    // Inizializza se non esiste
+    if (!database.configurazioneTamSamSom) {
+      database.configurazioneTamSamSom = {
+        ecografie: {},
+        ecografi: {}
+      };
+    }
+    
+    // Aggiorna configurazione ecografi
+    database.configurazioneTamSamSom.ecografi = {
+      ...database.configurazioneTamSamSom.ecografi,
+      ...updates,
+      lastUpdate: new Date().toISOString()
+    };
+    
+    // Aggiorna lastUpdate
+    database.lastUpdate = new Date().toISOString().split('T')[0];
+    
+    // Salva
+    await fs.writeFile(
+      DB_PATH,
+      JSON.stringify(database, null, 2),
+      'utf-8'
+    );
+    
+    console.log('✅ Configurazione TAM/SAM/SOM Ecografi aggiornata');
+    res.json({
+      success: true,
+      configurazione: database.configurazioneTamSamSom.ecografi
+    });
+  } catch (error) {
+    console.error('❌ Errore aggiornamento configurazione TAM/SAM/SOM Ecografi:', error);
+    res.status(500).json({ error: 'Errore aggiornamento configurazione' });
+  }
+});
+
+/**
+ * PATCH /api/database/prezzi-regionalizzati/:regione/:codice
+ * Aggiorna prezzo ecografia regionalizzato
+ */
+app.patch('/api/database/prezzi-regionalizzati/:regione/:codice', async (req, res) => {
+  try {
+    const { regione, codice } = req.params;
+    const updates = req.body;
+    
+    // Leggi database
+    const data = await fs.readFile(DB_PATH, 'utf-8');
+    const database = JSON.parse(data);
+    
+    // Verifica che esista la regione
+    if (!database.prezziEcografieRegionalizzati || !database.prezziEcografieRegionalizzati[regione]) {
+      return res.status(404).json({ error: `Regione ${regione} non trovata` });
+    }
+    
+    // Trova prezzo
+    const prezzoIndex = database.prezziEcografieRegionalizzati[regione].findIndex(
+      p => p.codice === codice
+    );
+    
+    if (prezzoIndex === -1) {
+      return res.status(404).json({ error: `Prezzo ${codice} non trovato nella regione ${regione}` });
+    }
+    
+    // Aggiorna prezzo
+    database.prezziEcografieRegionalizzati[regione][prezzoIndex] = {
+      ...database.prezziEcografieRegionalizzati[regione][prezzoIndex],
+      ...updates
+    };
+    
+    // Aggiorna lastUpdate
+    database.lastUpdate = new Date().toISOString().split('T')[0];
+    
+    // Salva
+    await fs.writeFile(
+      DB_PATH,
+      JSON.stringify(database, null, 2),
+      'utf-8'
+    );
+    
+    console.log(`✅ Prezzo ${codice} (${regione}) aggiornato`);
+    res.json({
+      success: true,
+      prezzo: database.prezziEcografieRegionalizzati[regione][prezzoIndex]
+    });
+  } catch (error) {
+    console.error(`❌ Errore aggiornamento prezzo:`, error);
+    res.status(500).json({ error: 'Errore aggiornamento prezzo' });
+  }
+});
+
 // Health check
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
@@ -475,6 +625,11 @@ app.listen(PORT, () => {
 ║   PATCH  /api/ecografi/configurazione   - Config ecografi     ║
 ║   POST   /api/ecografi/toggle-tipologia/:id/:campo - Toggle   ║
 ║   PATCH  /api/ecografi/tipologia/:id    - Aggiorna tipologia  ║
+║                                                                ║
+║   API TAM/SAM/SOM:                                             ║
+║   PATCH  /api/database/tam-sam-som/ecografie  - Config TAM/SAM║
+║   PATCH  /api/database/tam-sam-som/ecografi   - Config TAM/SAM║
+║   PATCH  /api/database/prezzi-regionalizzati/:regione/:cod    ║
 ║                                                                ║
 ╚════════════════════════════════════════════════════════════════╝
   `);

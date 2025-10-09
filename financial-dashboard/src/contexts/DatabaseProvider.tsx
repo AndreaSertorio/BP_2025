@@ -82,6 +82,43 @@ interface PrezzoEcografia {
   note: string;
 }
 
+interface ValoriCalcolatiTamSamSom {
+  tam: number;
+  sam: number;
+  som1: number;
+  som3: number;
+  som5: number;
+}
+
+interface ConfigurazioneTamSamSomEcografie {
+  priceMode: 'semplice' | 'perProcedura' | 'regionalizzato';
+  prezzoMedioProcedura: number;
+  tipoPrezzo: 'pubblico' | 'privato' | 'medio';
+  regioneSelezionata: 'italia' | 'europa' | 'usa' | 'cina';
+  volumeMode: 'totale' | 'ssn' | 'extraSsn';
+  samPercentage: number;
+  somPercentages: {
+    y1: number;
+    y3: number;
+    y5: number;
+  };
+  valoriCalcolati: ValoriCalcolatiTamSamSom;
+  lastUpdate: string | null;
+}
+
+interface ConfigurazioneTamSamSomEcografi {
+  priceMode: 'semplice';
+  prezzoMedioDispositivo: number;
+  samPercentage: number;
+  somPercentages: {
+    y1: number;
+    y3: number;
+    y5: number;
+  };
+  valoriCalcolati: ValoriCalcolatiTamSamSom;
+  lastUpdate: string | null;
+}
+
 interface Database {
   version: string;
   lastUpdate: string;
@@ -101,7 +138,10 @@ interface Database {
     europa: PrezzoEcografia[];
     usa: PrezzoEcografia[];
     cina: PrezzoEcografia[];
-    mondo: PrezzoEcografia[];
+  };
+  configurazioneTamSamSom?: {
+    ecografie: ConfigurazioneTamSamSomEcografie;
+    ecografi: ConfigurazioneTamSamSomEcografi;
   };
   market?: any; // Dati mercato per TAM/SAM/SOM (da definire tipo completo)
   budget?: any; // Dati budget (da definire tipo completo)
@@ -122,6 +162,10 @@ interface DatabaseContextValue {
   toggleTipologiaVisible: (id: string) => Promise<void>;
   toggleTipologiaTarget: (id: string) => Promise<void>;
   updateTipologia: (id: string, updates: Partial<TipologiaEcografo>) => Promise<void>;
+  // TAM/SAM/SOM
+  updateConfigurazioneTamSamSomEcografie: (updates: Partial<ConfigurazioneTamSamSomEcografie>) => Promise<void>;
+  updateConfigurazioneTamSamSomEcografi: (updates: Partial<ConfigurazioneTamSamSomEcografi>) => Promise<void>;
+  updatePrezzoEcografiaRegionalizzato: (regione: string, codice: string, updates: Partial<PrezzoEcografia>) => Promise<void>;
   // Generali
   resetToDefaults: () => Promise<void>;
   exportDatabase: () => string;
@@ -373,6 +417,79 @@ export function DatabaseProvider({ children }: { children: ReactNode }) {
   }, [refreshData]);
 
   // ============================================================================
+  // TAM/SAM/SOM
+  // ============================================================================
+
+  // Update configurazione TAM/SAM/SOM Ecografie
+  const updateConfigurazioneTamSamSomEcografie = useCallback(async (updates: Partial<ConfigurazioneTamSamSomEcografie>) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/database/tam-sam-som/ecografie`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updates)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      await response.json();
+      console.log('✅ Configurazione TAM/SAM/SOM Ecografie aggiornata');
+      
+      // Ricarica dati dal server
+      await refreshData();
+    } catch (error) {
+      console.error('❌ Errore aggiornamento configurazione TAM/SAM/SOM Ecografie:', error);
+    }
+  }, [refreshData]);
+
+  // Update configurazione TAM/SAM/SOM Ecografi
+  const updateConfigurazioneTamSamSomEcografi = useCallback(async (updates: Partial<ConfigurazioneTamSamSomEcografi>) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/database/tam-sam-som/ecografi`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updates)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      await response.json();
+      console.log('✅ Configurazione TAM/SAM/SOM Ecografi aggiornata');
+      
+      // Ricarica dati dal server
+      await refreshData();
+    } catch (error) {
+      console.error('❌ Errore aggiornamento configurazione TAM/SAM/SOM Ecografi:', error);
+    }
+  }, [refreshData]);
+
+  // Update prezzo ecografia regionalizzato
+  const updatePrezzoEcografiaRegionalizzato = useCallback(async (regione: string, codice: string, updates: Partial<PrezzoEcografia>) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/database/prezzi-regionalizzati/${regione}/${codice}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updates)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      await response.json();
+      console.log(`✅ Prezzo ${codice} (${regione}) aggiornato`);
+      
+      // Ricarica dati dal server
+      await refreshData();
+    } catch (error) {
+      console.error(`❌ Errore aggiornamento prezzo ${codice} (${regione}):`, error);
+    }
+  }, [refreshData]);
+
+  // ============================================================================
   // GENERALI
   // ============================================================================
 
@@ -406,6 +523,10 @@ export function DatabaseProvider({ children }: { children: ReactNode }) {
     toggleTipologiaVisible,
     toggleTipologiaTarget,
     updateTipologia,
+    // TAM/SAM/SOM
+    updateConfigurazioneTamSamSomEcografie,
+    updateConfigurazioneTamSamSomEcografi,
+    updatePrezzoEcografiaRegionalizzato,
     // Generali
     resetToDefaults,
     exportDatabase,
