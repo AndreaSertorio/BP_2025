@@ -34,79 +34,80 @@
 21. ✅ Configurazione persistente in database.configurazioneTamSamSom.ecografie
 22. ✅ Console feedback: "💾 Configurazione TAM/SAM/SOM salvata automaticamente"
 
-## 🚧 PROSSIMO: VISTA DEVICES (Ecografi)
+## ✅ COMPLETATO: VISTA DEVICES (Ecografi)
 
-### OBIETTIVO
-Creare tabella dispositivi basata su dati Mercato Ecografi con:
-- Divisione per 3 categorie hardware (Premium/Mid-range/Entry-level)
-- Volumi per regione (Italia, Europa, USA, Cina)
-- Prezzi medi editabili per categoria
-- Proiezione negli anni (Y1, Y3, Y5)
-- Calcolo TAM/SAM/SOM per dispositivi
+### OBIETTIVO RAGGIUNTO
+Tabella dispositivi completa con tutte le funzionalità richieste.
 
-### DATI DATABASE DA USARE
+### FUNZIONALITÀ IMPLEMENTATE
+
+#### 1. Selector Anno (2025-2035)
+- ✅ Dropdown con 11 anni di proiezione
+- ✅ Volumi calcolati dinamicamente per anno selezionato
+- ✅ Usa `database.mercatoEcografi.numeroEcografi[].unita{anno}`
+
+#### 2. Toggle Regioni per TAM
+- ✅ Checkbox per ogni regione (🇮🇹 🇪🇺 🇺🇸 🇨🇳)
+- ✅ TAM include solo regioni selezionate
+- ✅ Volumi disattivati → grigio (text-gray-400)
+- ✅ Volumi attivi → blu bold (text-blue-700)
+
+#### 3. Prezzi Editabili Inline
+- ✅ Click su prezzo → prompt nuovo valore
+- ✅ Salvataggio automatico in `configurazioneTamSamSom.ecografi.prezziMediDispositivi`
+- ✅ Funzione: `updatePrezzoDispositivo(categoriaId, nuovoPrezzo)`
+- ✅ NO reload pagina
+- ✅ Hover mostra icona ✏️
+
+#### 4. Riga Totale
+- ✅ Ultima riga con totali volumi per regione
+- ✅ TAM totale = somma TAM categorie
+- ✅ Evidenziata con border-t-2 e bg-gray-50
+- ✅ Icona 📊 + label "TOTALE"
+
+#### 5. Struttura Dati
 ```json
-database.mercatoEcografi {
-  "volumiVenditeDispositivi": {
-    "italia": { "volumeAnnuo": 2500, "percentualeTarget": 15 },
-    "europa": { ... },
-    "usa": { ... },
-    "cina": { ... }
-  },
-  "tipologie": [
-    { "id": "premium", "nome": "Premium", "percentualeMercato": 20, "visible": true },
-    { "id": "midrange", "nome": "Mid-range", "percentualeMercato": 50, "visible": true },
-    { "id": "entrylevel", "nome": "Entry-level", "percentualeMercato": 30, "visible": true }
-  ]
+// 3 Categorie Hardware
+database.mercatoEcografi.tipologie: [
+  { "id": "carrellati", "quotaIT": 0.6131, "quotaGlobale": 0.696 },
+  { "id": "portatili", "quotaIT": 0.3281, "quotaGlobale": 0.295 },
+  { "id": "palmari", "quotaIT": 0.0588, "quotaGlobale": 0.03 }
+]
+
+// Prezzi Medi Configurabili
+database.configurazioneTamSamSom.ecografi.prezziMediDispositivi: {
+  "carrellati": 50000,
+  "portatili": 25000,
+  "palmari": 8000
 }
+
+// Volumi per Anno e Regione
+database.mercatoEcografi.numeroEcografi: [
+  { "mercato": "Italia", "unita2025": 5600, "unita2026": 5838, ... },
+  { "mercato": "Europa", "unita2025": 37000, ... },
+  { "mercato": "Stati Uniti", "unita2025": 31000, ... },
+  { "mercato": "Cina", "unita2025": 26000, ... }
+]
 ```
 
-### DATI MANCANTI DA AGGIUNGERE
-```json
-database.configurazioneTamSamSom.ecografi {
-  "prezziMediDispositivi": {
-    "premium": 80000,      // da aggiungere
-    "midrange": 35000,     // da aggiungere
-    "entrylevel": 15000    // da aggiungere
-  }
-}
-```
-
-### STRUTTURA TABELLA DEVICES
-**Colonne:**
-1. Categoria Hardware (Premium/Mid-range/Entry-level)
-2. % Mercato (da tipologie.percentualeMercato)
-3. Prezzo Medio € (editabile inline)
-4. Volume Italia (volumeAnnuo × percentualeMercato)
-5. Volume Europa (con moltiplicatore)
-6. Volume USA (con moltiplicatore)
-7. Volume Cina (con moltiplicatore)
-8. Target % (percentualeTarget editabile)
-9. TAM Categoria
-
-**Features:**
-- ✅ Prezzi editabili inline (come Procedures)
-- ✅ Target % editabile per categoria
-- ✅ Tooltip su TAM/SAM/SOM (Total/Serviceable/Obtainable Market)
-- ✅ Auto-save configurazione
-- ✅ NO reload su modifiche
-
-### CALCOLO TAM DEVICES
+#### 6. Calcolo TAM Devices
 ```typescript
-TAM_categoria = Σ(volumeRegione × percentualeMercato × prezzoMedio)
-TAM_totale = Σ TAM_categorie
-SAM = TAM × samPercentage / 100
-SOM = SAM × somPercentage / 100
+// Per ogni categoria:
+volumeRegione = numeroEcografi[regione][`unita${anno}`] × quotaCategoria
+TAM_categoria = Σ(volumi regioni attive) × prezzoMedio
+
+// Totale:
+TAM_devices = Σ TAM_categorie
 ```
 
-### IMPLEMENTAZIONE
-1. ✅ Analizzare database.mercatoEcografi
-2. 🚧 Aggiungere prezziMediDispositivi a database.json
-3. 🚧 Creare tabella con 3 righe (categorie hardware)
-4. 🚧 Calcolare volumi per regione × percentuale categoria
-5. 🚧 Prezzi medi editabili con updateConfigurazioneTamSamSomEcografi
-6. 🚧 Calcolo TAM/SAM/SOM per devices
-7. 🚧 Auto-save con debounce
+### ESEMPIO OUTPUT (Anno 2025, tutte regioni attive)
+
+| Categoria | % IT | Prezzo | Vol.IT | Vol.EU | Vol.USA | Vol.CN | TAM |
+|-----------|------|--------|--------|--------|---------|--------|-----|
+| 🏥 Carrellati | 61.3% | €50,000 | 3,433 | 25,752 | 21,576 | 18,096 | €3.44B |
+| 💼 Portatili | 32.8% | €25,000 | 1,837 | 10,915 | 9,145 | 7,670 | €740M |
+| 📱 Palmari | 5.9% | €8,000 | 329 | 1,110 | 930 | 780 | €25M |
+| **📊 TOTALE** | | | **5,599** | **37,777** | **31,651** | **26,546** | **€4.20B** |
 
 ## TESTING FINALE
 **Vista Procedures:**
@@ -116,9 +117,30 @@ SOM = SAM × somPercentage / 100
 - ✅ Cambio regione → volumi moltiplicati correttamente
 - ✅ Ricarico pagina → configurazione ripristinata
 
-**Vista Devices (da testare):**
-- 🚧 Modifico prezzo categoria → NO reload → salvato
-- 🚧 Modifico target % → NO reload → salvato
-- 🚧 TAM riflette volumi × prezzi categorie
-- 🚧 Coerenza con Mercato Ecografi
-- 🚧 Ricarico pagina → configurazione ripristinata
+**Vista Devices:**
+- ✅ Modifico prezzo categoria → NO reload → salvato
+- ✅ Cambio anno → volumi aggiornati dinamicamente
+- ✅ Toggle regioni → TAM ricalcolato solo su regioni attive
+- ✅ Riga totale mostra somma volumi e TAM
+- ✅ TAM riflette volumi × prezzi × regioni attive
+- ✅ Coerenza totale con Mercato Ecografi
+- ✅ Ricarico pagina → configurazione ripristinata
+
+## 🎯 PROSSIMI SVILUPPI POSSIBILI
+
+### Per Vista Devices:
+1. Calcolo SAM/SOM per Devices (già presente per Procedures)
+2. Grafico evoluzione TAM negli anni
+3. Comparazione TAM Procedures vs Devices
+4. Export CSV dati tabella
+
+### Per Vista Procedures:
+1. Filtro per tipo esame (urgenza/base/diagnostica/preventiva)
+2. Grafico distribuzione volumi SSN vs Extra-SSN
+3. Analisi margini per procedura
+
+### Dashboard Generale TAM/SAM/SOM:
+1. Card riepilogativa: TAM Totale (Procedures + Devices)
+2. Timeline breakout per categoria
+3. Heatmap regionali
+4. Analisi sensitività parametri chiave
