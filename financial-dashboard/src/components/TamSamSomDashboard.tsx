@@ -70,6 +70,10 @@ export function TamSamSomDashboard() {
   // Flag per evitare loop infinito tra caricamento e salvataggio
   const [isInitialized, setIsInitialized] = useState(false);
   
+  // State per prezzo vendita prodotto (usato per calcolo ricavi potenziali)
+  const [prezzoVenditaProdotto, setPrezzoVenditaProdotto] = useState(75000);
+  const [editingPrezzoVendita, setEditingPrezzoVendita] = useState<string | null>(null);
+  
   // State per editing inline prezzi (come nel Budget)
   const [editingPrice, setEditingPrice] = useState<{ codice: string; tipo: 'pubblico' | 'privato'; value: string } | null>(null);
   
@@ -113,6 +117,11 @@ export function TamSamSomDashboard() {
       // Carica regioni attive se salvate
       if ((configTamSamSomDevices as any).regioniAttive) {
         setRegioniAttive((configTamSamSomDevices as any).regioniAttive);
+      }
+      
+      // Carica prezzo vendita prodotto se salvato
+      if ((configTamSamSomDevices as any).prezzoVenditaProdotto) {
+        setPrezzoVenditaProdotto((configTamSamSomDevices as any).prezzoVenditaProdotto);
       }
       
       setIsInitialized(true); // Blocca ricaricamenti successivi
@@ -163,7 +172,8 @@ export function TamSamSomDashboard() {
       await updateConfigurazioneTamSamSomEcografi({
         samPercentage: samPercentageDevices,
         somPercentages: somPercentagesDevices,
-        regioniAttive: regioniAttive
+        regioniAttive: regioniAttive,
+        prezzoVenditaProdotto: prezzoVenditaProdotto
       } as any);
       
       console.log('💾 Configurazione TAM/SAM/SOM Devices salvata automaticamente');
@@ -175,6 +185,7 @@ export function TamSamSomDashboard() {
     samPercentageDevices,
     somPercentagesDevices,
     regioniAttiveJson, // FIX: Usa useMemo per evitare loop infinito
+    prezzoVenditaProdotto,
     isInitialized // Aggiungi isInitialized per evitare salvataggio prima dell'init
   ]);
 
@@ -1077,6 +1088,114 @@ export function TamSamSomDashboard() {
           </p>
         </div>
       </Card>
+
+      {/* Sezione Potenziale Ricavi (solo per Devices) */}
+      {activeView === 'devices' && (
+        <Card className="p-6 bg-gradient-to-br from-emerald-50 to-green-50 border-2 border-emerald-300">
+          <h3 className="text-xl font-bold text-emerald-900 mb-4 flex items-center gap-2">
+            <DollarSign className="h-5 w-5 text-emerald-600" />
+            💰 Potenziale Ricavi (Prezzo Vendita × Dispositivi SOM)
+          </h3>
+          
+          {/* Prezzo Vendita Modificabile */}
+          <div className="mb-6 p-4 bg-white rounded-lg border-2 border-emerald-400">
+            <label className="text-sm font-semibold text-emerald-800 block mb-2">
+              💶 Prezzo Vendita Prodotto (per dispositivo):
+            </label>
+            {editingPrezzoVendita !== null ? (
+              <div className="flex items-center gap-2">
+                <input
+                  type="number"
+                  value={editingPrezzoVendita}
+                  onChange={(e) => setEditingPrezzoVendita(e.target.value)}
+                  onBlur={() => {
+                    const newPrice = parseFloat(editingPrezzoVendita);
+                    if (!isNaN(newPrice) && newPrice > 0) {
+                      setPrezzoVenditaProdotto(newPrice);
+                    }
+                    setEditingPrezzoVendita(null);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      const newPrice = parseFloat(editingPrezzoVendita);
+                      if (!isNaN(newPrice) && newPrice > 0) {
+                        setPrezzoVenditaProdotto(newPrice);
+                      }
+                      setEditingPrezzoVendita(null);
+                    } else if (e.key === 'Escape') {
+                      setEditingPrezzoVendita(null);
+                    }
+                  }}
+                  className="flex-1 px-3 py-2 border-2 border-emerald-500 rounded-lg font-mono text-lg"
+                  autoFocus
+                />
+                <span className="text-gray-500">€</span>
+              </div>
+            ) : (
+              <div 
+                onClick={() => setEditingPrezzoVendita(prezzoVenditaProdotto.toString())}
+                className="cursor-pointer hover:bg-emerald-100 p-3 rounded-lg border-2 border-emerald-200 transition-all"
+              >
+                <div className="text-2xl font-bold text-emerald-900">
+                  €{prezzoVenditaProdotto.toLocaleString('it-IT')}
+                </div>
+                <div className="text-xs text-gray-600 mt-1">
+                  ✏️ Click per modificare
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Card Ricavi Y1, Y3, Y5 */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="p-5 bg-white rounded-lg border-2 border-blue-300">
+              <div className="text-sm text-blue-700 font-semibold mb-1">
+                Anno 1 ({currentSomPercentages.y1}% SAM)
+              </div>
+              <div className="text-3xl font-bold text-blue-900 mb-2">
+                €{(calculateSomDevices('y1') * prezzoVenditaProdotto).toLocaleString('it-IT')}
+              </div>
+              <div className="text-xs text-gray-600 border-t border-blue-200 pt-2">
+                <div>📊 Dispositivi: <strong>{calculateSomDevices('y1').toLocaleString('it-IT')}</strong></div>
+                <div className="text-blue-600 mt-1">💶 {calculateSomDevices('y1')} × €{prezzoVenditaProdotto.toLocaleString('it-IT')}</div>
+              </div>
+            </div>
+
+            <div className="p-5 bg-white rounded-lg border-2 border-indigo-300">
+              <div className="text-sm text-indigo-700 font-semibold mb-1">
+                Anno 3 ({currentSomPercentages.y3}% SAM)
+              </div>
+              <div className="text-3xl font-bold text-indigo-900 mb-2">
+                €{(calculateSomDevices('y3') * prezzoVenditaProdotto).toLocaleString('it-IT')}
+              </div>
+              <div className="text-xs text-gray-600 border-t border-indigo-200 pt-2">
+                <div>📊 Dispositivi: <strong>{calculateSomDevices('y3').toLocaleString('it-IT')}</strong></div>
+                <div className="text-indigo-600 mt-1">💶 {calculateSomDevices('y3')} × €{prezzoVenditaProdotto.toLocaleString('it-IT')}</div>
+              </div>
+            </div>
+
+            <div className="p-5 bg-white rounded-lg border-2 border-purple-300">
+              <div className="text-sm text-purple-700 font-semibold mb-1">
+                Anno 5 ({currentSomPercentages.y5}% SAM)
+              </div>
+              <div className="text-3xl font-bold text-purple-900 mb-2">
+                €{(calculateSomDevices('y5') * prezzoVenditaProdotto).toLocaleString('it-IT')}
+              </div>
+              <div className="text-xs text-gray-600 border-t border-purple-200 pt-2">
+                <div>📊 Dispositivi: <strong>{calculateSomDevices('y5').toLocaleString('it-IT')}</strong></div>
+                <div className="text-purple-600 mt-1">💶 {calculateSomDevices('y5')} × €{prezzoVenditaProdotto.toLocaleString('it-IT')}</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-4 p-3 bg-emerald-100 rounded border border-emerald-300">
+            <p className="text-xs text-emerald-900">
+              <strong>💡 Nota:</strong> Questi sono i ricavi potenziali calcolati moltiplicando il numero di dispositivi SOM per il prezzo di vendita.
+              Il prezzo è salvato nel database e sarà coerente in tutte le pagine dell&apos;applicazione.
+            </p>
+          </div>
+        </Card>
+      )}
 
       {/* Vista Procedures */}
       {activeView === 'procedures' && (
