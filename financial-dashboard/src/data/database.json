@@ -4419,7 +4419,7 @@
         "som3": 524548.5075000001,
         "som5": 1311371.26875
       },
-      "lastUpdate": "2025-10-09T22:59:23.030Z",
+      "lastUpdate": "2025-10-09T23:10:50.328Z",
       "regioniSelezionate": {
         "italia": true,
         "europa": false,
@@ -4435,7 +4435,7 @@
         "portatili": 25000,
         "palmari": 8000
       },
-      "samPercentage": 35,
+      "samPercentage": 50,
       "somPercentages": {
         "y1": 0.5,
         "y3": 2,
@@ -4448,14 +4448,14 @@
         "som3": 0,
         "som5": 0
       },
-      "lastUpdate": "2025-10-09T22:59:21.494Z",
+      "lastUpdate": "2025-10-09T23:10:48.797Z",
       "regioniAttive": {
         "italia": true,
         "europa": false,
         "usa": false,
         "cina": false
       },
-      "prezzoVenditaProdotto": 75000
+      "prezzoVenditaProdotto": 25000
     }
   }
 }

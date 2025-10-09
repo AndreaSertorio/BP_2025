@@ -74,6 +74,10 @@ export function TamSamSomDashboard() {
   const [prezzoVenditaProdotto, setPrezzoVenditaProdotto] = useState(75000);
   const [editingPrezzoVendita, setEditingPrezzoVendita] = useState<string | null>(null);
   
+  // State per prezzi dispositivi (carrellati, portatili, palmari)
+  const [prezziDispositivi, setPrezziDispositivi] = useState({ carrellati: 50000, portatili: 25000, palmari: 8000 });
+  const [editingPrezzoDispositivo, setEditingPrezzoDispositivo] = useState<{ tipo: 'carrellati' | 'portatili' | 'palmari'; value: string } | null>(null);
+  
   // State per editing inline prezzi (come nel Budget)
   const [editingPrice, setEditingPrice] = useState<{ codice: string; tipo: 'pubblico' | 'privato'; value: string } | null>(null);
   
@@ -122,6 +126,11 @@ export function TamSamSomDashboard() {
       // Carica prezzo vendita prodotto se salvato
       if ((configTamSamSomDevices as any).prezzoVenditaProdotto) {
         setPrezzoVenditaProdotto((configTamSamSomDevices as any).prezzoVenditaProdotto);
+      }
+      
+      // Carica prezzi dispositivi se salvati
+      if ((configTamSamSomDevices as any).prezziMediDispositivi) {
+        setPrezziDispositivi((configTamSamSomDevices as any).prezziMediDispositivi);
       }
       
       setIsInitialized(true); // Blocca ricaricamenti successivi
@@ -173,7 +182,8 @@ export function TamSamSomDashboard() {
         samPercentage: samPercentageDevices,
         somPercentages: somPercentagesDevices,
         regioniAttive: regioniAttive,
-        prezzoVenditaProdotto: prezzoVenditaProdotto
+        prezzoVenditaProdotto: prezzoVenditaProdotto,
+        prezziMediDispositivi: prezziDispositivi
       } as any);
       
       console.log('💾 Configurazione TAM/SAM/SOM Devices salvata automaticamente');
@@ -186,6 +196,7 @@ export function TamSamSomDashboard() {
     somPercentagesDevices,
     regioniAttiveJson, // FIX: Usa useMemo per evitare loop infinito
     prezzoVenditaProdotto,
+    prezziDispositivi,
     isInitialized // Aggiungi isInitialized per evitare salvataggio prima dell'init
   ]);
 
@@ -198,28 +209,6 @@ export function TamSamSomDashboard() {
       console.log('✅ Toggle salvato:', code);
     } catch (error) {
       console.error('❌ Errore toggle:', error);
-      alert('❌ Errore durante il salvataggio');
-    }
-  }
-
-  // Update prezzo dispositivo (NO RELOAD!)
-  async function updatePrezzoDispositivo(categoriaId: 'carrellati' | 'portatili' | 'palmari', nuovoPrezzo: number) {
-    try {
-      const configEcografi = data?.configurazioneTamSamSom?.ecografi;
-      const prezziAttuali = configEcografi?.prezziMediDispositivi || { carrellati: 50000, portatili: 25000, palmari: 8000 };
-      
-      const nuoviPrezzi = {
-        ...prezziAttuali,
-        [categoriaId]: nuovoPrezzo
-      };
-
-      await updateConfigurazioneTamSamSomEcografi({
-        prezziMediDispositivi: nuoviPrezzi
-      });
-      
-      console.log(`✅ Prezzo ${categoriaId} aggiornato: €${nuovoPrezzo.toLocaleString('it-IT')}`);
-    } catch (error) {
-      console.error('❌ Errore aggiornamento prezzo:', error);
       alert('❌ Errore durante il salvataggio');
     }
   }
@@ -1523,15 +1512,8 @@ export function TamSamSomDashboard() {
                     const tipologia = mercatoEcografi.tipologie?.find((t: any) => t.id === categoriaId);
                     if (!tipologia) return null;
 
-                    // Prezzi medi da configurazione
-                    const configEcografi = data?.configurazioneTamSamSom?.ecografi;
-                    const prezziMedi = configEcografi?.prezziMediDispositivi;
-                    let prezzoMedio = 0;
-                    if (prezziMedi) {
-                      if (categoriaId === 'carrellati') prezzoMedio = prezziMedi.carrellati;
-                      else if (categoriaId === 'portatili') prezzoMedio = prezziMedi.portatili;
-                      else if (categoriaId === 'palmari') prezzoMedio = prezziMedi.palmari;
-                    }
+                    // Prezzi medi dallo state (modificabili)
+                    const prezzoMedio = prezziDispositivi[categoriaId as keyof typeof prezziDispositivi];
 
                     // Volumi per regione (anno selezionato) × quota categoria
                     const yearKey = `unita${selectedYear}` as keyof typeof mercatoEcografi.numeroEcografi[0];
@@ -1575,20 +1557,49 @@ export function TamSamSomDashboard() {
                           </Badge>
                         </td>
 
-                        {/* Prezzo Medio Editabile */}
-                        <td 
-                          className="px-4 py-3 text-right group cursor-pointer"
-                          onClick={() => {
-                            const nuovoPrezzo = prompt(`Nuovo prezzo per ${tipologia.nome}:`, prezzoMedio.toString());
-                            if (nuovoPrezzo && !isNaN(Number(nuovoPrezzo))) {
-                              updatePrezzoDispositivo(categoriaId as 'carrellati' | 'portatili' | 'palmari', Number(nuovoPrezzo));
-                            }
-                          }}
-                        >
-                          <div className="px-2 py-1 rounded hover:bg-indigo-50 font-mono text-indigo-700 font-bold transition-colors">
-                            €{prezzoMedio.toLocaleString('it-IT')}
-                            <span className="ml-1 text-xs opacity-0 group-hover:opacity-100">✏️</span>
-                          </div>
+                        {/* Prezzo Medio Editabile (Inline) */}
+                        <td className="px-4 py-3 text-right">
+                          {editingPrezzoDispositivo?.tipo === categoriaId ? (
+                            <input
+                              type="number"
+                              value={editingPrezzoDispositivo.value}
+                              onChange={(e) => setEditingPrezzoDispositivo({ tipo: categoriaId as any, value: e.target.value })}
+                              onBlur={() => {
+                                const newPrice = parseFloat(editingPrezzoDispositivo.value);
+                                if (!isNaN(newPrice) && newPrice > 0) {
+                                  setPrezziDispositivi(prev => ({
+                                    ...prev,
+                                    [categoriaId]: newPrice
+                                  }));
+                                }
+                                setEditingPrezzoDispositivo(null);
+                              }}
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                  const newPrice = parseFloat(editingPrezzoDispositivo.value);
+                                  if (!isNaN(newPrice) && newPrice > 0) {
+                                    setPrezziDispositivi(prev => ({
+                                      ...prev,
+                                      [categoriaId]: newPrice
+                                    }));
+                                  }
+                                  setEditingPrezzoDispositivo(null);
+                                } else if (e.key === 'Escape') {
+                                  setEditingPrezzoDispositivo(null);
+                                }
+                              }}
+                              className="w-full px-2 py-1 border-2 border-indigo-500 rounded font-mono text-indigo-700 font-bold text-right"
+                              autoFocus
+                            />
+                          ) : (
+                            <div 
+                              onClick={() => setEditingPrezzoDispositivo({ tipo: categoriaId as any, value: prezzoMedio.toString() })}
+                              className="px-2 py-1 rounded hover:bg-indigo-50 font-mono text-indigo-700 font-bold transition-colors cursor-pointer group"
+                            >
+                              €{prezzoMedio.toLocaleString('it-IT')}
+                              <span className="ml-1 text-xs opacity-0 group-hover:opacity-100">✏️</span>
+                            </div>
+                          )}
                         </td>
 
                         {/* Volumi per regione */}
