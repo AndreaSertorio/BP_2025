@@ -70,6 +70,18 @@ interface MercatoEcografi {
   configurazione: ConfigurazioneMercatoEcografi;
 }
 
+interface PrezzoEcografia {
+  codice: string;
+  descrizione: string;
+  prezzoPubblico: number;
+  prezzoPrivato: number;
+  range: string;
+  devStd: string;
+  confidenza: string;
+  nFonti: number;
+  note: string;
+}
+
 interface Database {
   version: string;
   lastUpdate: string;
@@ -84,6 +96,13 @@ interface Database {
     globale: RegioneMondialeData;
   };
   mercatoEcografi?: MercatoEcografi;
+  prezziEcografieRegionalizzati?: {
+    italia: PrezzoEcografia[];
+    europa: PrezzoEcografia[];
+    usa: PrezzoEcografia[];
+    cina: PrezzoEcografia[];
+    mondo: PrezzoEcografia[];
+  };
   market?: any; // Dati mercato per TAM/SAM/SOM (da definire tipo completo)
   budget?: any; // Dati budget (da definire tipo completo)
   metadata?: Record<string, unknown>;

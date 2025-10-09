@@ -23,12 +23,18 @@ export function TamSamSomDashboard() {
   const { data, loading, toggleAggredibile: toggleAggredibileDB } = useDatabase();
   
   const [activeView, setActiveView] = useState<'procedures' | 'devices'>('procedures');
-  const [selectedRegion, setSelectedRegion] = useState('IT');
+  const [selectedRegion, setSelectedRegion] = useState<'italia' | 'europa' | 'usa' | 'cina' | 'mondo'>('italia');
   const [samPercentage, setSamPercentage] = useState(35);
+  const [somPercentages, setSomPercentages] = useState({ y1: 0.5, y3: 2, y5: 5 });
+  const [prezzoMedioProcedura, setPrezzoMedioProcedura] = useState(77.5);
+  const [showPriceEditor, setShowPriceEditor] = useState(false);
+  const [priceMode, setPriceMode] = useState<'semplice' | 'perProcedura' | 'regionalizzato'>('semplice');
+  const [tipoPrezzo, setTipoPrezzo] = useState<'pubblico' | 'privato' | 'medio'>('medio');
   const [hasChanges, setHasChanges] = useState(false);
 
   const mercatoEcografie = data?.mercatoEcografie;
   const mercatoEcografi = data?.mercatoEcografi;
+  const prezziRegionalizzati = data?.prezziEcografieRegionalizzati;
 
   // Toggle aggredibile
   async function toggleAggredibile(code: string) {
@@ -78,10 +84,68 @@ export function TamSamSomDashboard() {
       const prestazioni = mercatoEcografie.italia.prestazioni;
       const aggredibili = prestazioni.filter(p => p.aggredibile);
       
-      const volumeTotale = aggredibili.reduce((sum, p) => sum + p.P, 0);
-      const prezzoMedio = 77.5; // Prezzo medio per esame (da configurazione)
+      if (priceMode === 'semplice') {
+        // MODALITÀ 1: Prezzo medio generale
+        const volumeTotale = aggredibili.reduce((sum, p) => sum + p.P, 0);
+        return volumeTotale * prezzoMedioProcedura;
+        
+      } else if (priceMode === 'perProcedura' && prezziRegionalizzati) {
+        // MODALITÀ 2: Prezzi specifici per procedura (Italia)
+        const prezziItalia = prezziRegionalizzati.italia || [];
+        let tamTotale = 0;
+        
+        aggredibili.forEach(proc => {
+          const prezzoInfo = prezziItalia.find((p: any) => p.codice === proc.codice);
+          if (prezzoInfo) {
+            let prezzo = prezzoMedioProcedura; // fallback
+            
+            if (tipoPrezzo === 'pubblico') {
+              prezzo = prezzoInfo.prezzoPubblico || prezzoMedioProcedura;
+            } else if (tipoPrezzo === 'privato') {
+              prezzo = prezzoInfo.prezzoPrivato || prezzoMedioProcedura;
+            } else {
+              // medio
+              prezzo = (prezzoInfo.prezzoPubblico + prezzoInfo.prezzoPrivato) / 2;
+            }
+            
+            tamTotale += proc.P * prezzo;
+          } else {
+            tamTotale += proc.P * prezzoMedioProcedura;
+          }
+        });
+        
+        return tamTotale;
+        
+      } else if (priceMode === 'regionalizzato' && prezziRegionalizzati) {
+        // MODALITÀ 3: Prezzi regionalizzati
+        const prezziRegione = prezziRegionalizzati[selectedRegion] || [];
+        let tamTotale = 0;
+        
+        aggredibili.forEach(proc => {
+          const prezzoInfo = prezziRegione.find((p: any) => p.codice === proc.codice);
+          if (prezzoInfo) {
+            let prezzo = prezzoMedioProcedura;
+            
+            if (tipoPrezzo === 'pubblico') {
+              prezzo = prezzoInfo.prezzoPubblico || prezzoMedioProcedura;
+            } else if (tipoPrezzo === 'privato') {
+              prezzo = prezzoInfo.prezzoPrivato || prezzoMedioProcedura;
+            } else {
+              prezzo = (prezzoInfo.prezzoPubblico + prezzoInfo.prezzoPrivato) / 2;
+            }
+            
+            tamTotale += proc.P * prezzo;
+          } else {
+            tamTotale += proc.P * prezzoMedioProcedura;
+          }
+        });
+        
+        return tamTotale;
+      }
       
-      return volumeTotale * prezzoMedio;
+      // Fallback
+      const volumeTotale = aggredibili.reduce((sum, p) => sum + p.P, 0);
+      return volumeTotale * prezzoMedioProcedura;
     } else {
       // TAM basato su ecografi (valore di mercato stimato)
       if (!mercatoEcografi) return 0;
@@ -102,13 +166,12 @@ export function TamSamSomDashboard() {
 
   const calculateSOM = (year: 1 | 3 | 5) => {
     const sam = calculateSAM();
-    // Assumptions di default per SOM
-    const somPercentages = {
-      1: 0.005,  // 0.5% year 1
-      3: 0.02,   // 2% year 3
-      5: 0.05    // 5% year 5
+    const percentageMap = {
+      1: somPercentages.y1 / 100,
+      3: somPercentages.y3 / 100,
+      5: somPercentages.y5 / 100
     };
-    return sam * somPercentages[year];
+    return sam * percentageMap[year];
   };
 
   const formatCurrency = (value: number) => {
@@ -232,25 +295,327 @@ export function TamSamSomDashboard() {
         </div>
       </Card>
 
+      {/* Configurazione Prezzi Multi-Livello */}
+      <Card className="p-6">
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+              <DollarSign className="h-5 w-5 text-green-600" />
+              Configurazione Prezzi Procedure
+            </h3>
+            <p className="text-sm text-gray-600 mt-1">Scegli il livello di dettaglio per il calcolo TAM</p>
+          </div>
+          <Button
+            variant={showPriceEditor ? "default" : "outline"}
+            onClick={() => setShowPriceEditor(!showPriceEditor)}
+            size="sm"
+          >
+            {showPriceEditor ? 'Nascondi' : 'Configura Prezzi'}
+          </Button>
+        </div>
+        
+        {showPriceEditor && (
+          <div className="space-y-6 p-4 bg-gray-50 rounded-lg border">
+            {/* Selezione Modalità */}
+            <div>
+              <label className="text-sm font-semibold text-gray-700 mb-3 block">
+                📊 Modalità di Calcolo Prezzi
+              </label>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setPriceMode('semplice');
+                    setHasChanges(true);
+                  }}
+                  className={`p-4 rounded-lg border-2 transition-all ${
+                    priceMode === 'semplice' 
+                      ? 'border-indigo-500 bg-indigo-50' 
+                      : 'border-gray-200 hover:border-gray-300'
+                  }`}
+                >
+                  <div className="font-semibold text-sm mb-1">🎯 Semplice</div>
+                  <div className="text-xs text-gray-600">Prezzo medio generale</div>
+                </button>
+                
+                <button
+                  type="button"
+                  onClick={() => {
+                    setPriceMode('perProcedura');
+                    setHasChanges(true);
+                  }}
+                  className={`p-4 rounded-lg border-2 transition-all ${
+                    priceMode === 'perProcedura' 
+                      ? 'border-indigo-500 bg-indigo-50' 
+                      : 'border-gray-200 hover:border-gray-300'
+                  }`}
+                >
+                  <div className="font-semibold text-sm mb-1">📋 Per Procedura</div>
+                  <div className="text-xs text-gray-600">Prezzi specifici (Italia)</div>
+                </button>
+                
+                <button
+                  type="button"
+                  onClick={() => {
+                    setPriceMode('regionalizzato');
+                    setHasChanges(true);
+                  }}
+                  className={`p-4 rounded-lg border-2 transition-all ${
+                    priceMode === 'regionalizzato' 
+                      ? 'border-indigo-500 bg-indigo-50' 
+                      : 'border-gray-200 hover:border-gray-300'
+                  }`}
+                >
+                  <div className="font-semibold text-sm mb-1">🌍 Regionalizzato</div>
+                  <div className="text-xs text-gray-600">Prezzi per regione</div>
+                </button>
+              </div>
+            </div>
+
+            {/* MODALITÀ SEMPLICE */}
+            {priceMode === 'semplice' && (
+              <div className="p-4 bg-white rounded-lg border">
+                <label className="text-sm font-semibold text-gray-700 mb-2 block">
+                  Prezzo Medio per Esame: €{prezzoMedioProcedura.toFixed(2)}
+                </label>
+                <Slider
+                  value={[prezzoMedioProcedura]}
+                  onValueChange={(value) => {
+                    setPrezzoMedioProcedura(value[0]);
+                    setHasChanges(true);
+                  }}
+                  min={30}
+                  max={150}
+                  step={0.5}
+                  className="mb-2"
+                />
+                <div className="flex justify-between text-xs text-gray-500">
+                  <span>€30 (SSN)</span>
+                  <span>€90 (Medio)</span>
+                  <span>€150 (Privato)</span>
+                </div>
+              </div>
+            )}
+
+            {/* MODALITÀ PER PROCEDURA */}
+            {priceMode === 'perProcedura' && (
+              <div className="p-4 bg-white rounded-lg border space-y-3">
+                <div>
+                  <label className="text-sm font-semibold text-gray-700 mb-2 block">
+                    Tipo di Prezzo
+                  </label>
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setTipoPrezzo('pubblico')}
+                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                        tipoPrezzo === 'pubblico'
+                          ? 'bg-blue-500 text-white'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                    >
+                      💙 Pubblico (SSN)
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setTipoPrezzo('medio')}
+                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                        tipoPrezzo === 'medio'
+                          ? 'bg-purple-500 text-white'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                    >
+                      💜 Media Pubblico/Privato
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setTipoPrezzo('privato')}
+                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                        tipoPrezzo === 'privato'
+                          ? 'bg-green-500 text-white'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                    >
+                      💚 Privato
+                    </button>
+                  </div>
+                </div>
+                <div className="p-3 bg-blue-50 rounded border border-blue-200">
+                  <p className="text-xs text-blue-800">
+                    <strong>Info:</strong> Usa prezzi specifici per ogni procedura aggredibile.
+                    I prezzi provengono dall'Excel regionalizzato (regione Italia).
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* MODALITÀ REGIONALIZZATA */}
+            {priceMode === 'regionalizzato' && (
+              <div className="p-4 bg-white rounded-lg border space-y-3">
+                <div>
+                  <label className="text-sm font-semibold text-gray-700 mb-2 block">
+                    Regione
+                  </label>
+                  <div className="grid grid-cols-5 gap-2">
+                    {['italia', 'europa', 'usa', 'cina', 'mondo'].map(region => (
+                      <button
+                        key={region}
+                        type="button"
+                        onClick={() => setSelectedRegion(region as any)}
+                        className={`px-3 py-2 rounded-lg text-xs font-medium capitalize transition-all ${
+                          selectedRegion === region
+                            ? 'bg-indigo-500 text-white'
+                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        }`}
+                      >
+                        {region === 'italia' && '🇮🇹'}
+                        {region === 'europa' && '🇪🇺'}
+                        {region === 'usa' && '🇺🇸'}
+                        {region === 'cina' && '🇨🇳'}
+                        {region === 'mondo' && '🌍'}
+                        {' '}{region}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <label className="text-sm font-semibold text-gray-700 mb-2 block">
+                    Tipo di Prezzo
+                  </label>
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setTipoPrezzo('pubblico')}
+                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                        tipoPrezzo === 'pubblico'
+                          ? 'bg-blue-500 text-white'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                    >
+                      💙 Pubblico
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setTipoPrezzo('medio')}
+                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                        tipoPrezzo === 'medio'
+                          ? 'bg-purple-500 text-white'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                    >
+                      💜 Media
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setTipoPrezzo('privato')}
+                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                        tipoPrezzo === 'privato'
+                          ? 'bg-green-500 text-white'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                    >
+                      💚 Privato
+                    </button>
+                  </div>
+                </div>
+                <div className="p-3 bg-green-50 rounded border border-green-200">
+                  <p className="text-xs text-green-800">
+                    <strong>Info:</strong> Calcolo TAM con prezzi specifici per regione {selectedRegion.toUpperCase()}.
+                    Massima precisione con dati regionalizzati dall'Excel.
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </Card>
+
       {/* Proiezioni SOM */}
       <Card className="p-6">
         <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
           <TrendingUp className="h-5 w-5 text-indigo-600" />
-          Proiezioni SOM Multi-Anno
+          Proiezioni SOM Multi-Anno (Personalizzabili)
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-            <div className="text-sm text-blue-700 font-semibold mb-1">Anno 1 (0.5% SAM)</div>
-            <div className="text-2xl font-bold text-blue-900">{formatCurrency(som1)}</div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div className="space-y-2">
+            <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+              <div className="text-sm text-blue-700 font-semibold mb-1">Anno 1 ({somPercentages.y1}% SAM)</div>
+              <div className="text-2xl font-bold text-blue-900">{formatCurrency(som1)}</div>
+            </div>
+            <div className="px-2">
+              <Slider
+                value={[somPercentages.y1]}
+                onValueChange={(value) => {
+                  setSomPercentages({...somPercentages, y1: value[0]});
+                  setHasChanges(true);
+                }}
+                min={0.1}
+                max={10}
+                step={0.1}
+              />
+              <div className="flex justify-between text-xs text-gray-500 mt-1">
+                <span>0.1%</span>
+                <span>{somPercentages.y1}%</span>
+                <span>10%</span>
+              </div>
+            </div>
           </div>
-          <div className="p-4 bg-indigo-50 rounded-lg border border-indigo-200">
-            <div className="text-sm text-indigo-700 font-semibold mb-1">Anno 3 (2% SAM)</div>
-            <div className="text-2xl font-bold text-indigo-900">{formatCurrency(som3)}</div>
+          
+          <div className="space-y-2">
+            <div className="p-4 bg-indigo-50 rounded-lg border border-indigo-200">
+              <div className="text-sm text-indigo-700 font-semibold mb-1">Anno 3 ({somPercentages.y3}% SAM)</div>
+              <div className="text-2xl font-bold text-indigo-900">{formatCurrency(som3)}</div>
+            </div>
+            <div className="px-2">
+              <Slider
+                value={[somPercentages.y3]}
+                onValueChange={(value) => {
+                  setSomPercentages({...somPercentages, y3: value[0]});
+                  setHasChanges(true);
+                }}
+                min={0.1}
+                max={20}
+                step={0.1}
+              />
+              <div className="flex justify-between text-xs text-gray-500 mt-1">
+                <span>0.1%</span>
+                <span>{somPercentages.y3}%</span>
+                <span>20%</span>
+              </div>
+            </div>
           </div>
-          <div className="p-4 bg-purple-50 rounded-lg border border-purple-200">
-            <div className="text-sm text-purple-700 font-semibold mb-1">Anno 5 (5% SAM)</div>
-            <div className="text-2xl font-bold text-purple-900">{formatCurrency(som5)}</div>
+          
+          <div className="space-y-2">
+            <div className="p-4 bg-purple-50 rounded-lg border border-purple-200">
+              <div className="text-sm text-purple-700 font-semibold mb-1">Anno 5 ({somPercentages.y5}% SAM)</div>
+              <div className="text-2xl font-bold text-purple-900">{formatCurrency(som5)}</div>
+            </div>
+            <div className="px-2">
+              <Slider
+                value={[somPercentages.y5]}
+                onValueChange={(value) => {
+                  setSomPercentages({...somPercentages, y5: value[0]});
+                  setHasChanges(true);
+                }}
+                min={0.1}
+                max={30}
+                step={0.1}
+              />
+              <div className="flex justify-between text-xs text-gray-500 mt-1">
+                <span>0.1%</span>
+                <span>{somPercentages.y5}%</span>
+                <span>30%</span>
+              </div>
+            </div>
           </div>
+        </div>
+        
+        <div className="p-3 bg-yellow-50 rounded border border-yellow-200">
+          <p className="text-xs text-yellow-800">
+            <strong>Nota:</strong> Le percentuali SOM rappresentano la quota di SAM che prevedi di conquistare.
+            Valori conservativi: Y1=0.5%, Y3=2%, Y5=5%. Valori ottimistici: Y1=2%, Y3=10%, Y5=20%.
+          </p>
         </div>
       </Card>
 
@@ -287,7 +652,11 @@ export function TamSamSomDashboard() {
                   >
                     <td className="px-4 py-3">
                       <button
-                        onClick={() => toggleAggredibile(p.codice)}
+                        type="button"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          toggleAggredibile(p.codice);
+                        }}
                         className={`flex items-center justify-center w-10 h-10 rounded-lg transition-all hover:scale-110 ${
                           p.aggredibile ? 'bg-green-500 hover:bg-green-600' : 'bg-gray-300 hover:bg-gray-400'
                         }`}
@@ -356,8 +725,9 @@ export function TamSamSomDashboard() {
         <div className="flex items-start gap-2">
           <Info className="h-5 w-5 text-yellow-700 mt-0.5" />
           <div className="text-sm text-yellow-800">
-            <strong>Note:</strong> TAM calcolato da procedure aggredibili × prezzo medio. 
-            SAM personalizzabile tramite slider. SOM basato su assunzioni conservative (0.5%/2%/5%).
+            <strong>Formula TAM:</strong> Σ(Volume procedure aggredibili × €{prezzoMedioProcedura.toFixed(2)}) = {formatCurrency(tam)}<br/>
+            <strong>Formula SAM:</strong> TAM × {samPercentage}% = {formatCurrency(sam)}<br/>
+            <strong>Formula SOM:</strong> SAM × [{somPercentages.y1}% / {somPercentages.y3}% / {somPercentages.y5}%]
           </div>
         </div>
       </Card>
