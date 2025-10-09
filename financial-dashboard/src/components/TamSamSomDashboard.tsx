@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -47,7 +47,7 @@ export function TamSamSomDashboard() {
   const [hasChanges, setHasChanges] = useState(false);
   
   // State per editing inline prezzi (come nel Budget)
-  const [editingPrice, setEditingPrice] = useState<{ codice: string; value: string } | null>(null);
+  const [editingPrice, setEditingPrice] = useState<{ codice: string; tipo: 'pubblico' | 'privato'; value: string } | null>(null);
 
   const mercatoEcografie = data?.mercatoEcografie;
   const mercatoEcografi = data?.mercatoEcografi;
@@ -177,51 +177,8 @@ export function TamSamSomDashboard() {
   const som3 = sam * (somPercentages.y3 / 100);
   const som5 = sam * (somPercentages.y5 / 100);
 
-  // Ref per evitare loop infinito - salva solo se valori cambiano davvero
-  const lastSavedConfig = useRef<string>('');
-
-  // Auto-save valori calcolati (FIX LOOP INFINITO)
-  useEffect(() => {
-    if (!mercatoEcografie) return;
-    
-    // Crea stringa univoca della configurazione
-    const currentConfig = JSON.stringify({
-      priceMode,
-      prezzoMedioProcedura,
-      tipoPrezzo,
-      regioneSelezionata: selectedRegion,
-      volumeMode,
-      samPercentage,
-      somPercentages,
-      tam: Math.round(tam),
-      sam: Math.round(sam)
-    });
-    
-    // Salva SOLO se la configurazione è cambiata
-    if (currentConfig !== lastSavedConfig.current) {
-      const timer = setTimeout(async () => {
-        lastSavedConfig.current = currentConfig;
-        try {
-          await updateConfigurazioneTamSamSomEcografie({
-            priceMode,
-            prezzoMedioProcedura,
-            tipoPrezzo,
-            regioneSelezionata: selectedRegion,
-            volumeMode,
-            samPercentage,
-            somPercentages,
-            valoriCalcolati: { tam, sam, som1, som3, som5 }
-          });
-          setHasChanges(true);
-          // Nascondi badge dopo 3 secondi
-          setTimeout(() => setHasChanges(false), 3000);
-        } catch (error) {
-          console.error('❌ Errore salvataggio auto-save:', error);
-        }
-      }, 2000); // 2 secondi di debounce per sicurezza
-      return () => clearTimeout(timer);
-    }
-  }, [tam, sam, som1, som3, som5, priceMode, prezzoMedioProcedura, tipoPrezzo, selectedRegion, volumeMode, samPercentage, somPercentages, mercatoEcografie, updateConfigurazioneTamSamSomEcografie]);
+  // DISABILITATO AUTO-SAVE - causava loop infinito e reload continui!
+  // Salvataggio manuale solo quando utente modifica esplicitamente un valore
 
   // Loading
   if (loading) {
@@ -857,14 +814,16 @@ export function TamSamSomDashboard() {
                   <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">Vol. SSN</th>
                   <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">Vol. Extra-SSN</th>
                   <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">Extra SSN %</th>
-                  <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">Prezzo €</th>
+                  <th className="px-4 py-3 text-right text-sm font-semibold text-blue-700">Prezzo SSN €</th>
+                  <th className="px-4 py-3 text-right text-sm font-semibold text-green-700">Prezzo Privato €</th>
                 </tr>
               </thead>
               <tbody>
                 {prestazioni.map((p) => {
                   const volumes = calculateVolumes(p);
                   const prezzoInfo = prezziRegionalizzati?.italia?.find((pr: any) => pr.codice === p.codice);
-                  const prezzoMedio = prezzoInfo ? (prezzoInfo.prezzoPubblico + prezzoInfo.prezzoPrivato) / 2 : prezzoMedioProcedura;
+                  const prezzoSSN = prezzoInfo?.prezzoPubblico || Math.round(prezzoMedioProcedura);
+                  const prezzoPrivato = prezzoInfo?.prezzoPrivato || Math.round(prezzoMedioProcedura * 1.3);
                   
                   return (
                   <tr 
@@ -910,34 +869,34 @@ export function TamSamSomDashboard() {
                       <Badge variant="outline">{p.percentualeExtraSSN}%</Badge>
                     </td>
                     
-                    {/* Prezzo Editabile - Pattern Budget */}
+                    {/* Prezzo SSN Editabile */}
                     <td 
                       className="px-4 py-3 text-right group cursor-pointer"
                       onClick={() => {
                         if (!editingPrice) {
-                          setEditingPrice({ codice: p.codice, value: prezzoMedio.toFixed(2) });
+                          setEditingPrice({ codice: p.codice, tipo: 'pubblico', value: prezzoSSN.toString() });
                         }
                       }}
                     >
-                      {editingPrice?.codice === p.codice ? (
+                      {editingPrice?.codice === p.codice && editingPrice.tipo === 'pubblico' ? (
                         <input
                           type="number"
-                          step="0.01"
+                          step="1"
                           value={editingPrice.value}
                           onChange={(e) => setEditingPrice({ ...editingPrice, value: e.target.value })}
                           onBlur={async () => {
-                            const newPrice = parseFloat(editingPrice.value);
-                            if (!isNaN(newPrice) && prezzoInfo) {
+                            const newPrice = parseInt(editingPrice.value);
+                            if (!isNaN(newPrice)) {
                               try {
                                 await updatePrezzoEcografiaRegionalizzato(
                                   'italia',
                                   p.codice,
-                                  { prezzoPubblico: newPrice, prezzoPrivato: newPrice }
+                                  { prezzoPubblico: newPrice }
                                 );
                                 setHasChanges(true);
                                 setTimeout(() => setHasChanges(false), 3000);
                               } catch (error) {
-                                console.error('❌ Errore salvataggio prezzo:', error);
+                                console.error('❌ Errore salvataggio prezzo SSN:', error);
                               }
                             }
                             setEditingPrice(null);
@@ -946,12 +905,58 @@ export function TamSamSomDashboard() {
                             if (e.key === 'Enter') e.currentTarget.blur();
                             if (e.key === 'Escape') setEditingPrice(null);
                           }}
-                          className="w-24 px-2 py-1 text-right border-2 border-blue-400 rounded focus:outline-none focus:border-blue-600 font-mono"
+                          className="w-20 px-2 py-1 text-right border-2 border-blue-400 rounded focus:outline-none focus:border-blue-600 font-mono"
                           autoFocus
                         />
                       ) : (
-                        <div className="px-2 py-1 rounded hover:bg-blue-50 font-mono">
-                          €{prezzoMedio.toFixed(2)}
+                        <div className="px-2 py-1 rounded hover:bg-blue-50 font-mono text-blue-700">
+                          €{prezzoSSN}
+                        </div>
+                      )}
+                    </td>
+                    
+                    {/* Prezzo Privato Editabile */}
+                    <td 
+                      className="px-4 py-3 text-right group cursor-pointer"
+                      onClick={() => {
+                        if (!editingPrice) {
+                          setEditingPrice({ codice: p.codice, tipo: 'privato', value: prezzoPrivato.toString() });
+                        }
+                      }}
+                    >
+                      {editingPrice?.codice === p.codice && editingPrice.tipo === 'privato' ? (
+                        <input
+                          type="number"
+                          step="1"
+                          value={editingPrice.value}
+                          onChange={(e) => setEditingPrice({ ...editingPrice, value: e.target.value })}
+                          onBlur={async () => {
+                            const newPrice = parseInt(editingPrice.value);
+                            if (!isNaN(newPrice)) {
+                              try {
+                                await updatePrezzoEcografiaRegionalizzato(
+                                  'italia',
+                                  p.codice,
+                                  { prezzoPrivato: newPrice }
+                                );
+                                setHasChanges(true);
+                                setTimeout(() => setHasChanges(false), 3000);
+                              } catch (error) {
+                                console.error('❌ Errore salvataggio prezzo Privato:', error);
+                              }
+                            }
+                            setEditingPrice(null);
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') e.currentTarget.blur();
+                            if (e.key === 'Escape') setEditingPrice(null);
+                          }}
+                          className="w-20 px-2 py-1 text-right border-2 border-green-400 rounded focus:outline-none focus:border-green-600 font-mono"
+                          autoFocus
+                        />
+                      ) : (
+                        <div className="px-2 py-1 rounded hover:bg-green-50 font-mono text-green-700">
+                          €{prezzoPrivato}
                         </div>
                       )}
                     </td>
