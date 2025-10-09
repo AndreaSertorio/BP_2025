@@ -45,6 +45,9 @@ export function TamSamSomDashboard() {
   const [tipoPrezzo, setTipoPrezzo] = useState<'pubblico' | 'privato' | 'medio'>('medio');
   const [volumeMode, setVolumeMode] = useState<'totale' | 'ssn' | 'extraSsn'>('totale');
   const [hasChanges, setHasChanges] = useState(false);
+  
+  // State per editing inline prezzi (come nel Budget)
+  const [editingPrice, setEditingPrice] = useState<{ codice: string; value: string } | null>(null);
 
   const mercatoEcografie = data?.mercatoEcografie;
   const mercatoEcografi = data?.mercatoEcografi;
@@ -850,43 +853,111 @@ export function TamSamSomDashboard() {
                   <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700 w-24">Aggredibile</th>
                   <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Codice</th>
                   <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Nome</th>
-                  <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">Volume (P)</th>
+                  <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">Vol. Totale</th>
+                  <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">Vol. SSN</th>
+                  <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">Vol. Extra-SSN</th>
                   <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">Extra SSN %</th>
+                  <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">Prezzo €</th>
                 </tr>
               </thead>
               <tbody>
-                {prestazioni.map((p) => (
+                {prestazioni.map((p) => {
+                  const volumes = calculateVolumes(p);
+                  const prezzoInfo = prezziRegionalizzati?.italia?.find((pr: any) => pr.codice === p.codice);
+                  const prezzoMedio = prezzoInfo ? (prezzoInfo.prezzoPubblico + prezzoInfo.prezzoPrivato) / 2 : prezzoMedioProcedura;
+                  
+                  return (
                   <tr 
                     key={p.codice}
                     className={`border-b border-gray-100 hover:bg-gray-50 ${p.aggredibile ? 'bg-green-50/50' : ''}`}
                   >
-                    <td className="px-4 py-3">
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          toggleAggredibile(p.codice);
-                        }}
-                        className={`flex items-center justify-center w-10 h-10 rounded-lg transition-all hover:scale-110 ${
-                          p.aggredibile ? 'bg-green-500 hover:bg-green-600' : 'bg-gray-300 hover:bg-gray-400'
-                        }`}
-                      >
+                    {/* Aggredibile - Pattern Budget: td onClick invece di button */}
+                    <td 
+                      className="px-4 py-3 cursor-pointer"
+                      onClick={() => toggleAggredibile(p.codice)}
+                    >
+                      <div className={`flex items-center justify-center w-10 h-10 rounded-lg transition-all hover:scale-110 ${
+                        p.aggredibile ? 'bg-green-500 hover:bg-green-600' : 'bg-gray-300 hover:bg-gray-400'
+                      }`}>
                         {p.aggredibile ? (
                           <CheckCircle2 className="h-6 w-6 text-white" />
                         ) : (
                           <XCircle className="h-6 w-6 text-white" />
                         )}
-                      </button>
+                      </div>
                     </td>
+                    
                     <td className="px-4 py-3 font-mono text-sm">{p.codice}</td>
                     <td className={`px-4 py-3 ${p.aggredibile ? 'font-semibold' : ''}`}>{p.nome}</td>
-                    <td className="px-4 py-3 text-right font-mono">{p.P.toLocaleString('it-IT')}</td>
+                    
+                    {/* Volume Totale */}
+                    <td className="px-4 py-3 text-right font-mono font-bold text-gray-900">
+                      {volumes.totale.toLocaleString('it-IT')}
+                    </td>
+                    
+                    {/* Volume SSN */}
+                    <td className="px-4 py-3 text-right font-mono text-blue-700">
+                      {volumes.ssn.toLocaleString('it-IT')}
+                    </td>
+                    
+                    {/* Volume Extra-SSN */}
+                    <td className="px-4 py-3 text-right font-mono text-green-700">
+                      {volumes.extraSsn.toLocaleString('it-IT')}
+                    </td>
+                    
+                    {/* Extra SSN % */}
                     <td className="px-4 py-3 text-right">
                       <Badge variant="outline">{p.percentualeExtraSSN}%</Badge>
                     </td>
+                    
+                    {/* Prezzo Editabile - Pattern Budget */}
+                    <td 
+                      className="px-4 py-3 text-right group cursor-pointer"
+                      onClick={() => {
+                        if (!editingPrice) {
+                          setEditingPrice({ codice: p.codice, value: prezzoMedio.toFixed(2) });
+                        }
+                      }}
+                    >
+                      {editingPrice?.codice === p.codice ? (
+                        <input
+                          type="number"
+                          step="0.01"
+                          value={editingPrice.value}
+                          onChange={(e) => setEditingPrice({ ...editingPrice, value: e.target.value })}
+                          onBlur={async () => {
+                            const newPrice = parseFloat(editingPrice.value);
+                            if (!isNaN(newPrice) && prezzoInfo) {
+                              try {
+                                await updatePrezzoEcografiaRegionalizzato(
+                                  'italia',
+                                  p.codice,
+                                  { prezzoPubblico: newPrice, prezzoPrivato: newPrice }
+                                );
+                                setHasChanges(true);
+                                setTimeout(() => setHasChanges(false), 3000);
+                              } catch (error) {
+                                console.error('❌ Errore salvataggio prezzo:', error);
+                              }
+                            }
+                            setEditingPrice(null);
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') e.currentTarget.blur();
+                            if (e.key === 'Escape') setEditingPrice(null);
+                          }}
+                          className="w-24 px-2 py-1 text-right border-2 border-blue-400 rounded focus:outline-none focus:border-blue-600 font-mono"
+                          autoFocus
+                        />
+                      ) : (
+                        <div className="px-2 py-1 rounded hover:bg-blue-50 font-mono">
+                          €{prezzoMedio.toFixed(2)}
+                        </div>
+                      )}
+                    </td>
                   </tr>
-                ))}
+                  );
+                })}
               </tbody>
             </table>
           </div>

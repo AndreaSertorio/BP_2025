@@ -16,7 +16,7 @@
           "D": 388559,
           "P": 562362,
           "percentualeExtraSSN": 10,
-          "aggredibile": false,
+          "aggredibile": true,
           "note": "Prestazione target per Eco3D"
         },
         {
@@ -4401,24 +4401,24 @@
   "configurazioneTamSamSom": {
     "ecografie": {
       "priceMode": "semplice",
-      "prezzoMedioProcedura": 77.5,
+      "prezzoMedioProcedura": 64.5,
       "tipoPrezzo": "medio",
       "regioneSelezionata": "italia",
       "volumeMode": "totale",
-      "samPercentage": 35,
+      "samPercentage": 13,
       "somPercentages": {
         "y1": 0.5,
         "y3": 2,
         "y5": 5
       },
       "valoriCalcolati": {
-        "tam": 166507432.5,
-        "sam": 58277601.375,
-        "som1": 291388.006875,
-        "som3": 1165552.0275,
-        "som5": 2913880.06875
+        "tam": 174849502.5,
+        "sam": 22730435.325,
+        "som1": 113652.176625,
+        "som3": 454608.7065,
+        "som5": 1136521.76625
       },
-      "lastUpdate": "2025-10-09T13:39:49.120Z"
+      "lastUpdate": "2025-10-09T13:48:27.271Z"
     },
     "ecografi": {
       "priceMode": "semplice",
