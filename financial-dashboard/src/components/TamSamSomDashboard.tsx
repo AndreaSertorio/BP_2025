@@ -76,6 +76,38 @@ export function TamSamSomDashboard() {
     }
   }, [configTamSamSom]);
 
+  // Auto-salva configurazione quando cambiano i parametri (con debounce 1.5s)
+  useEffect(() => {
+    // Skip primo mount (quando configTamSamSom non è ancora caricato)
+    if (!configTamSamSom) return;
+    
+    const timer = setTimeout(async () => {
+      // Salva SOLO i parametri configurabili (non i valori calcolati che vengono derivati)
+      await updateConfigurazioneTamSamSomEcografie({
+        priceMode,
+        prezzoMedioProcedura,
+        tipoPrezzo,
+        regioneSelezionata: selectedRegion,
+        volumeMode,
+        samPercentage,
+        somPercentages
+      });
+      
+      console.log('💾 Configurazione TAM/SAM/SOM salvata automaticamente');
+    }, 1500);
+    
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    priceMode, 
+    prezzoMedioProcedura, 
+    tipoPrezzo, 
+    selectedRegion, 
+    volumeMode, 
+    samPercentage, 
+    somPercentages
+  ]);
+
   // Toggle aggredibile (NO RELOAD!)
   async function toggleAggredibile(code: string) {
     if (!mercatoEcografie) return;

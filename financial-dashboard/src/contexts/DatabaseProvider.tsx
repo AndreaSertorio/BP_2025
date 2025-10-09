@@ -465,14 +465,36 @@ export function DatabaseProvider({ children }: { children: ReactNode }) {
       }
 
       await response.json();
-      console.log('✅ Configurazione TAM/SAM/SOM Ecografie aggiornata');
+      console.log('✅ Configurazione TAM/SAM/SOM Ecografie aggiornata:', updates);
       
-      // Ricarica dati dal server
-      await refreshData();
+      // OTTIMIZZAZIONE: Aggiorna solo lo stato locale invece di ricaricare tutto!
+      setData(prevData => {
+        if (!prevData || !prevData.configurazioneTamSamSom?.ecografie) return prevData;
+        
+        const currentConfig = prevData.configurazioneTamSamSom.ecografie;
+        
+        return {
+          ...prevData,
+          configurazioneTamSamSom: {
+            ...prevData.configurazioneTamSamSom,
+            ecografie: {
+              priceMode: updates.priceMode ?? currentConfig.priceMode,
+              prezzoMedioProcedura: updates.prezzoMedioProcedura ?? currentConfig.prezzoMedioProcedura,
+              tipoPrezzo: updates.tipoPrezzo ?? currentConfig.tipoPrezzo,
+              regioneSelezionata: updates.regioneSelezionata ?? currentConfig.regioneSelezionata,
+              volumeMode: updates.volumeMode ?? currentConfig.volumeMode,
+              samPercentage: updates.samPercentage ?? currentConfig.samPercentage,
+              somPercentages: updates.somPercentages ?? currentConfig.somPercentages,
+              valoriCalcolati: updates.valoriCalcolati ?? currentConfig.valoriCalcolati,
+              lastUpdate: new Date().toISOString()
+            }
+          }
+        };
+      });
     } catch (error) {
       console.error('❌ Errore aggiornamento configurazione TAM/SAM/SOM Ecografie:', error);
     }
-  }, [refreshData]);
+  }, []);
 
   // Update configurazione TAM/SAM/SOM Ecografi
   const updateConfigurazioneTamSamSomEcografi = useCallback(async (updates: Partial<ConfigurazioneTamSamSomEcografi>) => {
