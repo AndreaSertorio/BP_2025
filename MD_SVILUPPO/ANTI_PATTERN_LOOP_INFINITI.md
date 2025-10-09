@@ -237,7 +237,7 @@ onBlur={() => {
 
 **SOLUZIONE:**
 ```typescript
-// ✅ CORRETTO: Blocca auto-save + Salva immediatamente
+// ✅ CORRETTO: Blocca auto-save + Aggiorna SOLO state locale
 const [isEditingPrice, setIsEditingPrice] = useState(false);
 
 // Auto-save BLOCCATO durante editing
@@ -245,19 +245,26 @@ useEffect(() => {
   if (isEditingPrice) return; // ← BLOCCA!
   
   setTimeout(() => {
-    updateDB({ prices });
+    updateDB({ prices }); // Auto-save dopo debounce
   }, 1500);
-}, [pricesJson]);
+}, [pricesJson, isEditingPrice]);
 
-onClick={() => {
+onClick(() => {
   setIsEditingPrice(true); // ← Blocca auto-save
 }}
 
-onBlur={async () => {
-  await updateDB({ prices: newValue }); // ← Salva SUBITO
-  setIsEditingPrice(false); // ← Sblocca auto-save
+onBlur(() => {
+  setPrices(newValue); // ← Solo state locale, NO DB!
+  
+  // Sblocca dopo breve delay (evita conflitto)
+  setTimeout(() => setIsEditingPrice(false), 100);
 }}
+
+// Il DB viene salvato automaticamente 1.5s dopo lo sblocco
 ```
+
+**IMPORTANTE:** NON salvare nel DB immediatamente onBlur! Causa refresh!  
+Lascia che l'auto-save gestisca il salvataggio dopo il debounce.
 
 ## 📝 TEMPLATE DA COPIARE
 
@@ -350,7 +357,7 @@ const prezziDispositiviJson = useMemo(
 );
 // Uso: [prezziDispositiviJson] invece di [prezziDispositivi]
 
-// SOLUZIONE FINALE: Salvataggio immediato + Flag editing
+// SOLUZIONE FINALE: Flag editing + Auto-save ritardato
 const [isEditingPrice, setIsEditingPrice] = useState(false);
 
 // Auto-save con protezione
@@ -363,19 +370,19 @@ useEffect(() => {
   }, 1500);
 }, [prezziDispositiviJson, isInitialized]);
 
-// Editing inline con salvataggio IMMEDIATO
-onBlur={async () => {
-  setPrezziDispositivi(newValue);
+// Editing inline: aggiorna SOLO state locale
+onBlur={() => {
+  setPrezziDispositivi(newValue); // ← Solo state locale
   
-  // Salva SUBITO senza aspettare auto-save
-  await updateDB({ prezziDispositivi: newValue });
-  
-  setIsEditingPrice(false); // ← Sblocca auto-save
+  // Sblocca auto-save dopo breve delay (evita conflitto)
+  setTimeout(() => setIsEditingPrice(false), 100);
 }}
 
 onClick={() => {
   setIsEditingPrice(true); // ← Blocca auto-save
 }}
+
+// Il salvataggio DB avviene automaticamente 1.5s dopo lo sblocco
 ```
 
 ### 3. selectedRegions (Procedures)
@@ -397,7 +404,7 @@ const selectedRegionsJson = useMemo(
 
 ### Regola #2: Editing Inline con Auto-Save
 > **Se hai EDITING INLINE + AUTO-SAVE sullo stesso campo:**
-> **→ USA FLAG per BLOCCARE auto-save durante editing + SALVA IMMEDIATAMENTE onBlur!**
+> **→ USA FLAG per BLOCCARE auto-save durante editing + Aggiorna SOLO STATE LOCALE onBlur!**
 > 
 > **Pattern:**
 > ```typescript
@@ -407,26 +414,32 @@ const selectedRegionsJson = useMemo(
 > // 2. Auto-save BLOCCATO durante editing
 > useEffect(() => {
 >   if (isEditingField) return; // ← BLOCCA
->   // ... auto-save
-> }, [fieldJson]);
+>   
+>   setTimeout(() => {
+>     updateDB({ field }); // Auto-save dopo debounce
+>   }, 1500);
+> }, [fieldJson, isEditingField]);
 > 
 > // 3. Click → Blocca auto-save
-> onClick={() => {
+> onClick(() => {
 >   setIsEditingField(true);
 > }}
 > 
-> // 4. Blur → Salva IMMEDIATAMENTE + Sblocca
-> onBlur={async () => {
->   await updateDB(); // ← Salva SUBITO
->   setIsEditingField(false); // ← Sblocca
+> // 4. Blur → Aggiorna SOLO state locale + Sblocca dopo delay
+> onBlur={() => {
+>   setField(newValue); // ← Solo state locale, NO DB!
+>   
+>   // Sblocca dopo breve delay (evita conflitto immediato)
+>   setTimeout(() => setIsEditingField(false), 100);
 > }}
 > ```
 > 
 > **Perché funziona:**
 > - Durante editing, auto-save è BLOCCATO (evita conflitti)
-> - Al termine editing, salva SUBITO (non aspetta debounce)
-> - Dopo salvataggio, auto-save riattivato (per altri campi)
-> - ✅ NO LOOP, NO REFRESH!
+> - Al termine editing, aggiorna SOLO state locale (NO DB immediato)
+> - Dopo 100ms, sblocca auto-save
+> - Dopo altri 1.5s, auto-save salva nel DB automaticamente
+> - ✅ NO LOOP, NO REFRESH, NO conflitti!
 
 ## 📖 LETTURA CONSIGLIATA
 

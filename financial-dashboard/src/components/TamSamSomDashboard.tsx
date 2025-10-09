@@ -1611,58 +1611,32 @@ export function TamSamSomDashboard() {
                               type="number"
                               value={editingPrezzoDispositivo.value}
                               onChange={(e) => setEditingPrezzoDispositivo({ tipo: categoriaId as any, value: e.target.value })}
-                              onBlur={async () => {
+                              onBlur={() => {
                                 const newPrice = parseFloat(editingPrezzoDispositivo.value);
                                 if (!isNaN(newPrice) && newPrice > 0) {
-                                  // Aggiorna state locale
+                                  // Aggiorna SOLO state locale (auto-save gestirà il DB)
                                   setPrezziDispositivi(prev => ({
                                     ...prev,
                                     [categoriaId]: newPrice
                                   }));
-                                  
-                                  // Salva IMMEDIATAMENTE nel database (come editingExtraSSN)
-                                  try {
-                                    await updateConfigurazioneTamSamSomEcografi({
-                                      samPercentage: samPercentageDevices,
-                                      somPercentages: somPercentagesDevices,
-                                      regioniAttive: regioniAttive,
-                                      prezzoVenditaProdotto: prezzoVenditaProdotto,
-                                      prezziMediDispositivi: { ...prezziDispositivi, [categoriaId]: newPrice }
-                                    } as any);
-                                    console.log('💾 Prezzo dispositivo salvato:', categoriaId, newPrice);
-                                  } catch (error) {
-                                    console.error('❌ Errore salvataggio prezzo:', error);
-                                  }
                                 }
                                 setEditingPrezzoDispositivo(null);
-                                setIsEditingPrice(false);
+                                // Sblocca auto-save DOPO un breve delay (evita conflitto)
+                                setTimeout(() => setIsEditingPrice(false), 100);
                               }}
-                              onKeyDown={async (e) => {
+                              onKeyDown={(e) => {
                                 if (e.key === 'Enter') {
                                   const newPrice = parseFloat(editingPrezzoDispositivo.value);
                                   if (!isNaN(newPrice) && newPrice > 0) {
-                                    // Aggiorna state locale
+                                    // Aggiorna SOLO state locale (auto-save gestirà il DB)
                                     setPrezziDispositivi(prev => ({
                                       ...prev,
                                       [categoriaId]: newPrice
                                     }));
-                                    
-                                    // Salva IMMEDIATAMENTE nel database
-                                    try {
-                                      await updateConfigurazioneTamSamSomEcografi({
-                                        samPercentage: samPercentageDevices,
-                                        somPercentages: somPercentagesDevices,
-                                        regioniAttive: regioniAttive,
-                                        prezzoVenditaProdotto: prezzoVenditaProdotto,
-                                        prezziMediDispositivi: { ...prezziDispositivi, [categoriaId]: newPrice }
-                                      } as any);
-                                      console.log('💾 Prezzo dispositivo salvato:', categoriaId, newPrice);
-                                    } catch (error) {
-                                      console.error('❌ Errore salvataggio prezzo:', error);
-                                    }
                                   }
                                   setEditingPrezzoDispositivo(null);
-                                  setIsEditingPrice(false);
+                                  // Sblocca auto-save DOPO un breve delay (evita conflitto)
+                                  setTimeout(() => setIsEditingPrice(false), 100);
                                 } else if (e.key === 'Escape') {
                                   setEditingPrezzoDispositivo(null);
                                   setIsEditingPrice(false);
