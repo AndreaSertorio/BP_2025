@@ -4412,13 +4412,13 @@
         "y5": 5
       },
       "valoriCalcolati": {
-        "tam": 0,
-        "sam": 0,
-        "som1": 0,
-        "som3": 0,
-        "som5": 0
+        "tam": 166507432.5,
+        "sam": 58277601.375,
+        "som1": 291388.006875,
+        "som3": 1165552.0275,
+        "som5": 2913880.06875
       },
-      "lastUpdate": null
+      "lastUpdate": "2025-10-09T13:39:49.120Z"
     },
     "ecografi": {
       "priceMode": "semplice",

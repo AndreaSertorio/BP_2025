@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -65,24 +65,15 @@ export function TamSamSomDashboard() {
     }
   }, [configTamSamSom]);
 
-  // Auto-save configurazione quando cambia
-  const saveConfiguration = useCallback(async (updates: any) => {
-    try {
-      await updateConfigurazioneTamSamSomEcografie(updates);
-      console.log('💾 Configurazione salvata');
-    } catch (error) {
-      console.error('❌ Errore salvataggio configurazione:', error);
-    }
-  }, [updateConfigurazioneTamSamSomEcografie]);
-
-  // Toggle aggredibile
+  // Toggle aggredibile (NO RELOAD!)
   async function toggleAggredibile(code: string) {
     if (!mercatoEcografie) return;
     try {
       await toggleAggredibileDB(code);
-      setHasChanges(true);
+      // Non serve setHasChanges - il toggle è salvato direttamente nel DB
+      console.log('✅ Toggle salvato:', code);
     } catch (error) {
-      console.error('Errore toggle:', error);
+      console.error('❌ Errore toggle:', error);
       alert('❌ Errore durante il salvataggio');
     }
   }
@@ -183,23 +174,51 @@ export function TamSamSomDashboard() {
   const som3 = sam * (somPercentages.y3 / 100);
   const som5 = sam * (somPercentages.y5 / 100);
 
-  // Auto-save valori calcolati
+  // Ref per evitare loop infinito - salva solo se valori cambiano davvero
+  const lastSavedConfig = useRef<string>('');
+
+  // Auto-save valori calcolati (FIX LOOP INFINITO)
   useEffect(() => {
     if (!mercatoEcografie) return;
-    const timer = setTimeout(() => {
-      saveConfiguration({
-        priceMode,
-        prezzoMedioProcedura,
-        tipoPrezzo,
-        regioneSelezionata: selectedRegion,
-        volumeMode,
-        samPercentage,
-        somPercentages,
-        valoriCalcolati: { tam, sam, som1, som3, som5 }
-      });
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, [tam, sam, som1, som3, som5, priceMode, prezzoMedioProcedura, tipoPrezzo, selectedRegion, volumeMode, samPercentage, somPercentages, saveConfiguration, mercatoEcografie]);
+    
+    // Crea stringa univoca della configurazione
+    const currentConfig = JSON.stringify({
+      priceMode,
+      prezzoMedioProcedura,
+      tipoPrezzo,
+      regioneSelezionata: selectedRegion,
+      volumeMode,
+      samPercentage,
+      somPercentages,
+      tam: Math.round(tam),
+      sam: Math.round(sam)
+    });
+    
+    // Salva SOLO se la configurazione è cambiata
+    if (currentConfig !== lastSavedConfig.current) {
+      const timer = setTimeout(async () => {
+        lastSavedConfig.current = currentConfig;
+        try {
+          await updateConfigurazioneTamSamSomEcografie({
+            priceMode,
+            prezzoMedioProcedura,
+            tipoPrezzo,
+            regioneSelezionata: selectedRegion,
+            volumeMode,
+            samPercentage,
+            somPercentages,
+            valoriCalcolati: { tam, sam, som1, som3, som5 }
+          });
+          setHasChanges(true);
+          // Nascondi badge dopo 3 secondi
+          setTimeout(() => setHasChanges(false), 3000);
+        } catch (error) {
+          console.error('❌ Errore salvataggio auto-save:', error);
+        }
+      }, 2000); // 2 secondi di debounce per sicurezza
+      return () => clearTimeout(timer);
+    }
+  }, [tam, sam, som1, som3, som5, priceMode, prezzoMedioProcedura, tipoPrezzo, selectedRegion, volumeMode, samPercentage, somPercentages, mercatoEcografie, updateConfigurazioneTamSamSomEcografie]);
 
   // Loading
   if (loading) {
@@ -601,10 +620,7 @@ export function TamSamSomDashboard() {
               <div className="flex gap-2">
                 <button
                   type="button"
-                  onClick={() => {
-                    setVolumeMode('totale');
-                    saveConfiguration({ volumeMode: 'totale' });
-                  }}
+                  onClick={() => setVolumeMode('totale')}
                   className={`flex-1 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
                     volumeMode === 'totale'
                       ? 'bg-orange-500 text-white shadow-lg'
@@ -616,10 +632,7 @@ export function TamSamSomDashboard() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => {
-                    setVolumeMode('ssn');
-                    saveConfiguration({ volumeMode: 'ssn' });
-                  }}
+                  onClick={() => setVolumeMode('ssn')}
                   className={`flex-1 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
                     volumeMode === 'ssn'
                       ? 'bg-blue-500 text-white shadow-lg'
@@ -631,10 +644,7 @@ export function TamSamSomDashboard() {
                 </button>
                 <button
                   type="button"
-                  onClick={() => {
-                    setVolumeMode('extraSsn');
-                    saveConfiguration({ volumeMode: 'extraSsn' });
-                  }}
+                  onClick={() => setVolumeMode('extraSsn')}
                   className={`flex-1 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
                     volumeMode === 'extraSsn'
                       ? 'bg-green-500 text-white shadow-lg'
@@ -855,6 +865,7 @@ export function TamSamSomDashboard() {
                         type="button"
                         onClick={(e) => {
                           e.preventDefault();
+                          e.stopPropagation();
                           toggleAggredibile(p.codice);
                         }}
                         className={`flex items-center justify-center w-10 h-10 rounded-lg transition-all hover:scale-110 ${
