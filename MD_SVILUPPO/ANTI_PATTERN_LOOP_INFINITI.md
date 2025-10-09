@@ -452,7 +452,58 @@ Ogni volta che aggiungi un nuovo campo modificabile:
 
 ---
 
+## 🎯 REGOLA #3: Cambio Vista/Tab senza Refresh
+
+### Problema: Refresh quando cambi tab/vista
+
+**Sintomo:**
+- Quando cambi vista (es. Procedures → Devices)
+- La pagina fa un piccolo "refresh" fastidioso
+- Sembra ricaricare anche se è solo un re-render
+
+**Causa:**
+- Molti `useCallback` hanno la vista nelle dependencies
+- Quando cambi vista, tutte le funzioni vengono ricreate
+- Questo causa un re-render massiccio di tutti i componenti
+
+**Soluzione: Usa useMemo per memorizzare VALORI, non funzioni**
+
+```typescript
+// ❌ SBAGLIATO: Calcoli ripetuti ad ogni render
+const tam = activeView === 'procedures' ? calculateTAM() : devicesMetrics.tam;
+const sam = activeView === 'procedures' ? calculateSAM() : devicesMetrics.sam;
+
+// ✅ CORRETTO: Memorizza i valori calcolati
+const proceduresMetrics = useMemo(() => {
+  const tam = calculateTAM();
+  const sam = tam * (samPercentage / 100);
+  return { tam, sam, som1, som3, som5 };
+}, [calculateTAM, samPercentage, somPercentages]);
+
+const currentMetrics = useMemo(() => {
+  return activeView === 'procedures' ? proceduresMetrics : devicesMetrics;
+}, [activeView, proceduresMetrics, devicesMetrics]);
+
+// Usa i valori memorizzati
+const tam = currentMetrics.tam;
+const sam = currentMetrics.sam;
+```
+
+**Perché funziona:**
+- `useMemo` memorizza il RISULTATO dei calcoli
+- Quando cambi vista, NON ricalcola tutto
+- Restituisce il valore già calcolato
+- Re-render ultra veloce = NO refresh visibile
+- ✅ Cambio vista fluido e istantaneo!
+
+**IMPORTANTE:**
+- `useCallback` memorizza la FUNZIONE (non il risultato)
+- `useMemo` memorizza il RISULTATO (quello che ci serve!)
+- Usa `useMemo` per valori derivati che dipendono da molti calcoli
+
+---
+
 **Data Creazione:** 2025-01-10  
 **Ultima Modifica:** 2025-01-10  
-**Versione:** 1.0  
+**Versione:** 1.1  
 **Stato:** ⚠️ CRITICO - LEGGERE SEMPRE PRIMA DI AUTO-SAVE

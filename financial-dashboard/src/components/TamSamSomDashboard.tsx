@@ -442,26 +442,46 @@ export function TamSamSomDashboard() {
     somPercentagesDevices
   ]);
   
-  // Valori Procedures
-  const tamProcedures = calculateTAMValue();
-  const samProcedures = tamProcedures * (samPercentage / 100);
-  const som1Procedures = samProcedures * (somPercentages.y1 / 100);
-  const som3Procedures = samProcedures * (somPercentages.y3 / 100);
-  const som5Procedures = samProcedures * (somPercentages.y5 / 100);
+  // Valori Procedures (memoizzati per evitare ricalcoli)
+  const proceduresMetrics = useMemo(() => {
+    const tamProcedures = calculateTAMValue();
+    const samProcedures = tamProcedures * (samPercentage / 100);
+    return {
+      tam: tamProcedures,
+      sam: samProcedures,
+      som1: samProcedures * (somPercentages.y1 / 100),
+      som3: samProcedures * (somPercentages.y3 / 100),
+      som5: samProcedures * (somPercentages.y5 / 100)
+    };
+  }, [calculateTAMValue, samPercentage, somPercentages]);
   
-  // Valori Devices
+  // Valori Devices (già memoizzato nel useCallback)
   const devicesMetrics = calculateDevicesMetrics();
   
-  // Valori da mostrare nelle card (dipendono da activeView)
-  const tam = activeView === 'procedures' ? tamProcedures : devicesMetrics.tam;
-  const sam = activeView === 'procedures' ? samProcedures : devicesMetrics.sam;
-  const som1 = activeView === 'procedures' ? som1Procedures : devicesMetrics.som1;
-  const som3 = activeView === 'procedures' ? som3Procedures : devicesMetrics.som3;
-  const som5 = activeView === 'procedures' ? som5Procedures : devicesMetrics.som5;
+  // Valori da mostrare nelle card (memoizzati per evitare refresh)
+  const currentMetrics = useMemo(() => {
+    if (activeView === 'procedures') {
+      return proceduresMetrics;
+    } else {
+      return devicesMetrics;
+    }
+  }, [activeView, proceduresMetrics, devicesMetrics]);
   
-  // Percentuali da mostrare nelle card (dipendono da activeView)
-  const currentSamPercentage = activeView === 'procedures' ? samPercentage : samPercentageDevices;
-  const currentSomPercentages = activeView === 'procedures' ? somPercentages : somPercentagesDevices;
+  const tam = currentMetrics.tam;
+  const sam = currentMetrics.sam;
+  const som1 = currentMetrics.som1;
+  const som3 = currentMetrics.som3;
+  const som5 = currentMetrics.som5;
+  
+  // Percentuali da mostrare nelle card (memoizzate)
+  const currentSamPercentage = useMemo(
+    () => activeView === 'procedures' ? samPercentage : samPercentageDevices,
+    [activeView, samPercentage, samPercentageDevices]
+  );
+  const currentSomPercentages = useMemo(
+    () => activeView === 'procedures' ? somPercentages : somPercentagesDevices,
+    [activeView, somPercentages, somPercentagesDevices]
+  );
 
   // DISABILITATO AUTO-SAVE - causava loop infinito e reload continui!
   // Salvataggio manuale solo quando utente modifica esplicitamente un valore
