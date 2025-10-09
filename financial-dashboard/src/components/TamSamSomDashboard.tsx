@@ -587,11 +587,69 @@ export function TamSamSomDashboard() {
                 <div className="p-3 bg-blue-50 rounded border border-blue-200">
                   <p className="text-xs text-blue-800">
                     <strong>Info:</strong> Usa prezzi specifici per ogni procedura aggredibile.
-                    I prezzi provengono dall'Excel regionalizzato (regione Italia).
+                    I prezzi provengono dall&apos;Excel regionalizzato (regione Italia).
                   </p>
                 </div>
               </div>
             )}
+
+            {/* MODALITÀ VOLUME (per tutti i priceMode) */}
+            <div className="p-4 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg border-2 border-orange-200">
+              <label className="text-sm font-semibold text-gray-800 mb-3 block">
+                📊 Modalità Volume per Calcolo TAM
+              </label>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setVolumeMode('totale');
+                    saveConfiguration({ volumeMode: 'totale' });
+                  }}
+                  className={`flex-1 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
+                    volumeMode === 'totale'
+                      ? 'bg-orange-500 text-white shadow-lg'
+                      : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-300'
+                  }`}
+                >
+                  <div className="font-bold">📊 Volume Totale</div>
+                  <div className="text-xs opacity-75 mt-1">SSN + ExtraSSN</div>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setVolumeMode('ssn');
+                    saveConfiguration({ volumeMode: 'ssn' });
+                  }}
+                  className={`flex-1 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
+                    volumeMode === 'ssn'
+                      ? 'bg-blue-500 text-white shadow-lg'
+                      : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-300'
+                  }`}
+                >
+                  <div className="font-bold">🏥 Solo SSN</div>
+                  <div className="text-xs opacity-75 mt-1">Pubblico</div>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setVolumeMode('extraSsn');
+                    saveConfiguration({ volumeMode: 'extraSsn' });
+                  }}
+                  className={`flex-1 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
+                    volumeMode === 'extraSsn'
+                      ? 'bg-green-500 text-white shadow-lg'
+                      : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-300'
+                  }`}
+                >
+                  <div className="font-bold">💳 Solo Extra-SSN</div>
+                  <div className="text-xs opacity-75 mt-1">Privato</div>
+                </button>
+              </div>
+              <div className="mt-3 p-2 bg-white rounded text-xs text-gray-700">
+                <strong>Modalità attiva:</strong> {volumeMode === 'totale' ? '📊 Volume Totale' : volumeMode === 'ssn' ? '🏥 Solo SSN' : '💳 Solo Extra-SSN'} • 
+                Il calcolo TAM userà {volumeMode === 'totale' ? 'il volume completo' : volumeMode === 'ssn' ? 'solo i volumi SSN' : 'solo i volumi Extra-SSN'} delle procedure
+              </div>
+            </div>
 
             {/* MODALITÀ REGIONALIZZATA */}
             {priceMode === 'regionalizzato' && (
@@ -663,7 +721,7 @@ export function TamSamSomDashboard() {
                 <div className="p-3 bg-green-50 rounded border border-green-200">
                   <p className="text-xs text-green-800">
                     <strong>Info:</strong> Calcolo TAM con prezzi specifici per regione {selectedRegion.toUpperCase()}.
-                    Massima precisione con dati regionalizzati dall'Excel.
+                    Massima precisione con dati regionalizzati dall&apos;Excel.
                   </p>
                 </div>
               </div>
