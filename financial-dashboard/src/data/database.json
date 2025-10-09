@@ -16,7 +16,7 @@
           "D": 388559,
           "P": 562362,
           "percentualeExtraSSN": 50,
-          "aggredibile": false,
+          "aggredibile": true,
           "note": "Prestazione target per Eco3D"
         },
         {
@@ -221,7 +221,7 @@
     "usa": {
       "nome": "USA",
       "flag": "🇺🇸",
-      "moltiplicatoreVolume": 9,
+      "moltiplicatoreVolume": 10.5,
       "moltiplicatoreValore": 1.8,
       "quotaItalia": "17%",
       "note": "Mercato USA - volumi e valori più alti"

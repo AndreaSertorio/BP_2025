@@ -90,8 +90,13 @@ export function TamSamSomDashboard() {
   }
 
   // Helper per calcolare volumi SSN/ExtraSSN/Totale con moltiplicatore regionale
+  // FORMULA CORRETTA (come MercatoEcografie):
+  // colE (SSN) = U + B + D + P
+  // extraSSN = colE × (percentuale/100)
+  // totale = colE + extraSSN
   const calculateVolumes = useCallback((prestazione: any, regione: 'italia' | 'europa' | 'usa' | 'cina' = 'italia') => {
-    const baseTotal = prestazione.P || 0;
+    // Calcola colE (Volume SSN) = somma di tutte le colonne come in MercatoEcografie
+    const colE = (prestazione.U || 0) + (prestazione.B || 0) + (prestazione.D || 0) + (prestazione.P || 0);
     const percExtraSSN = prestazione.percentualeExtraSSN || 0;
     
     // Ottieni moltiplicatore di volume dalla regione (Italia = 1, default)
@@ -99,13 +104,15 @@ export function TamSamSomDashboard() {
       ? 1 
       : (regioniMondiali?.[regione]?.moltiplicatoreVolume || 1);
     
-    // Applica moltiplicatore ai volumi
-    const total = Math.round(baseTotal * moltiplicatore);
+    // Applica moltiplicatore
+    const volumeSSN = Math.round(colE * moltiplicatore);
+    const volumeExtraSSN = Math.round((colE * moltiplicatore) * (percExtraSSN / 100));
+    const volumeTotale = volumeSSN + volumeExtraSSN;
     
     return {
-      totale: total,
-      ssn: Math.round(total * (1 - percExtraSSN / 100)),
-      extraSsn: Math.round(total * (percExtraSSN / 100))
+      totale: volumeTotale,
+      ssn: volumeSSN,
+      extraSsn: volumeExtraSSN
     };
   }, [regioniMondiali]);
 
