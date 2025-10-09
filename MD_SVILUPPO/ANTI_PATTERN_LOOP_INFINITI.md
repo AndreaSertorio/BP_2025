@@ -208,6 +208,57 @@ useEffect(() => {
 }, [prices]); // ← Loop comunque!
 ```
 
+### ❌ 5. Auto-Save durante Editing Inline (NUOVO!)
+
+```typescript
+// SBAGLIATO! Loop infinito durante editing
+const [editingPrice, setEditingPrice] = useState(null);
+
+// Auto-save che scatta anche durante editing
+useEffect(() => {
+  setTimeout(() => {
+    updateDB({ prices }); // ← Salva durante editing!
+  }, 1500);
+}, [pricesJson]); // ← Trigger anche quando utente digita!
+
+onBlur={() => {
+  setPrices(newValue); // ← Trigger auto-save
+  // DB cambia → Re-render → Input perde focus → LOOP!
+}}
+
+// PROBLEMA:
+// 1. User digita → setPrices()
+// 2. Dopo 1.5s → Auto-save trigger
+// 3. DB aggiornato → configDB cambia
+// 4. Re-render → Input remountato
+// 5. User perde focus → onBlur trigger
+// 6. setPrices() → LOOP infinito!
+```
+
+**SOLUZIONE:**
+```typescript
+// ✅ CORRETTO: Blocca auto-save + Salva immediatamente
+const [isEditingPrice, setIsEditingPrice] = useState(false);
+
+// Auto-save BLOCCATO durante editing
+useEffect(() => {
+  if (isEditingPrice) return; // ← BLOCCA!
+  
+  setTimeout(() => {
+    updateDB({ prices });
+  }, 1500);
+}, [pricesJson]);
+
+onClick={() => {
+  setIsEditingPrice(true); // ← Blocca auto-save
+}}
+
+onBlur={async () => {
+  await updateDB({ prices: newValue }); // ← Salva SUBITO
+  setIsEditingPrice(false); // ← Sblocca auto-save
+}}
+```
+
 ## 📝 TEMPLATE DA COPIARE
 
 ```typescript
@@ -291,13 +342,40 @@ const regioniAttiveJson = useMemo(
 // Uso: [regioniAttiveJson] invece di [regioniAttive]
 ```
 
-### 2. prezziDispositivi (Loop risolto 2+ volte!)
+### 2. prezziDispositivi (Loop risolto 3+ volte!)
 ```typescript
 const prezziDispositiviJson = useMemo(
   () => JSON.stringify(prezziDispositivi),
   [prezziDispositivi]
 );
 // Uso: [prezziDispositiviJson] invece di [prezziDispositivi]
+
+// SOLUZIONE FINALE: Salvataggio immediato + Flag editing
+const [isEditingPrice, setIsEditingPrice] = useState(false);
+
+// Auto-save con protezione
+useEffect(() => {
+  if (!isInitialized) return;
+  if (isEditingPrice) return; // ← BLOCCA durante editing
+  
+  setTimeout(() => {
+    updateDB({ prezziDispositivi });
+  }, 1500);
+}, [prezziDispositiviJson, isInitialized]);
+
+// Editing inline con salvataggio IMMEDIATO
+onBlur={async () => {
+  setPrezziDispositivi(newValue);
+  
+  // Salva SUBITO senza aspettare auto-save
+  await updateDB({ prezziDispositivi: newValue });
+  
+  setIsEditingPrice(false); // ← Sblocca auto-save
+}}
+
+onClick={() => {
+  setIsEditingPrice(true); // ← Blocca auto-save
+}}
 ```
 
 ### 3. selectedRegions (Procedures)
@@ -309,12 +387,46 @@ const selectedRegionsJson = useMemo(
 // Uso: [selectedRegionsJson] invece di [selectedRegions]
 ```
 
-## 🎯 REGOLA D'ORO
+## 🎯 REGOLE D'ORO
 
+### Regola #1: Serializzazione Oggetti
 > **Se è un OGGETTO o ARRAY e va in useEffect dependencies:**
 > **→ SERIALIZZA con useMemo!**
 > 
 > Nessuna eccezione. Mai. Zero tolleranza.
+
+### Regola #2: Editing Inline con Auto-Save
+> **Se hai EDITING INLINE + AUTO-SAVE sullo stesso campo:**
+> **→ USA FLAG per BLOCCARE auto-save durante editing + SALVA IMMEDIATAMENTE onBlur!**
+> 
+> **Pattern:**
+> ```typescript
+> // 1. Flag editing
+> const [isEditingField, setIsEditingField] = useState(false);
+> 
+> // 2. Auto-save BLOCCATO durante editing
+> useEffect(() => {
+>   if (isEditingField) return; // ← BLOCCA
+>   // ... auto-save
+> }, [fieldJson]);
+> 
+> // 3. Click → Blocca auto-save
+> onClick={() => {
+>   setIsEditingField(true);
+> }}
+> 
+> // 4. Blur → Salva IMMEDIATAMENTE + Sblocca
+> onBlur={async () => {
+>   await updateDB(); // ← Salva SUBITO
+>   setIsEditingField(false); // ← Sblocca
+> }}
+> ```
+> 
+> **Perché funziona:**
+> - Durante editing, auto-save è BLOCCATO (evita conflitti)
+> - Al termine editing, salva SUBITO (non aspetta debounce)
+> - Dopo salvataggio, auto-save riattivato (per altri campi)
+> - ✅ NO LOOP, NO REFRESH!
 
 ## 📖 LETTURA CONSIGLIATA
 

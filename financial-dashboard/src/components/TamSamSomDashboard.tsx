@@ -77,6 +77,7 @@ export function TamSamSomDashboard() {
   // State per prezzi dispositivi (carrellati, portatili, palmari)
   const [prezziDispositivi, setPrezziDispositivi] = useState({ carrellati: 50000, portatili: 25000, palmari: 8000 });
   const [editingPrezzoDispositivo, setEditingPrezzoDispositivo] = useState<{ tipo: 'carrellati' | 'portatili' | 'palmari'; value: string } | null>(null);
+  const [isEditingPrice, setIsEditingPrice] = useState(false); // Flag per bloccare auto-save durante editing
   
   // State per editing inline prezzi (come nel Budget)
   const [editingPrice, setEditingPrice] = useState<{ codice: string; tipo: 'pubblico' | 'privato'; value: string } | null>(null);
@@ -179,6 +180,8 @@ export function TamSamSomDashboard() {
     // Skip se non inizializzato (evita salvataggio durante caricamento iniziale)
     if (!isInitialized) return;
     if (!configTamSamSomDevices) return;
+    // Skip se sta editando prezzi (evita loop infinito durante editing inline)
+    if (isEditingPrice) return;
     
     const timer = setTimeout(async () => {
       await updateConfigurazioneTamSamSomEcografi({
@@ -1608,28 +1611,61 @@ export function TamSamSomDashboard() {
                               type="number"
                               value={editingPrezzoDispositivo.value}
                               onChange={(e) => setEditingPrezzoDispositivo({ tipo: categoriaId as any, value: e.target.value })}
-                              onBlur={() => {
+                              onBlur={async () => {
                                 const newPrice = parseFloat(editingPrezzoDispositivo.value);
                                 if (!isNaN(newPrice) && newPrice > 0) {
+                                  // Aggiorna state locale
                                   setPrezziDispositivi(prev => ({
                                     ...prev,
                                     [categoriaId]: newPrice
                                   }));
+                                  
+                                  // Salva IMMEDIATAMENTE nel database (come editingExtraSSN)
+                                  try {
+                                    await updateConfigurazioneTamSamSomEcografi({
+                                      samPercentage: samPercentageDevices,
+                                      somPercentages: somPercentagesDevices,
+                                      regioniAttive: regioniAttive,
+                                      prezzoVenditaProdotto: prezzoVenditaProdotto,
+                                      prezziMediDispositivi: { ...prezziDispositivi, [categoriaId]: newPrice }
+                                    } as any);
+                                    console.log('💾 Prezzo dispositivo salvato:', categoriaId, newPrice);
+                                  } catch (error) {
+                                    console.error('❌ Errore salvataggio prezzo:', error);
+                                  }
                                 }
                                 setEditingPrezzoDispositivo(null);
+                                setIsEditingPrice(false);
                               }}
-                              onKeyDown={(e) => {
+                              onKeyDown={async (e) => {
                                 if (e.key === 'Enter') {
                                   const newPrice = parseFloat(editingPrezzoDispositivo.value);
                                   if (!isNaN(newPrice) && newPrice > 0) {
+                                    // Aggiorna state locale
                                     setPrezziDispositivi(prev => ({
                                       ...prev,
                                       [categoriaId]: newPrice
                                     }));
+                                    
+                                    // Salva IMMEDIATAMENTE nel database
+                                    try {
+                                      await updateConfigurazioneTamSamSomEcografi({
+                                        samPercentage: samPercentageDevices,
+                                        somPercentages: somPercentagesDevices,
+                                        regioniAttive: regioniAttive,
+                                        prezzoVenditaProdotto: prezzoVenditaProdotto,
+                                        prezziMediDispositivi: { ...prezziDispositivi, [categoriaId]: newPrice }
+                                      } as any);
+                                      console.log('💾 Prezzo dispositivo salvato:', categoriaId, newPrice);
+                                    } catch (error) {
+                                      console.error('❌ Errore salvataggio prezzo:', error);
+                                    }
                                   }
                                   setEditingPrezzoDispositivo(null);
+                                  setIsEditingPrice(false);
                                 } else if (e.key === 'Escape') {
                                   setEditingPrezzoDispositivo(null);
+                                  setIsEditingPrice(false);
                                 }
                               }}
                               className="w-full px-2 py-1 border-2 border-indigo-500 rounded font-mono text-indigo-700 font-bold text-right"
@@ -1637,7 +1673,10 @@ export function TamSamSomDashboard() {
                             />
                           ) : (
                             <div 
-                              onClick={() => setEditingPrezzoDispositivo({ tipo: categoriaId as any, value: prezzoMedio.toString() })}
+                              onClick={() => {
+                                setEditingPrezzoDispositivo({ tipo: categoriaId as any, value: prezzoMedio.toString() });
+                                setIsEditingPrice(true); // Blocca auto-save
+                              }}
                               className="px-2 py-1 rounded hover:bg-indigo-50 font-mono text-indigo-700 font-bold transition-colors cursor-pointer group"
                             >
                               €{prezzoMedio.toLocaleString('it-IT')}

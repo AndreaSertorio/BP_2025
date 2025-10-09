@@ -4406,7 +4406,7 @@
       "tipoPrezzo": "medio",
       "regioneSelezionata": "europa",
       "volumeMode": "totale",
-      "samPercentage": 50,
+      "samPercentage": 55,
       "somPercentages": {
         "y1": 0.5,
         "y3": 1.7,
@@ -4419,7 +4419,7 @@
         "som3": 524548.5075000001,
         "som5": 1311371.26875
       },
-      "lastUpdate": "2025-10-09T23:22:25.848Z",
+      "lastUpdate": "2025-10-09T23:34:52.919Z",
       "regioniSelezionate": {
         "italia": true,
         "europa": false,
@@ -4431,8 +4431,8 @@
       "priceMode": "semplice",
       "prezzoMedioDispositivo": 25000,
       "prezziMediDispositivi": {
-        "carrellati": 50000,
-        "portatili": 25000,
+        "carrellati": 50001,
+        "portatili": 25001,
         "palmari": 6000
       },
       "samPercentage": 50,
@@ -4448,7 +4448,7 @@
         "som3": 0,
         "som5": 0
       },
-      "lastUpdate": "2025-10-09T23:22:24.313Z",
+      "lastUpdate": "2025-10-09T23:34:51.379Z",
       "regioniAttive": {
         "italia": true,
         "europa": false,
