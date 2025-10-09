@@ -4419,7 +4419,13 @@
         "som3": 524548.5075000001,
         "som5": 1311371.26875
       },
-      "lastUpdate": "2025-10-09T16:39:49.217Z"
+      "lastUpdate": "2025-10-09T18:06:50.794Z",
+      "regioniSelezionate": {
+        "italia": true,
+        "europa": false,
+        "usa": false,
+        "cina": false
+      }
     },
     "ecografi": {
       "priceMode": "semplice",

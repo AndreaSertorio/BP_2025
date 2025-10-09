@@ -447,43 +447,82 @@ export function TamSamSomDashboard() {
                 </div>
                 <div className="text-3xl font-bold mb-1">{formatCurrency(tam)}</div>
                 <p className="text-sm opacity-75">Mercato Totale Indirizzabile</p>
+                {activeView === 'devices' && (
+                  <div className="mt-3 pt-3 border-t border-white/20">
+                    <div className="text-xs opacity-90 space-y-1">
+                      <div>📅 Anno: <strong>{selectedYear}</strong></div>
+                      <div>🌍 {Object.entries(regioniAttive).filter(([_, v]) => v).map(([k]) => k === 'italia' ? '🇮🇹' : k === 'europa' ? '🇪🇺' : k === 'usa' ? '🇺🇸' : '🇨🇳').join(' ')}</div>
+                      <div>📊 Dispositivi: <strong>{(() => {
+                        const yearKey = `unita${selectedYear}`;
+                        let total = 0;
+                        if (regioniAttive.italia) total += Number((mercatoEcografi?.numeroEcografi?.find((m: any) => m.mercato === 'Italia') as any)?.[yearKey]) || 0;
+                        if (regioniAttive.europa) total += Number((mercatoEcografi?.numeroEcografi?.find((m: any) => m.mercato === 'Europa') as any)?.[yearKey]) || 0;
+                        if (regioniAttive.usa) total += Number((mercatoEcografi?.numeroEcografi?.find((m: any) => m.mercato === 'Stati Uniti') as any)?.[yearKey]) || 0;
+                        if (regioniAttive.cina) total += Number((mercatoEcografi?.numeroEcografi?.find((m: any) => m.mercato === 'Cina') as any)?.[yearKey]) || 0;
+                        return Math.round(total).toLocaleString('it-IT');
+                      })()}</strong></div>
+                    </div>
+                  </div>
+                )}
               </Card>
             </TooltipTrigger>
             <TooltipContent className="max-w-md p-4 bg-white border-2 border-blue-300">
               <div className="space-y-2">
                 <div className="font-bold text-blue-900 text-sm">📊 Formula TAM:</div>
-                {priceMode === 'semplice' && (
+                {activeView === 'devices' ? (
                   <div className="text-xs space-y-1">
-                    <div className="font-mono bg-blue-50 p-2 rounded">TAM = Σ(Volume × Prezzo medio)</div>
+                    <div className="font-mono bg-blue-50 p-2 rounded">TAM = Σ(Dispositivi × Prezzo medio per tipo)</div>
                     <div className="text-gray-700">
-                      • Procedure aggredibili: <strong>{mercatoEcografie?.italia.prestazioni.filter(p => p.aggredibile).length || 0}</strong><br/>
-                      • Volume totale: <strong>{(mercatoEcografie?.italia.prestazioni.filter(p => p.aggredibile).reduce((sum, p) => sum + p.P, 0) || 0).toLocaleString('it-IT')}</strong><br/>
-                      • Prezzo medio: <strong>€{prezzoMedioProcedura.toFixed(2)}</strong><br/>
+                      • Anno: <strong>{selectedYear}</strong><br/>
+                      • Regioni attive: <strong>{Object.entries(regioniAttive).filter(([_, v]) => v).map(([k]) => k === 'italia' ? '🇮🇹 IT' : k === 'europa' ? '🇪🇺 EU' : k === 'usa' ? '🇺🇸 US' : '🇨🇳 CN').join(', ')}</strong><br/>
+                      • Dispositivi totali: <strong>{(() => {
+                        const yearKey = `unita${selectedYear}`;
+                        let total = 0;
+                        if (regioniAttive.italia) total += Number((mercatoEcografi?.numeroEcografi?.find((m: any) => m.mercato === 'Italia') as any)?.[yearKey]) || 0;
+                        if (regioniAttive.europa) total += Number((mercatoEcografi?.numeroEcografi?.find((m: any) => m.mercato === 'Europa') as any)?.[yearKey]) || 0;
+                        if (regioniAttive.usa) total += Number((mercatoEcografi?.numeroEcografi?.find((m: any) => m.mercato === 'Stati Uniti') as any)?.[yearKey]) || 0;
+                        if (regioniAttive.cina) total += Number((mercatoEcografi?.numeroEcografi?.find((m: any) => m.mercato === 'Cina') as any)?.[yearKey]) || 0;
+                        return Math.round(total).toLocaleString('it-IT');
+                      })()}</strong><br/>
                       • <strong>TAM = {formatCurrency(tam)}</strong>
                     </div>
                   </div>
-                )}
-                {priceMode === 'perProcedura' && (
-                  <div className="text-xs space-y-1">
-                    <div className="font-mono bg-blue-50 p-2 rounded">TAM = Σ(Vol.SSN × Prezzo Pubbl. + Vol.Extra × Prezzo Priv.)</div>
-                    <div className="text-gray-700">
-                      • Modalità: <strong>Per Procedura (Italia) - Calcolo Preciso</strong><br/>
-                      • Calcolo automatico basato su volumeMode selezionato<br/>
-                      • Procedure aggredibili: <strong>{mercatoEcografie?.italia.prestazioni.filter(p => p.aggredibile).length || 0}</strong><br/>
-                      • <strong>TAM = {formatCurrency(tam)}</strong>
-                    </div>
-                  </div>
-                )}
-                {priceMode === 'regionalizzato' && (
-                  <div className="text-xs space-y-1">
-                    <div className="font-mono bg-blue-50 p-2 rounded">TAM = Σ Multi-Regioni (Vol × Prezzi regionali)</div>
-                    <div className="text-gray-700">
-                      • Regioni: <strong>{Object.entries(selectedRegions).filter(([_, v]) => v).map(([k]) => k.toUpperCase()).join(', ')}</strong><br/>
-                      • Calcolo automatico preciso per ogni regione<br/>
-                      • Procedure aggredibili: <strong>{mercatoEcografie?.italia.prestazioni.filter(p => p.aggredibile).length || 0}</strong><br/>
-                      • <strong>TAM = {formatCurrency(tam)}</strong>
-                    </div>
-                  </div>
+                ) : (
+                  <>
+                    {priceMode === 'semplice' && (
+                      <div className="text-xs space-y-1">
+                        <div className="font-mono bg-blue-50 p-2 rounded">TAM = Σ(Volume × Prezzo medio)</div>
+                        <div className="text-gray-700">
+                          • Procedure aggredibili: <strong>{mercatoEcografie?.italia.prestazioni.filter(p => p.aggredibile).length || 0}</strong><br/>
+                          • Volume totale: <strong>{(mercatoEcografie?.italia.prestazioni.filter(p => p.aggredibile).reduce((sum, p) => sum + p.P, 0) || 0).toLocaleString('it-IT')}</strong><br/>
+                          • Prezzo medio: <strong>€{prezzoMedioProcedura.toFixed(2)}</strong><br/>
+                          • <strong>TAM = {formatCurrency(tam)}</strong>
+                        </div>
+                      </div>
+                    )}
+                    {priceMode === 'perProcedura' && (
+                      <div className="text-xs space-y-1">
+                        <div className="font-mono bg-blue-50 p-2 rounded">TAM = Σ(Vol.SSN × Prezzo Pubbl. + Vol.Extra × Prezzo Priv.)</div>
+                        <div className="text-gray-700">
+                          • Modalità: <strong>Per Procedura (Italia) - Calcolo Preciso</strong><br/>
+                          • Calcolo automatico basato su volumeMode selezionato<br/>
+                          • Procedure aggredibili: <strong>{mercatoEcografie?.italia.prestazioni.filter(p => p.aggredibile).length || 0}</strong><br/>
+                          • <strong>TAM = {formatCurrency(tam)}</strong>
+                        </div>
+                      </div>
+                    )}
+                    {priceMode === 'regionalizzato' && (
+                      <div className="text-xs space-y-1">
+                        <div className="font-mono bg-blue-50 p-2 rounded">TAM = Σ Multi-Regioni (Vol × Prezzi regionali)</div>
+                        <div className="text-gray-700">
+                          • Regioni: <strong>{Object.entries(selectedRegions).filter(([_, v]) => v).map(([k]) => k.toUpperCase()).join(', ')}</strong><br/>
+                          • Calcolo automatico preciso per ogni regione<br/>
+                          • Procedure aggredibili: <strong>{mercatoEcografie?.italia.prestazioni.filter(p => p.aggredibile).length || 0}</strong><br/>
+                          • <strong>TAM = {formatCurrency(tam)}</strong>
+                        </div>
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
             </TooltipContent>
@@ -499,6 +538,14 @@ export function TamSamSomDashboard() {
                 </div>
                 <div className="text-3xl font-bold mb-1">{formatCurrency(sam)}</div>
                 <p className="text-sm opacity-75">Mercato Servibile ({currentSamPercentage}% TAM)</p>
+                {activeView === 'devices' && (
+                  <div className="mt-3 pt-3 border-t border-white/20">
+                    <div className="text-xs opacity-90 space-y-1">
+                      <div>📅 Anno: <strong>{selectedYear}</strong></div>
+                      <div>🎯 SAM: <strong>{currentSamPercentage}% del TAM</strong></div>
+                    </div>
+                  </div>
+                )}
               </Card>
             </TooltipTrigger>
             <TooltipContent className="max-w-md p-4 bg-white border-2 border-indigo-300">
@@ -530,6 +577,14 @@ export function TamSamSomDashboard() {
                 </div>
                 <div className="text-3xl font-bold mb-1">{formatCurrency(som1)}</div>
                 <p className="text-sm opacity-75">Mercato Ottenibile Anno 1</p>
+                {activeView === 'devices' && (
+                  <div className="mt-3 pt-3 border-t border-white/20">
+                    <div className="text-xs opacity-90 space-y-1">
+                      <div>📅 Anno: <strong>{selectedYear}</strong></div>
+                      <div>📈 Y1: {currentSomPercentages.y1}% | Y3: {currentSomPercentages.y3}% | Y5: {currentSomPercentages.y5}%</div>
+                    </div>
+                  </div>
+                )}
               </Card>
             </TooltipTrigger>
             <TooltipContent className="max-w-md p-4 bg-white border-2 border-purple-300">
