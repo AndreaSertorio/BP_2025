@@ -4419,7 +4419,7 @@
         "som3": 524548.5075000001,
         "som5": 1311371.26875
       },
-      "lastUpdate": "2025-10-09T23:10:50.328Z",
+      "lastUpdate": "2025-10-09T23:18:16.997Z",
       "regioniSelezionate": {
         "italia": true,
         "europa": false,
@@ -4433,7 +4433,7 @@
       "prezziMediDispositivi": {
         "carrellati": 50000,
         "portatili": 25000,
-        "palmari": 8000
+        "palmari": 6000
       },
       "samPercentage": 50,
       "somPercentages": {
@@ -4448,7 +4448,7 @@
         "som3": 0,
         "som5": 0
       },
-      "lastUpdate": "2025-10-09T23:10:48.797Z",
+      "lastUpdate": "2025-10-09T23:18:15.458Z",
       "regioniAttive": {
         "italia": true,
         "europa": false,

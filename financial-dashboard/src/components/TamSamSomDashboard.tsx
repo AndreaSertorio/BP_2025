@@ -170,6 +170,9 @@ export function TamSamSomDashboard() {
 
   // Serializza regioniAttive con useMemo per evitare ricalcolo ad ogni render
   const regioniAttiveJson = useMemo(() => JSON.stringify(regioniAttive), [regioniAttive]);
+  
+  // Serializza prezziDispositivi con useMemo per evitare loop infinito
+  const prezziDispositiviJson = useMemo(() => JSON.stringify(prezziDispositivi), [prezziDispositivi]);
 
   // Auto-salva configurazione Devices quando cambiano i parametri (con debounce 1.5s)
   useEffect(() => {
@@ -196,7 +199,7 @@ export function TamSamSomDashboard() {
     somPercentagesDevices,
     regioniAttiveJson, // FIX: Usa useMemo per evitare loop infinito
     prezzoVenditaProdotto,
-    prezziDispositivi,
+    prezziDispositiviJson, // FIX: Usa useMemo per evitare loop infinito
     isInitialized // Aggiungi isInitialized per evitare salvataggio prima dell'init
   ]);
 
@@ -379,6 +382,14 @@ export function TamSamSomDashboard() {
     const percentages = activeView === 'procedures' ? somPercentages : somPercentagesDevices;
     return Math.round(samDevices * (percentages[year] / 100));
   }, [calculateSamDevices, activeView, somPercentages, somPercentagesDevices]);
+
+  // Helper: Calcola numero totale prestazioni aggredibili per Procedures
+  const calculateTotalProcedures = useCallback(() => {
+    if (!mercatoEcografie) return 0;
+    const prestazioni = mercatoEcografie.italia?.prestazioni || [];
+    const aggredibili = prestazioni.filter(p => p.aggredibile);
+    return aggredibili.reduce((sum, p) => sum + getVolume(p, 'italia'), 0);
+  }, [mercatoEcografie, getVolume]);
 
   // Calcola TAM/SAM/SOM Devices
   const calculateDevicesMetrics = useCallback(() => {
@@ -621,6 +632,15 @@ export function TamSamSomDashboard() {
                     </div>
                   </div>
                 )}
+                {activeView === 'procedures' && (
+                  <div className="mt-3 pt-3 border-t border-white/20">
+                    <div className="text-xs opacity-90 space-y-1">
+                      <div>🌍 Mercato: <strong>🇮🇹 Italia</strong></div>
+                      <div>📊 Prestazioni: <strong>{Math.round(calculateTotalProcedures() * (currentSamPercentage / 100)).toLocaleString('it-IT')}</strong></div>
+                      <div>🎯 SAM: <strong>{currentSamPercentage}% del TAM</strong></div>
+                    </div>
+                  </div>
+                )}
               </Card>
             </TooltipTrigger>
             <TooltipContent className="max-w-md p-4 bg-white border-2 border-indigo-300">
@@ -657,6 +677,15 @@ export function TamSamSomDashboard() {
                     <div className="text-xs opacity-90 space-y-1">
                       <div>📅 Anno: <strong>{selectedYear}</strong></div>
                       <div>📊 Dispositivi: <strong>{calculateSomDevices('y1').toLocaleString('it-IT')}</strong></div>
+                      <div>📈 Y1: {currentSomPercentages.y1}% | Y3: {currentSomPercentages.y3}% | Y5: {currentSomPercentages.y5}%</div>
+                    </div>
+                  </div>
+                )}
+                {activeView === 'procedures' && (
+                  <div className="mt-3 pt-3 border-t border-white/20">
+                    <div className="text-xs opacity-90 space-y-1">
+                      <div>🌍 Mercato: <strong>🇮🇹 Italia</strong></div>
+                      <div>📊 Prestazioni: <strong>{Math.round(calculateTotalProcedures() * (currentSamPercentage / 100) * (currentSomPercentages.y1 / 100)).toLocaleString('it-IT')}</strong></div>
                       <div>📈 Y1: {currentSomPercentages.y1}% | Y3: {currentSomPercentages.y3}% | Y5: {currentSomPercentages.y5}%</div>
                     </div>
                   </div>
