@@ -109,6 +109,11 @@ interface ConfigurazioneTamSamSomEcografie {
 interface ConfigurazioneTamSamSomEcografi {
   priceMode: 'semplice';
   prezzoMedioDispositivo: number;
+  prezziMediDispositivi?: {
+    carrellati: number;
+    portatili: number;
+    palmari: number;
+  };
   samPercentage: number;
   somPercentages: {
     y1: number;

@@ -1088,36 +1088,118 @@ export function TamSamSomDashboard() {
       {/* Vista Devices */}
       {activeView === 'devices' && mercatoEcografi && (
         <Card className="p-6">
-          <h3 className="text-xl font-bold text-gray-900 mb-4">
-            🔬 Mercato Dispositivi Ecografi - Italia
+          <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+            🔬 Mercato Dispositivi Ecografi
+            <Tooltip>
+              <TooltipTrigger>
+                <Info className="h-4 w-4 text-gray-400" />
+              </TooltipTrigger>
+              <TooltipContent>
+                <p className="max-w-xs">
+                  Analisi del mercato globale dispositivi ecografici per categoria hardware.
+                  Volumi da {mercatoEcografi.numeroEcografi?.length || 0} mercati regionali.
+                </p>
+              </TooltipContent>
+            </Tooltip>
           </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {mercatoEcografi.proiezioniItalia?.slice(0, 3).map((proj: any) => (
-              <div key={proj.anno} className="p-4 bg-gray-50 rounded-lg border">
-                <div className="text-sm font-semibold text-gray-700 mb-2">Anno {proj.anno}</div>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Fonte Mordor:</span>
-                    <span className="font-bold">{formatCurrency((proj.mordor || 0) * 1000000)}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Fonte Research:</span>
-                    <span className="font-bold">{formatCurrency((proj.research || 0) * 1000000)}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Media:</span>
-                    <Badge variant="outline">{formatCurrency((proj.media || 0) * 1000000)}</Badge>
-                  </div>
-                </div>
-              </div>
-            ))}
+
+          {/* Tabella Categorie Hardware */}
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="bg-gradient-to-r from-indigo-50 to-blue-50 border-b-2 border-indigo-200">
+                  <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">Categoria</th>
+                  <th className="px-4 py-3 text-right text-sm font-semibold text-gray-700">% Mercato</th>
+                  <th className="px-4 py-3 text-right text-sm font-semibold text-indigo-700">Prezzo Medio €</th>
+                  <th className="px-4 py-3 text-right text-sm font-semibold text-blue-700">Vol. Italia</th>
+                  <th className="px-4 py-3 text-right text-sm font-semibold text-blue-700">Vol. Europa</th>
+                  <th className="px-4 py-3 text-right text-sm font-semibold text-blue-700">Vol. USA</th>
+                  <th className="px-4 py-3 text-right text-sm font-semibold text-blue-700">Vol. Cina</th>
+                  <th className="px-4 py-3 text-right text-sm font-semibold text-green-700">TAM Categoria</th>
+                </tr>
+              </thead>
+              <tbody>
+                {/* Le 3 categorie principali: carrellati, portatili, palmari */}
+                {['carrellati', 'portatili', 'palmari'].map((categoriaId) => {
+                  const tipologia = mercatoEcografi.tipologie?.find((t: any) => t.id === categoriaId);
+                  if (!tipologia) return null;
+
+                  // Prezzi medi da configurazione (usa sempre data perché configTamSamSom è solo per ecografie)
+                  const configEcografi = data?.configurazioneTamSamSom?.ecografi;
+                  const prezziMedi = configEcografi?.prezziMediDispositivi;
+                  let prezzoMedio = 0;
+                  if (prezziMedi) {
+                    if (categoriaId === 'carrellati') prezzoMedio = prezziMedi.carrellati;
+                    else if (categoriaId === 'portatili') prezzoMedio = prezziMedi.portatili;
+                    else if (categoriaId === 'palmari') prezzoMedio = prezziMedi.palmari;
+                  }
+
+                  // Volumi per regione (anno 2025) × quota categoria
+                  const volumeItalia = Math.round((mercatoEcografi.numeroEcografi?.find((m: any) => m.mercato === 'Italia')?.unita2025 || 0) * (tipologia.quotaIT || 0));
+                  const volumeEuropa = Math.round((mercatoEcografi.numeroEcografi?.find((m: any) => m.mercato === 'Europa')?.unita2025 || 0) * (tipologia.quotaGlobale || 0));
+                  const volumeUSA = Math.round((mercatoEcografi.numeroEcografi?.find((m: any) => m.mercato === 'Stati Uniti')?.unita2025 || 0) * (tipologia.quotaGlobale || 0));
+                  const volumeCina = Math.round((mercatoEcografi.numeroEcografi?.find((m: any) => m.mercato === 'Cina')?.unita2025 || 0) * (tipologia.quotaGlobale || 0));
+
+                  // TAM categoria = somma(volumi × prezzo)
+                  const tamCategoria = (volumeItalia + volumeEuropa + volumeUSA + volumeCina) * prezzoMedio;
+
+                  return (
+                    <tr key={categoriaId} className="border-b border-gray-100 hover:bg-gray-50">
+                      {/* Categoria */}
+                      <td className="px-4 py-3">
+                        <div className="flex items-center gap-2">
+                          <span className="text-2xl">{tipologia.icon}</span>
+                          <div>
+                            <div className="font-semibold text-gray-900">{tipologia.nome}</div>
+                            <div className="text-xs text-gray-500">{tipologia.note?.split('-')[0]}</div>
+                          </div>
+                        </div>
+                      </td>
+
+                      {/* % Mercato */}
+                      <td className="px-4 py-3 text-right">
+                        <Badge variant="outline">
+                          IT: {(tipologia.quotaIT * 100).toFixed(1)}%
+                        </Badge>
+                      </td>
+
+                      {/* Prezzo Medio Editabile */}
+                      <td className="px-4 py-3 text-right group cursor-pointer">
+                        <div className="px-2 py-1 rounded hover:bg-indigo-50 font-mono text-indigo-700 font-bold">
+                          €{prezzoMedio.toLocaleString('it-IT')}
+                        </div>
+                      </td>
+
+                      {/* Volumi per regione */}
+                      <td className="px-4 py-3 text-right font-mono text-blue-700">
+                        {volumeItalia.toLocaleString('it-IT')}
+                      </td>
+                      <td className="px-4 py-3 text-right font-mono text-blue-700">
+                        {volumeEuropa.toLocaleString('it-IT')}
+                      </td>
+                      <td className="px-4 py-3 text-right font-mono text-blue-700">
+                        {volumeUSA.toLocaleString('it-IT')}
+                      </td>
+                      <td className="px-4 py-3 text-right font-mono text-blue-700">
+                        {volumeCina.toLocaleString('it-IT')}
+                      </td>
+
+                      {/* TAM Categoria */}
+                      <td className="px-4 py-3 text-right">
+                        <Badge className="bg-green-600">{formatCurrency(tamCategoria)}</Badge>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
+
+          {/* Note Calcolo */}
           <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
             <p className="text-sm text-blue-800">
-              <strong>Note:</strong> Proiezioni di mercato basate su dati di {mercatoEcografi.proiezioniItalia?.length || 0} anni. 
-              Parco installato Italia (scenario centrale, 2025): {
-                (mercatoEcografi.parcoIT?.find((p: any) => p.anno === 2025)?.centrale || 0).toLocaleString('it-IT')
-              } unità.
+              <strong>Calcolo TAM Devices:</strong> Per ogni categoria: (Vol. Italia + Vol. Europa + Vol. USA + Vol. Cina) × Prezzo Medio.
+              Quote mercato: Italia usa quotaIT, altre regioni usano quotaGlobale.
             </p>
           </div>
         </Card>
