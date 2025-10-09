@@ -1088,20 +1088,21 @@ export function TamSamSomDashboard() {
       {/* Vista Devices */}
       {activeView === 'devices' && mercatoEcografi && (
         <Card className="p-6">
-          <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-            🔬 Mercato Dispositivi Ecografi
-            <Tooltip>
-              <TooltipTrigger>
-                <Info className="h-4 w-4 text-gray-400" />
-              </TooltipTrigger>
-              <TooltipContent>
-                <p className="max-w-xs">
-                  Analisi del mercato globale dispositivi ecografici per categoria hardware.
-                  Volumi da {mercatoEcografi.numeroEcografi?.length || 0} mercati regionali.
-                </p>
-              </TooltipContent>
-            </Tooltip>
-          </h3>
+          <TooltipProvider>
+            <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+              🔬 Mercato Dispositivi Ecografi
+              <Tooltip>
+                <TooltipTrigger>
+                  <Info className="h-4 w-4 text-gray-400" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p className="max-w-xs">
+                    Analisi del mercato globale dispositivi ecografici per categoria hardware.
+                    Volumi da {mercatoEcografi.numeroEcografi?.length || 0} mercati regionali.
+                  </p>
+                </TooltipContent>
+              </Tooltip>
+            </h3>
 
           {/* Tabella Categorie Hardware */}
           <div className="overflow-x-auto">
@@ -1202,6 +1203,7 @@ export function TamSamSomDashboard() {
               Quote mercato: Italia usa quotaIT, altre regioni usano quotaGlobale.
             </p>
           </div>
+          </TooltipProvider>
         </Card>
       )}
 
