@@ -302,12 +302,27 @@ export function DatabaseProvider({ children }: { children: ReactNode }) {
       await response.json();
       console.log(`✅ Percentuale ${codice}: ${percentuale}%`);
       
-      // Ricarica dati dal server
-      await refreshData();
+      // OTTIMIZZAZIONE: Aggiorna solo lo stato locale invece di ricaricare tutto!
+      setData(prevData => {
+        if (!prevData) return prevData;
+        
+        return {
+          ...prevData,
+          mercatoEcografie: {
+            ...prevData.mercatoEcografie,
+            italia: {
+              ...prevData.mercatoEcografie.italia,
+              prestazioni: prevData.mercatoEcografie.italia.prestazioni.map(p =>
+                p.codice === codice ? { ...p, percentualeExtraSSN: percentuale } : p
+              )
+            }
+          }
+        };
+      });
     } catch (error) {
       console.error(`❌ Errore aggiornamento percentuale ${codice}:`, error);
     }
-  }, [refreshData]);
+  }, []);
 
   // Aggiorna moltiplicatori regionali
   const updateRegioneMoltiplicatori = useCallback(async (
