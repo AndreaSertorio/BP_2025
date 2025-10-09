@@ -15,14 +15,14 @@ import { useDatabase } from '@/contexts/DatabaseProvider';
 import {
   Target,
   TrendingUp,
-  DollarSign,
-  Globe,
-  Calculator,
-  Save,
-  RefreshCw,
   Info,
+  DollarSign,
   CheckCircle2,
-  XCircle
+  XCircle,
+  Zap,
+  RefreshCw,
+  Calculator,
+  Globe
 } from 'lucide-react';
 
 export function TamSamSomDashboard() {
@@ -1172,6 +1172,129 @@ export function TamSamSomDashboard() {
                   </label>
                 ))}
               </div>
+            </div>
+
+            {/* Metriche TAM/SAM/SOM Devices */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-6">
+              {(() => {
+                // Calcola TAM totale Devices dalle regioni attive
+                const configEcografi = data?.configurazioneTamSamSom?.ecografi;
+                const prezziMedi = configEcografi?.prezziMediDispositivi || { carrellati: 50000, portatili: 25000, palmari: 8000 };
+                const yearKey = `unita${selectedYear}` as keyof typeof mercatoEcografi.numeroEcografi[0];
+                
+                let tamDevices = 0;
+                
+                ['carrellati', 'portatili', 'palmari'].forEach((categoriaId) => {
+                  const tipologia = mercatoEcografi.tipologie?.find((t: any) => t.id === categoriaId);
+                  if (!tipologia) return;
+                  
+                  const prezzoCategoria = categoriaId === 'carrellati' ? prezziMedi.carrellati :
+                                         categoriaId === 'portatili' ? prezziMedi.portatili :
+                                         prezziMedi.palmari;
+                  
+                  const volumeItalia = regioniAttive.italia ? Math.round((Number(mercatoEcografi.numeroEcografi?.find((m: any) => m.mercato === 'Italia')?.[yearKey]) || 0) * (tipologia.quotaIT || 0)) : 0;
+                  const volumeEuropa = regioniAttive.europa ? Math.round((Number(mercatoEcografi.numeroEcografi?.find((m: any) => m.mercato === 'Europa')?.[yearKey]) || 0) * (tipologia.quotaGlobale || 0)) : 0;
+                  const volumeUSA = regioniAttive.usa ? Math.round((Number(mercatoEcografi.numeroEcografi?.find((m: any) => m.mercato === 'Stati Uniti')?.[yearKey]) || 0) * (tipologia.quotaGlobale || 0)) : 0;
+                  const volumeCina = regioniAttive.cina ? Math.round((Number(mercatoEcografi.numeroEcografi?.find((m: any) => m.mercato === 'Cina')?.[yearKey]) || 0) * (tipologia.quotaGlobale || 0)) : 0;
+                  
+                  const volumeTotale = volumeItalia + volumeEuropa + volumeUSA + volumeCina;
+                  tamDevices += volumeTotale * prezzoCategoria;
+                });
+
+                const samPercentageDevices = configEcografi?.samPercentage || 35;
+                const somPercentagesDevices = configEcografi?.somPercentages || { y1: 0.5, y3: 2, y5: 5 };
+                
+                const samDevices = tamDevices * (samPercentageDevices / 100);
+                const som1Devices = samDevices * (somPercentagesDevices.y1 / 100);
+                const som3Devices = samDevices * (somPercentagesDevices.y3 / 100);
+                const som5Devices = samDevices * (somPercentagesDevices.y5 / 100);
+
+                return (
+                  <>
+                    {/* TAM Card */}
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Card className="p-4 bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-200 cursor-help">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <p className="text-sm font-medium text-gray-600">TAM Devices</p>
+                              <p className="text-2xl font-bold text-blue-700">{formatCurrency(tamDevices)}</p>
+                              <p className="text-xs text-gray-500 mt-1">
+                                Anno {selectedYear} | {Object.values(regioniAttive).filter(Boolean).length} regioni
+                              </p>
+                            </div>
+                            <Target className="h-8 w-8 text-blue-500" />
+                          </div>
+                        </Card>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p className="max-w-xs">
+                          <strong>Total Addressable Market (Devices)</strong><br/>
+                          Mercato totale dispositivi ecografi basato su volumi regionali × quote categoria × prezzi medi.
+                          Regioni attive: {Object.entries(regioniAttive).filter(([_, v]) => v).map(([k]) => k).join(', ')}
+                        </p>
+                      </TooltipContent>
+                    </Tooltip>
+
+                    {/* SAM Card */}
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Card className="p-4 bg-gradient-to-br from-green-50 to-emerald-50 border-green-200 cursor-help">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <p className="text-sm font-medium text-gray-600">SAM Devices</p>
+                              <p className="text-2xl font-bold text-green-700">{formatCurrency(samDevices)}</p>
+                              <p className="text-xs text-gray-500 mt-1">{samPercentageDevices}% del TAM</p>
+                            </div>
+                            <TrendingUp className="h-8 w-8 text-green-500" />
+                          </div>
+                        </Card>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p className="max-w-xs">
+                          <strong>Serviceable Addressable Market (Devices)</strong><br/>
+                          Quota di mercato realisticamente raggiungibile. Attualmente {samPercentageDevices}% del TAM.
+                        </p>
+                      </TooltipContent>
+                    </Tooltip>
+
+                    {/* SOM Card */}
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Card className="p-4 bg-gradient-to-br from-purple-50 to-pink-50 border-purple-200 cursor-help">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <p className="text-sm font-medium text-gray-600">SOM Devices</p>
+                              <div className="space-y-1 mt-1">
+                                <div className="flex items-center gap-2">
+                                  <span className="text-xs text-gray-500">Y1:</span>
+                                  <span className="text-sm font-semibold text-purple-700">{formatCurrency(som1Devices)}</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  <span className="text-xs text-gray-500">Y3:</span>
+                                  <span className="text-sm font-semibold text-purple-700">{formatCurrency(som3Devices)}</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  <span className="text-xs text-gray-500">Y5:</span>
+                                  <span className="text-lg font-bold text-purple-700">{formatCurrency(som5Devices)}</span>
+                                </div>
+                              </div>
+                            </div>
+                            <Zap className="h-8 w-8 text-purple-500" />
+                          </div>
+                        </Card>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p className="max-w-xs">
+                          <strong>Serviceable Obtainable Market (Devices)</strong><br/>
+                          Quota mercato dispositivi effettivamente raggiungibile nei primi 5 anni.
+                          Y1: {somPercentagesDevices.y1}% | Y3: {somPercentagesDevices.y3}% | Y5: {somPercentagesDevices.y5}%
+                        </p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </>
+                );
+              })()}
             </div>
 
           {/* Tabella Categorie Hardware */}
