@@ -67,6 +67,9 @@ export function TamSamSomDashboard() {
   });
   const [hasChanges, setHasChanges] = useState(false);
   
+  // Flag per evitare loop infinito tra caricamento e salvataggio
+  const [isInitialized, setIsInitialized] = useState(false);
+  
   // State per editing inline prezzi (come nel Budget)
   const [editingPrice, setEditingPrice] = useState<{ codice: string; tipo: 'pubblico' | 'privato'; value: string } | null>(null);
   
@@ -101,9 +104,9 @@ export function TamSamSomDashboard() {
     }
   }, [configTamSamSom]);
   
-  // Carica configurazione Devices salvata al mount
+  // Carica configurazione Devices salvata al mount (SOLO UNA VOLTA)
   useEffect(() => {
-    if (configTamSamSomDevices) {
+    if (configTamSamSomDevices && !isInitialized) {
       setSamPercentageDevices(configTamSamSomDevices.samPercentage || 35);
       setSomPercentagesDevices(configTamSamSomDevices.somPercentages || { y1: 0.5, y3: 2, y5: 5 });
       
@@ -112,9 +115,10 @@ export function TamSamSomDashboard() {
         setRegioniAttive((configTamSamSomDevices as any).regioniAttive);
       }
       
-      console.log('✅ Configurazione TAM/SAM/SOM Devices caricata dal database');
+      setIsInitialized(true); // Blocca ricaricamenti successivi
+      console.log('✅ Configurazione TAM/SAM/SOM Devices caricata dal database (INIT)');
     }
-  }, [configTamSamSomDevices]);
+  }, [configTamSamSomDevices, isInitialized]);
 
   // Auto-salva configurazione Procedures quando cambiano i parametri (con debounce 1.5s)
   useEffect(() => {
@@ -151,7 +155,8 @@ export function TamSamSomDashboard() {
 
   // Auto-salva configurazione Devices quando cambiano i parametri (con debounce 1.5s)
   useEffect(() => {
-    // Skip primo mount
+    // Skip se non inizializzato (evita salvataggio durante caricamento iniziale)
+    if (!isInitialized) return;
     if (!configTamSamSomDevices) return;
     
     const timer = setTimeout(async () => {
@@ -169,7 +174,8 @@ export function TamSamSomDashboard() {
   }, [
     samPercentageDevices,
     somPercentagesDevices,
-    regioniAttiveJson // FIX: Usa useMemo per evitare loop infinito
+    regioniAttiveJson, // FIX: Usa useMemo per evitare loop infinito
+    isInitialized // Aggiungi isInitialized per evitare salvataggio prima dell'init
   ]);
 
   // Toggle aggredibile (NO RELOAD!)
@@ -332,7 +338,7 @@ export function TamSamSomDashboard() {
     }
   }, [mercatoEcografie, mercatoEcografi, activeView, priceMode, volumeMode, prezzoMedioProcedura, selectedRegions, prezziRegionalizzati, getVolume, calculateVolumes]);
 
-  // Helper: Calcola numero totale dispositivi (con logica sovrapposizione Italia-Europa)
+  // Helper: Calcola numero totale dispositivi TAM (con logica sovrapposizione Italia-Europa)
   const calculateTotalDevices = useCallback(() => {
     if (!mercatoEcografi) return 0;
     
@@ -359,6 +365,20 @@ export function TamSamSomDashboard() {
     
     return Math.round(total);
   }, [mercatoEcografi, selectedYear, regioniAttive]);
+
+  // Helper: Calcola dispositivi SAM (proporzionale al TAM)
+  const calculateSamDevices = useCallback(() => {
+    const tamDevices = calculateTotalDevices();
+    const percentage = activeView === 'procedures' ? samPercentage : samPercentageDevices;
+    return Math.round(tamDevices * (percentage / 100));
+  }, [calculateTotalDevices, activeView, samPercentage, samPercentageDevices]);
+
+  // Helper: Calcola dispositivi SOM (proporzionale al SAM)
+  const calculateSomDevices = useCallback((year: 'y1' | 'y3' | 'y5') => {
+    const samDevices = calculateSamDevices();
+    const percentages = activeView === 'procedures' ? somPercentages : somPercentagesDevices;
+    return Math.round(samDevices * (percentages[year] / 100));
+  }, [calculateSamDevices, activeView, somPercentages, somPercentagesDevices]);
 
   // Calcola TAM/SAM/SOM Devices
   const calculateDevicesMetrics = useCallback(() => {
@@ -596,7 +616,7 @@ export function TamSamSomDashboard() {
                   <div className="mt-3 pt-3 border-t border-white/20">
                     <div className="text-xs opacity-90 space-y-1">
                       <div>📅 Anno: <strong>{selectedYear}</strong></div>
-                      <div>📊 Dispositivi: <strong>{calculateTotalDevices().toLocaleString('it-IT')}</strong></div>
+                      <div>📊 Dispositivi: <strong>{calculateSamDevices().toLocaleString('it-IT')}</strong></div>
                       <div>🎯 SAM: <strong>{currentSamPercentage}% del TAM</strong></div>
                     </div>
                   </div>
@@ -636,7 +656,7 @@ export function TamSamSomDashboard() {
                   <div className="mt-3 pt-3 border-t border-white/20">
                     <div className="text-xs opacity-90 space-y-1">
                       <div>📅 Anno: <strong>{selectedYear}</strong></div>
-                      <div>📊 Dispositivi: <strong>{calculateTotalDevices().toLocaleString('it-IT')}</strong></div>
+                      <div>📊 Dispositivi: <strong>{calculateSomDevices('y1').toLocaleString('it-IT')}</strong></div>
                       <div>📈 Y1: {currentSomPercentages.y1}% | Y3: {currentSomPercentages.y3}% | Y5: {currentSomPercentages.y5}%</div>
                     </div>
                   </div>
@@ -948,6 +968,13 @@ export function TamSamSomDashboard() {
             <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
               <div className="text-sm text-blue-700 font-semibold mb-1">Anno 1 ({currentSomPercentages.y1}% SAM)</div>
               <div className="text-2xl font-bold text-blue-900">{formatCurrency(som1)}</div>
+              {activeView === 'devices' && (
+                <div className="mt-2 pt-2 border-t border-blue-300">
+                  <div className="text-xs text-blue-600">
+                    📊 Dispositivi: <strong>{calculateSomDevices('y1').toLocaleString('it-IT')}</strong>
+                  </div>
+                </div>
+              )}
             </div>
             <div className="px-2">
               <Slider
@@ -979,7 +1006,7 @@ export function TamSamSomDashboard() {
               {activeView === 'devices' && (
                 <div className="mt-2 pt-2 border-t border-indigo-300">
                   <div className="text-xs text-indigo-600">
-                    📊 Dispositivi: <strong>{calculateTotalDevices().toLocaleString('it-IT')}</strong>
+                    📊 Dispositivi: <strong>{calculateSomDevices('y3').toLocaleString('it-IT')}</strong>
                   </div>
                 </div>
               )}
@@ -1014,7 +1041,7 @@ export function TamSamSomDashboard() {
               {activeView === 'devices' && (
                 <div className="mt-2 pt-2 border-t border-purple-300">
                   <div className="text-xs text-purple-600">
-                    📊 Dispositivi: <strong>{calculateTotalDevices().toLocaleString('it-IT')}</strong>
+                    📊 Dispositivi: <strong>{calculateSomDevices('y5').toLocaleString('it-IT')}</strong>
                   </div>
                 </div>
               )}
