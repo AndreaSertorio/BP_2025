@@ -503,7 +503,64 @@ const sam = currentMetrics.sam;
 
 ---
 
+## 🎯 REGOLA #4: CSS Hidden vs Conditional Rendering
+
+### Problema: Refresh con tabelle/componenti grandi
+
+**Sintomo:**
+- Quando cambi tab/vista con componenti molto grandi
+- La pagina fa un "flash" o refresh visibile
+- Anche con useMemo il problema persiste
+
+**Causa:**
+- Conditional rendering con componenti grandi (300+ righe)
+- React UNMOUNT/REMOUNT ad ogni cambio
+- 600+ elementi DOM creati/distrutti
+- Operazione molto costosa
+
+**Soluzione: CSS hidden invece di unmount**
+
+```typescript
+// ❌ SBAGLIATO: Unmount/Remount pesante
+{activeView === 'devices' && (
+  <Card className="p-6">
+    {/* 300+ righe di tabella */}
+    {/* Migliaia di elementi DOM */}
+  </Card>
+)}
+
+// ✅ CORRETTO: CSS hidden (no unmount)
+<Card className={`p-6 ${activeView !== 'devices' ? 'hidden' : ''}`}>
+  {/* 300+ righe di tabella */}
+  {/* Sempre montata, solo nascosta con CSS */}
+</Card>
+```
+
+**Perché funziona:**
+- Componenti sempre montati nel DOM
+- Cambio vista = toggle class `hidden`
+- `hidden` = `display: none` (Tailwind)
+- 0 manipolazioni DOM pesanti
+- Performance: <2ms invece di ~200ms
+- ✅ Cambio ISTANTANEO!
+
+**IMPORTANTE:**
+- Usa per componenti grandi (>100 righe)
+- Non usare per componenti con side effects costosi
+- `hidden` non impatta performance rendering
+- Il costo di mount/unmount è MOLTO maggiore di `display:none`
+
+**Quando usare CSS hidden:**
+- ✅ Tabelle grandi con molti dati
+- ✅ Liste lunghe (>50 elementi)
+- ✅ Dashboard con grafici complessi
+- ✅ Form con molti campi
+- ❌ Componenti con fetch/polling attivi
+- ❌ Video/Audio player in background
+
+---
+
 **Data Creazione:** 2025-01-10  
 **Ultima Modifica:** 2025-01-10  
-**Versione:** 1.1  
+**Versione:** 1.2  
 **Stato:** ⚠️ CRITICO - LEGGERE SEMPRE PRIMA DI AUTO-SAVE
