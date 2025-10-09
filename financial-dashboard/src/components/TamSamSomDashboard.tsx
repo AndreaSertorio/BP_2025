@@ -59,6 +59,7 @@ export function TamSamSomDashboard() {
   const mercatoEcografie = data?.mercatoEcografie;
   const mercatoEcografi = data?.mercatoEcografi;
   const prezziRegionalizzati = data?.prezziEcografieRegionalizzati;
+  const regioniMondiali = data?.regioniMondiali;
   const configTamSamSom = data?.configurazioneTamSamSom?.ecografie;
 
   // Carica configurazione salvata al mount
@@ -88,27 +89,35 @@ export function TamSamSomDashboard() {
     }
   }
 
-  // Helper per calcolare volumi SSN/ExtraSSN/Totale
-  const calculateVolumes = useCallback((prestazione: any) => {
-    const total = prestazione.P || 0;
+  // Helper per calcolare volumi SSN/ExtraSSN/Totale con moltiplicatore regionale
+  const calculateVolumes = useCallback((prestazione: any, regione: 'italia' | 'europa' | 'usa' | 'cina' = 'italia') => {
+    const baseTotal = prestazione.P || 0;
     const percExtraSSN = prestazione.percentualeExtraSSN || 0;
+    
+    // Ottieni moltiplicatore di volume dalla regione (Italia = 1, default)
+    const moltiplicatore = regione === 'italia' 
+      ? 1 
+      : (regioniMondiali?.[regione]?.moltiplicatoreVolume || 1);
+    
+    // Applica moltiplicatore ai volumi
+    const total = Math.round(baseTotal * moltiplicatore);
     
     return {
       totale: total,
       ssn: Math.round(total * (1 - percExtraSSN / 100)),
       extraSsn: Math.round(total * (percExtraSSN / 100))
     };
-  }, []);
+  }, [regioniMondiali]);
 
-  // Helper per ottenere volume basato su volumeMode
+  // Helper per ottenere volume basato su volumeMode (usa selectedRegion per calcoli TAM)
   const getVolume = useCallback((prestazione: any) => {
-    const volumes = calculateVolumes(prestazione);
+    const volumes = calculateVolumes(prestazione, selectedRegion);
     switch (volumeMode) {
       case 'ssn': return volumes.ssn;
       case 'extraSsn': return volumes.extraSsn;
       default: return volumes.totale;
     }
-  }, [volumeMode, calculateVolumes]);
+  }, [volumeMode, selectedRegion, calculateVolumes]);
 
   // Calcoli TAM/SAM/SOM (prima dei return condizionali per hooks)
   const calculateTAMValue = useCallback(() => {
@@ -848,8 +857,8 @@ export function TamSamSomDashboard() {
               </thead>
               <tbody>
                 {prestazioni.map((p) => {
-                  const volumes = calculateVolumes(p);
-                  // Usa tableRegion per i prezzi della regione selezionata
+                  // Usa tableRegion per volumi E prezzi della regione selezionata
+                  const volumes = calculateVolumes(p, tableRegion);
                   const prezzoInfo = prezziRegionalizzati?.[tableRegion]?.find((pr: any) => pr.codice === p.codice);
                   const prezzoSSN = prezzoInfo?.prezzoPubblico || Math.round(prezzoMedioProcedura);
                   const prezzoPrivato = prezzoInfo?.prezzoPrivato || Math.round(prezzoMedioProcedura * 1.3);
