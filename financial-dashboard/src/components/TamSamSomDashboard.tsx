@@ -36,7 +36,14 @@ export function TamSamSomDashboard() {
   } = useDatabase();
   
   const [activeView, setActiveView] = useState<'procedures' | 'devices'>('procedures');
-  const [selectedRegion, setSelectedRegion] = useState<'italia' | 'europa' | 'usa' | 'cina'>('italia');
+  
+  // Regioni selezionate per modalità regionalizzato (multi-selezione)
+  const [selectedRegions, setSelectedRegions] = useState({
+    italia: true,
+    europa: false,
+    usa: false,
+    cina: false
+  });
   
   // Stati per Procedures
   const [samPercentage, setSamPercentage] = useState(35);
@@ -47,9 +54,7 @@ export function TamSamSomDashboard() {
   const [somPercentagesDevices, setSomPercentagesDevices] = useState({ y1: 0.5, y3: 2, y5: 5 });
   const [prezzoMedioProcedura, setPrezzoMedioProcedura] = useState(77.5);
   const [showPriceEditor, setShowPriceEditor] = useState(false);
-  const [showRegionalPriceEditor, setShowRegionalPriceEditor] = useState(false);
   const [priceMode, setPriceMode] = useState<'semplice' | 'perProcedura' | 'regionalizzato'>('semplice');
-  const [tipoPrezzo, setTipoPrezzo] = useState<'pubblico' | 'privato' | 'medio'>('medio');
   const [volumeMode, setVolumeMode] = useState<'totale' | 'ssn' | 'extraSsn'>('totale');
   
   // State per Vista Devices
@@ -83,11 +88,15 @@ export function TamSamSomDashboard() {
     if (configTamSamSom) {
       setPriceMode(configTamSamSom.priceMode || 'semplice');
       setPrezzoMedioProcedura(configTamSamSom.prezzoMedioProcedura || 77.5);
-      setTipoPrezzo(configTamSamSom.tipoPrezzo || 'medio');
-      setSelectedRegion(configTamSamSom.regioneSelezionata || 'italia');
       setVolumeMode(configTamSamSom.volumeMode || 'totale');
       setSamPercentage(configTamSamSom.samPercentage || 35);
       setSomPercentages(configTamSamSom.somPercentages || { y1: 0.5, y3: 2, y5: 5 });
+      
+      // Carica regioni selezionate se salvate (con type assertion per nuova proprietà)
+      if ((configTamSamSom as any).regioniSelezionate) {
+        setSelectedRegions((configTamSamSom as any).regioniSelezionate);
+      }
+      
       console.log('✅ Configurazione TAM/SAM/SOM Procedures caricata dal database');
     }
   }, [configTamSamSom]);
@@ -111,12 +120,11 @@ export function TamSamSomDashboard() {
       await updateConfigurazioneTamSamSomEcografie({
         priceMode,
         prezzoMedioProcedura,
-        tipoPrezzo,
-        regioneSelezionata: selectedRegion,
+        regioniSelezionate: selectedRegions,
         volumeMode,
         samPercentage,
         somPercentages
-      });
+      } as any);
       
       console.log('💾 Configurazione TAM/SAM/SOM salvata automaticamente');
     }, 1500);
@@ -126,8 +134,7 @@ export function TamSamSomDashboard() {
   }, [
     priceMode, 
     prezzoMedioProcedura, 
-    tipoPrezzo, 
-    selectedRegion, 
+    selectedRegions, 
     volumeMode, 
     samPercentage, 
     somPercentages
@@ -195,15 +202,15 @@ export function TamSamSomDashboard() {
     };
   }, [regioniMondiali]);
 
-  // Helper per ottenere volume basato su volumeMode (usa selectedRegion per calcoli TAM)
-  const getVolume = useCallback((prestazione: any) => {
-    const volumes = calculateVolumes(prestazione, selectedRegion);
+  // Helper per ottenere volume basato su volumeMode per una regione specifica
+  const getVolume = useCallback((prestazione: any, regione: 'italia' | 'europa' | 'usa' | 'cina' = 'italia') => {
+    const volumes = calculateVolumes(prestazione, regione);
     switch (volumeMode) {
       case 'ssn': return volumes.ssn;
       case 'extraSsn': return volumes.extraSsn;
       default: return volumes.totale;
     }
-  }, [volumeMode, selectedRegion, calculateVolumes]);
+  }, [volumeMode, calculateVolumes]);
 
   // Calcoli TAM/SAM/SOM (prima dei return condizionali per hooks)
   const calculateTAMValue = useCallback(() => {
@@ -214,55 +221,75 @@ export function TamSamSomDashboard() {
       const aggredibili = prestazioni.filter(p => p.aggredibile);
       
       if (priceMode === 'semplice') {
-        const volumeTotale = aggredibili.reduce((sum, p) => sum + getVolume(p), 0);
+        const volumeTotale = aggredibili.reduce((sum, p) => sum + getVolume(p, 'italia'), 0);
         return volumeTotale * prezzoMedioProcedura;
       } else if (priceMode === 'perProcedura' && prezziRegionalizzati) {
+        // Calcolo preciso per Procedures
         const prezziItalia = prezziRegionalizzati.italia || [];
         let tamTotale = 0;
         
         aggredibili.forEach(proc => {
-          const volume = getVolume(proc);
           const prezzoInfo = prezziItalia.find((p: any) => p.codice === proc.codice);
-          if (prezzoInfo) {
-            let prezzo = prezzoMedioProcedura;
-            if (tipoPrezzo === 'pubblico') {
-              prezzo = prezzoInfo.prezzoPubblico || prezzoMedioProcedura;
-            } else if (tipoPrezzo === 'privato') {
-              prezzo = prezzoInfo.prezzoPrivato || prezzoMedioProcedura;
-            } else {
-              prezzo = (prezzoInfo.prezzoPubblico + prezzoInfo.prezzoPrivato) / 2;
-            }
-            tamTotale += volume * prezzo;
+          if (!prezzoInfo) {
+            // Fallback al prezzo medio se non trovato
+            tamTotale += getVolume(proc, 'italia') * prezzoMedioProcedura;
+            return;
+          }
+          
+          // Calcolo preciso basato su volumeMode
+          if (volumeMode === 'totale') {
+            // Volume SSN × Prezzo Pubblico + Volume ExtraSSN × Prezzo Privato
+            const volumes = calculateVolumes(proc, 'italia');
+            tamTotale += volumes.ssn * (prezzoInfo.prezzoPubblico || prezzoMedioProcedura);
+            tamTotale += volumes.extraSsn * (prezzoInfo.prezzoPrivato || prezzoMedioProcedura);
+          } else if (volumeMode === 'ssn') {
+            // Solo Volume SSN × Prezzo Pubblico
+            const volumes = calculateVolumes(proc, 'italia');
+            tamTotale += volumes.ssn * (prezzoInfo.prezzoPubblico || prezzoMedioProcedura);
           } else {
-            tamTotale += volume * prezzoMedioProcedura;
+            // Solo Volume ExtraSSN × Prezzo Privato
+            const volumes = calculateVolumes(proc, 'italia');
+            tamTotale += volumes.extraSsn * (prezzoInfo.prezzoPrivato || prezzoMedioProcedura);
           }
         });
         return tamTotale;
       } else if (priceMode === 'regionalizzato' && prezziRegionalizzati) {
-        const prezziRegione = prezziRegionalizzati[selectedRegion] || [];
+        // Calcolo preciso per Regionalizzato con multi-selezione regioni
         let tamTotale = 0;
         
-        aggredibili.forEach(proc => {
-          const volume = getVolume(proc);
-          const prezzoInfo = prezziRegione.find((p: any) => p.codice === proc.codice);
-          if (prezzoInfo) {
-            let prezzo = prezzoMedioProcedura;
-            if (tipoPrezzo === 'pubblico') {
-              prezzo = prezzoInfo.prezzoPubblico || prezzoMedioProcedura;
-            } else if (tipoPrezzo === 'privato') {
-              prezzo = prezzoInfo.prezzoPrivato || prezzoMedioProcedura;
-            } else {
-              prezzo = (prezzoInfo.prezzoPubblico + prezzoInfo.prezzoPrivato) / 2;
+        // Itera su tutte le regioni selezionate
+        Object.entries(selectedRegions).forEach(([regione, isActive]) => {
+          if (!isActive) return;
+          
+          const regioneKey = regione as 'italia' | 'europa' | 'usa' | 'cina';
+          const prezziRegione = prezziRegionalizzati[regioneKey] || [];
+          
+          aggredibili.forEach(proc => {
+            const prezzoInfo = prezziRegione.find((p: any) => p.codice === proc.codice);
+            if (!prezzoInfo) {
+              // Fallback al prezzo medio
+              tamTotale += getVolume(proc, regioneKey) * prezzoMedioProcedura;
+              return;
             }
-            tamTotale += volume * prezzo;
-          } else {
-            tamTotale += volume * prezzoMedioProcedura;
-          }
+            
+            // Calcolo preciso basato su volumeMode
+            if (volumeMode === 'totale') {
+              const volumes = calculateVolumes(proc, regioneKey);
+              tamTotale += volumes.ssn * (prezzoInfo.prezzoPubblico || prezzoMedioProcedura);
+              tamTotale += volumes.extraSsn * (prezzoInfo.prezzoPrivato || prezzoMedioProcedura);
+            } else if (volumeMode === 'ssn') {
+              const volumes = calculateVolumes(proc, regioneKey);
+              tamTotale += volumes.ssn * (prezzoInfo.prezzoPubblico || prezzoMedioProcedura);
+            } else {
+              const volumes = calculateVolumes(proc, regioneKey);
+              tamTotale += volumes.extraSsn * (prezzoInfo.prezzoPrivato || prezzoMedioProcedura);
+            }
+          });
         });
         return tamTotale;
       }
       
-      const volumeTotale = aggredibili.reduce((sum, p) => sum + getVolume(p), 0);
+      const volumeTotale = aggredibili.reduce((sum, p) => sum + getVolume(p, 'italia'), 0);
       return volumeTotale * prezzoMedioProcedura;
     } else {
       if (!mercatoEcografi) return 0;
@@ -271,7 +298,7 @@ export function TamSamSomDashboard() {
       const marketValueM = anno2025.media || anno2025.mediana || 0;
       return marketValueM * 1000000;
     }
-  }, [mercatoEcografie, mercatoEcografi, activeView, priceMode, volumeMode, prezzoMedioProcedura, tipoPrezzo, selectedRegion, prezziRegionalizzati, getVolume]);
+  }, [mercatoEcografie, mercatoEcografi, activeView, priceMode, volumeMode, prezzoMedioProcedura, selectedRegions, prezziRegionalizzati, getVolume, calculateVolumes]);
 
   // Calcola TAM/SAM/SOM Devices
   const calculateDevicesMetrics = useCallback(() => {
@@ -438,10 +465,10 @@ export function TamSamSomDashboard() {
                 )}
                 {priceMode === 'perProcedura' && (
                   <div className="text-xs space-y-1">
-                    <div className="font-mono bg-blue-50 p-2 rounded">TAM = Σ(Volume × Prezzo specifico)</div>
+                    <div className="font-mono bg-blue-50 p-2 rounded">TAM = Σ(Vol.SSN × Prezzo Pubbl. + Vol.Extra × Prezzo Priv.)</div>
                     <div className="text-gray-700">
-                      • Modalità: <strong>Per Procedura (Italia)</strong><br/>
-                      • Tipo: <strong>{tipoPrezzo === 'pubblico' ? '💙 Pubblico' : tipoPrezzo === 'privato' ? '💚 Privato' : '💜 Media'}</strong><br/>
+                      • Modalità: <strong>Per Procedura (Italia) - Calcolo Preciso</strong><br/>
+                      • Calcolo automatico basato su volumeMode selezionato<br/>
                       • Procedure aggredibili: <strong>{mercatoEcografie?.italia.prestazioni.filter(p => p.aggredibile).length || 0}</strong><br/>
                       • <strong>TAM = {formatCurrency(tam)}</strong>
                     </div>
@@ -449,10 +476,10 @@ export function TamSamSomDashboard() {
                 )}
                 {priceMode === 'regionalizzato' && (
                   <div className="text-xs space-y-1">
-                    <div className="font-mono bg-blue-50 p-2 rounded">TAM = Σ(Volume × Prezzo regionale)</div>
+                    <div className="font-mono bg-blue-50 p-2 rounded">TAM = Σ Multi-Regioni (Vol × Prezzi regionali)</div>
                     <div className="text-gray-700">
-                      • Regione: <strong>{selectedRegion.toUpperCase()}</strong><br/>
-                      • Tipo: <strong>{tipoPrezzo === 'pubblico' ? '💙 Pubblico' : tipoPrezzo === 'privato' ? '💚 Privato' : '💜 Media'}</strong><br/>
+                      • Regioni: <strong>{Object.entries(selectedRegions).filter(([_, v]) => v).map(([k]) => k.toUpperCase()).join(', ')}</strong><br/>
+                      • Calcolo automatico preciso per ogni regione<br/>
                       • Procedure aggredibili: <strong>{mercatoEcografie?.italia.prestazioni.filter(p => p.aggredibile).length || 0}</strong><br/>
                       • <strong>TAM = {formatCurrency(tam)}</strong>
                     </div>
@@ -681,50 +708,13 @@ export function TamSamSomDashboard() {
             {/* MODALITÀ PER PROCEDURA */}
             {priceMode === 'perProcedura' && (
               <div className="p-4 bg-white rounded-lg border space-y-3">
-                <div>
-                  <label className="text-sm font-semibold text-gray-700 mb-2 block">
-                    Tipo di Prezzo
-                  </label>
-                  <div className="flex gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setTipoPrezzo('pubblico')}
-                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                        tipoPrezzo === 'pubblico'
-                          ? 'bg-blue-500 text-white'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                    >
-                      💙 Pubblico (SSN)
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setTipoPrezzo('medio')}
-                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                        tipoPrezzo === 'medio'
-                          ? 'bg-purple-500 text-white'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                    >
-                      💜 Media Pubblico/Privato
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setTipoPrezzo('privato')}
-                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                        tipoPrezzo === 'privato'
-                          ? 'bg-green-500 text-white'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                    >
-                      💚 Privato
-                    </button>
-                  </div>
-                </div>
                 <div className="p-3 bg-blue-50 rounded border border-blue-200">
                   <p className="text-xs text-blue-800">
-                    <strong>Info:</strong> Usa prezzi specifici per ogni procedura aggredibile.
-                    I prezzi provengono dall&apos;Excel regionalizzato (regione Italia).
+                    <strong>✅ Calcolo Preciso Automatico:</strong><br/>
+                    • Se Volume = Totale → Volume SSN × Prezzo Pubblico + Volume ExtraSSN × Prezzo Privato<br/>
+                    • Se Volume = Solo SSN → Volume SSN × Prezzo Pubblico<br/>
+                    • Se Volume = Solo ExtraSSN → Volume ExtraSSN × Prezzo Privato<br/>
+                    <span className="text-xs opacity-75 mt-1 block">I prezzi provengono dall&apos;Excel regionalizzato (regione Italia).</span>
                   </p>
                 </div>
               </div>
@@ -783,73 +773,49 @@ export function TamSamSomDashboard() {
             {priceMode === 'regionalizzato' && (
               <div className="p-4 bg-white rounded-lg border space-y-3">
                 <div>
-                  <label className="text-sm font-semibold text-gray-700 mb-2 block">
-                    Regione
+                  <label className="text-sm font-semibold text-gray-700 mb-3 block">
+                    🌍 Seleziona Regioni (Multi-selezione)
                   </label>
-                  <div className="grid grid-cols-4 gap-2">
-                    {['italia', 'europa', 'usa', 'cina'].map(region => (
-                      <button
+                  <div className="grid grid-cols-2 gap-3">
+                    {(['italia', 'europa', 'usa', 'cina'] as const).map(region => (
+                      <label
                         key={region}
-                        type="button"
-                        onClick={() => setSelectedRegion(region as any)}
-                        className={`px-3 py-2 rounded-lg text-xs font-medium capitalize transition-all ${
-                          selectedRegion === region
-                            ? 'bg-indigo-500 text-white'
-                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        className={`flex items-center gap-3 p-3 rounded-lg border-2 cursor-pointer transition-all ${
+                          selectedRegions[region]
+                            ? 'border-indigo-500 bg-indigo-50'
+                            : 'border-gray-200 bg-white hover:border-gray-300'
                         }`}
                       >
-                        {region === 'italia' && '🇮🇹 Italia'}
-                        {region === 'europa' && '🇪🇺 Europa'}
-                        {region === 'usa' && '🇺🇸 USA'}
-                        {region === 'cina' && '🇨🇳 Cina'}
-                      </button>
+                        <input
+                          type="checkbox"
+                          checked={selectedRegions[region]}
+                          onChange={(e) => {
+                            setSelectedRegions({
+                              ...selectedRegions,
+                              [region]: e.target.checked
+                            });
+                            setHasChanges(true);
+                          }}
+                          className="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500"
+                        />
+                        <span className="text-sm font-medium">
+                          {region === 'italia' && '🇮🇹 Italia'}
+                          {region === 'europa' && '🇪🇺 Europa'}
+                          {region === 'usa' && '🇺🇸 USA'}
+                          {region === 'cina' && '🇨🇳 Cina'}
+                        </span>
+                      </label>
                     ))}
-                  </div>
-                </div>
-                <div>
-                  <label className="text-sm font-semibold text-gray-700 mb-2 block">
-                    Tipo di Prezzo
-                  </label>
-                  <div className="flex gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setTipoPrezzo('pubblico')}
-                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                        tipoPrezzo === 'pubblico'
-                          ? 'bg-blue-500 text-white'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                    >
-                      💙 Pubblico
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setTipoPrezzo('medio')}
-                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                        tipoPrezzo === 'medio'
-                          ? 'bg-purple-500 text-white'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                    >
-                      💜 Media
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setTipoPrezzo('privato')}
-                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                        tipoPrezzo === 'privato'
-                          ? 'bg-green-500 text-white'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                      }`}
-                    >
-                      💚 Privato
-                    </button>
                   </div>
                 </div>
                 <div className="p-3 bg-green-50 rounded border border-green-200">
                   <p className="text-xs text-green-800">
-                    <strong>Info:</strong> Calcolo TAM con prezzi specifici per regione {selectedRegion.toUpperCase()}.
-                    Massima precisione con dati regionalizzati dall&apos;Excel.
+                    <strong>✅ Calcolo Preciso Automatico Multi-Regione:</strong><br/>
+                    Per ogni regione selezionata:<br/>
+                    • Se Volume = Totale → Volume SSN × Prezzo Pubblico + Volume ExtraSSN × Prezzo Privato<br/>
+                    • Se Volume = Solo SSN → Volume SSN × Prezzo Pubblico<br/>
+                    • Se Volume = Solo ExtraSSN → Volume ExtraSSN × Prezzo Privato<br/>
+                    <span className="text-xs opacity-75 mt-1 block">I prezzi provengono dall&apos;Excel regionalizzato per ciascuna regione.</span>
                   </p>
                 </div>
               </div>

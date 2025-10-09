@@ -4401,12 +4401,12 @@
   },
   "configurazioneTamSamSom": {
     "ecografie": {
-      "priceMode": "semplice",
-      "prezzoMedioProcedura": 64.5,
+      "priceMode": "regionalizzato",
+      "prezzoMedioProcedura": 50.5,
       "tipoPrezzo": "medio",
-      "regioneSelezionata": "italia",
+      "regioneSelezionata": "europa",
       "volumeMode": "totale",
-      "samPercentage": 26,
+      "samPercentage": 50,
       "somPercentages": {
         "y1": 0.5,
         "y3": 1.7,
@@ -4419,7 +4419,7 @@
         "som3": 524548.5075000001,
         "som5": 1311371.26875
       },
-      "lastUpdate": "2025-10-09T16:28:08.646Z"
+      "lastUpdate": "2025-10-09T16:39:49.217Z"
     },
     "ecografi": {
       "priceMode": "semplice",
