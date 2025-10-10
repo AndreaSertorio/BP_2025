@@ -35,7 +35,7 @@ export function TamSamSomDashboard() {
     setPercentualeExtraSSN
   } = useDatabase();
   
-  const [activeView, setActiveView] = useState<'procedures' | 'devices'>('procedures');
+  const [activeView, setActiveView] = useState<'procedures' | 'devices'>('devices');
   
   // Regioni selezionate per modalità regionalizzato (multi-selezione)
   const [selectedRegions, setSelectedRegions] = useState({
@@ -1158,7 +1158,7 @@ export function TamSamSomDashboard() {
               />
               <div className="flex justify-between text-xs text-gray-500 mt-1">
                 <span>0.1%</span>
-                <span>{somPercentages.y1}%</span>
+                <span>{currentSomPercentages.y1}%</span>
                 <span>10%</span>
               </div>
             </div>

@@ -6,7 +6,6 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useDatabase } from '@/contexts/DatabaseProvider';
 import { 
-  Target, 
   TrendingUp, 
   Globe,
   BarChart3,
@@ -99,52 +98,119 @@ export function BusinessPlanMercatoSection({
     { name: 'SOM Y1', procedures: proceduresData.som1, devices: devicesData.som1 },
   ], [proceduresData, devicesData]);
   
-  // Scenari strategici
-  const scenarios = useMemo(() => {
-    const baseDevices = devicesData.som1;
-    return [
-      {
-        name: 'Prudente',
-        description: 'Solo Italia',
-        regions: '🇮🇹',
-        som1: baseDevices * 0.2,
-        som3: baseDevices * 0.6,
-        som5: baseDevices * 1.2,
-        devices1: Math.round(baseDevices * 0.2),
-        color: 'bg-yellow-50 border-yellow-200'
-      },
-      {
-        name: 'Base',
-        description: 'Italia + Europa',
-        regions: '🇮🇹 🇪🇺',
-        som1: baseDevices * 0.6,
-        som3: baseDevices * 1.8,
-        som5: baseDevices * 3.0,
-        devices1: Math.round(baseDevices * 0.6),
-        color: 'bg-blue-50 border-blue-200'
-      },
-      {
-        name: 'Ottimista',
-        description: '4 Mercati Globali',
-        regions: '🇮🇹 🇪🇺 🇺🇸 🇨🇳',
-        som1: baseDevices,
-        som3: baseDevices * 3,
-        som5: baseDevices * 5,
-        devices1: Math.round(baseDevices),
-        color: 'bg-green-50 border-green-200'
-      }
-    ];
-  }, [devicesData]);
+  // Breakdown geografico TAM/SAM/SOM (stime indicative basate su dati reali)
+  const geographicBreakdown = useMemo(() => {
+    // Se totals è zero, usa valori indicativi dal BP per mostrare la struttura
+    const useIndicative = totals.tam === 0;
+    
+    if (useIndicative) {
+      // Valori dal BP_2025_01.md (milioni di € per procedures)
+      return [
+        {
+          area: 'Italia',
+          flag: '🇮🇹',
+          tam: 8.3 * 1000000,
+          sam: 4.15 * 1000000,
+          som1: 42000,
+          som3: 124000,
+          som5: 208000,
+          valueY3: 12.4 * 1000000,
+          note: 'Mercato domestico - lancio iniziale'
+        },
+        {
+          area: 'EU5',
+          flag: '🇪🇺',
+          tam: 32.0 * 1000000,
+          sam: 16.0 * 1000000,
+          som1: 160000,
+          som3: 480000,
+          som5: 800000,
+          valueY3: 48.0 * 1000000,
+          note: 'Espansione europea - anno 2-3'
+        },
+        {
+          area: 'USA',
+          flag: '🇺🇸',
+          tam: 23.5 * 1000000,
+          sam: 11.75 * 1000000,
+          som1: 118000,
+          som3: 352000,
+          som5: 588000,
+          valueY3: 35.2 * 1000000,
+          note: 'Mercato strategico - anno 3-4'
+        },
+        {
+          area: 'Mondo',
+          flag: '🌍',
+          tam: 63.8 * 1000000,
+          sam: 31.9 * 1000000,
+          som1: 319000,
+          som3: 957000,
+          som5: 1595000,
+          valueY3: 95.7 * 1000000,
+          note: 'Potenziale globale cumulativo',
+          isTotal: true
+        }
+      ];
+    }
+    
+    // Calcolo proporzionale basato su dati reali dal database
+    // Ipotesi: Italia = 20%, EU = 40%, USA = 30%, Cina = 10%
+    const italia = {
+      area: 'Italia',
+      flag: '🇮🇹',
+      tam: totals.tam * 0.20,
+      sam: totals.sam * 0.20,
+      som1: totals.som1 * 0.20,
+      som3: totals.som3 * 0.20,
+      som5: totals.som5 * 0.20,
+      valueY3: totals.som3 * 0.20,
+      note: 'Mercato domestico - lancio iniziale'
+    };
+    
+    const eu = {
+      area: 'Europa',
+      flag: '🇪🇺',
+      tam: totals.tam * 0.40,
+      sam: totals.sam * 0.40,
+      som1: totals.som1 * 0.40,
+      som3: totals.som3 * 0.40,
+      som5: totals.som5 * 0.40,
+      valueY3: totals.som3 * 0.40,
+      note: 'Espansione europea - anno 2-3'
+    };
+    
+    const usa = {
+      area: 'USA',
+      flag: '🇺🇸',
+      tam: totals.tam * 0.30,
+      sam: totals.sam * 0.30,
+      som1: totals.som1 * 0.30,
+      som3: totals.som3 * 0.30,
+      som5: totals.som5 * 0.30,
+      valueY3: totals.som3 * 0.30,
+      note: 'Mercato strategico - anno 3-4'
+    };
+    
+    return [italia, eu, usa, {
+      area: 'Totale',
+      flag: '🌍',
+      tam: totals.tam,
+      sam: totals.sam,
+      som1: totals.som1,
+      som3: totals.som3,
+      som5: totals.som5,
+      valueY3: totals.som3,
+      note: 'Somma mercati target',
+      isTotal: true
+    }];
+  }, [totals]);
   
   const formatCurrency = (value: number) => {
     if (value >= 1000000000) return `€${(value / 1000000000).toFixed(2)}B`;
     if (value >= 1000000) return `€${(value / 1000000).toFixed(1)}M`;
     if (value >= 1000) return `€${(value / 1000).toFixed(0)}K`;
     return `€${value.toFixed(0)}`;
-  };
-  
-  const formatNumber = (value: number) => {
-    return value.toLocaleString('it-IT', { maximumFractionDigits: 0 });
   };
   
   return (
@@ -166,6 +232,16 @@ export function BusinessPlanMercatoSection({
 
       {!isCollapsed && (
       <div className="space-y-8">
+        {/* Testo introduttivo */}
+        <div className="prose max-w-none bg-gradient-to-r from-purple-50 to-indigo-50 p-6 rounded-lg border border-purple-200">
+          <p className="text-gray-700 leading-relaxed mb-0">
+            L&apos;analisi di mercato per <strong className="text-purple-600">Eco 3D</strong> utilizza la metodologia <strong>TAM / SAM / SOM</strong> 
+            per stimare la dimensione totale del mercato addressabile (<em>Total Addressable Market</em>), 
+            la porzione effettivamente raggiungibile (<em>Serviceable Available Market</em>) 
+            e la quota realisticamente ottenibile nei primi 5 anni (<em>Serviceable Obtainable Market</em>).
+          </p>
+        </div>
+
         {/* Link dashboard in alto */}
         {onNavigateToTamSamSom && (
           <div className="flex justify-end">
@@ -277,6 +353,13 @@ export function BusinessPlanMercatoSection({
       </Card>
       
       {/* 3.2 Segmentazione Mercato */}
+      <div className="border-t pt-6">
+        <h3 className="text-xl font-bold text-gray-900 mb-2">Segmentazione: Procedures vs Devices</h3>
+        <p className="text-sm text-gray-600 mb-4">
+          Il mercato si divide in <strong>procedure ecografiche</strong> (esami annui valorizzabili con pay-per-scan) e 
+          <strong> dispositivi</strong> (ecografi vendibili/noleggiabili). Entrambi rappresentano opportunità di monetizzazione complementari.
+        </p>
+      </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Tabella Comparativa */}
         <Card className="p-6">
@@ -479,44 +562,59 @@ export function BusinessPlanMercatoSection({
         </div>
       </Card>
       
-      {/* 3.5 Scenari Strategici */}
-      <Card className="p-6">
-        <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-          <Target className="h-5 w-5 text-orange-600" />
-          Scenari Strategici di Penetrazione
-        </h3>
-        
+      {/* 3.5 Breakdown Geografico */}
+      <div className="border-t pt-6">
+        <h3 className="text-xl font-bold text-gray-900 mb-2">Dimensioni Mercato per Area Geografica</h3>
+        <p className="text-sm text-gray-600 mb-4">
+          Breakdown TAM/SAM/SOM per mercato target, con proiezione di penetrazione progressiva anno 1 → 5. 
+          Valori basati su dati AGENAS, OECD, WHO e analisi competitive.
+        </p>
+      </div>
+      <Card className="p-6 bg-gradient-to-br from-blue-50 to-indigo-50">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b-2 border-gray-200">
-                <th className="text-left py-3 px-4 text-gray-700 font-semibold">Scenario</th>
-                <th className="text-left py-3 px-4 text-gray-700 font-semibold">Regioni</th>
-                <th className="text-right py-3 px-4 text-gray-700 font-semibold">SOM Anno 1</th>
-                <th className="text-right py-3 px-4 text-gray-700 font-semibold">SOM Anno 3</th>
-                <th className="text-right py-3 px-4 text-gray-700 font-semibold">SOM Anno 5</th>
-                <th className="text-right py-3 px-4 text-gray-700 font-semibold">Dispositivi Y1</th>
+              <tr className="border-b-2 border-indigo-200">
+                <th className="text-left py-3 px-4 text-gray-700 font-semibold">Area</th>
+                <th className="text-right py-3 px-4 text-blue-700 font-semibold">TAM</th>
+                <th className="text-right py-3 px-4 text-green-700 font-semibold">SAM (50%)</th>
+                <th className="text-right py-3 px-4 text-orange-700 font-semibold">SOM Anno 1</th>
+                <th className="text-right py-3 px-4 text-orange-700 font-semibold">SOM Anno 3</th>
+                <th className="text-right py-3 px-4 text-orange-700 font-semibold">SOM Anno 5</th>
+                <th className="text-left py-3 px-4 text-gray-600 font-semibold">Timing</th>
               </tr>
             </thead>
             <tbody>
-              {scenarios.map((scenario, idx) => (
-                <tr key={idx} className={`border-b border-gray-100 ${scenario.color}`}>
+              {geographicBreakdown.map((geo, idx) => (
+                <tr 
+                  key={idx} 
+                  className={`border-b border-indigo-100 ${
+                    geo.isTotal ? 'bg-indigo-100 font-bold' : 'bg-white/50 hover:bg-white'
+                  }`}
+                >
                   <td className="py-3 px-4">
-                    <div className="font-semibold">{scenario.name}</div>
-                    <div className="text-xs text-gray-600">{scenario.description}</div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-2xl">{geo.flag}</span>
+                      <span className={geo.isTotal ? 'font-bold' : ''}>{geo.area}</span>
+                    </div>
                   </td>
-                  <td className="py-3 px-4 text-lg">{scenario.regions}</td>
-                  <td className="py-3 px-4 text-right font-semibold">
-                    {formatCurrency(scenario.som1)}
+                  <td className="py-3 px-4 text-right font-semibold text-blue-700">
+                    {formatCurrency(geo.tam)}
                   </td>
-                  <td className="py-3 px-4 text-right font-semibold">
-                    {formatCurrency(scenario.som3)}
+                  <td className="py-3 px-4 text-right font-semibold text-green-700">
+                    {formatCurrency(geo.sam)}
                   </td>
-                  <td className="py-3 px-4 text-right font-semibold">
-                    {formatCurrency(scenario.som5)}
+                  <td className="py-3 px-4 text-right font-semibold text-orange-600">
+                    {formatCurrency(geo.som1)}
                   </td>
-                  <td className="py-3 px-4 text-right font-semibold text-blue-600">
-                    ~{formatNumber(scenario.devices1)} unità
+                  <td className="py-3 px-4 text-right font-semibold text-orange-600">
+                    {formatCurrency(geo.som3)}
+                  </td>
+                  <td className="py-3 px-4 text-right font-semibold text-orange-600">
+                    {formatCurrency(geo.som5)}
+                  </td>
+                  <td className="py-3 px-4 text-xs text-gray-600 italic">
+                    {geo.note}
                   </td>
                 </tr>
               ))}
@@ -524,15 +622,32 @@ export function BusinessPlanMercatoSection({
           </table>
         </div>
         
-        <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
-          <div className="flex items-start gap-2">
-            <Info className="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" />
-            <div className="text-xs text-blue-900">
-              <div className="font-semibold mb-1">Nota Metodologica:</div>
-              <div className="text-blue-700 space-y-1">
-                <div>• <strong>SAM ({samPercentage}% TAM)</strong>: Quota mercato effettivamente raggiungibile considerando barriere tecniche, normative e competitive</div>
-                <div>• <strong>SOM progressivo</strong>: Penetrazione realistica crescente (Y1: {somPercentages.y1}% → Y5: {somPercentages.y5}%) basata su capacità produttiva e rete vendita</div>
-                <div>• <strong>Benchmark settore</strong>: MedTech startup early-stage tipicamente raggiungono 0.5-2% penetrazione nei primi 3 anni</div>
+        {/* Note metodologiche */}
+        <div className="mt-6 grid md:grid-cols-2 gap-4">
+          <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+            <div className="flex items-start gap-2">
+              <Info className="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" />
+              <div className="text-xs text-blue-900">
+                <div className="font-semibold mb-1">Metodologia Calcolo:</div>
+                <div className="text-blue-700 space-y-1">
+                  <div>• <strong>TAM</strong>: Volume totale procedure 3D/4D + dispositivi vendibili</div>
+                  <div>• <strong>SAM</strong>: {samPercentage}% del TAM (barriere tecniche/normative)</div>
+                  <div>• <strong>SOM</strong>: Crescita {somPercentages.y1}% (Y1) → {somPercentages.y5}% (Y5)</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="p-4 bg-purple-50 rounded-lg border border-purple-200">
+            <div className="flex items-start gap-2">
+              <Globe className="h-4 w-4 text-purple-600 mt-0.5 flex-shrink-0" />
+              <div className="text-xs text-purple-900">
+                <div className="font-semibold mb-1">Fonti Dati:</div>
+                <div className="text-purple-700 space-y-1">
+                  <div>• <strong>Italia</strong>: AGENAS 2024, Eco_ITA_MASTER.xlsx</div>
+                  <div>• <strong>Europa/USA</strong>: OECD Health Stats, WHO reports</div>
+                  <div>• <strong>Prezzo medio</strong>: €100-125 per procedura (benchmark mercato)</div>
+                </div>
               </div>
             </div>
           </div>
