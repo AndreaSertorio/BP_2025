@@ -49,9 +49,9 @@ export function TamSamSomDashboard() {
   const [samPercentage, setSamPercentage] = useState(35);
   const [somPercentages, setSomPercentages] = useState({ y1: 0.5, y3: 2, y5: 5 });
   
-  // Stati per Devices
-  const [samPercentageDevices, setSamPercentageDevices] = useState(35);
-  const [somPercentagesDevices, setSomPercentagesDevices] = useState({ y1: 0.5, y3: 2, y5: 5 });
+  // Stati per Devices (default allineato a DB)
+  const [samPercentageDevices, setSamPercentageDevices] = useState(50);
+  const [somPercentagesDevices, setSomPercentagesDevices] = useState({ y1: 1, y3: 2, y5: 5 });
   const [prezzoMedioProcedura, setPrezzoMedioProcedura] = useState(77.5);
   const [showPriceEditor, setShowPriceEditor] = useState(false);
   const [priceMode, setPriceMode] = useState<'semplice' | 'perProcedura' | 'regionalizzato'>('semplice');
