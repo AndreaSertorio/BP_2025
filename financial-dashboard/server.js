@@ -23,6 +23,52 @@ app.use((req, res, next) => {
 });
 
 /**
+ * Sanitizza JSON rimuovendo parentesi graffe duplicate alla fine
+ * IMPORTANTE: Fix per bug ricorrente che aggiunge }   }  } alla fine del file
+ */
+function sanitizeJSON(jsonString) {
+  // Rimuovi spazi/tab alla fine
+  let cleaned = jsonString.trimEnd();
+  
+  // Trova tutte le parentesi graffe alla fine
+  const match = cleaned.match(/\}[\s\n]*$/);
+  if (match) {
+    // Rimuovi tutte le parentesi graffe finali
+    cleaned = cleaned.replace(/\}[\s\n]*$/, '');
+    // Rimuovi eventuali parentesi duplicate prima dell'ultima
+    cleaned = cleaned.replace(/(\}[\s\n]*)+$/, '');
+    // Aggiungi UNA SOLA parentesi graffa finale
+    cleaned = cleaned + '\n}';
+  }
+  
+  return cleaned;
+}
+
+/**
+ * Salva database in modo sicuro con sanitizzazione
+ */
+async function saveDatabaseSafe(database) {
+  try {
+    // Converti in JSON
+    let jsonString = JSON.stringify(database, null, 2);
+    
+    // Sanitizza (rimuovi parentesi duplicate)
+    jsonString = sanitizeJSON(jsonString);
+    
+    // Verifica che sia JSON valido prima di salvare
+    JSON.parse(jsonString); // Throw error se invalido
+    
+    // Salva
+    await fs.writeFile(DB_PATH, jsonString, 'utf-8');
+    
+    return { success: true };
+  } catch (error) {
+    console.error('❌ Errore salvataggio database:', error);
+    throw error;
+  }
+}
+
+/**
  * GET /api/database
  * Legge l'intero database.json
  */
@@ -48,12 +94,8 @@ app.put('/api/database', async (req, res) => {
     // Aggiorna lastUpdate
     newData.lastUpdate = new Date().toISOString().split('T')[0];
     
-    // Scrivi il file con formattazione
-    await fs.writeFile(
-      DB_PATH,
-      JSON.stringify(newData, null, 2),
-      'utf-8'
-    );
+    // Scrivi il file con formattazione (sanitizzato)
+    await saveDatabaseSafe(newData);
     
     console.log('✅ Database salvato con successo');
     res.json({ success: true, message: 'Database aggiornato' });
@@ -94,12 +136,8 @@ app.patch('/api/database/prestazione/:codice', async (req, res) => {
     // Aggiorna lastUpdate
     database.lastUpdate = new Date().toISOString().split('T')[0];
     
-    // Salva
-    await fs.writeFile(
-      DB_PATH,
-      JSON.stringify(database, null, 2),
-      'utf-8'
-    );
+    // Salva (sanitizzato)
+    await saveDatabaseSafe(database);
     
     console.log(`✅ Prestazione ${codice} aggiornata:`, updates);
     res.json({ 
@@ -142,12 +180,8 @@ app.post('/api/database/toggle-aggredibile/:codice', async (req, res) => {
     // Aggiorna lastUpdate
     database.lastUpdate = new Date().toISOString().split('T')[0];
     
-    // Salva
-    await fs.writeFile(
-      DB_PATH,
-      JSON.stringify(database, null, 2),
-      'utf-8'
-    );
+    // Salva (sanitizzato)
+    await saveDatabaseSafe(database);
     
     console.log(`✅ Toggle aggredibile ${codice}: ${newValue}`);
     res.json({ 
@@ -193,12 +227,8 @@ app.patch('/api/database/percentuale/:codice', async (req, res) => {
     // Aggiorna lastUpdate
     database.lastUpdate = new Date().toISOString().split('T')[0];
     
-    // Salva
-    await fs.writeFile(
-      DB_PATH,
-      JSON.stringify(database, null, 2),
-      'utf-8'
-    );
+    // Salva (sanitizzato)
+    await saveDatabaseSafe(database);
     
     console.log(`✅ Percentuale ${codice} aggiornata: ${percentuale}%`);
     res.json({ 
@@ -256,12 +286,8 @@ app.patch('/api/regioni/:regioneId/moltiplicatore', async (req, res) => {
     // Aggiorna lastUpdate
     database.lastUpdate = new Date().toISOString().split('T')[0];
     
-    // Salva
-    await fs.writeFile(
-      DB_PATH,
-      JSON.stringify(database, null, 2),
-      'utf-8'
-    );
+    // Salva (sanitizzato)
+    await saveDatabaseSafe(database);
     
     console.log(`✅ Moltiplicatori ${regioneId} aggiornati:`, {
       volume: moltiplicatoreVolume,
@@ -324,12 +350,8 @@ app.patch('/api/ecografi/configurazione', async (req, res) => {
     // Aggiorna lastUpdate
     database.lastUpdate = new Date().toISOString().split('T')[0];
     
-    // Salva
-    await fs.writeFile(
-      DB_PATH,
-      JSON.stringify(database, null, 2),
-      'utf-8'
-    );
+    // Salva (sanitizzato)
+    await saveDatabaseSafe(database);
     
     console.log('✅ Configurazione ecografi aggiornata:', updates);
     res.json({ 
@@ -377,12 +399,8 @@ app.post('/api/ecografi/toggle-tipologia/:id/:campo', async (req, res) => {
     // Aggiorna lastUpdate
     database.lastUpdate = new Date().toISOString().split('T')[0];
     
-    // Salva
-    await fs.writeFile(
-      DB_PATH,
-      JSON.stringify(database, null, 2),
-      'utf-8'
-    );
+    // Salva (sanitizzato)
+    await saveDatabaseSafe(database);
     
     console.log(`✅ Toggle ${campo} tipologia ${id}: ${newValue}`);
     res.json({ 
@@ -427,12 +445,8 @@ app.patch('/api/ecografi/tipologia/:id', async (req, res) => {
     // Aggiorna lastUpdate
     database.lastUpdate = new Date().toISOString().split('T')[0];
     
-    // Salva
-    await fs.writeFile(
-      DB_PATH,
-      JSON.stringify(database, null, 2),
-      'utf-8'
-    );
+    // Salva (sanitizzato)
+    await saveDatabaseSafe(database);
     
     console.log(`✅ Tipologia ${id} aggiornata:`, updates);
     res.json({ 
@@ -475,12 +489,8 @@ app.patch('/api/database/tam-sam-som/ecografie', async (req, res) => {
     // Aggiorna lastUpdate
     database.lastUpdate = new Date().toISOString().split('T')[0];
     
-    // Salva
-    await fs.writeFile(
-      DB_PATH,
-      JSON.stringify(database, null, 2),
-      'utf-8'
-    );
+    // Salva (sanitizzato)
+    await saveDatabaseSafe(database);
     
     console.log('✅ Configurazione TAM/SAM/SOM Ecografie aggiornata');
     res.json({
@@ -523,12 +533,8 @@ app.patch('/api/database/tam-sam-som/ecografi', async (req, res) => {
     // Aggiorna lastUpdate
     database.lastUpdate = new Date().toISOString().split('T')[0];
     
-    // Salva
-    await fs.writeFile(
-      DB_PATH,
-      JSON.stringify(database, null, 2),
-      'utf-8'
-    );
+    // Salva (sanitizzato)
+    await saveDatabaseSafe(database);
     
     console.log('✅ Configurazione TAM/SAM/SOM Ecografi aggiornata');
     res.json({
@@ -577,8 +583,8 @@ app.patch('/api/database/business-plan/progress', async (req, res) => {
     database.configurazioneTamSamSom.businessPlan.sectionProgress[sectionId] = progress;
     database.configurazioneTamSamSom.businessPlan.lastUpdate = new Date().toISOString();
     
-    // Salva
-    await fs.writeFile(DB_PATH, JSON.stringify(database, null, 2), 'utf-8');
+    // Salva (sanitizzato)
+    await saveDatabaseSafe(database);
     
     res.json({
       success: true,
@@ -627,12 +633,8 @@ app.patch('/api/database/prezzi-regionalizzati/:regione/:codice', async (req, re
     // Aggiorna lastUpdate
     database.lastUpdate = new Date().toISOString().split('T')[0];
     
-    // Salva
-    await fs.writeFile(
-      DB_PATH,
-      JSON.stringify(database, null, 2),
-      'utf-8'
-    );
+    // Salva (sanitizzato)
+    await saveDatabaseSafe(database);
     
     console.log(`✅ Prezzo ${codice} (${regione}) aggiornato`);
     res.json({
