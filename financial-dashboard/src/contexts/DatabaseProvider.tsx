@@ -517,12 +517,28 @@ export function DatabaseProvider({ children }: { children: ReactNode }) {
       await response.json();
       console.log('✅ Configurazione TAM/SAM/SOM Ecografi aggiornata');
       
-      // Ricarica dati dal server
-      await refreshData();
+      // ⚡ UPDATE OTTIMISTICO: Aggiorna solo lo stato locale invece di reload completo
+      setData(prevData => {
+        if (!prevData || !prevData.configurazioneTamSamSom) return prevData;
+        
+        const newEcografi = {
+          ...prevData.configurazioneTamSamSom.ecografi,
+          ...updates,
+          lastUpdate: new Date().toISOString()
+        } as ConfigurazioneTamSamSomEcografi;
+        
+        return {
+          ...prevData,
+          configurazioneTamSamSom: {
+            ...prevData.configurazioneTamSamSom,
+            ecografi: newEcografi
+          }
+        } as Database;
+      });
     } catch (error) {
       console.error('❌ Errore aggiornamento configurazione TAM/SAM/SOM Ecografi:', error);
     }
-  }, [refreshData]);
+  }, []);
 
   // Update prezzo ecografia regionalizzato - OTTIMIZZATO: aggiorna solo lo stato locale
   const updatePrezzoEcografiaRegionalizzato = useCallback(async (regione: string, codice: string, updates: Partial<PrezzoEcografia>) => {
