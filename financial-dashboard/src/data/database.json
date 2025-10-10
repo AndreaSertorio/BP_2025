@@ -4403,12 +4403,12 @@
   },
   "configurazioneTamSamSom": {
     "ecografie": {
-      "priceMode": "semplice",
+      "priceMode": "perProcedura",
       "prezzoMedioProcedura": 90.5,
       "tipoPrezzo": "medio",
       "regioneSelezionata": "europa",
       "volumeMode": "totale",
-      "samPercentage": 50,
+      "samPercentage": 51,
       "somPercentages": {
         "y1": 0.5,
         "y3": 1.7,
@@ -4421,7 +4421,7 @@
         "som3": 524548.5075000001,
         "som5": 1311371.26875
       },
-      "lastUpdate": "2025-10-10T12:03:09.906Z",
+      "lastUpdate": "2025-10-10T14:19:09.888Z",
       "regioniSelezionate": {
         "italia": true,
         "europa": false,
@@ -4439,7 +4439,7 @@
       },
       "samPercentage": 50,
       "somPercentages": {
-        "y1": 0.5,
+        "y1": 1,
         "y3": 2,
         "y5": 5
       },
@@ -4450,10 +4450,10 @@
         "som3": 0,
         "som5": 0
       },
-      "lastUpdate": "2025-10-10T13:08:54.621Z",
+      "lastUpdate": "2025-10-10T14:22:08.400Z",
       "regioniAttive": {
         "italia": true,
-        "europa": true,
+        "europa": false,
         "usa": false,
         "cina": false
       }

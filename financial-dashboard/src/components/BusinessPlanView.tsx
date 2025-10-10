@@ -1,14 +1,17 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Badge } from './ui/badge';
 import { Card } from './ui/card';
 import { FileText, Target, CheckCircle2, XCircle, Users, Award, ChevronDown, ChevronUp } from 'lucide-react';
 import { Button } from './ui/button';
+import { useDatabase } from '@/contexts/DatabaseProvider';
 
 export function BusinessPlanView() {
+  const { data, updateBusinessPlanProgress } = useDatabase();
   const [collapsedSections, setCollapsedSections] = useState<Record<string, boolean>>({});
   const [activeSection, setActiveSection] = useState<string>('executive-summary');
+  const [editingProgress, setEditingProgress] = useState<{ id: string; value: string } | null>(null);
 
   const toggleSection = (sectionId: string) => {
     setCollapsedSections(prev => ({
@@ -24,6 +27,16 @@ export function BusinessPlanView() {
       setActiveSection(sectionId);
     }
   };
+
+  // Carica progress da database
+  const sectionProgress = data?.configurazioneTamSamSom?.businessPlan?.sectionProgress || {};
+
+  // Calcola media progress
+  const averageProgress = useMemo(() => {
+    const values = Object.values(sectionProgress);
+    if (values.length === 0) return 0;
+    return Math.round(values.reduce((sum, val) => sum + val, 0) / values.length);
+  }, [sectionProgress]);
 
   const sections = [
     { id: 'executive-summary', name: '1. Executive Summary', color: 'bg-blue-600' },
@@ -84,7 +97,7 @@ export function BusinessPlanView() {
         </p>
       </div>
 
-      {/* Tracker Progress - INTERATTIVO E COMPLETO (12 sezioni) */}
+      {/* Tracker Progress - MODIFICABILE ✏️ */}
       <Card className="p-6 mb-8 bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-blue-300">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
@@ -96,62 +109,96 @@ export function BusinessPlanView() {
               {sections.filter(s => collapsedSections[s.id] === false).length} / {sections.length} espanse
             </div>
             <div className="text-sm font-semibold text-green-700 bg-white px-3 py-1 rounded-full border-2 border-green-400">
-              83% completato
+              {averageProgress}% completato
             </div>
           </div>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-          {[
-            { name: 'Executive Summary', progress: 50 },
-            { name: 'Proposta di Valore', progress: 90 },
-            { name: 'Mercato (TAM/SAM/SOM)', progress: 75 },
-            { name: 'Competizione & Posizionamento', progress: 90 },
-            { name: 'Modello di Business & Prezzi', progress: 70 },
-            { name: 'Go-to-Market (24 mesi)', progress: 80 },
-            { name: 'Regolatorio & Clinico', progress: 85 },
-            { name: 'Roadmap Prodotto', progress: 85 },
-            { name: 'Operazioni & Supply Chain', progress: 80 },
-            { name: 'Team & Governance', progress: 90 },
-            { name: 'Rischi & Mitigazioni', progress: 95 },
-            { name: 'Piano Finanziario (3–5 anni)', progress: 95 },
-          ].map((item, idx) => (
-            <button
-              key={idx}
-              onClick={() => scrollToSection(sections[idx].id)}
-              className="text-sm hover:scale-105 transition-all text-left"
-            >
-              <div className="flex justify-between mb-1">
-                <span className="font-medium text-gray-700 text-xs truncate">{idx + 1}. {item.name}</span>
-                <span className={`font-bold text-xs ml-2 ${
-                  item.progress >= 85 ? 'text-green-600' : 
-                  item.progress >= 70 ? 'text-blue-600' : 'text-yellow-600'
-                }`}>{item.progress}%</span>
+          {sections.map((section, idx) => {
+            const progress = sectionProgress[section.id] || 0;
+            const isEditing = editingProgress?.id === section.id;
+            
+            return (
+              <div key={section.id} className="text-sm">
+                <div className="flex justify-between mb-1">
+                  <button
+                    onClick={() => scrollToSection(section.id)}
+                    className="font-medium text-gray-700 text-xs truncate hover:text-blue-600 transition-colors"
+                  >
+                    {idx + 1}. {section.name.split('. ')[1]}
+                  </button>
+                  {isEditing ? (
+                    <input
+                      type="number"
+                      min="0"
+                      max="100"
+                      value={editingProgress.value}
+                      onChange={(e) => setEditingProgress({ id: section.id, value: e.target.value })}
+                      onBlur={async () => {
+                        const newProgress = parseInt(editingProgress.value);
+                        if (!isNaN(newProgress) && newProgress >= 0 && newProgress <= 100) {
+                          await updateBusinessPlanProgress(section.id, newProgress);
+                        }
+                        setEditingProgress(null);
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          const newProgress = parseInt(editingProgress.value);
+                          if (!isNaN(newProgress) && newProgress >= 0 && newProgress <= 100) {
+                            updateBusinessPlanProgress(section.id, newProgress);
+                          }
+                          setEditingProgress(null);
+                        } else if (e.key === 'Escape') {
+                          setEditingProgress(null);
+                        }
+                      }}
+                      className="w-12 px-1 py-0.5 text-xs font-bold border-2 border-blue-500 rounded text-center"
+                      autoFocus
+                    />
+                  ) : (
+                    <button
+                      onClick={() => setEditingProgress({ id: section.id, value: progress.toString() })}
+                      className={`font-bold text-xs ml-2 hover:underline ${
+                        progress >= 85 ? 'text-green-600' : 
+                        progress >= 70 ? 'text-blue-600' : 'text-yellow-600'
+                      }`}
+                      title="Click per modificare"
+                    >
+                      {progress}%
+                    </button>
+                  )}
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2 cursor-pointer hover:h-3 transition-all">
+                  <div 
+                    className={`h-full rounded-full transition-all ${
+                      progress >= 85 ? 'bg-green-500' : 
+                      progress >= 70 ? 'bg-blue-500' : 'bg-yellow-500'
+                    }`}
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div 
-                  className={`h-2 rounded-full transition-all ${
-                    item.progress >= 85 ? 'bg-green-500' : 
-                    item.progress >= 70 ? 'bg-blue-500' : 'bg-yellow-500'
-                  }`}
-                  style={{ width: `${item.progress}%` }}
-                />
-              </div>
-            </button>
-          ))}
+            );
+          })}
         </div>
         <div className="mt-4 pt-4 border-t border-blue-200">
-          <div className="flex gap-4 text-xs text-gray-600">
-            <div className="flex items-center gap-1">
-              <div className="h-3 w-3 rounded-full bg-green-500" />
-              <span>≥85% Completato (6)</span>
+          <div className="flex justify-between items-center">
+            <div className="flex gap-4 text-xs text-gray-600">
+              <div className="flex items-center gap-1">
+                <div className="h-3 w-3 rounded-full bg-green-500" />
+                <span>≥85% Completato ({Object.values(sectionProgress).filter(p => p >= 85).length})</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <div className="h-3 w-3 rounded-full bg-blue-500" />
+                <span>70-84% In Progress ({Object.values(sectionProgress).filter(p => p >= 70 && p < 85).length})</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <div className="h-3 w-3 rounded-full bg-yellow-500" />
+                <span>&lt;70% Da Rivedere ({Object.values(sectionProgress).filter(p => p < 70).length})</span>
+              </div>
             </div>
-            <div className="flex items-center gap-1">
-              <div className="h-3 w-3 rounded-full bg-blue-500" />
-              <span>70-84% In Progress (5)</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <div className="h-3 w-3 rounded-full bg-yellow-500" />
-              <span>&lt;70% Da Rivedere (1)</span>
+            <div className="text-xs text-gray-500 italic">
+              ✏️ Click sulla percentuale per modificare
             </div>
           </div>
         </div>

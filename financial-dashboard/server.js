@@ -542,6 +542,56 @@ app.patch('/api/database/tam-sam-som/ecografi', async (req, res) => {
 });
 
 /**
+ * PATCH /api/database/business-plan/progress
+ * Aggiorna percentuale completamento sezione Business Plan
+ */
+app.patch('/api/database/business-plan/progress', async (req, res) => {
+  try {
+    const { sectionId, progress } = req.body;
+    
+    // Validazione
+    if (!sectionId || typeof progress !== 'number') {
+      return res.status(400).json({ error: 'sectionId e progress sono richiesti' });
+    }
+    
+    if (progress < 0 || progress > 100) {
+      return res.status(400).json({ error: 'progress deve essere tra 0 e 100' });
+    }
+    
+    // Leggi database
+    const data = await fs.readFile(DB_PATH, 'utf-8');
+    const database = JSON.parse(data);
+    
+    // Inizializza struttura se non esiste
+    if (!database.configurazioneTamSamSom) {
+      database.configurazioneTamSamSom = {};
+    }
+    if (!database.configurazioneTamSamSom.businessPlan) {
+      database.configurazioneTamSamSom.businessPlan = {
+        sectionProgress: {},
+        lastUpdate: new Date().toISOString()
+      };
+    }
+    
+    // Aggiorna progress
+    database.configurazioneTamSamSom.businessPlan.sectionProgress[sectionId] = progress;
+    database.configurazioneTamSamSom.businessPlan.lastUpdate = new Date().toISOString();
+    
+    // Salva
+    await fs.writeFile(DB_PATH, JSON.stringify(database, null, 2), 'utf-8');
+    
+    res.json({
+      success: true,
+      message: `Progress ${sectionId} aggiornato a ${progress}%`,
+      data: database.configurazioneTamSamSom.businessPlan
+    });
+  } catch (error) {
+    console.error('❌ Errore aggiornamento progress Business Plan:', error);
+    res.status(500).json({ error: 'Errore aggiornamento progress' });
+  }
+});
+
+/**
  * PATCH /api/database/prezzi-regionalizzati/:regione/:codice
  * Aggiorna prezzo ecografia regionalizzato
  */

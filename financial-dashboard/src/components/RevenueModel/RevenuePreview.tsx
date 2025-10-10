@@ -13,8 +13,12 @@ import {
   DollarSign, 
   Repeat, 
   Package, 
-  Info
+  Info,
+  Database,
+  Edit3
 } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Switch } from '@/components/ui/switch';
 
 interface RevenuePreviewProps {
   hardwareEnabled: boolean;
@@ -38,9 +42,21 @@ export function RevenuePreview({
   somDevicesY1
 }: RevenuePreviewProps) {
   
-  // Usa dispositivi reali dal TAM/SAM/SOM o fallback a 100
-  const UNITS_Y1 = somDevicesY1 && somDevicesY1 > 0 ? somDevicesY1 : 100;
-  const isUsingRealData = somDevicesY1 && somDevicesY1 > 0;
+  // 🎛️ DUAL-MODE: Dati Reali vs Simulazione Manuale
+  const [useRealData, setUseRealData] = React.useState(true); // DEFAULT: Dati Reali ✅
+  const [manualDevices, setManualDevices] = React.useState(100);
+  
+  // Determina quale sorgente usare
+  const hasRealData = somDevicesY1 && somDevicesY1 > 0;
+  const realDataDevices = hasRealData ? somDevicesY1 : 0;
+  
+  // Se modalità Real Data: usa som1 o fallback 100
+  // Se modalità Manual: usa input utente
+  const UNITS_Y1 = useRealData 
+    ? (realDataDevices > 0 ? realDataDevices : 100)  // Real data or fallback
+    : manualDevices;                                   // Manual input
+  
+  const isUsingRealData = useRealData && hasRealData;
   const ACTIVE_DEVICES = Math.round(UNITS_Y1 * 0.8); // 80% dei venduti diventano attivi SaaS
   
   // Calcoli Hardware
@@ -78,28 +94,44 @@ export function RevenuePreview({
                 <p className="font-semibold">
                   📊 Fonte dati dispositivi:
                 </p>
-                {isUsingRealData ? (
+                {useRealData ? (
                   <div className="space-y-1">
-                    <p className="text-green-400">
-                      ✅ <strong>Dati reali dal TAM/SAM/SOM</strong>
-                    </p>
-                    <p className="text-xs opacity-90">
-                      • Dispositivi Anno 1 (SOM): <strong>{UNITS_Y1}</strong>
-                    </p>
-                    <p className="text-xs opacity-90">
-                      • Calcolati da: TAM → SAM ({Math.round((somDevicesY1 || 0) / (UNITS_Y1 || 1) * 100)}%) → SOM
-                    </p>
-                    <p className="text-xs opacity-90">
-                      • Regioni attive nel calcolo TAM/SAM/SOM
-                    </p>
+                    {hasRealData ? (
+                      <>
+                        <p className="text-green-400">
+                          ✅ <strong>Dati reali dal TAM/SAM/SOM</strong>
+                        </p>
+                        <p className="text-xs opacity-90">
+                          • Dispositivi Anno 1 (SOM): <strong>{realDataDevices}</strong>
+                        </p>
+                        <p className="text-xs opacity-90">
+                          • Calcolati da: TAM → SAM → SOM
+                        </p>
+                        <p className="text-xs opacity-90">
+                          • Regioni attive nel calcolo TAM/SAM/SOM
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <p className="text-yellow-400">
+                          ⚠️ <strong>Fallback: 100 unità (dati non disponibili)</strong>
+                        </p>
+                        <p className="text-xs opacity-90">
+                          Vai a TAM/SAM/SOM → Vista Dispositivi per calcolare i dati reali
+                        </p>
+                      </>
+                    )}
                   </div>
                 ) : (
                   <div className="space-y-1">
-                    <p className="text-yellow-400">
-                      ⚠️ <strong>Dati di default (100 unità)</strong>
+                    <p className="text-blue-400">
+                      ✏️ <strong>Simulazione Manuale</strong>
                     </p>
                     <p className="text-xs opacity-90">
-                      Vai a TAM/SAM/SOM → Vista Dispositivi per calcolare i dati reali
+                      • Dispositivi impostati manualmente: <strong>{manualDevices}</strong>
+                    </p>
+                    <p className="text-xs opacity-90">
+                      • Usa questa modalità per analisi &quot;what-if&quot;
                     </p>
                   </div>
                 )}
@@ -110,15 +142,59 @@ export function RevenuePreview({
             </TooltipContent>
           </Tooltip>
         </div>
-        <div className="flex items-center gap-2">
-          {isUsingRealData ? (
-            <Badge variant="outline" className="bg-green-100 text-green-700 border-green-300">
-              📊 Dati Reali
-            </Badge>
+        
+        {/* 🎛️ DUAL-MODE CONTROLS */}
+        <div className="flex items-center gap-3">
+          {/* Mode Badge */}
+          {useRealData ? (
+            hasRealData ? (
+              <Badge variant="outline" className="bg-green-100 text-green-700 border-green-300">
+                <Database className="h-3 w-3 mr-1" />
+                Dati Reali
+              </Badge>
+            ) : (
+              <Badge variant="outline" className="bg-yellow-100 text-yellow-700 border-yellow-300">
+                ⚠️ Fallback
+              </Badge>
+            )
           ) : (
-            <Badge variant="outline" className="bg-yellow-100 text-yellow-700 border-yellow-300">
-              ⚠️ Default
+            <Badge variant="outline" className="bg-blue-100 text-blue-700 border-blue-300">
+              <Edit3 className="h-3 w-3 mr-1" />
+              Simulazione
             </Badge>
+          )}
+          
+          {/* Toggle Switch */}
+          <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-lg border border-gray-200">
+            <span className={`text-xs font-medium ${useRealData ? 'text-green-700' : 'text-gray-400'}`}>
+              Reali
+            </span>
+            <Switch 
+              checked={!useRealData}
+              onCheckedChange={(checked) => setUseRealData(!checked)}
+            />
+            <span className={`text-xs font-medium ${!useRealData ? 'text-blue-700' : 'text-gray-400'}`}>
+              Manuale
+            </span>
+          </div>
+          
+          {/* Manual Input (visible only in manual mode) */}
+          {!useRealData && (
+            <div className="flex items-center gap-2">
+              <label className="text-xs font-medium text-gray-600">Dispositivi:</label>
+              <Input 
+                type="number"
+                value={manualDevices}
+                onChange={(e) => {
+                  const val = parseInt(e.target.value);
+                  if (!isNaN(val) && val >= 0) {
+                    setManualDevices(val);
+                  }
+                }}
+                className="w-24 h-8 text-sm"
+                min={0}
+              />
+            </div>
           )}
         </div>
       </div>
