@@ -174,14 +174,14 @@ export function RevenueModelDashboard() {
   
   // Auto-save con debounce quando cambiano i parametri
   useEffect(() => {
-    if (!isInitialized || !revenueModel) return;
+    if (!isInitialized || !revenueModel || !tamSamSomEcografi) return;
     
     const savedStateJSON = JSON.stringify({
       hardwareEnabled: revenueModel.hardware?.enabled,
-      hardwareAsp: revenueModel.hardware?.asp,
+      hardwareAsp: tamSamSomEcografi.prezzoMedioDispositivo,
       hardwareUnitCost: revenueModel.hardware?.unitCost,
       hardwareWarrantyPct: revenueModel.hardware?.warrantyPct,
-      hardwareAspByType: revenueModel.hardware?.aspByType,
+      hardwareAspByType: tamSamSomEcografi.prezziMediDispositivi,
       hardwareCogsMarginByType: revenueModel.hardware?.cogsMarginByType,
       saasEnabled: revenueModel.saas?.enabled,
       saasMonthlyFee: revenueModel.saas?.pricing?.perDevice?.monthlyFee,
@@ -216,18 +216,24 @@ export function RevenueModelDashboard() {
     }, 1500);
     
     return () => clearTimeout(timeoutId);
-  }, [currentStateJSON, isInitialized, revenueModel]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentStateJSON, isInitialized, revenueModel, tamSamSomEcografi]);
   
   // Funzione salvataggio
   const saveChanges = useCallback(async () => {
     try {
-      // Salva Hardware
+      // 1. Salva prezzi ASP in TAM/SAM/SOM (single source of truth)
+      await updateConfigurazioneTamSamSomEcografi({
+        prezzoMedioDispositivo: hardwareAsp,
+        prezziMediDispositivi: hardwareAspByType
+      });
+      
+      // 2. Salva COGS e margini in Revenue Model
       await updateRevenueModelHardware({
         enabled: hardwareEnabled,
-        asp: hardwareAsp,
         unitCost: hardwareUnitCost,
+        unitCostByType: hardwareUnitCostByType,
         warrantyPct: hardwareWarrantyPct,
-        aspByType: hardwareAspByType,
         cogsMarginByType: hardwareCogsMarginByType
       });
       
@@ -261,23 +267,37 @@ export function RevenueModelDashboard() {
       // Salva altri moduli (enabled/disabled)
       await updateRevenueModel({
         consumables: {
-          ...revenueModel?.consumables,
-          enabled: consumablesEnabled
+          enabled: consumablesEnabled,
+          description: revenueModel?.consumables?.description ?? 'Consumabili e materiali',
+          items: revenueModel?.consumables?.items ?? [],
+          totalRevenuePerDevicePerMonth: revenueModel?.consumables?.totalRevenuePerDevicePerMonth ?? 0,
+          note: revenueModel?.consumables?.note ?? ''
         },
         services: {
-          ...revenueModel?.services,
-          enabled: servicesEnabled
+          enabled: servicesEnabled,
+          description: revenueModel?.services?.description ?? 'Servizi e assistenza',
+          items: revenueModel?.services?.items ?? [],
+          note: revenueModel?.services?.note ?? ''
         },
         bundling: {
-          ...revenueModel?.bundling,
-          enabled: bundlingEnabled
+          enabled: bundlingEnabled,
+          description: revenueModel?.bundling?.description ?? 'Pacchetti bundle',
+          bundles: revenueModel?.bundling?.bundles ?? [],
+          note: revenueModel?.bundling?.note ?? ''
         },
         financing: {
-          ...revenueModel?.financing,
-          enabled: financingEnabled
+          enabled: financingEnabled,
+          description: revenueModel?.financing?.description ?? 'Opzioni finanziamento',
+          options: revenueModel?.financing?.options ?? [],
+          note: revenueModel?.financing?.note ?? ''
         },
         pricingStrategy: {
-          ...revenueModel?.pricingStrategy,
+          defaultModel: revenueModel?.pricingStrategy?.defaultModel ?? 'hybrid_hardware_saas',
+          volumeDiscounts: revenueModel?.pricingStrategy?.volumeDiscounts ?? {
+            enabled: false,
+            tiers: [],
+            note: ''
+          },
           geographicPricing: {
             enabled: geoPricingEnabled,
             regions: {
@@ -309,11 +329,12 @@ export function RevenueModelDashboard() {
     }
   }, [
     hardwareEnabled, hardwareAsp, hardwareUnitCost, hardwareWarrantyPct,
-    hardwareAspByType, hardwareCogsMarginByType,
+    hardwareAspByType, hardwareUnitCostByType, hardwareCogsMarginByType,
     saasEnabled, saasMonthlyFee, saasAnnualFee, saasGrossMarginPct,
     saasPerDeviceEnabled, saasPerScanEnabled, saasTieredEnabled,
     consumablesEnabled, servicesEnabled, bundlingEnabled, financingEnabled,
     geoPricingEnabled, geoPriceMultipliers,
+    updateConfigurazioneTamSamSomEcografi,
     updateRevenueModelHardware, updateRevenueModelSaaS, updateRevenueModel,
     revenueModel
   ]);
