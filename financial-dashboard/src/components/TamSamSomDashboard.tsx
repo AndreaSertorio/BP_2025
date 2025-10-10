@@ -371,7 +371,8 @@ export function TamSamSomDashboard() {
     }
     
     return Math.round(total);
-  }, [mercatoEcografi, selectedYear, regioniAttive]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mercatoEcografi, selectedYear, regioniAttiveJson]);
 
   // Helper: Calcola dispositivi SAM (proporzionale al TAM)
   const calculateSamDevices = useCallback(() => {

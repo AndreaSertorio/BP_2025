@@ -1,6 +1,6 @@
 {
   "version": "1.0.3",
-  "lastUpdate": "2025-10-09",
+  "lastUpdate": "2025-10-10",
   "description": "Database centralizzato per Eco 3D - Dati reali da Eco_ITA_MASTER.xlsx con % Extra-SSN per prestazione",
   "mercatoEcografie": {
     "italia": {
@@ -15,7 +15,7 @@
           "B": 102381,
           "D": 388559,
           "P": 562362,
-          "percentualeExtraSSN": 50,
+          "percentualeExtraSSN": 52,
           "aggredibile": true,
           "note": "Prestazione target per Eco3D"
         },
@@ -71,7 +71,7 @@
           "D": 23679,
           "P": 32091,
           "percentualeExtraSSN": 50,
-          "aggredibile": true,
+          "aggredibile": false,
           "note": "Prestazione target per Eco3D"
         },
         {
@@ -115,7 +115,7 @@
           "D": 113121,
           "P": 231136,
           "percentualeExtraSSN": 50,
-          "aggredibile": true,
+          "aggredibile": false,
           "note": "Prestazione target per Eco3D"
         },
         {
@@ -126,7 +126,7 @@
           "D": 193325,
           "P": 733488,
           "percentualeExtraSSN": 50,
-          "aggredibile": true,
+          "aggredibile": false,
           "note": "Prestazione target per Eco3D"
         },
         {
@@ -137,7 +137,7 @@
           "D": 7980,
           "P": 26614,
           "percentualeExtraSSN": 50,
-          "aggredibile": true,
+          "aggredibile": false,
           "note": "Prestazione target per Eco3D"
         },
         {
@@ -148,7 +148,7 @@
           "D": 310733,
           "P": 236922,
           "percentualeExtraSSN": 50,
-          "aggredibile": true,
+          "aggredibile": false,
           "note": "Prestazione target per Eco3D"
         },
         {
@@ -221,7 +221,7 @@
     "usa": {
       "nome": "USA",
       "flag": "🇺🇸",
-      "moltiplicatoreVolume": 9,
+      "moltiplicatoreVolume": 10,
       "moltiplicatoreValore": 1.8,
       "quotaItalia": "17%",
       "note": "Mercato USA - volumi e valori più alti"
@@ -715,12 +715,14 @@
       }
     ],
     "configurazione": {
-      "annoTarget": 2030,
-      "marketShare": 2,
+      "annoTarget": 2033,
+      "marketShare": 1,
       "scenarioParco": "basso",
       "regioniVisibili": [
         "Italia",
-        "Europa"
+        "Europa",
+        "Stati Uniti",
+        "Cina"
       ],
       "tipologieTarget": [
         "Palmari"
@@ -4401,12 +4403,12 @@
   },
   "configurazioneTamSamSom": {
     "ecografie": {
-      "priceMode": "regionalizzato",
-      "prezzoMedioProcedura": 50.5,
+      "priceMode": "semplice",
+      "prezzoMedioProcedura": 90.5,
       "tipoPrezzo": "medio",
       "regioneSelezionata": "europa",
       "volumeMode": "totale",
-      "samPercentage": 55,
+      "samPercentage": 50,
       "somPercentages": {
         "y1": 0.5,
         "y3": 1.7,
@@ -4419,7 +4421,7 @@
         "som3": 524548.5075000001,
         "som5": 1311371.26875
       },
-      "lastUpdate": "2025-10-09T23:54:07.322Z",
+      "lastUpdate": "2025-10-10T10:31:47.654Z",
       "regioniSelezionate": {
         "italia": true,
         "europa": false,
@@ -4448,11 +4450,11 @@
         "som3": 0,
         "som5": 0
       },
-      "lastUpdate": "2025-10-09T23:54:05.783Z",
+      "lastUpdate": "2025-10-10T10:31:46.108Z",
       "regioniAttive": {
         "italia": true,
-        "europa": false,
-        "usa": false,
+        "europa": true,
+        "usa": true,
         "cina": false
       },
       "prezzoVenditaProdotto": 25000
