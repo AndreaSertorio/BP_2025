@@ -417,6 +417,119 @@ console.log('✅ Valori già aggiornati')
 
 ---
 
-**Commit:** `da40a67`  
-**Testing:** In attesa di riavvio server da parte utente  
-**Documentazione:** Completa ✅
+---
+
+## 🔍 **UPDATE: CAUSA ROOT IDENTIFICATA** (Commit `bd33c05`)
+
+### **Problema Ulteriore Scoperto:**
+
+Anche dopo il fix iniziale, i valori rimanevano **zero** nel database:
+
+```json
+"valoriCalcolati": {
+  "tam": 0,
+  "sam": 0,
+  "som1": 0,
+  "som3": 0,
+  "som5": 0
+}
+```
+
+### **Causa Root:**
+
+Il `useEffect` eseguiva **PRIMA** che `mercatoEcografi` fosse caricato dal database:
+
+```typescript
+// Funzione di calcolo
+const calculateTotalDevices = useCallback(() => {
+  if (!mercatoEcografi) return 0; // ← Ritorna 0 se non caricato!
+  
+  const yearKey = `unita${selectedYear}`;
+  // ... calcoli
+}, [mercatoEcografi, ...]);
+
+// useEffect ORIGINALE (SBAGLIATO)
+useEffect(() => {
+  if (!isInitialized) return;
+  if (!configTamSamSomDevices) return;
+  
+  // ❌ NON verifica se mercatoEcografi è caricato!
+  const tam = calculateTotalDevices(); // → 0
+  const sam = calculateSamDevices();   // → 0
+  const som1 = calculateSomDevices('y1'); // → 0
+  
+  // Salva valori zero nel DB ❌
+}, [isInitialized]); // ← Manca dependency mercatoEcografi!
+```
+
+**Timing del problem:**
+```
+1. App monta
+2. DatabaseContext inizia caricamento
+3. isInitialized = true ✅
+4. useEffect esegue
+5. mercatoEcografi = undefined ❌ (ancora in caricamento)
+6. calculateTotalDevices() → 0
+7. Salva { tam: 0, sam: 0, som1: 0 } nel DB ❌
+8. mercatoEcografi caricato (troppo tardi)
+9. Revenue Model legge som1 = 0 → Fallback ❌
+```
+
+### **Fix Finale:**
+
+```typescript
+// useEffect CORRETTO ✅
+useEffect(() => {
+  if (!isInitialized) {
+    console.log('⏳ Aspetto inizializzazione...');
+    return;
+  }
+  if (!configTamSamSomDevices) {
+    console.log('⚠️ configTamSamSomDevices non disponibile');
+    return;
+  }
+  
+  // ✅ AGGIUNTO: Aspetta mercatoEcografi!
+  if (!mercatoEcografi) {
+    console.log('⏳ Aspetto caricamento mercatoEcografi...');
+    return;
+  }
+  
+  console.log('🔄 Calcolo valori TAM/SAM/SOM al mount...');
+  
+  const tam = calculateTotalDevices(); // ✅ > 0
+  const sam = calculateSamDevices();   // ✅ > 0
+  const som1 = calculateSomDevices('y1'); // ✅ > 0
+  
+  // Salva valori corretti ✅
+  updateConfigurazioneTamSamSomEcografi({
+    valoriCalcolati: { tam, sam, som1, som3, som5 }
+  });
+  
+}, [isInitialized, mercatoEcografi]); // ✅ Dependency aggiunta!
+```
+
+**Timing corretto:**
+```
+1. App monta
+2. DatabaseContext inizia caricamento
+3. isInitialized = true
+4. useEffect esegue: "⏳ Aspetto mercatoEcografi..."
+5. mercatoEcografi caricato ✅
+6. useEffect ri-esegue (dependency cambiata)
+7. calculateTotalDevices() → 5600 ✅
+8. Salva { tam: 5600, sam: 2800, som1: 14 } ✅
+9. Revenue Model legge som1 = 14 → Badge verde ✅
+```
+
+### **Console Logs Attesi:**
+
+```
+⏳ Aspetto inizializzazione per calcolare valori...
+⏳ Aspetto caricamento mercatoEcografi...
+🔄 Calcolo valori TAM/SAM/SOM al mount...
+📊 Valori calcolati: { tam: 5600, sam: 2800, som1: 14, som3: 48, som5: 140 }
+💾 Valori esistenti nel DB: { tam: 0, sam: 0, som1: 0, ... }
+💾 Salvo valori calcolati nel DB...
+🚀 Valori calcolati inizializzati al mount: { tam: 5600, sam: 2800, som1: 14, ... }
+```
