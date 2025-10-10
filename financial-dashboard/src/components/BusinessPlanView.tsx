@@ -1257,6 +1257,365 @@ export function BusinessPlanView() {
             </div>
           </Card>
         </section>
+
+        {/* 7. Regolatorio & Clinico */}
+        <section id="regolatorio">
+          <Card className="p-8 border-l-4 border-l-red-600">
+            <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+              <span className="flex items-center justify-center w-10 h-10 rounded-full bg-red-100 text-red-600 font-bold">7</span>
+              Regolatorio & Clinico
+            </h2>
+
+            <div className="space-y-6">
+              <p className="text-sm text-gray-700">
+                <strong>Obiettivo:</strong> allineare GTM e finanza a un percorso regolatorio/clinico realistico 
+                per <strong>USA (510(k))</strong> e <strong>UE (MDR classe IIa / CE)</strong>.
+              </p>
+
+              {/* Classificazione */}
+              <div className="grid md:grid-cols-2 gap-4">
+                <Card className="p-4 bg-blue-50 border-2 border-blue-300">
+                  <h4 className="font-semibold text-sm text-gray-800 mb-2 flex items-center gap-2">
+                    <span className="text-2xl">🇪🇺</span> UE (MDR 2017/745)
+                  </h4>
+                  <p className="text-xs text-gray-700">
+                    Dispositivo ecografico diagnostico <strong>classe IIa</strong> (rischio moderato) 
+                    con componente software/AI a supporto dell&apos;acquisizione/misura.
+                  </p>
+                </Card>
+                <Card className="p-4 bg-red-50 border-2 border-red-300">
+                  <h4 className="font-semibold text-sm text-gray-800 mb-2 flex items-center gap-2">
+                    <span className="text-2xl">🇺🇸</span> USA (FDA)
+                  </h4>
+                  <p className="text-xs text-gray-700">
+                    Probabile <strong>classe II</strong> con percorso <strong>510(k)</strong> per sistema 
+                    ecografico diagnostico. Conferma predicate e product code in Pre-Sub.
+                  </p>
+                </Card>
+              </div>
+
+              {/* Norme chiave */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-800 mb-3">7.2 Sistema Qualità (QMS) & norme chiave</h3>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-2">
+                  {[
+                    { norm: 'ISO 13485', desc: 'SGQ dispositivi medici (Design Control, CAPA, Complaints)' },
+                    { norm: 'ISO 14971', desc: 'Risk Management - analisi pericoli/controlli' },
+                    { norm: 'IEC 62304', desc: 'Ciclo di vita software (classe B/C)' },
+                    { norm: 'IEC 60601-1', desc: 'Sicurezza elettrica generale' },
+                    { norm: 'IEC 60601-1-2', desc: 'Compatibilità elettromagnetica (EMC)' },
+                    { norm: 'IEC 60601-2-37', desc: 'Requisiti per apparecchi ecografici diagnostici' },
+                    { norm: 'IEC 62366-1', desc: 'Usabilità - integrazione con 60601-1-6' },
+                    { norm: 'ISO 10993', desc: 'Biocompatibilità parti paziente-contatto' },
+                    { norm: 'IEC 81001-5-1', desc: 'Cybersecurity per software medicale' },
+                  ].map((item, idx) => (
+                    <div key={idx} className="bg-gray-50 p-2 rounded border border-gray-200">
+                      <p className="font-semibold text-xs text-blue-700">{item.norm}</p>
+                      <p className="text-xs text-gray-600">{item.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Strategia clinica */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-800 mb-3">7.4 Strategia clinica (ISO 14155)</h3>
+                <Card className="p-4 bg-green-50 border-green-200">
+                  <p className="text-sm text-gray-700 mb-3">
+                    <strong>Obiettivo:</strong> dimostrare performance clinica e benefici attesi nelle indicazioni prioritarie.
+                  </p>
+                  <div className="space-y-2">
+                    <div className="bg-white p-3 rounded border border-green-200">
+                      <p className="font-semibold text-sm text-gray-800 mb-1">1) Pilot comparativo (6–12 settimane)</p>
+                      <p className="text-xs text-gray-700">
+                        Tempo esame, qualità immagine, accuratezza volumetrica vs riferimento; <strong>n≥50 casi</strong> per distretto
+                      </p>
+                    </div>
+                    <div className="bg-white p-3 rounded border border-green-200">
+                      <p className="font-semibold text-sm text-gray-800 mb-1">2) Studio confermativo (multicentrico)</p>
+                      <p className="text-xs text-gray-700">
+                        Non-inferiorità su misure volumetriche vs TC/RM; concordanza/ICC, variabilità intra/inter-operatore
+                      </p>
+                    </div>
+                  </div>
+                </Card>
+              </div>
+
+              {/* Timeline regolatoria */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-800 mb-3">7.5 Timeline regolatoria (2025–2028)</h3>
+                <div className="space-y-3">
+                  <Card className="p-4 bg-blue-50 border-l-4 border-l-blue-600">
+                    <h4 className="font-bold text-sm text-gray-800 mb-2">2025 Q4</h4>
+                    <ul className="text-xs space-y-1 text-gray-700">
+                      <li>• <strong>Pre-Sub FDA</strong> (Q-Submission): predicate, schema test, dati clinici, labeling AI</li>
+                      <li>• Shortlist <strong>Notified Body</strong> (2–3) e gap assessment MDR</li>
+                      <li>• Scelta CRO e site per pilot</li>
+                    </ul>
+                  </Card>
+
+                  <Card className="p-4 bg-purple-50 border-l-4 border-l-purple-600">
+                    <h4 className="font-bold text-sm text-gray-800 mb-2">2026</h4>
+                    <ul className="text-xs space-y-1 text-gray-700">
+                      <li>• <strong>Q1:</strong> Avvio QMS ISO 13485 (manuale + 12 procedure core)</li>
+                      <li>• <strong>Q2:</strong> Testing completo (60601-1/-1-2/-2-37, 62366, 10993, V&V SW, cybersecurity)</li>
+                      <li>• <strong>Q3:</strong> 510(k) submission (Δ 90–180 gg review)</li>
+                      <li>• <strong>Q4:</strong> <strong className="text-green-600">510(k) clearance</strong> (target H2-2026) → Launch USA</li>
+                    </ul>
+                  </Card>
+
+                  <Card className="p-4 bg-green-50 border-l-4 border-l-green-600">
+                    <h4 className="font-bold text-sm text-gray-800 mb-2">2027</h4>
+                    <ul className="text-xs space-y-1 text-gray-700">
+                      <li>• <strong>Q1–Q2:</strong> Pilot clinici EU/IT (ISO 14155) → aggiornamento CER e PMS/PMCF</li>
+                      <li>• <strong>Q2–Q3:</strong> Audit ISO 13485 (Stage 1/2) e Technical Documentation pronta</li>
+                      <li>• <strong>Q4:</strong> Sottomissione CE al NB (Δ 4–6 mesi)</li>
+                    </ul>
+                  </Card>
+
+                  <Card className="p-4 bg-orange-50 border-l-4 border-l-orange-600">
+                    <h4 className="font-bold text-sm text-gray-800 mb-2">2028 Q1</h4>
+                    <ul className="text-xs space-y-1 text-gray-700">
+                      <li>• <strong className="text-green-600">Marcatura CE</strong> (target) → Go-to-market EU e tender</li>
+                    </ul>
+                  </Card>
+                </div>
+              </div>
+
+              {/* Rischi & mitigazioni */}
+              <div className="bg-red-50 p-4 rounded-lg border-2 border-red-300">
+                <h3 className="text-lg font-semibold text-gray-800 mb-3">7.7 Rischi specifici & mitigazioni</h3>
+                <div className="grid md:grid-cols-2 gap-3 text-sm">
+                  <div>
+                    <p className="font-semibold text-red-700">⚠️ Testing slittano/rigettano</p>
+                    <p className="text-xs text-gray-700">Pre-test e gap-fix; contratti con 2 laboratori (backup slot)</p>
+                  </div>
+                  <div>
+                    <p className="font-semibold text-red-700">⚠️ Dati clinici aggiuntivi richiesti</p>
+                    <p className="text-xs text-gray-700">Protocollo add-on e coorte estesa; buffer 3–6 mesi</p>
+                  </div>
+                  <div>
+                    <p className="font-semibold text-red-700">⚠️ Software safety class ↑</p>
+                    <p className="text-xs text-gray-700">Evidenze V&V mature; ridurre funzioni AI advisory in v1</p>
+                  </div>
+                  <div>
+                    <p className="font-semibold text-red-700">⚠️ Risorse QARA</p>
+                    <p className="text-xs text-gray-700">Ingaggio CRO/QARA esterna per picchi; semplificare perimetro v1</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Card>
+        </section>
+
+        {/* 8. Roadmap Prodotto & Industrializzazione */}
+        <section id="roadmap-prodotto">
+          <Card className="p-8 border-l-4 border-l-teal-600">
+            <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+              <span className="flex items-center justify-center w-10 h-10 rounded-full bg-teal-100 text-teal-600 font-bold">8</span>
+              Roadmap Prodotto & Industrializzazione
+            </h2>
+
+            <div className="space-y-6">
+              <p className="text-sm text-gray-700">
+                <strong>Obiettivo:</strong> legare test/validazioni e capacità produttiva al GTM e alle milestone regolatorie, 
+                con criteri di &quot;gate&quot; chiari.
+              </p>
+
+              {/* Architettura prodotto */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-800 mb-3">8.1 Architettura di prodotto (sintesi)</h3>
+                <div className="grid md:grid-cols-2 gap-3">
+                  <Card className="p-4 bg-blue-50 border-blue-200">
+                    <h4 className="font-semibold text-sm text-gray-800 mb-2">📡 Sonde & acquisizione</h4>
+                    <p className="text-xs text-gray-700">
+                      Array lineare/convex/phased; opzione pMUT medio termine; 
+                      <strong>sincronizzazione multi-sonda</strong> con IMU/ToF
+                    </p>
+                  </Card>
+                  <Card className="p-4 bg-purple-50 border-purple-200">
+                    <h4 className="font-semibold text-sm text-gray-800 mb-2">⚡ Elaborazione</h4>
+                    <p className="text-xs text-gray-700">
+                      Modulo edge (GPU/NPU) per <strong>3D/4D real-time</strong> e <strong>AI guidance</strong>; 
+                      compressione loss-aware; buffer sicuri
+                    </p>
+                  </Card>
+                  <Card className="p-4 bg-green-50 border-green-200">
+                    <h4 className="font-semibold text-sm text-gray-800 mb-2">💻 Software</h4>
+                    <p className="text-xs text-gray-700">
+                      Pipeline 3D, fusione/mosaico, volumetria, export DICOM; telemetria e aggiornamenti sicuri (OTA)
+                    </p>
+                  </Card>
+                  <Card className="p-4 bg-orange-50 border-orange-200">
+                    <h4 className="font-semibold text-sm text-gray-800 mb-2">🔗 Integrazione</h4>
+                    <p className="text-xs text-gray-700">
+                      RIS/PACS via DICOM; API per workflow ospedaliero; policy privacy/security
+                    </p>
+                  </Card>
+                </div>
+              </div>
+
+              {/* Gating criteria */}
+              <div className="bg-gradient-to-r from-teal-50 to-cyan-50 p-5 rounded-lg border-2 border-teal-300">
+                <h3 className="text-lg font-semibold text-gray-800 mb-3">8.2 Fasi & &quot;gating criteria&quot;</h3>
+                <div className="space-y-2">
+                  <div className="bg-white p-3 rounded border border-teal-200">
+                    <p className="font-bold text-sm text-teal-700 mb-1">EVT (Engineering Validation Test)</p>
+                    <p className="text-xs text-gray-700">
+                      <strong>Gate:</strong> qualità immagine ≥ soglia, ≥3 vol/s 3D, MI/TI entro limiti; 
+                      stabilità termica; protocolli per distretto v0.1
+                    </p>
+                  </div>
+                  <div className="bg-white p-3 rounded border border-cyan-200">
+                    <p className="font-bold text-sm text-cyan-700 mb-1">DVT (Design Validation Test)</p>
+                    <p className="text-xs text-gray-700">
+                      <strong>Gate:</strong> pre-compliance 60601/EMC/-2-37 ok; usabilità 62366 (summative) pass; 
+                      BOM congelata; readiness clinica pilot
+                    </p>
+                  </div>
+                  <div className="bg-white p-3 rounded border border-green-200">
+                    <p className="font-bold text-sm text-green-700 mb-1">PVT (Production Validation Test)</p>
+                    <p className="text-xs text-gray-700">
+                      <strong>Gate:</strong> yield ≥90%, tempo test ≤20&apos;/unità, tracciabilità lotti, 
+                      packaging/UDI, IFU finali
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Timeline tecnica */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-800 mb-3">8.3 Timeline tecnica (2025–2028)</h3>
+                <div className="space-y-2">
+                  <div className="flex gap-2 items-start">
+                    <Badge className="bg-blue-600 text-white text-xs">2025 Q4</Badge>
+                    <p className="text-sm text-gray-700">EVT build #1 (10 unità) per bench/usabilità</p>
+                  </div>
+                  <div className="flex gap-2 items-start">
+                    <Badge className="bg-purple-600 text-white text-xs">2026 Q1</Badge>
+                    <p className="text-sm text-gray-700">EVT build #2 (15 unità) per pre-compliance; congelamento spec v1</p>
+                  </div>
+                  <div className="flex gap-2 items-start">
+                    <Badge className="bg-purple-600 text-white text-xs">2026 Q2-Q3</Badge>
+                    <p className="text-sm text-gray-700">DVT: test conformità completi, V&V SW, usabilità</p>
+                  </div>
+                  <div className="flex gap-2 items-start">
+                    <Badge className="bg-purple-600 text-white text-xs">2026 Q4</Badge>
+                    <p className="text-sm text-gray-700">PVT (25–30 unità) e readiness produzione lancio USA</p>
+                  </div>
+                  <div className="flex gap-2 items-start">
+                    <Badge className="bg-green-600 text-white text-xs">2027 Q1-Q2</Badge>
+                    <p className="text-sm text-gray-700">Pre-serie pilot EU/IT (50–60 unità cumul.); validazioni IQ/OQ/PQ</p>
+                  </div>
+                  <div className="flex gap-2 items-start">
+                    <Badge className="bg-green-600 text-white text-xs">2027 Q3-Q4</Badge>
+                    <p className="text-sm text-gray-700">Rampa controllata (60–70 u/trim); dati affidabilità</p>
+                  </div>
+                  <div className="flex gap-2 items-start">
+                    <Badge className="bg-orange-600 text-white text-xs">2028 Q1</Badge>
+                    <p className="text-sm text-gray-700">Rampa EU post-CE (80–100 u/trim) con second source attivi</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Capacità vs spedizioni */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-800 mb-3">8.4 Capacità vs. spedizioni (link al GTM)</h3>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm border-collapse bg-white">
+                    <thead>
+                      <tr className="bg-gradient-to-r from-teal-600 to-cyan-600 text-white">
+                        <th className="px-3 py-2 text-left border">Trimestre</th>
+                        <th className="px-3 py-2 text-right border">Capacità (u)</th>
+                        <th className="px-3 py-2 text-right border">Spedizioni (u)</th>
+                        <th className="px-3 py-2 text-right border">Cumul. (u)</th>
+                        <th className="px-3 py-2 text-right border">Yield target</th>
+                        <th className="px-3 py-2 text-right border">Stazioni test</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {[
+                        { q: 'Q1 (M1–3)', cap: 10, ship: 7, cum: 7, yield: '0.80', stations: 1 },
+                        { q: 'Q2 (M4–6)', cap: 15, ship: 11, cum: 18, yield: '0.85', stations: 1 },
+                        { q: 'Q3 (M7–9)', cap: 18, ship: 13, cum: 31, yield: '0.88', stations: 1 },
+                        { q: 'Q4 (M10–12)', cap: 20, ship: 16, cum: 47, yield: '0.90', stations: 2 },
+                        { q: 'Q5 (M13–15)', cap: 24, ship: 19, cum: 66, yield: '0.91', stations: 2 },
+                        { q: 'Q6 (M16–18)', cap: 27, ship: 22, cum: 88, yield: '0.92', stations: 2 },
+                        { q: 'Q7 (M19–21)', cap: 30, ship: 25, cum: 113, yield: '0.93', stations: 3 },
+                        { q: 'Q8 (M22–24)', cap: 34, ship: 29, cum: 142, yield: '0.94', stations: 3 },
+                      ].map((row, idx) => (
+                        <tr key={idx} className="border-b hover:bg-teal-50">
+                          <td className="px-3 py-2 font-medium border">{row.q}</td>
+                          <td className="px-3 py-2 text-right border">{row.cap}</td>
+                          <td className="px-3 py-2 text-right font-semibold text-teal-600 border">{row.ship}</td>
+                          <td className="px-3 py-2 text-right border">{row.cum}</td>
+                          <td className="px-3 py-2 text-right border">{row.yield}</td>
+                          <td className="px-3 py-2 text-right border">{row.stations}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <p className="text-xs text-gray-600 mt-2 italic">
+                  Coerenza con SOM: <strong>142 device</strong> attivi a M24 ⇒ ~1,09M scans/anno ⇒ <strong>SOM ≈ 3–3,5%</strong> su SAM 31,9M
+                </p>
+              </div>
+
+              {/* DFM & COGS */}
+              <div className="grid md:grid-cols-2 gap-4">
+                <Card className="p-4 bg-yellow-50 border-yellow-200">
+                  <h4 className="font-semibold text-sm text-gray-800 mb-2">🔧 DFM/DFA & sourcing</h4>
+                  <ul className="text-xs space-y-1 text-gray-700">
+                    <li>• Riduzione parti/fasteners; moduli sostituibili</li>
+                    <li>• Componenti critici: trasduttori, ASIC, GPU/NPU, display</li>
+                    <li>• <strong>Second source</strong> e LTB; mappa MOQ/lead time</li>
+                    <li>• EMS/ODM: shortlist 2 partner (Italia/EU)</li>
+                  </ul>
+                </Card>
+                <Card className="p-4 bg-green-50 border-green-200">
+                  <h4 className="font-semibold text-sm text-gray-800 mb-2">💰 Target COGS</h4>
+                  <div className="space-y-2">
+                    <div>
+                      <p className="text-xs text-gray-600">COGS v1:</p>
+                      <p className="text-2xl font-bold text-orange-600">€11–12k</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-600">Cost-down Y3 (VA/VE):</p>
+                      <p className="text-2xl font-bold text-green-600">€9–10k</p>
+                    </div>
+                  </div>
+                </Card>
+              </div>
+
+              {/* Qualità & affidabilità */}
+              <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                <h3 className="text-lg font-semibold text-gray-800 mb-3">8.6 Qualità processo & collaudi</h3>
+                <div className="grid md:grid-cols-3 gap-3 text-sm">
+                  <div>
+                    <p className="font-semibold text-blue-700 mb-1">Incoming</p>
+                    <p className="text-xs text-gray-700">AQL componenti critici; test elettrico sonde; tracciabilità lotti</p>
+                  </div>
+                  <div>
+                    <p className="font-semibold text-blue-700 mb-1">In-process</p>
+                    <p className="text-xs text-gray-700">Autotest, calibrazione IMU/ToF, verifica leak, calibrazione acustica</p>
+                  </div>
+                  <div>
+                    <p className="font-semibold text-blue-700 mb-1">Finale</p>
+                    <p className="text-xs text-gray-700">Test funzionale completo (≤20&apos;), burn-in 2–4h, report DICOM prova</p>
+                  </div>
+                </div>
+                <div className="mt-3 grid md:grid-cols-2 gap-2 text-xs">
+                  <div className="bg-white p-2 rounded border border-blue-200">
+                    <strong>RMA target Y1:</strong> <span className="text-blue-600 font-bold">≤3%</span>
+                  </div>
+                  <div className="bg-white p-2 rounded border border-blue-200">
+                    <strong>MTBF:</strong> <span className="text-blue-600 font-bold">≥5,000h</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Card>
+        </section>
       </div>
     </div>
   );
