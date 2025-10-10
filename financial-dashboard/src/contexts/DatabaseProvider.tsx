@@ -338,6 +338,10 @@ interface Database {
   configurazioneTamSamSom?: {
     ecografie: ConfigurazioneTamSamSomEcografie;
     ecografi: ConfigurazioneTamSamSomEcografi;
+    businessPlan?: {
+      sectionProgress: Record<string, number>;
+      lastUpdate: string;
+    };
   };
   revenueModel?: RevenueModel;
   market?: any; // Dati mercato per TAM/SAM/SOM (da definire tipo completo)
