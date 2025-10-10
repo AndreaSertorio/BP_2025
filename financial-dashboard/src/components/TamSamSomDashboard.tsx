@@ -187,6 +187,12 @@ export function TamSamSomDashboard() {
       return;
     }
     
+    // IMPORTANTE: Aspetta che mercatoEcografi sia caricato!
+    if (!mercatoEcografi) {
+      console.log('⏳ Aspetto caricamento mercatoEcografi...');
+      return;
+    }
+    
     console.log('🔄 Calcolo valori TAM/SAM/SOM al mount...');
     
     // Calcola valori aggiornati
@@ -202,8 +208,7 @@ export function TamSamSomDashboard() {
     const existingValues = configTamSamSomDevices.valoriCalcolati;
     console.log('💾 Valori esistenti nel DB:', existingValues);
     
-    // Salva SEMPRE al mount iniziale per garantire sincronizzazione
-    // (non solo se diversi, perché potrebbero essere zero/undefined)
+    // Salva se i valori sono diversi o se som1 è zero
     const needsUpdate = !existingValues || 
                         existingValues.tam !== tam || 
                         existingValues.sam !== sam || 
@@ -233,9 +238,9 @@ export function TamSamSomDashboard() {
       console.log('✅ Valori calcolati già aggiornati nel DB:', existingValues);
     }
     
-    // Esegui UNA SOLA VOLTA dopo isInitialized
+    // Esegui quando isInitialized E mercatoEcografi sono disponibili
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isInitialized]);
+  }, [isInitialized, mercatoEcografi]);
 
   // Auto-salva configurazione Devices quando cambiano i parametri (con debounce 1.5s)
   useEffect(() => {
