@@ -303,6 +303,7 @@ export function BusinessPlanView() {
               </Button>
             </div>
 
+            {!collapsedSections['proposta-valore'] && (
             <div className="space-y-6">
               {/* Per chi risolviamo */}
               <div>
@@ -522,17 +523,29 @@ export function BusinessPlanView() {
                 </p>
               </div>
             </div>
+            )}
           </Card>
         </section>
 
         {/* 3. Mercato (TAM/SAM/SOM) */}
         <section id="mercato">
           <Card className="p-8 border-l-4 border-l-purple-600">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-              <span className="flex items-center justify-center w-10 h-10 rounded-full bg-purple-100 text-purple-600 font-bold">3</span>
-              Mercato (TAM/SAM/SOM)
-            </h2>
+            <div className="flex justify-between items-start mb-6">
+              <h2 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-purple-100 text-purple-600 font-bold">3</span>
+                Mercato (TAM/SAM/SOM)
+              </h2>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => toggleSection('mercato')}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                {collapsedSections['mercato'] ? <ChevronDown className="h-5 w-5" /> : <ChevronUp className="h-5 w-5" />}
+              </Button>
+            </div>
 
+            {!collapsedSections['mercato'] && (
             <div className="space-y-6">
               {/* Definizioni */}
               <div className="grid md:grid-cols-3 gap-4">
