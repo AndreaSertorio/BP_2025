@@ -70,8 +70,9 @@ export function TamSamSomDashboard() {
   // Flag per evitare loop infinito tra caricamento e salvataggio
   const [isInitialized, setIsInitialized] = useState(false);
   
-  // RIMOSSO: prezzoVenditaProdotto (duplicato di prezzoMedio)
-  // Ora usiamo direttamente prezzoMedio per calcolo ricavi potenziali
+  // State per prezzo medio dispositivo (SOURCE OF TRUTH - sincronizzato con Revenue Model)
+  const [prezzoMedio, setPrezzoMedio] = useState(44000);
+  const [editingPrezzoMedio, setEditingPrezzoMedio] = useState<string | null>(null);
   
   // State per prezzi dispositivi (carrellati, portatili, palmari)
   const [prezziDispositivi, setPrezziDispositivi] = useState({ carrellati: 50000, portatili: 25000, palmari: 8000 });
@@ -123,7 +124,10 @@ export function TamSamSomDashboard() {
         setRegioniAttive((configTamSamSomDevices as any).regioniAttive);
       }
       
-      // RIMOSSO: Caricamento prezzoVenditaProdotto (campo obsoleto eliminato)
+      // Carica prezzo medio dispositivo (SOURCE OF TRUTH)
+      if (configTamSamSomDevices.prezzoMedioDispositivo !== undefined) {
+        setPrezzoMedio(configTamSamSomDevices.prezzoMedioDispositivo);
+      }
       
       // Carica prezzi dispositivi se salvati
       if ((configTamSamSomDevices as any).prezziMediDispositivi) {
@@ -184,6 +188,7 @@ export function TamSamSomDashboard() {
         samPercentage: samPercentageDevices,
         somPercentages: somPercentagesDevices,
         regioniAttive: JSON.parse(regioniAttiveJson),
+        prezzoMedioDispositivo: prezzoMedio,  // SOURCE OF TRUTH - sincronizzato con Revenue Model
         prezziMediDispositivi: JSON.parse(prezziDispositiviJson)
       } as any);
       
@@ -196,6 +201,7 @@ export function TamSamSomDashboard() {
     samPercentageDevices,
     somPercentagesDevices,
     regioniAttiveJson, // FIX: Usa useMemo per evitare loop infinito
+    prezzoMedio, // SOURCE OF TRUTH per ASP dispositivi
     prezziDispositiviJson, // FIX: Usa useMemo per evitare loop infinito
     isInitialized // Aggiungi isInitialized per evitare salvataggio prima dell'init
   ]);
@@ -1150,20 +1156,53 @@ export function TamSamSomDashboard() {
             💰 Potenziale Ricavi (Prezzo Vendita × Dispositivi SOM)
           </h3>
           
-          {/* RIMOSSO: Campo duplicato. Ora usa prezzoMedio dalla Vista Dispositivi */}
-          <div className="mb-6 p-4 bg-blue-50 rounded-lg border-2 border-blue-200">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-2xl">💡</span>
-              <label className="text-sm font-semibold text-blue-900">
-                Prezzo Dispositivo (ASP Medio)
-              </label>
-            </div>
-            <div className="text-3xl font-bold text-blue-900 mb-1">
-              €{prezzoMedio.toLocaleString('it-IT')}
-            </div>
-            <div className="text-xs text-blue-700">
-              ✏️ Per modificare, usa <strong>Vista Dispositivi</strong> (modalità dettagliata)
-            </div>
+          {/* Prezzo Medio Dispositivo - SOURCE OF TRUTH (sincronizzato con Revenue Model) */}
+          <div className="mb-6 p-4 bg-emerald-50 rounded-lg border-2 border-emerald-400">
+            <label className="text-sm font-semibold text-emerald-800 mb-2 block">
+              💶 Prezzo ASP Medio Dispositivo:
+            </label>
+            {editingPrezzoMedio !== null ? (
+              <div className="flex items-center gap-2">
+                <input
+                  type="number"
+                  value={editingPrezzoMedio}
+                  onChange={(e) => setEditingPrezzoMedio(e.target.value)}
+                  onBlur={() => {
+                    const newPrice = parseFloat(editingPrezzoMedio);
+                    if (!isNaN(newPrice) && newPrice > 0) {
+                      setPrezzoMedio(newPrice);
+                    }
+                    setEditingPrezzoMedio(null);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      const newPrice = parseFloat(editingPrezzoMedio);
+                      if (!isNaN(newPrice) && newPrice > 0) {
+                        setPrezzoMedio(newPrice);
+                      }
+                      setEditingPrezzoMedio(null);
+                    } else if (e.key === 'Escape') {
+                      setEditingPrezzoMedio(null);
+                    }
+                  }}
+                  className="flex-1 px-3 py-2 border-2 border-emerald-500 rounded-lg font-mono text-lg"
+                  autoFocus
+                />
+                <span className="text-gray-500">€</span>
+              </div>
+            ) : (
+              <div 
+                onClick={() => setEditingPrezzoMedio(prezzoMedio.toString())}
+                className="cursor-pointer hover:bg-emerald-100 p-3 rounded-lg border-2 border-emerald-200 transition-all"
+              >
+                <div className="text-2xl font-bold text-emerald-900">
+                  €{prezzoMedio.toLocaleString('it-IT')}
+                </div>
+                <div className="text-xs text-gray-600 mt-1">
+                  ✏️ Click per modificare (sincronizzato con Revenue Model)
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Card Ricavi Y1, Y3, Y5 */}

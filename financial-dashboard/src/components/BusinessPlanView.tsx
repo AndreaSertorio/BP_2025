@@ -712,17 +712,29 @@ export function BusinessPlanView() {
                 </ul>
               </div>
             </div>
+            )}
           </Card>
         </section>
 
         {/* 4. Competizione & Posizionamento */}
         <section id="competizione">
           <Card className="p-8 border-l-4 border-l-orange-600">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-              <span className="flex items-center justify-center w-10 h-10 rounded-full bg-orange-100 text-orange-600 font-bold">4</span>
-              Competizione & Posizionamento
-            </h2>
+            <div className="flex justify-between items-start mb-6">
+              <h2 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-orange-100 text-orange-600 font-bold">4</span>
+                Competizione & Posizionamento
+              </h2>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => toggleSection('competizione')}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                {collapsedSections['competizione'] ? <ChevronDown className="h-5 w-5" /> : <ChevronUp className="h-5 w-5" />}
+              </Button>
+            </div>
 
+            {!collapsedSections['competizione'] && (
             <div className="space-y-6">
               <p className="text-sm text-gray-700 italic">
                 <strong>Obiettivo:</strong> fotografare il landscape competitivo e chiarire <strong>dove Eco 3D vince/perde</strong> oggi 
@@ -967,17 +979,29 @@ export function BusinessPlanView() {
                 </div>
               </div>
             </div>
+            )}
           </Card>
         </section>
 
         {/* 5. Modello di Business & Prezzi */}
         <section id="modello-business">
           <Card className="p-8 border-l-4 border-l-cyan-600">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-              <span className="flex items-center justify-center w-10 h-10 rounded-full bg-cyan-100 text-cyan-600 font-bold">5</span>
-              Modello di Business & Prezzi
-            </h2>
+            <div className="flex justify-between items-start mb-6">
+              <h2 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-cyan-100 text-cyan-600 font-bold">5</span>
+                Modello di Business & Prezzi
+              </h2>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => toggleSection('modello-business')}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                {collapsedSections['modello-business'] ? <ChevronDown className="h-5 w-5" /> : <ChevronUp className="h-5 w-5" />}
+              </Button>
+            </div>
 
+            {!collapsedSections['modello-business'] && (
             <div className="space-y-6">
               <p className="text-sm text-gray-700">
                 <strong>Obiettivo:</strong> definire l&apos;architettura dei ricavi (hardware + software/AI + servizi) 
@@ -1156,17 +1180,29 @@ export function BusinessPlanView() {
                 </div>
               </div>
             </div>
+            )}
           </Card>
         </section>
 
         {/* 6. Go-to-Market (24 mesi) */}
-        <section id="go-to-market">
+        <section id="gtm">
           <Card className="p-8 border-l-4 border-l-indigo-600">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-              <span className="flex items-center justify-center w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 font-bold">6</span>
-              Go-to-Market (24 mesi)
-            </h2>
+            <div className="flex justify-between items-start mb-6">
+              <h2 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-indigo-100 text-indigo-600 font-bold">6</span>
+                Go-to-Market (24 mesi)
+              </h2>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => toggleSection('gtm')}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                {collapsedSections['gtm'] ? <ChevronDown className="h-5 w-5" /> : <ChevronUp className="h-5 w-5" />}
+              </Button>
+            </div>
 
+            {!collapsedSections['gtm'] && (
             <div className="space-y-6">
               <div className="bg-orange-50 p-4 rounded-lg border border-orange-300">
                 <p className="text-sm text-gray-700">
@@ -1348,17 +1384,29 @@ export function BusinessPlanView() {
                 </Card>
               </div>
             </div>
+            )}
           </Card>
         </section>
 
         {/* 7. Regolatorio & Clinico */}
         <section id="regolatorio">
           <Card className="p-8 border-l-4 border-l-red-600">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-              <span className="flex items-center justify-center w-10 h-10 rounded-full bg-red-100 text-red-600 font-bold">7</span>
-              Regolatorio & Clinico
-            </h2>
+            <div className="flex justify-between items-start mb-6">
+              <h2 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-red-100 text-red-600 font-bold">7</span>
+                Regolatorio & Clinico
+              </h2>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => toggleSection('regolatorio')}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                {collapsedSections['regolatorio'] ? <ChevronDown className="h-5 w-5" /> : <ChevronUp className="h-5 w-5" />}
+              </Button>
+            </div>
 
+            {!collapsedSections['regolatorio'] && (
             <div className="space-y-6">
               <p className="text-sm text-gray-700">
                 <strong>Obiettivo:</strong> allineare GTM e finanza a un percorso regolatorio/clinico realistico 
@@ -1498,17 +1546,29 @@ export function BusinessPlanView() {
                 </div>
               </div>
             </div>
+            )}
           </Card>
         </section>
 
         {/* 8. Roadmap Prodotto & Industrializzazione */}
         <section id="roadmap-prodotto">
           <Card className="p-8 border-l-4 border-l-teal-600">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-              <span className="flex items-center justify-center w-10 h-10 rounded-full bg-teal-100 text-teal-600 font-bold">8</span>
-              Roadmap Prodotto & Industrializzazione
-            </h2>
+            <div className="flex justify-between items-start mb-6">
+              <h2 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-teal-100 text-teal-600 font-bold">8</span>
+                Roadmap Prodotto & Industrializzazione
+              </h2>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => toggleSection('roadmap-prodotto')}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                {collapsedSections['roadmap-prodotto'] ? <ChevronDown className="h-5 w-5" /> : <ChevronUp className="h-5 w-5" />}
+              </Button>
+            </div>
 
+            {!collapsedSections['roadmap-prodotto'] && (
             <div className="space-y-6">
               <p className="text-sm text-gray-700">
                 <strong>Obiettivo:</strong> legare test/validazioni e capacità produttiva al GTM e alle milestone regolatorie, 
@@ -1707,17 +1767,29 @@ export function BusinessPlanView() {
                 </div>
               </div>
             </div>
+            )}
           </Card>
         </section>
 
         {/* 9. Operazioni & Supply Chain */}
         <section id="operazioni">
           <Card className="p-8 border-l-4 border-l-lime-600">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-              <span className="flex items-center justify-center w-10 h-10 rounded-full bg-lime-100 text-lime-600 font-bold">9</span>
-              Operazioni & Supply Chain
-            </h2>
+            <div className="flex justify-between items-start mb-6">
+              <h2 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-lime-100 text-lime-600 font-bold">9</span>
+                Operazioni & Supply Chain
+              </h2>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => toggleSection('operazioni')}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                {collapsedSections['operazioni'] ? <ChevronDown className="h-5 w-5" /> : <ChevronUp className="h-5 w-5" />}
+              </Button>
+            </div>
 
+            {!collapsedSections['operazioni'] && (
             <div className="space-y-6">
               <p className="text-sm text-gray-700">
                 <strong>Obiettivo:</strong> garantire continuità di fornitura, qualità <strong>ISO 13485-compliant</strong> 
@@ -1819,17 +1891,29 @@ export function BusinessPlanView() {
                 </div>
               </div>
             </div>
+            )}
           </Card>
         </section>
 
         {/* 10. Team & Governance */}
         <section id="team">
           <Card className="p-8 border-l-4 border-l-pink-600">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-              <span className="flex items-center justify-center w-10 h-10 rounded-full bg-pink-100 text-pink-600 font-bold">10</span>
-              Team & Governance
-            </h2>
+            <div className="flex justify-between items-start mb-6">
+              <h2 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-pink-100 text-pink-600 font-bold">10</span>
+                Team & Governance
+              </h2>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => toggleSection('team')}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                {collapsedSections['team'] ? <ChevronDown className="h-5 w-5" /> : <ChevronUp className="h-5 w-5" />}
+              </Button>
+            </div>
 
+            {!collapsedSections['team'] && (
             <div className="space-y-6">
               <p className="text-sm text-gray-700">
                 <strong>Obiettivo:</strong> definire cosa serve per eseguire il piano e come governare qualità/regolatorio, vendite e produzione.
@@ -1918,17 +2002,29 @@ export function BusinessPlanView() {
                 </Card>
               </div>
             </div>
+            )}
           </Card>
         </section>
 
         {/* 11. Rischi & Mitigazioni */}
         <section id="rischi">
           <Card className="p-8 border-l-4 border-l-amber-600">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-              <span className="flex items-center justify-center w-10 h-10 rounded-full bg-amber-100 text-amber-600 font-bold">11</span>
-              Rischi & Mitigazioni
-            </h2>
+            <div className="flex justify-between items-start mb-6">
+              <h2 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-amber-100 text-amber-600 font-bold">11</span>
+                Rischi & Mitigazioni
+              </h2>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => toggleSection('rischi')}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                {collapsedSections['rischi'] ? <ChevronDown className="h-5 w-5" /> : <ChevronUp className="h-5 w-5" />}
+              </Button>
+            </div>
 
+            {!collapsedSections['rischi'] && (
             <div className="space-y-6">
               <p className="text-sm text-gray-700">
                 <strong>Metodo:</strong> Scala P×I (1–5 ciascuno). Semaforo: 🟢 ≤6 | 🟡 8–12 | 🔴 ≥15
@@ -2000,17 +2096,29 @@ export function BusinessPlanView() {
                 </div>
               </div>
             </div>
+            )}
           </Card>
         </section>
 
         {/* 12. Piano Finanziario (3-5 anni) */}
         <section id="piano-finanziario">
           <Card className="p-8 border-l-4 border-l-emerald-600">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-              <span className="flex items-center justify-center w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 font-bold">12</span>
-              Piano Finanziario (3–5 anni)
-            </h2>
+            <div className="flex justify-between items-start mb-6">
+              <h2 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 font-bold">12</span>
+                Piano Finanziario (3–5 anni)
+              </h2>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => toggleSection('piano-finanziario')}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                {collapsedSections['piano-finanziario'] ? <ChevronDown className="h-5 w-5" /> : <ChevronUp className="h-5 w-5" />}
+              </Button>
+            </div>
 
+            {!collapsedSections['piano-finanziario'] && (
             <div className="space-y-6">
               <p className="text-sm text-gray-700">
                 <strong>Obiettivo:</strong> proiezione a 5 anni (scenari Prudente/Base/Ambizioso) coerente con GTM, industrializzazione e regolatorio.
@@ -2198,9 +2306,11 @@ export function BusinessPlanView() {
                 </p>
               </div>
             </div>
+            )}
           </Card>
         </section>
       </div>
+    </div>
     </div>
   );
 }
