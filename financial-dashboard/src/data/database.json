@@ -4421,7 +4421,7 @@
         "som3": 524548.5075000001,
         "som5": 1311371.26875
       },
-      "lastUpdate": "2025-10-10T10:31:47.654Z",
+      "lastUpdate": "2025-10-10T10:38:04.877Z",
       "regioniSelezionate": {
         "italia": true,
         "europa": false,
@@ -4450,11 +4450,11 @@
         "som3": 0,
         "som5": 0
       },
-      "lastUpdate": "2025-10-10T10:31:46.108Z",
+      "lastUpdate": "2025-10-10T10:38:03.330Z",
       "regioniAttive": {
         "italia": true,
         "europa": true,
-        "usa": true,
+        "usa": false,
         "cina": false
       },
       "prezzoVenditaProdotto": 25000

@@ -187,9 +187,9 @@ export function TamSamSomDashboard() {
       await updateConfigurazioneTamSamSomEcografi({
         samPercentage: samPercentageDevices,
         somPercentages: somPercentagesDevices,
-        regioniAttive: regioniAttive,
+        regioniAttive: JSON.parse(regioniAttiveJson),
         prezzoVenditaProdotto: prezzoVenditaProdotto,
-        prezziMediDispositivi: prezziDispositivi
+        prezziMediDispositivi: JSON.parse(prezziDispositiviJson)
       } as any);
       
       console.log('💾 Configurazione TAM/SAM/SOM Devices salvata automaticamente');
