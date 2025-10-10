@@ -1,13 +1,71 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Badge } from './ui/badge';
 import { Card } from './ui/card';
-import { FileText, Target, CheckCircle2, XCircle, Users, Award } from 'lucide-react';
+import { FileText, Target, CheckCircle2, XCircle, Users, Award, ChevronDown, ChevronUp } from 'lucide-react';
+import { Button } from './ui/button';
 
 export function BusinessPlanView() {
+  const [collapsedSections, setCollapsedSections] = useState<Record<string, boolean>>({});
+  const [activeSection, setActiveSection] = useState<string>('executive-summary');
+
+  const toggleSection = (sectionId: string) => {
+    setCollapsedSections(prev => ({
+      ...prev,
+      [sectionId]: !prev[sectionId]
+    }));
+  };
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setActiveSection(sectionId);
+    }
+  };
+
+  const sections = [
+    { id: 'executive-summary', name: '1. Executive Summary', color: 'bg-blue-600' },
+    { id: 'proposta-valore', name: '2. Proposta di Valore', color: 'bg-green-600' },
+    { id: 'mercato', name: '3. Mercato TAM/SAM/SOM', color: 'bg-purple-600' },
+    { id: 'competizione', name: '4. Competizione', color: 'bg-orange-600' },
+    { id: 'modello-business', name: '5. Modello Business', color: 'bg-cyan-600' },
+    { id: 'gtm', name: '6. Go-to-Market', color: 'bg-indigo-600' },
+    { id: 'regolatorio', name: '7. Regolatorio', color: 'bg-red-600' },
+    { id: 'roadmap-prodotto', name: '8. Roadmap Prodotto', color: 'bg-teal-600' },
+    { id: 'operazioni', name: '9. Operazioni', color: 'bg-lime-600' },
+    { id: 'team', name: '10. Team', color: 'bg-pink-600' },
+    { id: 'rischi', name: '11. Rischi', color: 'bg-amber-600' },
+    { id: 'piano-finanziario', name: '12. Piano Finanziario', color: 'bg-emerald-600' },
+  ];
+
   return (
-    <div className="container mx-auto px-6 py-8 max-w-7xl">
+    <div className="relative">
+      {/* Sidebar Navigation */}
+      <div className="fixed left-4 top-24 w-56 h-[calc(100vh-120px)] overflow-y-auto bg-white border border-gray-200 rounded-lg shadow-lg p-4 hidden xl:block z-10">
+        <h3 className="text-sm font-bold text-gray-900 mb-3">📑 Navigazione</h3>
+        <nav className="space-y-1">
+          {sections.map((section) => (
+            <button
+              key={section.id}
+              onClick={() => scrollToSection(section.id)}
+              className={`w-full text-left px-3 py-2 rounded-md text-xs transition-colors ${
+                activeSection === section.id
+                  ? 'bg-blue-100 text-blue-700 font-semibold'
+                  : 'text-gray-600 hover:bg-gray-100'
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <div className={`w-2 h-2 rounded-full ${section.color}`} />
+                {section.name}
+              </div>
+            </button>
+          ))}
+        </nav>
+      </div>
+
+      <div className="container mx-auto px-6 py-8 max-w-7xl xl:ml-64">
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-4">
@@ -66,11 +124,22 @@ export function BusinessPlanView() {
         {/* 1. Executive Summary */}
         <section id="executive-summary">
           <Card className="p-8 border-l-4 border-l-blue-600">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-              <span className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-100 text-blue-600 font-bold">1</span>
-              Executive Summary
-            </h2>
+            <div className="flex justify-between items-start mb-6">
+              <h2 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-100 text-blue-600 font-bold">1</span>
+                Executive Summary
+              </h2>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => toggleSection('executive-summary')}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                {collapsedSections['executive-summary'] ? <ChevronDown className="h-5 w-5" /> : <ChevronUp className="h-5 w-5" />}
+              </Button>
+            </div>
 
+            {!collapsedSections['executive-summary'] && (
             <div className="space-y-6">
               {/* Problema e Soluzione */}
               <div className="grid md:grid-cols-2 gap-4">
@@ -212,16 +281,27 @@ export function BusinessPlanView() {
                 </div>
               </div>
             </div>
+            )}
           </Card>
         </section>
 
         {/* 2. Proposta di Valore */}
         <section id="proposta-valore">
           <Card className="p-8 border-l-4 border-l-green-600">
-            <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-              <span className="flex items-center justify-center w-10 h-10 rounded-full bg-green-100 text-green-600 font-bold">2</span>
-              Proposta di Valore
-            </h2>
+            <div className="flex justify-between items-start mb-6">
+              <h2 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+                <span className="flex items-center justify-center w-10 h-10 rounded-full bg-green-100 text-green-600 font-bold">2</span>
+                Proposta di Valore
+              </h2>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => toggleSection('proposta-valore')}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                {collapsedSections['proposta-valore'] ? <ChevronDown className="h-5 w-5" /> : <ChevronUp className="h-5 w-5" />}
+              </Button>
+            </div>
 
             <div className="space-y-6">
               {/* Per chi risolviamo */}
@@ -1612,6 +1692,497 @@ export function BusinessPlanView() {
                     <strong>MTBF:</strong> <span className="text-blue-600 font-bold">≥5,000h</span>
                   </div>
                 </div>
+              </div>
+            </div>
+          </Card>
+        </section>
+
+        {/* 9. Operazioni & Supply Chain */}
+        <section id="operazioni">
+          <Card className="p-8 border-l-4 border-l-lime-600">
+            <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+              <span className="flex items-center justify-center w-10 h-10 rounded-full bg-lime-100 text-lime-600 font-bold">9</span>
+              Operazioni & Supply Chain
+            </h2>
+
+            <div className="space-y-6">
+              <p className="text-sm text-gray-700">
+                <strong>Obiettivo:</strong> garantire continuità di fornitura, qualità <strong>ISO 13485-compliant</strong> 
+                e service efficiente.
+              </p>
+
+              {/* Field Service SLA */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-800 mb-3">9.6 Field Service & SLA</h3>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm border-collapse bg-white">
+                    <thead>
+                      <tr className="bg-gradient-to-r from-lime-600 to-green-600 text-white">
+                        <th className="px-3 py-2 text-left border">Piano</th>
+                        <th className="px-3 py-2 text-left border">Copertura</th>
+                        <th className="px-3 py-2 text-left border">Risposta</th>
+                        <th className="px-3 py-2 text-left border">Risoluzione</th>
+                        <th className="px-3 py-2 text-left border">Sostituzione</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="border-b hover:bg-lime-50">
+                        <td className="px-3 py-2 font-bold text-blue-600 border">Bronze</td>
+                        <td className="px-3 py-2 border text-xs">5×8</td>
+                        <td className="px-3 py-2 border text-xs">NBD remoto</td>
+                        <td className="px-3 py-2 border text-xs">3 g lav.</td>
+                        <td className="px-3 py-2 border text-xs">Loaner su disponibilità</td>
+                      </tr>
+                      <tr className="border-b hover:bg-lime-50">
+                        <td className="px-3 py-2 font-bold text-purple-600 border">Gold</td>
+                        <td className="px-3 py-2 border text-xs">5×8</td>
+                        <td className="px-3 py-2 border text-xs">NBD on-site</td>
+                        <td className="px-3 py-2 border text-xs">2 g lav.</td>
+                        <td className="px-3 py-2 border text-xs">Loaner garantito</td>
+                      </tr>
+                      <tr className="border-b hover:bg-lime-50 bg-green-50">
+                        <td className="px-3 py-2 font-bold text-green-600 border">Platinum</td>
+                        <td className="px-3 py-2 border text-xs">7×12</td>
+                        <td className="px-3 py-2 border text-xs">&lt;4h triage</td>
+                        <td className="px-3 py-2 border text-xs">48h swap</td>
+                        <td className="px-3 py-2 border text-xs">Device cortesia garantito</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* KPI operativi */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-800 mb-3">9.8 KPI operativi</h3>
+                <div className="grid md:grid-cols-4 gap-2">
+                  <Card className="p-3 bg-blue-50 border-blue-200">
+                    <p className="text-xs text-gray-600">OTD</p>
+                    <p className="text-xl font-bold text-blue-600">≥95%</p>
+                  </Card>
+                  <Card className="p-3 bg-purple-50 border-purple-200">
+                    <p className="text-xs text-gray-600">DPPM inbound</p>
+                    <p className="text-xl font-bold text-purple-600">&lt;500</p>
+                  </Card>
+                  <Card className="p-3 bg-green-50 border-green-200">
+                    <p className="text-xs text-gray-600">FPY</p>
+                    <p className="text-xl font-bold text-green-600">≥95%</p>
+                  </Card>
+                  <Card className="p-3 bg-orange-50 border-orange-200">
+                    <p className="text-xs text-gray-600">RMA Y1</p>
+                    <p className="text-xl font-bold text-orange-600">≤3%</p>
+                  </Card>
+                  <Card className="p-3 bg-cyan-50 border-cyan-200">
+                    <p className="text-xs text-gray-600">FTF</p>
+                    <p className="text-xl font-bold text-cyan-600">≥80%</p>
+                  </Card>
+                  <Card className="p-3 bg-red-50 border-red-200">
+                    <p className="text-xs text-gray-600">MTTR</p>
+                    <p className="text-xl font-bold text-red-600">≤48h</p>
+                  </Card>
+                  <Card className="p-3 bg-teal-50 border-teal-200">
+                    <p className="text-xs text-gray-600">SLA compliance</p>
+                    <p className="text-xl font-bold text-teal-600">≥95%</p>
+                  </Card>
+                  <Card className="p-3 bg-indigo-50 border-indigo-200">
+                    <p className="text-xs text-gray-600">Inventory turns</p>
+                    <p className="text-xl font-bold text-indigo-600">≥4</p>
+                  </Card>
+                </div>
+              </div>
+
+              {/* Scorte */}
+              <div className="bg-lime-50 p-4 rounded-lg border border-lime-200">
+                <h3 className="text-lg font-semibold text-gray-800 mb-3">9.4 Scorte, sicurezza & ricambi</h3>
+                <div className="grid md:grid-cols-2 gap-3 text-sm">
+                  <div>
+                    <p className="font-semibold text-lime-700 mb-1">Spare pool dispositivi</p>
+                    <p className="text-xs text-gray-700">8–10% dell&apos;installato. Con 142 device a M24 ⇒ ~12–15 unità</p>
+                  </div>
+                  <div>
+                    <p className="font-semibold text-lime-700 mb-1">Safety Stock (SS)</p>
+                    <p className="text-xs text-gray-700">Z=1,65 (95%) per critici A; livello servizio 95% (A), 90% (B), 85% (C)</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Card>
+        </section>
+
+        {/* 10. Team & Governance */}
+        <section id="team">
+          <Card className="p-8 border-l-4 border-l-pink-600">
+            <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+              <span className="flex items-center justify-center w-10 h-10 rounded-full bg-pink-100 text-pink-600 font-bold">10</span>
+              Team & Governance
+            </h2>
+
+            <div className="space-y-6">
+              <p className="text-sm text-gray-700">
+                <strong>Obiettivo:</strong> definire cosa serve per eseguire il piano e come governare qualità/regolatorio, vendite e produzione.
+              </p>
+
+              {/* Piano assunzioni */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-800 mb-3">10.4 Piano assunzioni (scenario base)</h3>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm border-collapse bg-white">
+                    <thead>
+                      <tr className="bg-gradient-to-r from-pink-600 to-purple-600 text-white">
+                        <th className="px-3 py-2 text-left border">Periodo</th>
+                        <th className="px-3 py-2 text-right border">FTE totali</th>
+                        <th className="px-3 py-2 text-left border">Aggiunte chiave</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="border-b hover:bg-pink-50">
+                        <td className="px-3 py-2 font-medium border">M0–M6</td>
+                        <td className="px-3 py-2 text-right border">8–10</td>
+                        <td className="px-3 py-2 border text-xs">Reg. Lead, QA Manager, HW Lead, SW/AI Lead, PM, 2 Eng, 1 SCS</td>
+                      </tr>
+                      <tr className="border-b hover:bg-pink-50">
+                        <td className="px-3 py-2 font-medium border">M7–M12</td>
+                        <td className="px-3 py-2 text-right border">12–15</td>
+                        <td className="px-3 py-2 border text-xs">+2 SCS (tot 3), Head of Sales, App. Specialist, Field Service Lead, Ops/SCM</td>
+                      </tr>
+                      <tr className="border-b hover:bg-pink-50">
+                        <td className="px-3 py-2 font-medium border">M13–M18</td>
+                        <td className="px-3 py-2 text-right border">18–22</td>
+                        <td className="px-3 py-2 border text-xs">+3 SCS (tot 6), +1 App. Specialist, +1 Eng, +1 QA SW</td>
+                      </tr>
+                      <tr className="border-b hover:bg-pink-50 bg-purple-50">
+                        <td className="px-3 py-2 font-medium border">M19–M24</td>
+                        <td className="px-3 py-2 text-right border">22–26</td>
+                        <td className="px-3 py-2 border text-xs">+2 Field Service, Marketing, Finance (fraz.), Tech Writer/Doc Control</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* Ruoli chiave */}
+              <div className="bg-pink-50 p-4 rounded-lg border border-pink-200">
+                <h3 className="text-lg font-semibold text-gray-800 mb-3">10.3 Ruoli chiave & KPI</h3>
+                <div className="grid md:grid-cols-2 gap-2 text-xs">
+                  <div className="bg-white p-2 rounded border border-pink-200">
+                    <p className="font-semibold text-pink-700">Regulatory Lead</p>
+                    <p className="text-gray-600">510(k) H2-2026; CE Q1-2028 | Pre-Sub on-time; dossier first-pass</p>
+                  </div>
+                  <div className="bg-white p-2 rounded border border-pink-200">
+                    <p className="font-semibold text-pink-700">QA Manager</p>
+                    <p className="text-gray-600">QMS ISO 13485 operativo | Audit pass; CAPA ≤30gg; FPY ≥95%</p>
+                  </div>
+                  <div className="bg-white p-2 rounded border border-pink-200">
+                    <p className="font-semibold text-pink-700">Head of Sales</p>
+                    <p className="text-gray-600">Conversioni funnel & ARR | Lead→Deal ≥6%; ARPA; forecast accuracy</p>
+                  </div>
+                  <div className="bg-white p-2 rounded border border-pink-200">
+                    <p className="font-semibold text-pink-700">SCS (Sales Clinical Specialist)</p>
+                    <p className="text-gray-600">Demo/Pilot/Deal | 10–12 demo/mese; 3–4 pilot/mese; 1–2 deal/mese</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Governance & Comp */}
+              <div className="grid md:grid-cols-2 gap-4">
+                <Card className="p-4 bg-purple-50 border-purple-200">
+                  <h4 className="font-semibold text-sm text-gray-800 mb-2">📅 Rituali</h4>
+                  <ul className="text-xs space-y-1 text-gray-700">
+                    <li>• <strong>Board</strong> mensile (90&apos;): KPI, rischi, cash runway</li>
+                    <li>• <strong>Clinical Advisory</strong> trimestrale: protocolli, priorità</li>
+                    <li>• <strong>Design Review</strong> ai gate EVT/DVT/PVT</li>
+                    <li>• <strong>S&OP</strong> mensile: domanda/offerta/cassa</li>
+                  </ul>
+                </Card>
+                <Card className="p-4 bg-blue-50 border-blue-200">
+                  <h4 className="font-semibold text-sm text-gray-800 mb-2">💰 Comp & incentivi</h4>
+                  <ul className="text-xs space-y-1 text-gray-700">
+                    <li>• <strong>ESOP pool:</strong> 10–15% (vesting 4 anni, 1 anno cliff)</li>
+                    <li>• <strong>SCS OTE:</strong> €55–75k (base+variabile)</li>
+                    <li>• <strong>Head of Sales:</strong> €90–120k + bonus</li>
+                    <li>• <strong>Engineering senior:</strong> €65–90k base + MBO 10–15%</li>
+                  </ul>
+                </Card>
+              </div>
+            </div>
+          </Card>
+        </section>
+
+        {/* 11. Rischi & Mitigazioni */}
+        <section id="rischi">
+          <Card className="p-8 border-l-4 border-l-amber-600">
+            <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+              <span className="flex items-center justify-center w-10 h-10 rounded-full bg-amber-100 text-amber-600 font-bold">11</span>
+              Rischi & Mitigazioni
+            </h2>
+
+            <div className="space-y-6">
+              <p className="text-sm text-gray-700">
+                <strong>Metodo:</strong> Scala P×I (1–5 ciascuno). Semaforo: 🟢 ≤6 | 🟡 8–12 | 🔴 ≥15
+              </p>
+
+              {/* Top 5 Rischi */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-800 mb-3">11.1 Top 5 Rischi</h3>
+                <div className="space-y-2">
+                  <Card className="p-4 bg-red-50 border-l-4 border-l-red-600">
+                    <div className="flex justify-between items-start mb-2">
+                      <h4 className="font-bold text-sm text-gray-800">1. 510(k) in ritardo o dati aggiuntivi</h4>
+                      <Badge className="bg-red-600 text-white text-xs">🔴 P3×I5 = 15</Badge>
+                    </div>
+                    <p className="text-xs text-gray-700 mb-2"><strong>Trigger:</strong> Feedback Pre-Sub; RTA/deficiency letter</p>
+                    <p className="text-xs text-gray-700"><strong>Mitigazioni:</strong> Pre-Sub robusta; predicate chiaro; pre-test lab; consulente FDA; buffer 3–6 mesi</p>
+                  </Card>
+
+                  <Card className="p-4 bg-red-50 border-l-4 border-l-red-600">
+                    <div className="flex justify-between items-start mb-2">
+                      <h4 className="font-bold text-sm text-gray-800">2. Shortage trasduttori/ASIC/GPU</h4>
+                      <Badge className="bg-red-600 text-white text-xs">🔴 P4×I4 = 16</Badge>
+                    </div>
+                    <p className="text-xs text-gray-700 mb-2"><strong>Trigger:</strong> Lead time in aumento; PCN fornitori</p>
+                    <p className="text-xs text-gray-700"><strong>Mitigazioni:</strong> Dual-source; contratti quadro; safety stock 60–90gg; broker componenti</p>
+                  </Card>
+
+                  <Card className="p-4 bg-red-50 border-l-4 border-l-red-600">
+                    <div className="flex justify-between items-start mb-2">
+                      <h4 className="font-bold text-sm text-gray-800">3. Runway &lt; 9 mesi / round in ritardo</h4>
+                      <Badge className="bg-red-600 text-white text-xs">🔴 P3×I5 = 15</Badge>
+                    </div>
+                    <p className="text-xs text-gray-700 mb-2"><strong>Trigger:</strong> Burn ↑; ricavi ↓; slittamento milestone</p>
+                    <p className="text-xs text-gray-700"><strong>Mitigazioni:</strong> Bridge pianificato; tranche milestone-based; riduzione OPEX variabili</p>
+                  </Card>
+
+                  <Card className="p-4 bg-yellow-50 border-l-4 border-l-yellow-600">
+                    <div className="flex justify-between items-start mb-2">
+                      <h4 className="font-bold text-sm text-gray-800">4. Fail 60601/EMC/-2-37 in test</h4>
+                      <Badge className="bg-yellow-600 text-white text-xs">🟡 P3×I4 = 12</Badge>
+                    </div>
+                    <p className="text-xs text-gray-700 mb-2"><strong>Trigger:</strong> Pre-compliance negativa; surriscaldamento</p>
+                    <p className="text-xs text-gray-700"><strong>Mitigazioni:</strong> Pre-compliance iterativa; redesign termico; 2 laboratori prenotati</p>
+                  </Card>
+
+                  <Card className="p-4 bg-yellow-50 border-l-4 border-l-yellow-600">
+                    <div className="flex justify-between items-start mb-2">
+                      <h4 className="font-bold text-sm text-gray-800">5. Conversioni funnel &lt; target</h4>
+                      <Badge className="bg-yellow-600 text-white text-xs">🟡 P3×I4 = 12</Badge>
+                    </div>
+                    <p className="text-xs text-gray-700 mb-2"><strong>Trigger:</strong> Demo/pilot sotto ritmo; cycle time ↑</p>
+                    <p className="text-xs text-gray-700"><strong>Mitigazioni:</strong> Playbook demo-pilot; revisione pricing; focus segmenti top</p>
+                  </Card>
+                </div>
+              </div>
+
+              {/* Early warning */}
+              <div className="bg-amber-50 p-4 rounded-lg border-2 border-amber-300">
+                <h3 className="text-lg font-semibold text-gray-800 mb-3">11.2 Early-warning dashboard (soglie)</h3>
+                <div className="grid md:grid-cols-2 gap-2 text-xs">
+                  <div>⚠️ <strong>Regolatorio:</strong> tempo risposta FDA/NB &gt;30gg</div>
+                  <div>⚠️ <strong>Testing:</strong> fail pre-compliance &gt;1 volta/modulo</div>
+                  <div>⚠️ <strong>Clinico:</strong> completamento pilot &lt;85%; NPS &lt;30</div>
+                  <div>⚠️ <strong>Supply:</strong> lead time trasduttori &gt;20 sett</div>
+                  <div>⚠️ <strong>Vendite:</strong> Demo/mese &lt;8; Pilot→Deal &lt;45%</div>
+                  <div>⚠️ <strong>Service:</strong> FTF &lt;80%; MTTR &gt;48h; RMA &gt;3%</div>
+                  <div>⚠️ <strong>Finanza:</strong> runway &lt;9 mesi; burn ↑ &gt;15% vs piano</div>
+                  <div>⚠️ <strong>Cyber:</strong> CVSS≥9 non patchate &gt;7gg</div>
+                </div>
+              </div>
+            </div>
+          </Card>
+        </section>
+
+        {/* 12. Piano Finanziario (3-5 anni) */}
+        <section id="piano-finanziario">
+          <Card className="p-8 border-l-4 border-l-emerald-600">
+            <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+              <span className="flex items-center justify-center w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 font-bold">12</span>
+              Piano Finanziario (3–5 anni)
+            </h2>
+
+            <div className="space-y-6">
+              <p className="text-sm text-gray-700">
+                <strong>Obiettivo:</strong> proiezione a 5 anni (scenari Prudente/Base/Ambizioso) coerente con GTM, industrializzazione e regolatorio.
+              </p>
+
+              {/* P&L sintetico scenario Base */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-800 mb-3">12.3 Scenario Base — P&L sintetico (M€)</h3>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm border-collapse bg-white">
+                    <thead>
+                      <tr className="bg-gradient-to-r from-emerald-600 to-green-600 text-white">
+                        <th className="px-3 py-2 text-left border">Voce</th>
+                        <th className="px-3 py-2 text-right border">Y1</th>
+                        <th className="px-3 py-2 text-right border">Y2</th>
+                        <th className="px-3 py-2 text-right border">Y3</th>
+                        <th className="px-3 py-2 text-right border">Y4</th>
+                        <th className="px-3 py-2 text-right border">Y5</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="border-b hover:bg-emerald-50">
+                        <td className="px-3 py-2 border">Account attivi (n)</td>
+                        <td className="px-3 py-2 text-right border">19.5</td>
+                        <td className="px-3 py-2 text-right border">78.5</td>
+                        <td className="px-3 py-2 text-right border">193.0</td>
+                        <td className="px-3 py-2 text-right border">368.0</td>
+                        <td className="px-3 py-2 text-right border">598.0</td>
+                      </tr>
+                      <tr className="border-b hover:bg-emerald-50">
+                        <td className="px-3 py-2 border">Ricavi ricorrenti</td>
+                        <td className="px-3 py-2 text-right border">0.28</td>
+                        <td className="px-3 py-2 text-right border">1.15</td>
+                        <td className="px-3 py-2 text-right border">2.82</td>
+                        <td className="px-3 py-2 text-right border">5.37</td>
+                        <td className="px-3 py-2 text-right border">8.73</td>
+                      </tr>
+                      <tr className="border-b hover:bg-emerald-50">
+                        <td className="px-3 py-2 border">Ricavi CapEx</td>
+                        <td className="px-3 py-2 text-right border">0.37</td>
+                        <td className="px-3 py-2 text-right border">0.74</td>
+                        <td className="px-3 py-2 text-right border">1.40</td>
+                        <td className="px-3 py-2 text-right border">1.87</td>
+                        <td className="px-3 py-2 text-right border">2.43</td>
+                      </tr>
+                      <tr className="border-b bg-green-50 font-semibold">
+                        <td className="px-3 py-2 border">Ricavi totali</td>
+                        <td className="px-3 py-2 text-right border">0.65</td>
+                        <td className="px-3 py-2 text-right border">1.89</td>
+                        <td className="px-3 py-2 text-right border">4.22</td>
+                        <td className="px-3 py-2 text-right border">7.24</td>
+                        <td className="px-3 py-2 text-right border text-green-600 text-lg">11.16</td>
+                      </tr>
+                      <tr className="border-b hover:bg-emerald-50">
+                        <td className="px-3 py-2 border">Margine lordo (€)</td>
+                        <td className="px-3 py-2 text-right border">0.42</td>
+                        <td className="px-3 py-2 text-right border">1.32</td>
+                        <td className="px-3 py-2 text-right border">3.01</td>
+                        <td className="px-3 py-2 text-right border">5.31</td>
+                        <td className="px-3 py-2 text-right border">8.30</td>
+                      </tr>
+                      <tr className="border-b hover:bg-emerald-50">
+                        <td className="px-3 py-2 border">Margine lordo (%)</td>
+                        <td className="px-3 py-2 text-right border">65.3%</td>
+                        <td className="px-3 py-2 text-right border">69.7%</td>
+                        <td className="px-3 py-2 text-right border">71.3%</td>
+                        <td className="px-3 py-2 text-right border">73.2%</td>
+                        <td className="px-3 py-2 text-right border font-bold">74.3%</td>
+                      </tr>
+                      <tr className="border-b hover:bg-emerald-50">
+                        <td className="px-3 py-2 border">OPEX</td>
+                        <td className="px-3 py-2 text-right border text-red-600">(1.80)</td>
+                        <td className="px-3 py-2 text-right border text-red-600">(2.50)</td>
+                        <td className="px-3 py-2 text-right border text-red-600">(3.50)</td>
+                        <td className="px-3 py-2 text-right border text-red-600">(4.50)</td>
+                        <td className="px-3 py-2 text-right border text-red-600">(5.50)</td>
+                      </tr>
+                      <tr className="bg-gradient-to-r from-blue-100 to-purple-100 font-bold">
+                        <td className="px-3 py-2 border">EBITDA</td>
+                        <td className="px-3 py-2 text-right border text-red-600">(1.38)</td>
+                        <td className="px-3 py-2 text-right border text-red-600">(1.18)</td>
+                        <td className="px-3 py-2 text-right border text-orange-600">(0.49)</td>
+                        <td className="px-3 py-2 text-right border text-green-600">0.81</td>
+                        <td className="px-3 py-2 text-right border text-green-600 text-lg">2.80</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <p className="text-xs text-gray-600 mt-2">
+                  <strong>Lettura rapida:</strong> EBITDA ≈ 0 al Y4; GM migliora con mix ricorrente (80% GM) e cost-down hardware
+                </p>
+              </div>
+
+              {/* Scenari a confronto */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-800 mb-3">12.4 Scenari a confronto (Y5)</h3>
+                <div className="grid md:grid-cols-3 gap-4">
+                  <Card className="p-4 bg-orange-50 border-orange-200">
+                    <h4 className="font-semibold text-sm text-gray-800 mb-2">Prudente</h4>
+                    <div className="space-y-1 text-xs">
+                      <p>Ricavi: <strong className="text-orange-600">€7.47M</strong></p>
+                      <p>GM: <strong>74%</strong></p>
+                      <p>EBITDA: <strong className="text-orange-600">€0.94M</strong></p>
+                      <p>Break-even: <strong>Y5</strong></p>
+                    </div>
+                  </Card>
+                  <Card className="p-4 bg-green-50 border-2 border-green-400">
+                    <h4 className="font-semibold text-sm text-gray-800 mb-2">Base ⭐</h4>
+                    <div className="space-y-1 text-xs">
+                      <p>Ricavi: <strong className="text-green-600">€11.16M</strong></p>
+                      <p>GM: <strong>74%</strong></p>
+                      <p>EBITDA: <strong className="text-green-600">€2.80M</strong></p>
+                      <p>Break-even: <strong>Y4</strong></p>
+                    </div>
+                  </Card>
+                  <Card className="p-4 bg-blue-50 border-blue-200">
+                    <h4 className="font-semibold text-sm text-gray-800 mb-2">Ambizioso</h4>
+                    <div className="space-y-1 text-xs">
+                      <p>Ricavi: <strong className="text-blue-600">€17.04M</strong></p>
+                      <p>GM: <strong>76%</strong></p>
+                      <p>EBITDA: <strong className="text-blue-600">€6.72M</strong></p>
+                      <p>Break-even: <strong>Y3–Y4</strong></p>
+                    </div>
+                  </Card>
+                </div>
+              </div>
+
+              {/* Fundraising */}
+              <div className="bg-gradient-to-r from-emerald-50 to-blue-50 p-5 rounded-lg border-2 border-emerald-300">
+                <h3 className="text-lg font-semibold text-gray-800 mb-3">12.5 Piano fundraising & use of funds</h3>
+                <div className="grid md:grid-cols-3 gap-4">
+                  <div className="bg-white p-3 rounded border border-emerald-200">
+                    <p className="font-bold text-sm text-emerald-700 mb-1">Pre-Seed (Q3-Q4 2025)</p>
+                    <p className="text-2xl font-bold text-emerald-600">€0.2–0.5M</p>
+                    <p className="text-xs text-gray-600 mt-1">Prototipo, pre-compliance, IP iniziale, preparazione Pre-Sub</p>
+                  </div>
+                  <div className="bg-white p-3 rounded border border-blue-300">
+                    <p className="font-bold text-sm text-blue-700 mb-1">Seed (H1-H2 2026)</p>
+                    <p className="text-2xl font-bold text-blue-600">€1.0–1.5M</p>
+                    <p className="text-xs text-gray-600 mt-1">QMS 13485, test 60601/EMC, V&V SW, 510(k), piloti USA/EU, PVT</p>
+                  </div>
+                  <div className="bg-white p-3 rounded border border-purple-300">
+                    <p className="font-bold text-sm text-purple-700 mb-1">Series A (H2 2028)</p>
+                    <p className="text-2xl font-bold text-purple-600">€3–5M</p>
+                    <p className="text-xs text-gray-600 mt-1">Industrializzazione/rampa, crescita vendite USA, preparazione CE/tender EU</p>
+                  </div>
+                </div>
+                <div className="mt-3 bg-white p-3 rounded border border-emerald-200">
+                  <p className="text-xs text-gray-700">
+                    <strong>Allocazione indicativa:</strong> R&S 20–30% · Regolatorio/QARA 15–20% · Industrializzazione 20–25% · Team 20% · Mkt&Sales 10–15%
+                  </p>
+                </div>
+              </div>
+
+              {/* KPI finanziari */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-800 mb-3">12.7 KPI finanziari & monitoraggio</h3>
+                <div className="grid md:grid-cols-4 gap-3">
+                  <Card className="p-3 bg-blue-50 border-blue-200">
+                    <p className="text-xs text-gray-600 mb-1">ARR & Net-new ARR</p>
+                    <p className="text-sm font-bold text-blue-600">Per trimestre</p>
+                  </Card>
+                  <Card className="p-3 bg-green-50 border-green-200">
+                    <p className="text-xs text-gray-600 mb-1">LTV/CAC</p>
+                    <p className="text-sm font-bold text-green-600">≥3</p>
+                  </Card>
+                  <Card className="p-3 bg-purple-50 border-purple-200">
+                    <p className="text-xs text-gray-600 mb-1">Payback CAC</p>
+                    <p className="text-sm font-bold text-purple-600">≤18 mesi</p>
+                  </Card>
+                  <Card className="p-3 bg-orange-50 border-orange-200">
+                    <p className="text-xs text-gray-600 mb-1">Churn annuo</p>
+                    <p className="text-sm font-bold text-orange-600">&lt;8%</p>
+                  </Card>
+                </div>
+              </div>
+
+              {/* Note finali */}
+              <div className="bg-emerald-100 p-4 rounded-lg border-2 border-emerald-400 text-center">
+                <p className="text-sm font-semibold text-emerald-800">
+                  📊 Modello Excel completo disponibile: <strong>Eco3D_BP_Financial_Model_v0_4_GTM_link_MonteCarlo.xlsx</strong>
+                </p>
+                <p className="text-xs text-emerald-700 mt-2">
+                  Include: Three-statement (CE/SP/CF), scenari completi, Monte Carlo, collegamento GTM→Ricavi mensile
+                </p>
               </div>
             </div>
           </Card>

@@ -70,9 +70,8 @@ export function TamSamSomDashboard() {
   // Flag per evitare loop infinito tra caricamento e salvataggio
   const [isInitialized, setIsInitialized] = useState(false);
   
-  // State per prezzo vendita prodotto (usato per calcolo ricavi potenziali)
-  const [prezzoVenditaProdotto, setPrezzoVenditaProdotto] = useState(75000);
-  const [editingPrezzoVendita, setEditingPrezzoVendita] = useState<string | null>(null);
+  // RIMOSSO: prezzoVenditaProdotto (duplicato di prezzoMedio)
+  // Ora usiamo direttamente prezzoMedio per calcolo ricavi potenziali
   
   // State per prezzi dispositivi (carrellati, portatili, palmari)
   const [prezziDispositivi, setPrezziDispositivi] = useState({ carrellati: 50000, portatili: 25000, palmari: 8000 });
@@ -124,10 +123,7 @@ export function TamSamSomDashboard() {
         setRegioniAttive((configTamSamSomDevices as any).regioniAttive);
       }
       
-      // Carica prezzo vendita prodotto se salvato
-      if ((configTamSamSomDevices as any).prezzoVenditaProdotto) {
-        setPrezzoVenditaProdotto((configTamSamSomDevices as any).prezzoVenditaProdotto);
-      }
+      // RIMOSSO: Caricamento prezzoVenditaProdotto (campo obsoleto eliminato)
       
       // Carica prezzi dispositivi se salvati
       if ((configTamSamSomDevices as any).prezziMediDispositivi) {
@@ -188,7 +184,6 @@ export function TamSamSomDashboard() {
         samPercentage: samPercentageDevices,
         somPercentages: somPercentagesDevices,
         regioniAttive: JSON.parse(regioniAttiveJson),
-        prezzoVenditaProdotto: prezzoVenditaProdotto,
         prezziMediDispositivi: JSON.parse(prezziDispositiviJson)
       } as any);
       
@@ -201,7 +196,6 @@ export function TamSamSomDashboard() {
     samPercentageDevices,
     somPercentagesDevices,
     regioniAttiveJson, // FIX: Usa useMemo per evitare loop infinito
-    prezzoVenditaProdotto,
     prezziDispositiviJson, // FIX: Usa useMemo per evitare loop infinito
     isInitialized // Aggiungi isInitialized per evitare salvataggio prima dell'init
   ]);
@@ -1156,53 +1150,20 @@ export function TamSamSomDashboard() {
             💰 Potenziale Ricavi (Prezzo Vendita × Dispositivi SOM)
           </h3>
           
-          {/* Prezzo Vendita Modificabile */}
-          <div className="mb-6 p-4 bg-white rounded-lg border-2 border-emerald-400">
-            <label className="text-sm font-semibold text-emerald-800 block mb-2">
-              💶 Prezzo Vendita Prodotto (per dispositivo):
-            </label>
-            {editingPrezzoVendita !== null ? (
-              <div className="flex items-center gap-2">
-                <input
-                  type="number"
-                  value={editingPrezzoVendita}
-                  onChange={(e) => setEditingPrezzoVendita(e.target.value)}
-                  onBlur={() => {
-                    const newPrice = parseFloat(editingPrezzoVendita);
-                    if (!isNaN(newPrice) && newPrice > 0) {
-                      setPrezzoVenditaProdotto(newPrice);
-                    }
-                    setEditingPrezzoVendita(null);
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      const newPrice = parseFloat(editingPrezzoVendita);
-                      if (!isNaN(newPrice) && newPrice > 0) {
-                        setPrezzoVenditaProdotto(newPrice);
-                      }
-                      setEditingPrezzoVendita(null);
-                    } else if (e.key === 'Escape') {
-                      setEditingPrezzoVendita(null);
-                    }
-                  }}
-                  className="flex-1 px-3 py-2 border-2 border-emerald-500 rounded-lg font-mono text-lg"
-                  autoFocus
-                />
-                <span className="text-gray-500">€</span>
-              </div>
-            ) : (
-              <div 
-                onClick={() => setEditingPrezzoVendita(prezzoVenditaProdotto.toString())}
-                className="cursor-pointer hover:bg-emerald-100 p-3 rounded-lg border-2 border-emerald-200 transition-all"
-              >
-                <div className="text-2xl font-bold text-emerald-900">
-                  €{prezzoVenditaProdotto.toLocaleString('it-IT')}
-                </div>
-                <div className="text-xs text-gray-600 mt-1">
-                  ✏️ Click per modificare
-                </div>
-              </div>
-            )}
+          {/* RIMOSSO: Campo duplicato. Ora usa prezzoMedio dalla Vista Dispositivi */}
+          <div className="mb-6 p-4 bg-blue-50 rounded-lg border-2 border-blue-200">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-2xl">💡</span>
+              <label className="text-sm font-semibold text-blue-900">
+                Prezzo Dispositivo (ASP Medio)
+              </label>
+            </div>
+            <div className="text-3xl font-bold text-blue-900 mb-1">
+              €{prezzoMedio.toLocaleString('it-IT')}
+            </div>
+            <div className="text-xs text-blue-700">
+              ✏️ Per modificare, usa <strong>Vista Dispositivi</strong> (modalità dettagliata)
+            </div>
           </div>
 
           {/* Card Ricavi Y1, Y3, Y5 */}
@@ -1212,11 +1173,11 @@ export function TamSamSomDashboard() {
                 Anno 1 ({currentSomPercentages.y1}% SAM)
               </div>
               <div className="text-3xl font-bold text-blue-900 mb-2">
-                €{(calculateSomDevices('y1') * prezzoVenditaProdotto).toLocaleString('it-IT')}
+                €{(calculateSomDevices('y1') * prezzoMedio).toLocaleString('it-IT')}
               </div>
               <div className="text-xs text-gray-600 border-t border-blue-200 pt-2">
                 <div>📊 Dispositivi: <strong>{calculateSomDevices('y1').toLocaleString('it-IT')}</strong></div>
-                <div className="text-blue-600 mt-1">💶 {calculateSomDevices('y1')} × €{prezzoVenditaProdotto.toLocaleString('it-IT')}</div>
+                <div className="text-blue-600 mt-1">💶 {calculateSomDevices('y1')} × €{prezzoMedio.toLocaleString('it-IT')}</div>
               </div>
             </div>
 
@@ -1225,11 +1186,11 @@ export function TamSamSomDashboard() {
                 Anno 3 ({currentSomPercentages.y3}% SAM)
               </div>
               <div className="text-3xl font-bold text-indigo-900 mb-2">
-                €{(calculateSomDevices('y3') * prezzoVenditaProdotto).toLocaleString('it-IT')}
+                €{(calculateSomDevices('y3') * prezzoMedio).toLocaleString('it-IT')}
               </div>
               <div className="text-xs text-gray-600 border-t border-indigo-200 pt-2">
                 <div>📊 Dispositivi: <strong>{calculateSomDevices('y3').toLocaleString('it-IT')}</strong></div>
-                <div className="text-indigo-600 mt-1">💶 {calculateSomDevices('y3')} × €{prezzoVenditaProdotto.toLocaleString('it-IT')}</div>
+                <div className="text-indigo-600 mt-1">💶 {calculateSomDevices('y3')} × €{prezzoMedio.toLocaleString('it-IT')}</div>
               </div>
             </div>
 
@@ -1238,11 +1199,11 @@ export function TamSamSomDashboard() {
                 Anno 5 ({currentSomPercentages.y5}% SAM)
               </div>
               <div className="text-3xl font-bold text-purple-900 mb-2">
-                €{(calculateSomDevices('y5') * prezzoVenditaProdotto).toLocaleString('it-IT')}
+                €{(calculateSomDevices('y5') * prezzoMedio).toLocaleString('it-IT')}
               </div>
               <div className="text-xs text-gray-600 border-t border-purple-200 pt-2">
                 <div>📊 Dispositivi: <strong>{calculateSomDevices('y5').toLocaleString('it-IT')}</strong></div>
-                <div className="text-purple-600 mt-1">💶 {calculateSomDevices('y5')} × €{prezzoVenditaProdotto.toLocaleString('it-IT')}</div>
+                <div className="text-purple-600 mt-1">💶 {calculateSomDevices('y5')} × €{prezzoMedio.toLocaleString('it-IT')}</div>
               </div>
             </div>
           </div>
