@@ -199,6 +199,63 @@ Controllare se ci sono console.log o side effects che rallentano
 
 ---
 
+---
+
+## 🎯 BONUS FIX: Refresh Selezione Regioni Dispositivi
+
+### Problema: Refresh quando si cambiano le regioni
+
+**SINTOMO:**
+- Click checkbox Italia/Europa/USA/Cina
+- Pagina fa un piccolo refresh
+- Valori si aggiornano ma con flash
+
+**CAUSA IDENTIFICATA:**
+`calculateTotalDevices` aveva `regioniAttive` (oggetto) nelle dependencies
+
+```typescript
+// PROBLEMA (riga 374):
+}, [mercatoEcografi, selectedYear, regioniAttive]);
+//                                  ^^^^^^^^^^^^^ oggetto NON serializzato!
+```
+
+**FLOW DEL PROBLEMA:**
+1. User click checkbox "Europa"
+2. setRegioniAttive({ ...prev, europa: true })
+3. regioniAttive è un NUOVO oggetto (reference diversa)
+4. calculateTotalDevices si ricrea (deps cambiate)
+5. devicesMetrics dipende da calculateDevicesMetrics
+6. calculateDevicesMetrics dipende da calculateTotalDevices
+7. Tutto il chain si ricalcola → REFRESH
+
+**FIX APPLICATO:**
+Usa `regioniAttiveJson` serializzato invece di `regioniAttive`
+
+```typescript
+// PRIMA (SBAGLIATO):
+}, [mercatoEcografi, selectedYear, regioniAttive]);
+
+// DOPO (CORRETTO):
+}, [mercatoEcografi, selectedYear, regioniAttiveJson]);
+// eslint-disable-next-line react-hooks/exhaustive-deps
+```
+
+**PERCHÉ FUNZIONA:**
+- `regioniAttiveJson` è già serializzato con useMemo (riga 173)
+- `JSON.stringify(regioniAttive)` crea stringa
+- Stringa cambia solo se valori cambiano (non reference)
+- Function dependencies stabili = NO ricreazione
+- ✅ Cambio regioni ISTANTANEO!
+
+**PATTERN GIÀ ESISTENTE:**
+`calculateDevicesMetrics` già usava `regioniAttiveJson`! 
+Ma `calculateTotalDevices` usava ancora `regioniAttive` diretto.
+Ora tutto il chain è coerente e stabile.
+
+**STATUS:** ✅ RISOLTO
+
+---
+
 **Data:** 2025-01-10  
-**Status:** 🔄 IN PROGRESS  
-**Commit:** Step 1 completato - activeView rimosso da deps
+**Status:** ✅ COMPLETATO  
+**Commit:** Fix completo - activeView + regioniAttive + CSS hidden
