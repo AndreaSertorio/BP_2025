@@ -124,6 +124,203 @@ interface ConfigurazioneTamSamSomEcografi {
   lastUpdate: string | null;
 }
 
+// ==================== REVENUE MODEL TYPES ====================
+
+interface HardwareRevenueModel {
+  enabled: boolean;
+  description: string;
+  asp: number;
+  unitCost: number;
+  warrantyPct: number;
+  typologySplit: {
+    carrellati: number;
+    portatili: number;
+    palmari: number;
+  };
+  aspByType: {
+    carrellati: number;
+    portatili: number;
+    palmari: number;
+  };
+  cogsMarginByType: {
+    carrellati: number;
+    portatili: number;
+    palmari: number;
+  };
+  note: string;
+}
+
+interface SaasPricingPerDevice {
+  enabled: boolean;
+  monthlyFee: number;
+  annualFee: number;
+  grossMarginPct: number;
+  description: string;
+}
+
+interface SaasPricingPerScan {
+  enabled: boolean;
+  feePerScan: number;
+  revSharePct: number;
+  grossMarginPct: number;
+  description: string;
+}
+
+interface SaasPricingTier {
+  scansUpTo: number;
+  monthlyFee: number;
+  description: string;
+}
+
+interface SaasPricingTiered {
+  enabled: boolean;
+  description: string;
+  tiers: SaasPricingTier[];
+  grossMarginPct: number;
+}
+
+interface SaasRevenueModel {
+  enabled: boolean;
+  description: string;
+  pricing: {
+    perDevice: SaasPricingPerDevice;
+    perScan: SaasPricingPerScan;
+    tiered: SaasPricingTiered;
+  };
+  note: string;
+}
+
+interface ConsumableItem {
+  id: string;
+  name: string;
+  revenuePerDevicePerMonth: number;
+  grossMarginPct: number;
+  description: string;
+}
+
+interface ConsumablesRevenueModel {
+  enabled: boolean;
+  description: string;
+  items: ConsumableItem[];
+  totalRevenuePerDevicePerMonth: number;
+  note: string;
+}
+
+interface ServiceItem {
+  id: string;
+  name: string;
+  type: 'one-time' | 'annual' | 'project';
+  revenue?: number;
+  annualRevenue?: number;
+  revenuePerProject?: number;
+  projectsPerYear?: number;
+  attachRate: number;
+  grossMarginPct: number;
+  description: string;
+}
+
+interface ServicesRevenueModel {
+  enabled: boolean;
+  description: string;
+  items: ServiceItem[];
+  note: string;
+}
+
+interface BundleComponents {
+  hardware: string;
+  saasMonths: number;
+  training?: boolean;
+  extendedWarranty?: boolean;
+}
+
+interface Bundle {
+  id: string;
+  name: string;
+  components: BundleComponents;
+  price: number;
+  discount: number;
+  description: string;
+}
+
+interface BundlingRevenueModel {
+  enabled: boolean;
+  description: string;
+  bundles: Bundle[];
+  note: string;
+}
+
+interface FinancingOption {
+  type: string;
+  durationMonths: number;
+  interestRate?: number;
+  downPaymentPct?: number;
+  monthlyFee?: number;
+  ownershipAtEnd?: boolean;
+  description: string;
+}
+
+interface FinancingRevenueModel {
+  enabled: boolean;
+  description: string;
+  options: FinancingOption[];
+  note: string;
+}
+
+interface RegionPricing {
+  priceMultiplier: number;
+  note: string;
+}
+
+interface GeographicPricing {
+  enabled: boolean;
+  regions: {
+    italia: RegionPricing;
+    europa: RegionPricing;
+    usa: RegionPricing;
+    cina: RegionPricing;
+  };
+}
+
+interface VolumeDiscountTier {
+  unitsFrom: number;
+  unitsTo: number;
+  discount: number;
+}
+
+interface VolumeDiscounts {
+  enabled: boolean;
+  tiers: VolumeDiscountTier[];
+  note: string;
+}
+
+interface PricingStrategy {
+  defaultModel: string;
+  geographicPricing: GeographicPricing;
+  volumeDiscounts: VolumeDiscounts;
+}
+
+interface RevenueModelMetadata {
+  version: string;
+  currency: string;
+  lastUpdate: string;
+  createdBy: string;
+  validFrom: string;
+  note: string;
+}
+
+interface RevenueModel {
+  hardware: HardwareRevenueModel;
+  saas: SaasRevenueModel;
+  consumables: ConsumablesRevenueModel;
+  services: ServicesRevenueModel;
+  bundling: BundlingRevenueModel;
+  financing: FinancingRevenueModel;
+  pricingStrategy: PricingStrategy;
+  metadata: RevenueModelMetadata;
+}
+
+// =============================================================
+
 interface Database {
   version: string;
   lastUpdate: string;
@@ -148,6 +345,7 @@ interface Database {
     ecografie: ConfigurazioneTamSamSomEcografie;
     ecografi: ConfigurazioneTamSamSomEcografi;
   };
+  revenueModel?: RevenueModel;
   market?: any; // Dati mercato per TAM/SAM/SOM (da definire tipo completo)
   budget?: any; // Dati budget (da definire tipo completo)
   metadata?: Record<string, unknown>;
@@ -171,6 +369,10 @@ interface DatabaseContextValue {
   updateConfigurazioneTamSamSomEcografie: (updates: Partial<ConfigurazioneTamSamSomEcografie>) => Promise<void>;
   updateConfigurazioneTamSamSomEcografi: (updates: Partial<ConfigurazioneTamSamSomEcografi>) => Promise<void>;
   updatePrezzoEcografiaRegionalizzato: (regione: string, codice: string, updates: Partial<PrezzoEcografia>) => Promise<void>;
+  // Revenue Model
+  updateRevenueModel: (updates: Partial<RevenueModel>) => Promise<void>;
+  updateRevenueModelHardware: (updates: Partial<HardwareRevenueModel>) => Promise<void>;
+  updateRevenueModelSaaS: (updates: Partial<SaasRevenueModel>) => Promise<void>;
   // Generali
   resetToDefaults: () => Promise<void>;
   exportDatabase: () => string;
@@ -581,6 +783,127 @@ export function DatabaseProvider({ children }: { children: ReactNode }) {
   }, []);
 
   // ============================================================================
+  // REVENUE MODEL
+  // ============================================================================
+
+  // Update completo revenue model
+  const updateRevenueModel = useCallback(async (updates: Partial<RevenueModel>) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/database/revenue-model`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updates)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      await response.json();
+      console.log('✅ Revenue Model aggiornato');
+      
+      // ⚡ UPDATE OTTIMISTICO: Aggiorna solo lo stato locale
+      setData(prevData => {
+        if (!prevData || !prevData.revenueModel) return prevData;
+        
+        return {
+          ...prevData,
+          revenueModel: {
+            ...prevData.revenueModel,
+            ...updates,
+            metadata: {
+              ...prevData.revenueModel.metadata,
+              lastUpdate: new Date().toISOString()
+            }
+          }
+        } as Database;
+      });
+    } catch (error) {
+      console.error('❌ Errore aggiornamento Revenue Model:', error);
+    }
+  }, []);
+
+  // Update hardware revenue model
+  const updateRevenueModelHardware = useCallback(async (updates: Partial<HardwareRevenueModel>) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/database/revenue-model/hardware`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updates)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      await response.json();
+      console.log('✅ Hardware Revenue Model aggiornato');
+      
+      // ⚡ UPDATE OTTIMISTICO
+      setData(prevData => {
+        if (!prevData || !prevData.revenueModel) return prevData;
+        
+        return {
+          ...prevData,
+          revenueModel: {
+            ...prevData.revenueModel,
+            hardware: {
+              ...prevData.revenueModel.hardware,
+              ...updates
+            },
+            metadata: {
+              ...prevData.revenueModel.metadata,
+              lastUpdate: new Date().toISOString()
+            }
+          }
+        } as Database;
+      });
+    } catch (error) {
+      console.error('❌ Errore aggiornamento Hardware Revenue Model:', error);
+    }
+  }, []);
+
+  // Update SaaS revenue model
+  const updateRevenueModelSaaS = useCallback(async (updates: Partial<SaasRevenueModel>) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/database/revenue-model/saas`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updates)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      await response.json();
+      console.log('✅ SaaS Revenue Model aggiornato');
+      
+      // ⚡ UPDATE OTTIMISTICO
+      setData(prevData => {
+        if (!prevData || !prevData.revenueModel) return prevData;
+        
+        return {
+          ...prevData,
+          revenueModel: {
+            ...prevData.revenueModel,
+            saas: {
+              ...prevData.revenueModel.saas,
+              ...updates
+            },
+            metadata: {
+              ...prevData.revenueModel.metadata,
+              lastUpdate: new Date().toISOString()
+            }
+          }
+        } as Database;
+      });
+    } catch (error) {
+      console.error('❌ Errore aggiornamento SaaS Revenue Model:', error);
+    }
+  }, []);
+
+  // ============================================================================
   // GENERALI
   // ============================================================================
 
@@ -618,6 +941,10 @@ export function DatabaseProvider({ children }: { children: ReactNode }) {
     updateConfigurazioneTamSamSomEcografie,
     updateConfigurazioneTamSamSomEcografi,
     updatePrezzoEcografiaRegionalizzato,
+    // Revenue Model
+    updateRevenueModel,
+    updateRevenueModelHardware,
+    updateRevenueModelSaaS,
     // Generali
     resetToDefaults,
     exportDatabase,
