@@ -256,6 +256,87 @@ Ora tutto il chain è coerente e stabile.
 
 ---
 
+---
+
+## 🎯 BONUS FIX #2: Checkbox Regioni Si Resettano Dopo 2 Secondi
+
+### Problema: Modifiche alle checkbox NON persistono
+
+**SINTOMO:**
+- User click checkbox (es. deseleziona USA)
+- Checkbox si deseleziona visivamente ✅
+- Dopo 2 secondi: checkbox torna SELEZIONATA ❌
+- Modifiche NON persistono
+
+**CAUSA IDENTIFICATA:**
+`updateConfigurazioneTamSamSomEcografi` faceva `refreshData()` dopo ogni PATCH
+
+```typescript
+// PROBLEMA (DatabaseProvider.tsx, riga 521):
+await refreshData(); // ← Reload completo database!
+```
+
+**FLOW DEL PROBLEMA:**
+1. User click checkbox "Europa"
+2. `setRegioniAttive({ ...prev, europa: false })`
+3. Checkbox si deseleziona visualmente ✅
+4. Dopo 1.5s: auto-save chiama PATCH al server ✅
+5. Server salva correttamente ✅
+6. **`refreshData()` ricarica tutto il database** ❌
+7. Componente riceve dati "freschi" dal server
+8. Checkbox torna allo stato dal server
+9. Ma il server ha i dati VECCHI (timing issue)
+10. Checkbox si resetta ❌
+
+**FIX APPLICATO:**
+**UPDATE OTTIMISTICO** dello stato locale invece di reload
+
+```typescript
+// PRIMA (SBAGLIATO):
+await refreshData(); // Reload completo + flickering
+
+// DOPO (CORRETTO - UPDATE OTTIMISTICO):
+setData(prevData => {
+  if (!prevData || !prevData.configurazioneTamSamSom) return prevData;
+  
+  const newEcografi = {
+    ...prevData.configurazioneTamSamSom.ecografi,
+    ...updates, // ← Applica modifiche SUBITO allo stato locale
+    lastUpdate: new Date().toISOString()
+  };
+  
+  return {
+    ...prevData,
+    configurazioneTamSamSom: {
+      ...prevData.configurazioneTamSamSom,
+      ecografi: newEcografi
+    }
+  };
+});
+```
+
+**PERCHÉ FUNZIONA:**
+- Server salva i dati ✅
+- Stato locale aggiornato SUBITO (no latenza) ✅
+- NO reload database (no flickering) ✅
+- NO timing issues ✅
+- Modifiche PERSISTONO immediatamente ✅
+
+**VANTAGGI UPDATE OTTIMISTICO:**
+- ✅ Performance migliore (0 latenza percepita)
+- ✅ NO flickering/sfarfallio UI
+- ✅ Modifiche visibili immediatamente
+- ✅ UX fluida e professionale
+- ✅ Meno carico server (no full reload)
+
+**PATTERN APPLICATO:**
+Stesso pattern già usato in `updateConfigurazioneTamSamSomEcografie`
+Ora coerente su tutto il codebase!
+
+**STATUS:** ✅ RISOLTO
+
+---
+
 **Data:** 2025-01-10  
 **Status:** ✅ COMPLETATO  
-**Commit:** Fix completo - activeView + regioniAttive + CSS hidden
+**Commit:** Fix completo - activeView + regioniAttive + CSS hidden + update ottimistico
