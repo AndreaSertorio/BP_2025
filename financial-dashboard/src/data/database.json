@@ -4421,7 +4421,7 @@
         "som3": 524548.5075000001,
         "som5": 1311371.26875
       },
-      "lastUpdate": "2025-10-10T14:19:09.888Z",
+      "lastUpdate": "2025-10-10T15:14:53.918Z",
       "regioniSelezionate": {
         "italia": true,
         "europa": false,
@@ -4444,13 +4444,13 @@
         "y5": 5
       },
       "valoriCalcolati": {
-        "tam": 0,
-        "sam": 0,
-        "som1": 0,
-        "som3": 0,
-        "som5": 0
+        "tam": 5600,
+        "sam": 2856,
+        "som1": 29,
+        "som3": 57,
+        "som5": 143
       },
-      "lastUpdate": "2025-10-10T14:22:08.400Z",
+      "lastUpdate": "2025-10-10T15:14:58.935Z",
       "regioniAttive": {
         "italia": true,
         "europa": false,
@@ -4462,18 +4462,18 @@
       "sectionProgress": {
         "executive-summary": 50,
         "proposta-valore": 90,
-        "mercato": 75,
+        "mercato": 95,
         "competizione": 90,
-        "modello-business": 70,
-        "gtm": 80,
-        "regolatorio": 85,
-        "roadmap-prodotto": 85,
-        "operazioni": 80,
-        "team": 90,
-        "rischi": 95,
-        "piano-finanziario": 95
+        "modello-business": 55,
+        "gtm": 60,
+        "regolatorio": 75,
+        "roadmap-prodotto": 50,
+        "operazioni": 10,
+        "team": 10,
+        "rischi": 40,
+        "piano-finanziario": 20
       },
-      "lastUpdate": "2025-10-10T15:00:00.000Z"
+      "lastUpdate": "2025-10-10T15:08:24.481Z"
     }
   },
   "revenueModel": {

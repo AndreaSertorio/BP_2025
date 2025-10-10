@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Badge } from './ui/badge';
 import { Card } from './ui/card';
 import { FileText, Target, CheckCircle2, XCircle, Users, Award, ChevronDown, ChevronUp } from 'lucide-react';
@@ -30,6 +30,11 @@ export function BusinessPlanView() {
 
   // Carica progress da database
   const sectionProgress = data?.configurazioneTamSamSom?.businessPlan?.sectionProgress || {};
+
+  // Debug: Log quando sectionProgress cambia
+  useEffect(() => {
+    console.log('📊 BusinessPlanView - sectionProgress aggiornato:', sectionProgress);
+  }, [sectionProgress]);
 
   // Calcola media progress
   const averageProgress = useMemo(() => {
@@ -136,19 +141,32 @@ export function BusinessPlanView() {
                       onChange={(e) => setEditingProgress({ id: section.id, value: e.target.value })}
                       onBlur={async () => {
                         const newProgress = parseInt(editingProgress.value);
+                        console.log('📊 Blur - Tentativo salvataggio:', { sectionId: section.id, newProgress, isValid: !isNaN(newProgress) && newProgress >= 0 && newProgress <= 100 });
                         if (!isNaN(newProgress) && newProgress >= 0 && newProgress <= 100) {
-                          await updateBusinessPlanProgress(section.id, newProgress);
+                          try {
+                            await updateBusinessPlanProgress(section.id, newProgress);
+                            console.log('✅ Progress salvato con successo:', section.id, '→', newProgress);
+                          } catch (error) {
+                            console.error('❌ Errore salvataggio progress:', error);
+                          }
                         }
                         setEditingProgress(null);
                       }}
-                      onKeyDown={(e) => {
+                      onKeyDown={async (e) => {
                         if (e.key === 'Enter') {
                           const newProgress = parseInt(editingProgress.value);
+                          console.log('📊 Enter - Tentativo salvataggio:', { sectionId: section.id, newProgress, isValid: !isNaN(newProgress) && newProgress >= 0 && newProgress <= 100 });
                           if (!isNaN(newProgress) && newProgress >= 0 && newProgress <= 100) {
-                            updateBusinessPlanProgress(section.id, newProgress);
+                            try {
+                              await updateBusinessPlanProgress(section.id, newProgress);
+                              console.log('✅ Progress salvato con successo:', section.id, '→', newProgress);
+                            } catch (error) {
+                              console.error('❌ Errore salvataggio progress:', error);
+                            }
                           }
                           setEditingProgress(null);
                         } else if (e.key === 'Escape') {
+                          console.log('🚫 Escape - Annullato salvataggio');
                           setEditingProgress(null);
                         }
                       }}

@@ -744,6 +744,8 @@ export function DatabaseProvider({ children }: { children: ReactNode }) {
 
   // Update Business Plan Progress (percentuali completamento sezioni)
   const updateBusinessPlanProgress = useCallback(async (sectionId: string, progress: number) => {
+    console.log(`🔄 updateBusinessPlanProgress chiamato:`, { sectionId, progress });
+    
     try {
       const response = await fetch(`${API_BASE_URL}/database/business-plan/progress`, {
         method: 'PATCH',
@@ -752,32 +754,65 @@ export function DatabaseProvider({ children }: { children: ReactNode }) {
       });
 
       if (!response.ok) {
+        const errorText = await response.text();
+        console.error('❌ Errore risposta server:', { status: response.status, errorText });
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      await response.json();
-      console.log(`✅ Progress Business Plan aggiornato: ${sectionId} → ${progress}%`);
+      const result = await response.json();
+      console.log(`✅ Progress Business Plan aggiornato sul server:`, result);
       
       // ⚡ UPDATE OTTIMISTICO: Aggiorna solo lo stato locale
       setData(prevData => {
-        if (!prevData || !prevData.configurazioneTamSamSom?.businessPlan) return prevData;
+        console.log('🔍 State prima update:', { 
+          hasData: !!prevData, 
+          hasConfig: !!prevData?.configurazioneTamSamSom,
+          hasBP: !!prevData?.configurazioneTamSamSom?.businessPlan,
+          currentProgress: prevData?.configurazioneTamSamSom?.businessPlan?.sectionProgress?.[sectionId]
+        });
         
-        return {
+        if (!prevData) {
+          console.warn('⚠️ prevData è null/undefined');
+          return prevData;
+        }
+        
+        // Inizializza struttura se non esiste
+        const config = prevData.configurazioneTamSamSom || ({} as any);
+        const currentBP = (config as any).businessPlan || {
+          sectionProgress: {},
+          lastUpdate: new Date().toISOString()
+        };
+        
+        if (!prevData.configurazioneTamSamSom) {
+          console.log('🆕 Inizializzazione configurazioneTamSamSom');
+        }
+        if (!(config as any).businessPlan) {
+          console.log('🆕 Inizializzazione businessPlan');
+        }
+        
+        const newData = {
           ...prevData,
           configurazioneTamSamSom: {
             ...prevData.configurazioneTamSamSom,
             businessPlan: {
               sectionProgress: {
-                ...prevData.configurazioneTamSamSom.businessPlan.sectionProgress,
+                ...currentBP.sectionProgress,
                 [sectionId]: progress
               },
               lastUpdate: new Date().toISOString()
             }
           }
         } as Database;
+        
+        console.log('✅ State dopo update:', { 
+          newProgress: newData.configurazioneTamSamSom?.businessPlan?.sectionProgress?.[sectionId]
+        });
+        
+        return newData;
       });
     } catch (error) {
       console.error('❌ Errore aggiornamento progress Business Plan:', error);
+      throw error; // Re-throw per gestire in UI
     }
   }, []);
 

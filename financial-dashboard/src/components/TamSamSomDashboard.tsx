@@ -175,6 +175,68 @@ export function TamSamSomDashboard() {
   // Serializza prezziDispositivi con useMemo per evitare loop infinito
   const prezziDispositiviJson = useMemo(() => JSON.stringify(prezziDispositivi), [prezziDispositivi]);
 
+  // 🚀 CALCOLO INIZIALE: Calcola e salva valori al primo mount (SENZA debounce)
+  useEffect(() => {
+    // Esegui SOLO dopo inizializzazione
+    if (!isInitialized) {
+      console.log('⏳ Aspetto inizializzazione per calcolare valori...');
+      return;
+    }
+    if (!configTamSamSomDevices) {
+      console.log('⚠️ configTamSamSomDevices non disponibile');
+      return;
+    }
+    
+    console.log('🔄 Calcolo valori TAM/SAM/SOM al mount...');
+    
+    // Calcola valori aggiornati
+    const tam = calculateTotalDevices();
+    const sam = calculateSamDevices();
+    const som1 = calculateSomDevices('y1');
+    const som3 = calculateSomDevices('y3');
+    const som5 = calculateSomDevices('y5');
+    
+    console.log('📊 Valori calcolati:', { tam, sam, som1, som3, som5 });
+    
+    // Verifica se valori calcolati esistono già nel DB
+    const existingValues = configTamSamSomDevices.valoriCalcolati;
+    console.log('💾 Valori esistenti nel DB:', existingValues);
+    
+    // Salva SEMPRE al mount iniziale per garantire sincronizzazione
+    // (non solo se diversi, perché potrebbero essere zero/undefined)
+    const needsUpdate = !existingValues || 
+                        existingValues.tam !== tam || 
+                        existingValues.sam !== sam || 
+                        existingValues.som1 !== som1 ||
+                        existingValues.som1 === 0; // Forza update se som1 è zero
+    
+    if (needsUpdate) {
+      // Salva SENZA debounce (immediato)
+      console.log('💾 Salvo valori calcolati nel DB...');
+      updateConfigurazioneTamSamSomEcografi({
+        samPercentage: samPercentageDevices,
+        somPercentages: somPercentagesDevices,
+        regioniAttive: JSON.parse(regioniAttiveJson),
+        prezzoMedioDispositivo: prezzoMedio,
+        prezziMediDispositivi: JSON.parse(prezziDispositiviJson),
+        valoriCalcolati: {
+          tam,
+          sam,
+          som1,
+          som3,
+          som5
+        }
+      } as any);
+      
+      console.log('🚀 Valori calcolati inizializzati al mount:', { tam, sam, som1, som3, som5 });
+    } else {
+      console.log('✅ Valori calcolati già aggiornati nel DB:', existingValues);
+    }
+    
+    // Esegui UNA SOLA VOLTA dopo isInitialized
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isInitialized]);
+
   // Auto-salva configurazione Devices quando cambiano i parametri (con debounce 1.5s)
   useEffect(() => {
     // Skip se non inizializzato (evita salvataggio durante caricamento iniziale)
