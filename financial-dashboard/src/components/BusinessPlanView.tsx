@@ -10,9 +10,41 @@ import { BusinessPlanMercatoSection } from './BusinessPlan/BusinessPlanMercatoSe
 
 export function BusinessPlanView() {
   const { data, updateBusinessPlanProgress } = useDatabase();
-  const [collapsedSections, setCollapsedSections] = useState<Record<string, boolean>>({});
   const [activeSection, setActiveSection] = useState<string>('executive-summary');
   const [editingProgress, setEditingProgress] = useState<{ id: string; value: string } | null>(null);
+
+  // Inizializza tutte le sezioni come collassate e carica da localStorage
+  const [collapsedSections, setCollapsedSections] = useState<Record<string, boolean>>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('businessPlanCollapsedSections');
+      if (saved) {
+        return JSON.parse(saved);
+      }
+    }
+    // Default: tutte le sezioni collassate
+    return {
+      'executive-summary': true,
+      'proposta-valore': true,
+      'mercato': true,
+      'competizione': true,
+      'modello-business': true,
+      'gtm': true,
+      'regolatorio': true,
+      'roadmap-prodotto': true,
+      'operazioni': true,
+      'team': true,
+      'rischi': true,
+      'piano-finanziario': true,
+      'ask': true
+    };
+  });
+
+  // Salva stato in localStorage quando cambia
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('businessPlanCollapsedSections', JSON.stringify(collapsedSections));
+    }
+  }, [collapsedSections]);
 
   const toggleSection = (sectionId: string) => {
     setCollapsedSections(prev => ({
@@ -632,7 +664,10 @@ export function BusinessPlanView() {
 
         {/* 3. Mercato (TAM/SAM/SOM) - DATI DINAMICI */}
         <section id="mercato">
-          <BusinessPlanMercatoSection />
+          <BusinessPlanMercatoSection 
+            isCollapsed={collapsedSections['mercato']}
+            onToggle={() => toggleSection('mercato')}
+          />
         </section>
 
         {/* 4. Competizione & Posizionamento */}

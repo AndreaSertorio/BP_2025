@@ -4421,7 +4421,7 @@
         "som3": 524548.5075000001,
         "som5": 1311371.26875
       },
-      "lastUpdate": "2025-10-10T15:54:53.719Z",
+      "lastUpdate": "2025-10-10T16:04:22.909Z",
       "regioniSelezionate": {
         "italia": true,
         "europa": false,
@@ -4450,7 +4450,7 @@
         "som3": 0,
         "som5": 0
       },
-      "lastUpdate": "2025-10-10T15:54:53.725Z",
+      "lastUpdate": "2025-10-10T16:05:08.584Z",
       "regioniAttive": {
         "italia": true,
         "europa": false,
@@ -4699,5 +4699,7 @@
       "validFrom": "2025-01-01",
       "note": "Schema completo modello di business Eco 3D - Base per proiezioni ricavi e scenari"
     }
+  }
+}   }
   }
 }

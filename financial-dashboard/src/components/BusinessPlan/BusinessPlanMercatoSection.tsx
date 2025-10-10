@@ -11,7 +11,9 @@ import {
   Globe,
   BarChart3,
   Info,
-  ExternalLink
+  ExternalLink,
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react';
 import {
   LineChart,
@@ -28,9 +30,15 @@ import {
 
 interface BusinessPlanMercatoSectionProps {
   onNavigateToTamSamSom?: () => void;
+  isCollapsed?: boolean;
+  onToggle?: () => void;
 }
 
-export function BusinessPlanMercatoSection({ onNavigateToTamSamSom }: BusinessPlanMercatoSectionProps) {
+export function BusinessPlanMercatoSection({ 
+  onNavigateToTamSamSom, 
+  isCollapsed = false,
+  onToggle 
+}: BusinessPlanMercatoSectionProps) {
   const { data } = useDatabase();
   
   const configProcedures = data?.configurazioneTamSamSom?.ecografie;
@@ -140,30 +148,39 @@ export function BusinessPlanMercatoSection({ onNavigateToTamSamSom }: BusinessPl
   };
   
   return (
-    <div className="space-y-8">
-      {/* Header con link a TAM/SAM/SOM dashboard */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-            <Target className="h-7 w-7 text-indigo-600" />
-            3. Analisi di Mercato: TAM / SAM / SOM
-          </h2>
-          <p className="text-sm text-gray-600 mt-1">
-            Dati aggiornati in tempo reale dalla dashboard TAM/SAM/SOM
-          </p>
-        </div>
-        {onNavigateToTamSamSom && (
-          <Button
-            variant="outline"
-            onClick={onNavigateToTamSamSom}
-            className="flex items-center gap-2"
-          >
-            <BarChart3 className="h-4 w-4" />
-            Apri Dashboard Completa
-            <ExternalLink className="h-3 w-3" />
-          </Button>
-        )}
+    <Card className="p-8 border-l-4 border-l-purple-600">
+      <div className="flex justify-between items-start mb-6">
+        <h2 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+          <span className="flex items-center justify-center w-10 h-10 rounded-full bg-purple-100 text-purple-600 font-bold">3</span>
+          Mercato (TAM/SAM/SOM)
+        </h2>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={onToggle}
+          className="text-gray-500 hover:text-gray-700"
+        >
+          {isCollapsed ? <ChevronDown className="h-5 w-5" /> : <ChevronUp className="h-5 w-5" />}
+        </Button>
       </div>
+
+      {!isCollapsed && (
+      <div className="space-y-8">
+        {/* Link dashboard in alto */}
+        {onNavigateToTamSamSom && (
+          <div className="flex justify-end">
+            <Button
+              variant="outline"
+              onClick={onNavigateToTamSamSom}
+              size="sm"
+              className="flex items-center gap-2"
+            >
+              <BarChart3 className="h-4 w-4" />
+              Apri Dashboard TAM/SAM/SOM
+              <ExternalLink className="h-3 w-3" />
+            </Button>
+          </div>
+        )}
       
       {/* 3.1 Overview Mercato - Cards Principali */}
       <Card className="p-6 bg-gradient-to-br from-indigo-50 to-purple-50">
@@ -547,6 +564,8 @@ export function BusinessPlanMercatoSection({ onNavigateToTamSamSom }: BusinessPl
           </div>
         </Card>
       )}
-    </div>
+      </div>
+      )}
+    </Card>
   );
 }
