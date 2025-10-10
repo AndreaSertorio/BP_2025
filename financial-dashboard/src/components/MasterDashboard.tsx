@@ -23,6 +23,7 @@ import { OldDashboard } from './OldDashboard';
 import { MercatoWrapper } from './MercatoWrapper';
 import { BudgetWrapper } from './BudgetWrapper';
 import { TamSamSomDashboard } from './TamSamSomDashboard';
+import { RevenueModelDashboard } from './RevenueModel';
 import { LoadingCard, LoadingChart } from './ui/loading-spinner';
 import { MetricTooltip } from './ui/enhanced-tooltip';
 import { exportCompleteScenario, exportMonthlyData, exportAnnualData, exportKPIs, exportAdvancedMetrics, exportCashFlowStatements, exportGrowthMetrics } from '@/lib/exportUtils';
@@ -370,6 +371,7 @@ export function MasterDashboard() {
               <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
               <TabsTrigger value="mercato">🌍 Mercato</TabsTrigger>
               <TabsTrigger value="tam-sam-som">🎯 TAM/SAM/SOM</TabsTrigger>
+              <TabsTrigger value="revenue-model">💼 Modello Business</TabsTrigger>
               <TabsTrigger value="budget">💰 Budget</TabsTrigger>
               <TabsTrigger value="old-tabs">🗂️ Vecchi Tab</TabsTrigger>
             </TabsList>
@@ -427,6 +429,10 @@ export function MasterDashboard() {
           <div className="container mx-auto px-6 py-8">
             <TamSamSomDashboard />
           </div>
+        </TabsContent>
+
+        <TabsContent value="revenue-model" className="mt-0">
+          <RevenueModelDashboard />
         </TabsContent>
 
         <TabsContent value="budget" className="mt-0">
