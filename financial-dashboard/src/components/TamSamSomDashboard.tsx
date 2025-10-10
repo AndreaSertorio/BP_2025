@@ -466,43 +466,6 @@ export function TamSamSomDashboard() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [calculateSamDevices, somPercentages, somPercentagesDevices]);
 
-  // 📊 VALORI DISPLAY: Leggi dal DB (valoriCalcolati) o calcola come fallback
-  // Questo evita "numeri finti" al mount iniziale
-  const displayTam = useMemo(() => {
-    if (activeView === 'devices' && configTamSamSomDevices?.valoriCalcolati?.tam) {
-      return configTamSamSomDevices.valoriCalcolati.tam;
-    }
-    return calculateTotalDevices();
-  }, [activeView, configTamSamSomDevices, calculateTotalDevices]);
-
-  const displaySam = useMemo(() => {
-    if (activeView === 'devices' && configTamSamSomDevices?.valoriCalcolati?.sam) {
-      return configTamSamSomDevices.valoriCalcolati.sam;
-    }
-    return calculateSamDevices();
-  }, [activeView, configTamSamSomDevices, calculateSamDevices]);
-
-  const displaySom1 = useMemo(() => {
-    if (activeView === 'devices' && configTamSamSomDevices?.valoriCalcolati?.som1) {
-      return configTamSamSomDevices.valoriCalcolati.som1;
-    }
-    return calculateSomDevices('y1');
-  }, [activeView, configTamSamSomDevices, calculateSomDevices]);
-
-  const displaySom3 = useMemo(() => {
-    if (activeView === 'devices' && configTamSamSomDevices?.valoriCalcolati?.som3) {
-      return configTamSamSomDevices.valoriCalcolati.som3;
-    }
-    return calculateSomDevices('y3');
-  }, [activeView, configTamSamSomDevices, calculateSomDevices]);
-
-  const displaySom5 = useMemo(() => {
-    if (activeView === 'devices' && configTamSamSomDevices?.valoriCalcolati?.som5) {
-      return configTamSamSomDevices.valoriCalcolati.som5;
-    }
-    return calculateSomDevices('y5');
-  }, [activeView, configTamSamSomDevices, calculateSomDevices]);
-
   // Helper: Calcola numero totale prestazioni aggredibili per Procedures
   const calculateTotalProcedures = useCallback(() => {
     if (!mercatoEcografie) return 0;
@@ -699,7 +662,7 @@ export function TamSamSomDashboard() {
                     <div className="text-xs opacity-90 space-y-1">
                       <div>📅 Anno: <strong>{selectedYear}</strong></div>
                       <div>🌍 {Object.entries(regioniAttive).filter(([_, v]) => v).map(([k]) => k === 'italia' ? '🇮🇹' : k === 'europa' ? '🇪🇺' : k === 'usa' ? '🇺🇸' : '🇨🇳').join(' ')}</div>
-                      <div>📊 Dispositivi: <strong>{displayTam.toLocaleString('it-IT')}</strong></div>
+                      <div>📊 Dispositivi: <strong>{calculateTotalDevices().toLocaleString('it-IT')}</strong></div>
                     </div>
                   </div>
                 )}
@@ -786,7 +749,7 @@ export function TamSamSomDashboard() {
                   <div className="mt-3 pt-3 border-t border-white/20">
                     <div className="text-xs opacity-90 space-y-1">
                       <div>📅 Anno: <strong>{selectedYear}</strong></div>
-                      <div>📊 Dispositivi: <strong>{displaySam.toLocaleString('it-IT')}</strong></div>
+                      <div>📊 Dispositivi: <strong>{calculateSamDevices().toLocaleString('it-IT')}</strong></div>
                       <div>🎯 SAM: <strong>{currentSamPercentage}% del TAM</strong></div>
                     </div>
                   </div>
@@ -834,7 +797,7 @@ export function TamSamSomDashboard() {
                   <div className="mt-3 pt-3 border-t border-white/20">
                     <div className="text-xs opacity-90 space-y-1">
                       <div>📅 Anno: <strong>{selectedYear}</strong></div>
-                      <div>📊 Dispositivi: <strong>{displaySom1.toLocaleString('it-IT')}</strong></div>
+                      <div>📊 Dispositivi: <strong>{calculateSomDevices('y1').toLocaleString('it-IT')}</strong></div>
                       <div>📈 Y1: {currentSomPercentages.y1}% | Y3: {currentSomPercentages.y3}% | Y5: {currentSomPercentages.y5}%</div>
                     </div>
                   </div>
@@ -1155,7 +1118,7 @@ export function TamSamSomDashboard() {
               {activeView === 'devices' && (
                 <div className="mt-2 pt-2 border-t border-blue-300">
                   <div className="text-xs text-blue-600">
-                    📊 Dispositivi: <strong>{displaySom1.toLocaleString('it-IT')}</strong>
+                    📊 Dispositivi: <strong>{calculateSomDevices('y1').toLocaleString('it-IT')}</strong>
                   </div>
                 </div>
               )}
@@ -1190,7 +1153,7 @@ export function TamSamSomDashboard() {
               {activeView === 'devices' && (
                 <div className="mt-2 pt-2 border-t border-indigo-300">
                   <div className="text-xs text-indigo-600">
-                    📊 Dispositivi: <strong>{displaySom3.toLocaleString('it-IT')}</strong>
+                    📊 Dispositivi: <strong>{calculateSomDevices('y3').toLocaleString('it-IT')}</strong>
                   </div>
                 </div>
               )}
@@ -1225,7 +1188,7 @@ export function TamSamSomDashboard() {
               {activeView === 'devices' && (
                 <div className="mt-2 pt-2 border-t border-purple-300">
                   <div className="text-xs text-purple-600">
-                    📊 Dispositivi: <strong>{displaySom5.toLocaleString('it-IT')}</strong>
+                    📊 Dispositivi: <strong>{calculateSomDevices('y5').toLocaleString('it-IT')}</strong>
                   </div>
                 </div>
               )}
@@ -1325,11 +1288,11 @@ export function TamSamSomDashboard() {
                 Anno 1 ({currentSomPercentages.y1}% SAM)
               </div>
               <div className="text-3xl font-bold text-blue-900 mb-2">
-                €{(displaySom1 * prezzoMedio).toLocaleString('it-IT')}
+                €{(calculateSomDevices('y1') * prezzoMedio).toLocaleString('it-IT')}
               </div>
               <div className="text-xs text-gray-600 border-t border-blue-200 pt-2">
-                <div>📊 Dispositivi: <strong>{displaySom1.toLocaleString('it-IT')}</strong></div>
-                <div className="text-blue-600 mt-1">💶 {displaySom1} × €{prezzoMedio.toLocaleString('it-IT')}</div>
+                <div>📊 Dispositivi: <strong>{calculateSomDevices('y1').toLocaleString('it-IT')}</strong></div>
+                <div className="text-blue-600 mt-1">💶 {calculateSomDevices('y1')} × €{prezzoMedio.toLocaleString('it-IT')}</div>
               </div>
             </div>
 
@@ -1338,11 +1301,11 @@ export function TamSamSomDashboard() {
                 Anno 3 ({currentSomPercentages.y3}% SAM)
               </div>
               <div className="text-3xl font-bold text-indigo-900 mb-2">
-                €{(displaySom3 * prezzoMedio).toLocaleString('it-IT')}
+                €{(calculateSomDevices('y3') * prezzoMedio).toLocaleString('it-IT')}
               </div>
               <div className="text-xs text-gray-600 border-t border-indigo-200 pt-2">
-                <div>📊 Dispositivi: <strong>{displaySom3.toLocaleString('it-IT')}</strong></div>
-                <div className="text-indigo-600 mt-1">💶 {displaySom3} × €{prezzoMedio.toLocaleString('it-IT')}</div>
+                <div>📊 Dispositivi: <strong>{calculateSomDevices('y3').toLocaleString('it-IT')}</strong></div>
+                <div className="text-indigo-600 mt-1">💶 {calculateSomDevices('y3')} × €{prezzoMedio.toLocaleString('it-IT')}</div>
               </div>
             </div>
 
@@ -1351,11 +1314,11 @@ export function TamSamSomDashboard() {
                 Anno 5 ({currentSomPercentages.y5}% SAM)
               </div>
               <div className="text-3xl font-bold text-purple-900 mb-2">
-                €{(displaySom5 * prezzoMedio).toLocaleString('it-IT')}
+                €{(calculateSomDevices('y5') * prezzoMedio).toLocaleString('it-IT')}
               </div>
               <div className="text-xs text-gray-600 border-t border-purple-200 pt-2">
-                <div>📊 Dispositivi: <strong>{displaySom5.toLocaleString('it-IT')}</strong></div>
-                <div className="text-purple-600 mt-1">💶 {displaySom5} × €{prezzoMedio.toLocaleString('it-IT')}</div>
+                <div>📊 Dispositivi: <strong>{calculateSomDevices('y5').toLocaleString('it-IT')}</strong></div>
+                <div className="text-purple-600 mt-1">💶 {calculateSomDevices('y5')} × €{prezzoMedio.toLocaleString('it-IT')}</div>
               </div>
             </div>
           </div>
