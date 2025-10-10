@@ -43,7 +43,7 @@ export function BusinessPlanView() {
   return (
     <div className="relative">
       {/* Sidebar Navigation */}
-      <div className="fixed left-4 top-24 w-56 h-[calc(100vh-120px)] overflow-y-auto bg-white border border-gray-200 rounded-lg shadow-lg p-4 hidden xl:block z-10">
+      <div className="fixed left-4 top-32 w-56 h-[calc(100vh-140px)] overflow-y-auto bg-white border border-gray-200 rounded-lg shadow-lg p-4 hidden xl:block z-10">
         <h3 className="text-sm font-bold text-gray-900 mb-3">📑 Navigazione</h3>
         <nav className="space-y-1">
           {sections.map((section) => (
@@ -84,13 +84,23 @@ export function BusinessPlanView() {
         </p>
       </div>
 
-      {/* Tracker Progress */}
-      <Card className="p-6 mb-8 bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
-        <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-          <Target className="h-5 w-5 text-blue-600" />
-          Tracker stato BP — Iterazione #17
-        </h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      {/* Tracker Progress - INTERATTIVO E COMPLETO (12 sezioni) */}
+      <Card className="p-6 mb-8 bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-blue-300">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+            <Target className="h-6 w-6 text-blue-600" />
+            Tracker stato BP — Iterazione #17
+          </h2>
+          <div className="flex gap-2">
+            <div className="text-sm font-semibold text-blue-700 bg-white px-3 py-1 rounded-full border-2 border-blue-400">
+              {sections.filter(s => collapsedSections[s.id] === false).length} / {sections.length} espanse
+            </div>
+            <div className="text-sm font-semibold text-green-700 bg-white px-3 py-1 rounded-full border-2 border-green-400">
+              83% completato
+            </div>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
           {[
             { name: 'Executive Summary', progress: 50 },
             { name: 'Proposta di Valore', progress: 90 },
@@ -99,24 +109,51 @@ export function BusinessPlanView() {
             { name: 'Modello di Business & Prezzi', progress: 70 },
             { name: 'Go-to-Market (24 mesi)', progress: 80 },
             { name: 'Regolatorio & Clinico', progress: 85 },
+            { name: 'Roadmap Prodotto', progress: 85 },
+            { name: 'Operazioni & Supply Chain', progress: 80 },
+            { name: 'Team & Governance', progress: 90 },
+            { name: 'Rischi & Mitigazioni', progress: 95 },
             { name: 'Piano Finanziario (3–5 anni)', progress: 95 },
           ].map((item, idx) => (
-            <div key={idx} className="text-sm">
+            <button
+              key={idx}
+              onClick={() => scrollToSection(sections[idx].id)}
+              className="text-sm hover:scale-105 transition-all text-left"
+            >
               <div className="flex justify-between mb-1">
                 <span className="font-medium text-gray-700 text-xs truncate">{idx + 1}. {item.name}</span>
-                <span className="text-blue-600 font-semibold text-xs ml-2">{item.progress}%</span>
+                <span className={`font-bold text-xs ml-2 ${
+                  item.progress >= 85 ? 'text-green-600' : 
+                  item.progress >= 70 ? 'text-blue-600' : 'text-yellow-600'
+                }`}>{item.progress}%</span>
               </div>
-              <div className="w-full bg-gray-200 rounded-full h-1.5">
+              <div className="w-full bg-gray-200 rounded-full h-2">
                 <div 
-                  className={`h-1.5 rounded-full transition-all ${
+                  className={`h-2 rounded-full transition-all ${
                     item.progress >= 85 ? 'bg-green-500' : 
                     item.progress >= 70 ? 'bg-blue-500' : 'bg-yellow-500'
                   }`}
                   style={{ width: `${item.progress}%` }}
                 />
               </div>
-            </div>
+            </button>
           ))}
+        </div>
+        <div className="mt-4 pt-4 border-t border-blue-200">
+          <div className="flex gap-4 text-xs text-gray-600">
+            <div className="flex items-center gap-1">
+              <div className="h-3 w-3 rounded-full bg-green-500" />
+              <span>≥85% Completato (6)</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <div className="h-3 w-3 rounded-full bg-blue-500" />
+              <span>70-84% In Progress (5)</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <div className="h-3 w-3 rounded-full bg-yellow-500" />
+              <span>&lt;70% Da Rivedere (1)</span>
+            </div>
+          </div>
         </div>
       </Card>
 

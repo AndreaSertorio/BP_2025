@@ -4431,7 +4431,7 @@
     },
     "ecografi": {
       "priceMode": "semplice",
-      "prezzoMedioDispositivo": 44000,
+      "prezzoMedioDispositivo": 45000,
       "prezziMediDispositivi": {
         "carrellati": 50000,
         "portatili": 25001,
@@ -4450,13 +4450,30 @@
         "som3": 0,
         "som5": 0
       },
-      "lastUpdate": "2025-10-10T12:57:22.797Z",
+      "lastUpdate": "2025-10-10T13:08:54.621Z",
       "regioniAttive": {
         "italia": true,
         "europa": true,
         "usa": false,
         "cina": false
       }
+    },
+    "businessPlan": {
+      "sectionProgress": {
+        "executive-summary": 50,
+        "proposta-valore": 90,
+        "mercato": 75,
+        "competizione": 90,
+        "modello-business": 70,
+        "gtm": 80,
+        "regolatorio": 85,
+        "roadmap-prodotto": 85,
+        "operazioni": 80,
+        "team": 90,
+        "rischi": 95,
+        "piano-finanziario": 95
+      },
+      "lastUpdate": "2025-10-10T15:00:00.000Z"
     }
   },
   "revenueModel": {

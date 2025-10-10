@@ -184,15 +184,29 @@ export function TamSamSomDashboard() {
     if (isEditingPrice) return;
     
     const timer = setTimeout(async () => {
+      // Calcola valori aggiornati per salvarli nel database
+      const tam = activeView === 'devices' ? calculateTotalDevices() : 0;
+      const sam = activeView === 'devices' ? calculateSamDevices() : 0;
+      const som1 = activeView === 'devices' ? calculateSomDevices('y1') : 0;
+      const som3 = activeView === 'devices' ? calculateSomDevices('y3') : 0;
+      const som5 = activeView === 'devices' ? calculateSomDevices('y5') : 0;
+      
       await updateConfigurazioneTamSamSomEcografi({
         samPercentage: samPercentageDevices,
         somPercentages: somPercentagesDevices,
         regioniAttive: JSON.parse(regioniAttiveJson),
         prezzoMedioDispositivo: prezzoMedio,  // SOURCE OF TRUTH - sincronizzato con Revenue Model
-        prezziMediDispositivi: JSON.parse(prezziDispositiviJson)
+        prezziMediDispositivi: JSON.parse(prezziDispositiviJson),
+        valoriCalcolati: {
+          tam,
+          sam,
+          som1,
+          som3,
+          som5
+        }
       } as any);
       
-      console.log('💾 Configurazione TAM/SAM/SOM Devices salvata automaticamente');
+      console.log('💾 Configurazione TAM/SAM/SOM Devices salvata automaticamente', { tam, sam, som1, som3, som5 });
     }, 1500);
     
     return () => clearTimeout(timer);

@@ -13,8 +13,7 @@ import {
   DollarSign, 
   Repeat, 
   Package, 
-  Info,
-  ArrowRight 
+  Info
 } from 'lucide-react';
 
 interface RevenuePreviewProps {
@@ -25,6 +24,7 @@ interface RevenuePreviewProps {
   saasMonthlyFee: number;
   saasAnnualFee: number;
   saasGrossMarginPct: number;
+  somDevicesY1?: number; // Dispositivi SOM Anno 1 dal TAM/SAM/SOM
 }
 
 export function RevenuePreview({
@@ -34,12 +34,14 @@ export function RevenuePreview({
   saasEnabled,
   saasMonthlyFee,
   saasAnnualFee,
-  saasGrossMarginPct
+  saasGrossMarginPct,
+  somDevicesY1
 }: RevenuePreviewProps) {
   
-  // Assunzioni per preview (100 dispositivi venduti anno 1)
-  const UNITS_Y1 = 100;
-  const ACTIVE_DEVICES = 80; // 80% dei venduti diventano attivi SaaS
+  // Usa dispositivi reali dal TAM/SAM/SOM o fallback a 100
+  const UNITS_Y1 = somDevicesY1 && somDevicesY1 > 0 ? somDevicesY1 : 100;
+  const isUsingRealData = somDevicesY1 && somDevicesY1 > 0;
+  const ACTIVE_DEVICES = Math.round(UNITS_Y1 * 0.8); // 80% dei venduti diventano attivi SaaS
   
   // Calcoli Hardware
   const hardwareRevenue = hardwareEnabled ? UNITS_Y1 * hardwareAsp : 0;
@@ -71,17 +73,54 @@ export function RevenuePreview({
             <TooltipTrigger>
               <Info className="h-4 w-4 text-gray-400" />
             </TooltipTrigger>
-            <TooltipContent className="max-w-xs">
-              <p className="text-sm">
-                Proiezione basata su {UNITS_Y1} dispositivi venduti anno 1, 
-                con {ACTIVE_DEVICES} ({((ACTIVE_DEVICES/UNITS_Y1)*100).toFixed(0)}%) che attivano abbonamento SaaS
-              </p>
+            <TooltipContent className="max-w-md">
+              <div className="space-y-2 text-sm">
+                <p className="font-semibold">
+                  📊 Fonte dati dispositivi:
+                </p>
+                {isUsingRealData ? (
+                  <div className="space-y-1">
+                    <p className="text-green-400">
+                      ✅ <strong>Dati reali dal TAM/SAM/SOM</strong>
+                    </p>
+                    <p className="text-xs opacity-90">
+                      • Dispositivi Anno 1 (SOM): <strong>{UNITS_Y1}</strong>
+                    </p>
+                    <p className="text-xs opacity-90">
+                      • Calcolati da: TAM → SAM ({Math.round((somDevicesY1 || 0) / (UNITS_Y1 || 1) * 100)}%) → SOM
+                    </p>
+                    <p className="text-xs opacity-90">
+                      • Regioni attive nel calcolo TAM/SAM/SOM
+                    </p>
+                  </div>
+                ) : (
+                  <div className="space-y-1">
+                    <p className="text-yellow-400">
+                      ⚠️ <strong>Dati di default (100 unità)</strong>
+                    </p>
+                    <p className="text-xs opacity-90">
+                      Vai a TAM/SAM/SOM → Vista Dispositivi per calcolare i dati reali
+                    </p>
+                  </div>
+                )}
+                <p className="text-xs opacity-75 border-t border-gray-600 pt-2">
+                  • Conversione SaaS: {ACTIVE_DEVICES} devices ({((ACTIVE_DEVICES/UNITS_Y1)*100).toFixed(0)}%)
+                </p>
+              </div>
             </TooltipContent>
           </Tooltip>
         </div>
-        <Badge variant="outline" className="bg-white">
-          Simulazione
-        </Badge>
+        <div className="flex items-center gap-2">
+          {isUsingRealData ? (
+            <Badge variant="outline" className="bg-green-100 text-green-700 border-green-300">
+              📊 Dati Reali
+            </Badge>
+          ) : (
+            <Badge variant="outline" className="bg-yellow-100 text-yellow-700 border-yellow-300">
+              ⚠️ Default
+            </Badge>
+          )}
+        </div>
       </div>
       
       <div className="grid grid-cols-4 gap-4">
@@ -90,6 +129,33 @@ export function RevenuePreview({
           <div className="flex items-center gap-2 mb-2">
             <Package className="h-4 w-4 text-blue-600" />
             <span className="text-xs font-medium text-gray-600 uppercase">Hardware</span>
+            <Tooltip>
+              <TooltipTrigger>
+                <Info className="h-3 w-3 text-gray-400" />
+              </TooltipTrigger>
+              <TooltipContent className="max-w-sm">
+                <div className="space-y-1 text-xs">
+                  <p className="font-semibold">📦 Ricavi Hardware Anno 1:</p>
+                  <p className="font-mono">
+                    = Dispositivi SOM Y1 × ASP Medio
+                  </p>
+                  <p className="font-mono text-blue-400">
+                    = {UNITS_Y1} × €{hardwareAsp.toLocaleString()}
+                  </p>
+                  <p className="font-mono text-green-400">
+                    = €{hardwareRevenue.toLocaleString()}
+                  </p>
+                  <div className="border-t border-gray-600 pt-1 mt-1">
+                    <p className="opacity-75">
+                      {isUsingRealData ? '✅ Dispositivi da TAM/SAM/SOM' : '⚠️ Usando 100 unità di default'}
+                    </p>
+                    <p className="opacity-75">
+                      ASP da: database.configurazioneTamSamSom.ecografi.prezzoMedioDispositivo
+                    </p>
+                  </div>
+                </div>
+              </TooltipContent>
+            </Tooltip>
           </div>
           <div className="text-2xl font-bold text-gray-900 mb-1">
             €{(hardwareRevenue / 1000000).toFixed(2)}M
@@ -112,6 +178,33 @@ export function RevenuePreview({
           <div className="flex items-center gap-2 mb-2">
             <Repeat className="h-4 w-4 text-purple-600" />
             <span className="text-xs font-medium text-gray-600 uppercase">MRR</span>
+            <Tooltip>
+              <TooltipTrigger>
+                <Info className="h-3 w-3 text-gray-400" />
+              </TooltipTrigger>
+              <TooltipContent className="max-w-sm">
+                <div className="space-y-1 text-xs">
+                  <p className="font-semibold">💻 Monthly Recurring Revenue:</p>
+                  <p className="font-mono">
+                    = Devices Attivi × Fee Mensile
+                  </p>
+                  <p className="font-mono text-purple-400">
+                    = {ACTIVE_DEVICES} × €{saasMonthlyFee}
+                  </p>
+                  <p className="font-mono text-green-400">
+                    = €{saasMrr.toLocaleString()}/mese
+                  </p>
+                  <div className="border-t border-gray-600 pt-1 mt-1">
+                    <p className="opacity-75">
+                      Devices Attivi = {UNITS_Y1} venduti × 80% conversione
+                    </p>
+                    <p className="opacity-75">
+                      Fee da: revenueModel.saas.pricing.perDevice.monthlyFee
+                    </p>
+                  </div>
+                </div>
+              </TooltipContent>
+            </Tooltip>
           </div>
           <div className="text-2xl font-bold text-gray-900 mb-1">
             €{(saasMrr / 1000).toFixed(0)}K
@@ -134,6 +227,33 @@ export function RevenuePreview({
           <div className="flex items-center gap-2 mb-2">
             <Repeat className="h-4 w-4 text-purple-600" />
             <span className="text-xs font-medium text-gray-600 uppercase">ARR</span>
+            <Tooltip>
+              <TooltipTrigger>
+                <Info className="h-3 w-3 text-gray-400" />
+              </TooltipTrigger>
+              <TooltipContent className="max-w-sm">
+                <div className="space-y-1 text-xs">
+                  <p className="font-semibold">📅 Annual Recurring Revenue:</p>
+                  <p className="font-mono">
+                    = Devices Attivi × Fee Annuale
+                  </p>
+                  <p className="font-mono text-purple-400">
+                    = {ACTIVE_DEVICES} × €{saasAnnualFee.toLocaleString()}
+                  </p>
+                  <p className="font-mono text-green-400">
+                    = €{saasArr.toLocaleString()}/anno
+                  </p>
+                  <div className="border-t border-gray-600 pt-1 mt-1">
+                    <p className="opacity-75">
+                      ARPA (per device): €{arpa.toLocaleString()}/anno
+                    </p>
+                    <p className="opacity-75">
+                      Fee da: revenueModel.saas.pricing.perDevice.annualFee
+                    </p>
+                  </div>
+                </div>
+              </TooltipContent>
+            </Tooltip>
           </div>
           <div className="text-2xl font-bold text-gray-900 mb-1">
             €{(saasArr / 1000000).toFixed(2)}M
@@ -156,6 +276,36 @@ export function RevenuePreview({
           <div className="flex items-center gap-2 mb-2">
             <TrendingUp className="h-4 w-4 text-green-700" />
             <span className="text-xs font-medium text-green-800 uppercase">Totale Anno 1</span>
+            <Tooltip>
+              <TooltipTrigger>
+                <Info className="h-3 w-3 text-green-700" />
+              </TooltipTrigger>
+              <TooltipContent className="max-w-sm">
+                <div className="space-y-1 text-xs">
+                  <p className="font-semibold">💰 Ricavi Totali Anno 1:</p>
+                  <p className="font-mono">
+                    = Ricavi Hardware + Ricavi SaaS (ARR)
+                  </p>
+                  <p className="font-mono text-blue-400">
+                    = €{hardwareRevenue.toLocaleString()}
+                  </p>
+                  <p className="font-mono text-purple-400">
+                    + €{saasArr.toLocaleString()}
+                  </p>
+                  <p className="font-mono text-green-400 font-bold">
+                    = €{totalRevenue.toLocaleString()}
+                  </p>
+                  <div className="border-t border-green-700 pt-1 mt-1">
+                    <p className="opacity-75">
+                      Mix: {((hardwareRevenue / totalRevenue) * 100).toFixed(0)}% Hardware + {((saasArr / totalRevenue) * 100).toFixed(0)}% SaaS
+                    </p>
+                    <p className="opacity-75">
+                      Margine Medio Ponderato: {totalGrossMarginPct.toFixed(1)}%
+                    </p>
+                  </div>
+                </div>
+              </TooltipContent>
+            </Tooltip>
           </div>
           <div className="text-2xl font-bold text-green-900 mb-1">
             €{(totalRevenue / 1000000).toFixed(2)}M

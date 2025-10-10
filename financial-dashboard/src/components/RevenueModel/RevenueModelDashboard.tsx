@@ -44,6 +44,9 @@ export function RevenueModelDashboard() {
   const revenueModel = data?.revenueModel;
   const tamSamSomEcografi = data?.configurazioneTamSamSom?.ecografi;
   
+  // Leggi dispositivi SOM Anno 1 dal TAM/SAM/SOM (se disponibili)
+  const somDevicesY1 = tamSamSomEcografi?.valoriCalcolati?.som1 || 0;
+  
   // Flag per evitare loop infinito tra caricamento e salvataggio
   const [isInitialized, setIsInitialized] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
@@ -395,6 +398,7 @@ export function RevenueModelDashboard() {
           saasMonthlyFee={saasMonthlyFee}
           saasAnnualFee={saasAnnualFee}
           saasGrossMarginPct={saasGrossMarginPct}
+          somDevicesY1={somDevicesY1}
         />
         
         {/* Cards principali */}

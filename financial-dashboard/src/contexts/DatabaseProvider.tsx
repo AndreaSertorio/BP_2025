@@ -363,6 +363,8 @@ interface DatabaseContextValue {
   updateConfigurazioneTamSamSomEcografie: (updates: Partial<ConfigurazioneTamSamSomEcografie>) => Promise<void>;
   updateConfigurazioneTamSamSomEcografi: (updates: Partial<ConfigurazioneTamSamSomEcografi>) => Promise<void>;
   updatePrezzoEcografiaRegionalizzato: (regione: string, codice: string, updates: Partial<PrezzoEcografia>) => Promise<void>;
+  // Business Plan
+  updateBusinessPlanProgress: (sectionId: string, progress: number) => Promise<void>;
   // Revenue Model
   updateRevenueModel: (updates: Partial<RevenueModel>) => Promise<void>;
   updateRevenueModelHardware: (updates: Partial<HardwareRevenueModel>) => Promise<void>;
@@ -736,6 +738,45 @@ export function DatabaseProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  // Update Business Plan Progress (percentuali completamento sezioni)
+  const updateBusinessPlanProgress = useCallback(async (sectionId: string, progress: number) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/database/business-plan/progress`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sectionId, progress })
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      await response.json();
+      console.log(`✅ Progress Business Plan aggiornato: ${sectionId} → ${progress}%`);
+      
+      // ⚡ UPDATE OTTIMISTICO: Aggiorna solo lo stato locale
+      setData(prevData => {
+        if (!prevData || !prevData.configurazioneTamSamSom?.businessPlan) return prevData;
+        
+        return {
+          ...prevData,
+          configurazioneTamSamSom: {
+            ...prevData.configurazioneTamSamSom,
+            businessPlan: {
+              sectionProgress: {
+                ...prevData.configurazioneTamSamSom.businessPlan.sectionProgress,
+                [sectionId]: progress
+              },
+              lastUpdate: new Date().toISOString()
+            }
+          }
+        } as Database;
+      });
+    } catch (error) {
+      console.error('❌ Errore aggiornamento progress Business Plan:', error);
+    }
+  }, []);
+
   // Update prezzo ecografia regionalizzato - OTTIMIZZATO: aggiorna solo lo stato locale
   const updatePrezzoEcografiaRegionalizzato = useCallback(async (regione: string, codice: string, updates: Partial<PrezzoEcografia>) => {
     try {
@@ -935,6 +976,8 @@ export function DatabaseProvider({ children }: { children: ReactNode }) {
     updateConfigurazioneTamSamSomEcografie,
     updateConfigurazioneTamSamSomEcografi,
     updatePrezzoEcografiaRegionalizzato,
+    // Business Plan
+    updateBusinessPlanProgress,
     // Revenue Model
     updateRevenueModel,
     updateRevenueModelHardware,
