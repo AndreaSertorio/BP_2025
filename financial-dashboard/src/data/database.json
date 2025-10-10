@@ -4408,7 +4408,7 @@
       "tipoPrezzo": "medio",
       "regioneSelezionata": "europa",
       "volumeMode": "totale",
-      "samPercentage": 51,
+      "samPercentage": 50,
       "somPercentages": {
         "y1": 0.5,
         "y3": 1.7,
@@ -4421,7 +4421,7 @@
         "som3": 524548.5075000001,
         "som5": 1311371.26875
       },
-      "lastUpdate": "2025-10-10T15:14:53.918Z",
+      "lastUpdate": "2025-10-10T15:31:27.344Z",
       "regioniSelezionate": {
         "italia": true,
         "europa": false,
@@ -4444,13 +4444,13 @@
         "y5": 5
       },
       "valoriCalcolati": {
-        "tam": 5600,
-        "sam": 2856,
-        "som1": 29,
-        "som3": 57,
-        "som5": 143
+        "tam": 0,
+        "sam": 0,
+        "som1": 0,
+        "som3": 0,
+        "som5": 0
       },
-      "lastUpdate": "2025-10-10T15:14:58.935Z",
+      "lastUpdate": "2025-10-10T15:33:56.212Z",
       "regioniAttive": {
         "italia": true,
         "europa": false,
