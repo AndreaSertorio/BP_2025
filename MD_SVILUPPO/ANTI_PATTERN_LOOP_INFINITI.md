@@ -136,9 +136,57 @@ useEffect(() => {
   if (!isInitialized) return; // ← SKIP se non inizializzato
   
   setTimeout(() => {
+    // ⚠️ CRITICO: Deserializza JSON prima di salvare!
     updateDB({ prices: JSON.parse(pricesJson) });
   }, 1500);
 }, [pricesJson, isInitialized]);
+```
+
+### ⚠️ 4. CRITICO: Deserializza Prima di Salvare!
+
+**ERRORE COMUNE CHE CAUSA LOOP:**
+```typescript
+// ❌ SBAGLIATO - CAUSA LOOP INFINITO!
+const pricesJson = useMemo(() => JSON.stringify(prices), [prices]);
+
+useEffect(() => {
+  await updateDB({ 
+    prices: prices // ← OGGETTO DIRETTO = LOOP!
+  });
+}, [pricesJson]); // ← Deps usa JSON ma salva oggetto!
+```
+
+**SOLUZIONE CORRETTA:**
+```typescript
+// ✅ CORRETTO - NO LOOP
+const pricesJson = useMemo(() => JSON.stringify(prices), [prices]);
+
+useEffect(() => {
+  await updateDB({ 
+    prices: JSON.parse(pricesJson) // ← Deserializza JSON!
+  });
+}, [pricesJson]);
+```
+
+**PERCHÉ È CRITICO:**
+1. Deps usa `pricesJson` (string) ✅
+2. MA salvi `prices` (oggetto) ❌
+3. DB ritorna NUOVO oggetto (diversa reference)
+4. Componente re-render
+5. `prices` è nuovo oggetto → `pricesJson` cambia
+6. `useEffect` trigger di nuovo → **LOOP!**
+
+**PATTERN COMPLETO:**
+```typescript
+// 1. Serializza per dependencies
+const objJson = useMemo(() => JSON.stringify(obj), [obj]);
+
+// 2. Usa stringa in deps + Deserializza per salvare
+useEffect(() => {
+  await save({ 
+    field: JSON.parse(objJson) // ← SEMPRE deserializza!
+  });
+}, [objJson]); // ← Deps = stringa
 ```
 
 ### ✅ 4. Flow Corretto
