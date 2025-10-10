@@ -194,15 +194,28 @@ export function TamSamSomDashboard() {
     }
     
     console.log('🔄 Calcolo valori TAM/SAM/SOM al mount...');
+    console.log('📦 Dati disponibili:', {
+      mercatoEcografi: !!mercatoEcografi,
+      numeroEcografi: mercatoEcografi?.numeroEcografi?.length || 0,
+      regioniAttive,
+      samPercentageDevices,
+      somPercentagesDevices
+    });
     
     // Calcola valori aggiornati
     const tam = calculateTotalDevices();
+    console.log('📐 TAM calcolato:', tam);
+    
     const sam = calculateSamDevices();
+    console.log('📐 SAM calcolato:', sam, `(${samPercentageDevices}% di ${tam})`);
+    
     const som1 = calculateSomDevices('y1');
+    console.log('📐 SOM1 calcolato:', som1, `(${somPercentagesDevices.y1}% di ${sam})`);
+    
     const som3 = calculateSomDevices('y3');
     const som5 = calculateSomDevices('y5');
     
-    console.log('📊 Valori calcolati:', { tam, sam, som1, som3, som5 });
+    console.log('📊 Valori calcolati FINALI:', { tam, sam, som1, som3, som5 });
     
     // Verifica se valori calcolati esistono già nel DB
     const existingValues = configTamSamSomDevices.valoriCalcolati;
