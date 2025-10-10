@@ -61,9 +61,9 @@ export function TamSamSomDashboard() {
   const [selectedYear, setSelectedYear] = useState(2025);
   const [regioniAttive, setRegioniAttive] = useState({
     italia: true,
-    europa: true,
-    usa: true,
-    cina: true
+    europa: false,  // Default: solo Italia (match con DB)
+    usa: false,
+    cina: false
   });
   const [hasChanges, setHasChanges] = useState(false);
   
