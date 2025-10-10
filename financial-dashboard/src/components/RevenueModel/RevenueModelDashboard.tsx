@@ -37,10 +37,12 @@ export function RevenueModelDashboard() {
     loading,
     updateRevenueModelHardware,
     updateRevenueModelSaaS,
-    updateRevenueModel
+    updateRevenueModel,
+    updateConfigurazioneTamSamSomEcografi
   } = useDatabase();
   
   const revenueModel = data?.revenueModel;
+  const tamSamSomEcografi = data?.configurazioneTamSamSom?.ecografi;
   
   // Flag per evitare loop infinito tra caricamento e salvataggio
   const [isInitialized, setIsInitialized] = useState(false);

@@ -4421,7 +4421,7 @@
         "som3": 524548.5075000001,
         "som5": 1311371.26875
       },
-      "lastUpdate": "2025-10-10T10:59:06.591Z",
+      "lastUpdate": "2025-10-10T11:32:56.251Z",
       "regioniSelezionate": {
         "italia": true,
         "europa": false,
@@ -4450,7 +4450,7 @@
         "som3": 0,
         "som5": 0
       },
-      "lastUpdate": "2025-10-10T10:59:09.508Z",
+      "lastUpdate": "2025-10-10T11:41:16.670Z",
       "regioniAttive": {
         "italia": true,
         "europa": true,
@@ -4463,26 +4463,20 @@
   "revenueModel": {
     "hardware": {
       "enabled": true,
-      "description": "Vendita dispositivi ecografici (CapEx cliente)",
-      "asp": 25000,
+      "description": "Vendita dispositivi ecografici (CapEx cliente). Prezzi ASP letti da configurazioneTamSamSom.ecografi",
       "unitCost": 10000,
+      "unitCostByType": {
+        "carrellati": 25000,
+        "portatili": 10000,
+        "palmari": 2000
+      },
       "warrantyPct": 0.03,
-      "typologySplit": {
-        "carrellati": 0.45,
-        "portatili": 0.35,
-        "palmari": 0.20
-      },
-      "aspByType": {
-        "carrellati": 50000,
-        "portatili": 25000,
-        "palmari": 8000
-      },
       "cogsMarginByType": {
-        "carrellati": 0.50,
-        "portatili": 0.60,
+        "carrellati": 0.5,
+        "portatili": 0.6,
         "palmari": 0.65
       },
-      "note": "ASP medio ponderato = €25,000. Margini lordi differenziati per tipologia."
+      "note": "ASP letti da configurazioneTamSamSom.ecografi. COGS e margini gestiti qui."
     },
     "saas": {
       "enabled": true,
@@ -4497,9 +4491,9 @@
         },
         "perScan": {
           "enabled": false,
-          "feePerScan": 1.50,
-          "revSharePct": 0.30,
-          "grossMarginPct": 0.70,
+          "feePerScan": 1.5,
+          "revSharePct": 0.3,
+          "grossMarginPct": 0.7,
           "description": "Pricing per scansione - €1.50/scan con 30% revenue share"
         },
         "tiered": {
@@ -4535,14 +4529,14 @@
           "id": "gel_eco",
           "name": "Gel ecografico",
           "revenuePerDevicePerMonth": 50,
-          "grossMarginPct": 0.40,
+          "grossMarginPct": 0.4,
           "description": "Gel per ecografie - consumo medio €50/mese per dispositivo"
         },
         {
           "id": "accessories",
           "name": "Sonde e accessori",
           "revenuePerDevicePerMonth": 100,
-          "grossMarginPct": 0.50,
+          "grossMarginPct": 0.5,
           "description": "Sonde di ricambio e accessori vari"
         }
       ],
@@ -4558,8 +4552,8 @@
           "name": "Training iniziale",
           "type": "one-time",
           "revenue": 2000,
-          "attachRate": 0.80,
-          "grossMarginPct": 0.70,
+          "attachRate": 0.8,
+          "grossMarginPct": 0.7,
           "description": "Formazione iniziale operatori - 80% clienti acquista"
         },
         {
@@ -4567,8 +4561,8 @@
           "name": "Garanzia estesa",
           "type": "annual",
           "annualRevenue": 1500,
-          "attachRate": 0.40,
-          "grossMarginPct": 0.80,
+          "attachRate": 0.4,
+          "grossMarginPct": 0.8,
           "description": "Manutenzione e supporto esteso - 40% attach rate"
         },
         {
@@ -4609,7 +4603,7 @@
             "extendedWarranty": true
           },
           "price": 35000,
-          "discount": 0.20,
+          "discount": 0.2,
           "description": "Dispositivo portatile + 2 anni SaaS + training + garanzia - 20% sconto"
         }
       ],
@@ -4623,7 +4617,7 @@
           "type": "leasing",
           "durationMonths": 36,
           "interestRate": 0.05,
-          "downPaymentPct": 0.20,
+          "downPaymentPct": 0.2,
           "description": "Leasing operativo 36 mesi - 20% anticipo, 5% interesse annuo"
         },
         {
@@ -4642,7 +4636,7 @@
         "enabled": true,
         "regions": {
           "italia": {
-            "priceMultiplier": 1.0,
+            "priceMultiplier": 1,
             "note": "Prezzo base di riferimento"
           },
           "europa": {
@@ -4662,9 +4656,21 @@
       "volumeDiscounts": {
         "enabled": false,
         "tiers": [
-          { "unitsFrom": 1, "unitsTo": 5, "discount": 0 },
-          { "unitsFrom": 6, "unitsTo": 20, "discount": 0.10 },
-          { "unitsFrom": 21, "unitsTo": 9999, "discount": 0.15 }
+          {
+            "unitsFrom": 1,
+            "unitsTo": 5,
+            "discount": 0
+          },
+          {
+            "unitsFrom": 6,
+            "unitsTo": 20,
+            "discount": 0.1
+          },
+          {
+            "unitsFrom": 21,
+            "unitsTo": 9999,
+            "discount": 0.15
+          }
         ],
         "note": "Sconti volume per grandi ordini (distributori, catene)"
       }

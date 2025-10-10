@@ -125,29 +125,23 @@ interface ConfigurazioneTamSamSomEcografi {
 }
 
 // ==================== REVENUE MODEL TYPES ====================
-
+// Revenue Model Types
 interface HardwareRevenueModel {
   enabled: boolean;
-  description: string;
-  asp: number;
+  description?: string;
   unitCost: number;
+  unitCostByType?: {
+    carrellati: number;
+    portatili: number;
+    palmari: number;
+  };
   warrantyPct: number;
-  typologySplit: {
+  cogsMarginByType?: {
     carrellati: number;
     portatili: number;
     palmari: number;
   };
-  aspByType: {
-    carrellati: number;
-    portatili: number;
-    palmari: number;
-  };
-  cogsMarginByType: {
-    carrellati: number;
-    portatili: number;
-    palmari: number;
-  };
-  note: string;
+  note?: string;
 }
 
 interface SaasPricingPerDevice {
