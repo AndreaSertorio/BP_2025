@@ -56,14 +56,19 @@ export function RevenueModelDashboard() {
   const [bundlingEnabled, setBundlingEnabled] = useState(false);
   const [financingEnabled, setFinancingEnabled] = useState(false);
   
-  // Stati Hardware
+  // Stati Hardware - Prezzi ASP letti da TAM/SAM/SOM
   const [hardwareAsp, setHardwareAsp] = useState(25000);
   const [hardwareUnitCost, setHardwareUnitCost] = useState(10000);
   const [hardwareWarrantyPct, setHardwareWarrantyPct] = useState(0.03);
   const [hardwareAspByType, setHardwareAspByType] = useState({
     carrellati: 50000,
     portatili: 25000,
-    palmari: 8000
+    palmari: 6000
+  });
+  const [hardwareUnitCostByType, setHardwareUnitCostByType] = useState({
+    carrellati: 25000,
+    portatili: 10000,
+    palmari: 2000
   });
   const [hardwareCogsMarginByType, setHardwareCogsMarginByType] = useState({
     carrellati: 0.50,
@@ -90,15 +95,20 @@ export function RevenueModelDashboard() {
   
   // Carica configurazione salvata al mount
   useEffect(() => {
-    if (revenueModel && !isInitialized) {
+    if (revenueModel && tamSamSomEcografi && !isInitialized) {
       console.log('📥 Caricamento configurazione Revenue Model salvata');
       
-      // Hardware
+      // Hardware - Prezzi ASP da TAM/SAM/SOM
       setHardwareEnabled(revenueModel.hardware?.enabled ?? true);
-      setHardwareAsp(revenueModel.hardware?.asp ?? 25000);
+      const prezzoMedio = tamSamSomEcografi.prezzoMedioDispositivo ?? 25000;
+      const prezziByType = tamSamSomEcografi.prezziMediDispositivi ?? { carrellati: 50000, portatili: 25000, palmari: 6000 };
+      setHardwareAsp(prezzoMedio);
+      setHardwareAspByType(prezziByType);
+      
+      // COGS da Revenue Model
       setHardwareUnitCost(revenueModel.hardware?.unitCost ?? 10000);
+      setHardwareUnitCostByType(revenueModel.hardware?.unitCostByType ?? { carrellati: 25000, portatili: 10000, palmari: 2000 });
       setHardwareWarrantyPct(revenueModel.hardware?.warrantyPct ?? 0.03);
-      setHardwareAspByType(revenueModel.hardware?.aspByType ?? { carrellati: 50000, portatili: 25000, palmari: 8000 });
       setHardwareCogsMarginByType(revenueModel.hardware?.cogsMarginByType ?? { carrellati: 0.50, portatili: 0.60, palmari: 0.65 });
       
       // SaaS
@@ -128,7 +138,7 @@ export function RevenueModelDashboard() {
       setIsInitialized(true);
       console.log('✅ Configurazione Revenue Model caricata');
     }
-  }, [revenueModel, isInitialized]);
+  }, [revenueModel, tamSamSomEcografi, isInitialized]);
   
   // Serializza stati per rilevare cambiamenti
   const currentStateJSON = useMemo(() => {
@@ -321,7 +331,8 @@ export function RevenueModelDashboard() {
   
   return (
     <TooltipProvider>
-      <div className="space-y-6 p-6">
+      <div className="container mx-auto px-6 py-8">
+        <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
@@ -488,6 +499,7 @@ export function RevenueModelDashboard() {
             </div>
           </div>
         </Card>
+        </div>
       </div>
     </TooltipProvider>
   );
