@@ -50,10 +50,10 @@ function sanitizeJSON(jsonString) {
 async function saveDatabaseSafe(database) {
   try {
     // Converti in JSON
-    let jsonString = JSON.stringify(database, null, 2);
+    const jsonString = JSON.stringify(database, null, 2);
     
-    // Sanitizza (rimuovi parentesi duplicate)
-    jsonString = sanitizeJSON(jsonString);
+    // NOTA: Rimossa sanitizeJSON perché JSON.stringify produce già JSON valido
+    // La sanitizzazione causava corruzione del JSON nested
     
     // Verifica che sia JSON valido prima di salvare
     JSON.parse(jsonString); // Throw error se invalido
@@ -647,6 +647,289 @@ app.patch('/api/database/prezzi-regionalizzati/:regione/:codice', async (req, re
   }
 });
 
+/**
+ * PATCH /api/database/revenue-model
+ * Aggiorna Revenue Model completo
+ */
+app.patch('/api/database/revenue-model', async (req, res) => {
+  try {
+    const updates = req.body;
+    
+    // Leggi database
+    const data = await fs.readFile(DB_PATH, 'utf-8');
+    const database = JSON.parse(data);
+    
+    // Inizializza revenueModel se non esiste
+    if (!database.revenueModel) {
+      database.revenueModel = {};
+    }
+    
+    // Applica aggiornamenti
+    database.revenueModel = {
+      ...database.revenueModel,
+      ...updates,
+      metadata: {
+        ...database.revenueModel.metadata,
+        lastUpdate: new Date().toISOString()
+      }
+    };
+    
+    // Salva
+    await saveDatabaseSafe(database);
+    
+    console.log('✅ Revenue Model aggiornato');
+    res.json({ success: true, revenueModel: database.revenueModel });
+  } catch (error) {
+    console.error('❌ Errore aggiornamento Revenue Model:', error);
+    res.status(500).json({ error: 'Errore aggiornamento Revenue Model' });
+  }
+});
+
+/**
+ * PATCH /api/database/revenue-model/hardware
+ * Aggiorna solo Hardware Revenue Model
+ */
+app.patch('/api/database/revenue-model/hardware', async (req, res) => {
+  try {
+    const updates = req.body;
+    
+    // Leggi database
+    const data = await fs.readFile(DB_PATH, 'utf-8');
+    const database = JSON.parse(data);
+    
+    // Inizializza struttura se non esiste
+    if (!database.revenueModel) {
+      database.revenueModel = {};
+    }
+    if (!database.revenueModel.hardware) {
+      database.revenueModel.hardware = {};
+    }
+    
+    // Applica aggiornamenti
+    database.revenueModel.hardware = {
+      ...database.revenueModel.hardware,
+      ...updates
+    };
+    
+    // Aggiorna metadata
+    if (!database.revenueModel.metadata) {
+      database.revenueModel.metadata = {};
+    }
+    database.revenueModel.metadata.lastUpdate = new Date().toISOString();
+    
+    // Salva
+    await saveDatabaseSafe(database);
+    
+    console.log('✅ Hardware Revenue Model aggiornato');
+    res.json({ success: true, hardware: database.revenueModel.hardware });
+  } catch (error) {
+    console.error('❌ Errore aggiornamento Hardware Revenue Model:', error);
+    res.status(500).json({ error: 'Errore aggiornamento Hardware Revenue Model' });
+  }
+});
+
+/**
+ * PATCH /api/database/revenue-model/saas
+ * Aggiorna solo SaaS Revenue Model
+ */
+app.patch('/api/database/revenue-model/saas', async (req, res) => {
+  try {
+    const updates = req.body;
+    
+    console.log('📥 Ricevuto update SaaS:', JSON.stringify(updates, null, 2));
+    
+    // Leggi database
+    const data = await fs.readFile(DB_PATH, 'utf-8');
+    const database = JSON.parse(data);
+    
+    // Inizializza struttura se non esiste
+    if (!database.revenueModel) {
+      database.revenueModel = {};
+    }
+    if (!database.revenueModel.saas) {
+      database.revenueModel.saas = {};
+    }
+    
+    // Applica aggiornamenti (deep merge per pricing)
+    database.revenueModel.saas = {
+      ...database.revenueModel.saas,
+      ...updates,
+      pricing: {
+        ...database.revenueModel.saas.pricing,
+        ...updates.pricing,
+        perDevice: {
+          ...database.revenueModel.saas.pricing?.perDevice,
+          ...updates.pricing?.perDevice
+        },
+        perScan: {
+          ...database.revenueModel.saas.pricing?.perScan,
+          ...updates.pricing?.perScan
+        },
+        tiered: {
+          ...database.revenueModel.saas.pricing?.tiered,
+          ...updates.pricing?.tiered
+        }
+      }
+    };
+    
+    // Aggiorna metadata
+    if (!database.revenueModel.metadata) {
+      database.revenueModel.metadata = {};
+    }
+    database.revenueModel.metadata.lastUpdate = new Date().toISOString();
+    
+    // Salva
+    await saveDatabaseSafe(database);
+    
+    console.log('✅ SaaS Revenue Model aggiornato');
+    res.json({ success: true, saas: database.revenueModel.saas });
+  } catch (error) {
+    console.error('❌ Errore aggiornamento SaaS Revenue Model:', error);
+    res.status(500).json({ error: 'Errore aggiornamento SaaS Revenue Model' });
+  }
+});
+
+/**
+ * ============================================================================
+ * STATO PATRIMONIALE - ENDPOINTS
+ * ============================================================================
+ */
+
+/**
+ * PATCH /api/database/stato-patrimoniale/working-capital
+ * Aggiorna parametri Working Capital
+ */
+app.patch('/api/database/stato-patrimoniale/working-capital', async (req, res) => {
+  try {
+    const updates = req.body;
+    
+    // Leggi database
+    const data = await fs.readFile(DB_PATH, 'utf-8');
+    const database = JSON.parse(data);
+    
+    // Inizializza struttura se non esiste
+    if (!database.statoPatrimoniale) {
+      database.statoPatrimoniale = {};
+    }
+    if (!database.statoPatrimoniale.workingCapital) {
+      database.statoPatrimoniale.workingCapital = {};
+    }
+    
+    // Applica aggiornamenti
+    database.statoPatrimoniale.workingCapital = {
+      ...database.statoPatrimoniale.workingCapital,
+      ...updates
+    };
+    
+    // Aggiorna metadata
+    if (!database.statoPatrimoniale.metadata) {
+      database.statoPatrimoniale.metadata = {};
+    }
+    database.statoPatrimoniale.metadata.lastModified = new Date().toISOString();
+    
+    // Salva
+    await saveDatabaseSafe(database);
+    
+    console.log('✅ Working Capital parameters aggiornati:', updates);
+    res.json({ success: true, workingCapital: database.statoPatrimoniale.workingCapital });
+  } catch (error) {
+    console.error('❌ Errore aggiornamento Working Capital:', error);
+    res.status(500).json({ error: 'Errore aggiornamento Working Capital' });
+  }
+});
+
+/**
+ * PATCH /api/database/stato-patrimoniale/fixed-assets
+ * Aggiorna parametri Fixed Assets
+ */
+app.patch('/api/database/stato-patrimoniale/fixed-assets', async (req, res) => {
+  try {
+    const updates = req.body;
+    
+    // Leggi database
+    const data = await fs.readFile(DB_PATH, 'utf-8');
+    const database = JSON.parse(data);
+    
+    // Inizializza struttura se non esiste
+    if (!database.statoPatrimoniale) {
+      database.statoPatrimoniale = {};
+    }
+    if (!database.statoPatrimoniale.fixedAssets) {
+      database.statoPatrimoniale.fixedAssets = {};
+    }
+    
+    // Applica aggiornamenti
+    database.statoPatrimoniale.fixedAssets = {
+      ...database.statoPatrimoniale.fixedAssets,
+      ...updates
+    };
+    
+    // Aggiorna metadata
+    if (!database.statoPatrimoniale.metadata) {
+      database.statoPatrimoniale.metadata = {};
+    }
+    database.statoPatrimoniale.metadata.lastModified = new Date().toISOString();
+    
+    // Salva
+    await saveDatabaseSafe(database);
+    
+    console.log('✅ Fixed Assets parameters aggiornati:', updates);
+    res.json({ success: true, fixedAssets: database.statoPatrimoniale.fixedAssets });
+  } catch (error) {
+    console.error('❌ Errore aggiornamento Fixed Assets:', error);
+    res.status(500).json({ error: 'Errore aggiornamento Fixed Assets' });
+  }
+});
+
+/**
+ * PATCH /api/database/stato-patrimoniale/funding-round/:index
+ * Aggiorna un funding round specifico
+ */
+app.patch('/api/database/stato-patrimoniale/funding-round/:index', async (req, res) => {
+  try {
+    const { index } = req.params;
+    const updates = req.body;
+    
+    // Leggi database
+    const data = await fs.readFile(DB_PATH, 'utf-8');
+    const database = JSON.parse(data);
+    
+    // Verifica struttura
+    if (!database.statoPatrimoniale?.funding?.rounds) {
+      return res.status(404).json({ error: 'Funding rounds non trovati' });
+    }
+    
+    const roundIndex = parseInt(index);
+    if (roundIndex < 0 || roundIndex >= database.statoPatrimoniale.funding.rounds.length) {
+      return res.status(404).json({ error: 'Round index non valido' });
+    }
+    
+    // Aggiorna round
+    database.statoPatrimoniale.funding.rounds[roundIndex] = {
+      ...database.statoPatrimoniale.funding.rounds[roundIndex],
+      ...updates
+    };
+    
+    // Aggiorna metadata
+    if (!database.statoPatrimoniale.metadata) {
+      database.statoPatrimoniale.metadata = {};
+    }
+    database.statoPatrimoniale.metadata.lastModified = new Date().toISOString();
+    
+    // Salva
+    await saveDatabaseSafe(database);
+    
+    console.log(`✅ Funding round ${roundIndex} aggiornato:`, updates);
+    res.json({ 
+      success: true, 
+      round: database.statoPatrimoniale.funding.rounds[roundIndex] 
+    });
+  } catch (error) {
+    console.error('❌ Errore aggiornamento funding round:', error);
+    res.status(500).json({ error: 'Errore aggiornamento funding round' });
+  }
+});
+
 // Health check
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
@@ -682,6 +965,11 @@ app.listen(PORT, () => {
 ║   PATCH  /api/database/tam-sam-som/ecografie  - Config TAM/SAM║
 ║   PATCH  /api/database/tam-sam-som/ecografi   - Config TAM/SAM║
 ║   PATCH  /api/database/prezzi-regionalizzati/:regione/:cod    ║
+║                                                                ║
+║   API STATO PATRIMONIALE:                                      ║
+║   PATCH  /api/database/stato-patrimoniale/working-capital     ║
+║   PATCH  /api/database/stato-patrimoniale/fixed-assets        ║
+║   PATCH  /api/database/stato-patrimoniale/funding-round/:idx  ║
 ║                                                                ║
 ╚════════════════════════════════════════════════════════════════╝
   `);

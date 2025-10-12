@@ -1,34 +1,22 @@
-'use client';
-
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { TooltipProvider } from '@/components/ui/tooltip';
 import { useDatabase } from '@/contexts/DatabaseProvider';
 import {
-  Package,
-  Server,
-  ShoppingCart,
-  GraduationCap,
-  Gift,
-  CreditCard,
-  Globe,
   Info,
-  TrendingUp,
   DollarSign,
   CheckCircle2,
   Save
 } from 'lucide-react';
-
 import { HardwareCard } from './HardwareCard';
-import { SaaSCard } from './SaaSCard';
+import { SaaSMultiModelCard } from './SaaSMultiModelCard';
 import { PricingStrategyCard } from './PricingStrategyCard';
+import { ConsumablesCard } from './ConsumablesCard';
+import { ServicesCard } from './ServicesCard';
+import { BundlingCard } from './BundlingCard';
+import { FinancingCard } from './FinancingCard';
 import { RevenuePreview } from './RevenuePreview';
 
 export function RevenueModelDashboard() {
@@ -41,14 +29,24 @@ export function RevenueModelDashboard() {
     updateConfigurazioneTamSamSomEcografi
   } = useDatabase();
   
-  const revenueModel = data?.revenueModel;
   const tamSamSomEcografi = data?.configurazioneTamSamSom?.ecografi;
+  const revenueModel = data?.revenueModel;
   
-  // Leggi dispositivi SOM Anno 1 dal TAM/SAM/SOM (se disponibili)
-  const somDevicesY1 = tamSamSomEcografi?.valoriCalcolati?.som1 || 0;
+  // 🆕 Leggi UNITÀ di dispositivi SOM dal TAM/SAM/SOM per tutti i 5 anni
+  const dispositiviUnita = tamSamSomEcografi?.dispositiviUnita || {
+    som1: 0,
+    som2: 0,
+    som3: 0,
+    som4: 0,
+    som5: 0
+  };
+  
+  // State per anno selezionato (default: Anno 1)
+  const [selectedYear, setSelectedYear] = useState<1 | 2 | 3 | 4 | 5>(1);
   
   // Flag per evitare loop infinito tra caricamento e salvataggio
   const [isInitialized, setIsInitialized] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
   
   // Stati locali per editing
@@ -79,13 +77,32 @@ export function RevenueModelDashboard() {
     palmari: 0.65
   });
   
-  // Stati SaaS
+  // Stati SaaS - Modello Per Dispositivo
   const [saasMonthlyFee, setSaasMonthlyFee] = useState(500);
   const [saasAnnualFee, setSaasAnnualFee] = useState(5500);
-  const [saasGrossMarginPct, setSaasGrossMarginPct] = useState(0.85);
+  const [saasSetupFee, setSaasSetupFee] = useState(0);
+  const [saasActivationRate, setSaasActivationRate] = useState(0.8); // 80% default
   const [saasPerDeviceEnabled, setSaasPerDeviceEnabled] = useState(true);
+  const [saasPerDeviceDistributionPct, setSaasPerDeviceDistributionPct] = useState(40); // 🆕 40% default
+  const [saasPerDeviceGrossMarginPct, setSaasPerDeviceGrossMarginPct] = useState(0.85);
+  
+  // Stati SaaS - Modello Per Scansione
   const [saasPerScanEnabled, setSaasPerScanEnabled] = useState(false);
+  const [saasPerScanDistributionPct, setSaasPerScanDistributionPct] = useState(30); // 🆕 30% default
+  const [saasFeePerScan, setSaasFeePerScan] = useState(1.5);
+  const [saasRevSharePct, setSaasRevSharePct] = useState(0.3);
+  const [saasScansPerDevicePerMonth, setSaasScansPerDevicePerMonth] = useState(150);
+  const [saasPerScanGrossMarginPct, setSaasPerScanGrossMarginPct] = useState(0.7);
+  
+  // Stati SaaS - Modello Tiered/Scaglioni
   const [saasTieredEnabled, setSaasTieredEnabled] = useState(false);
+  const [saasTieredDistributionPct, setSaasTieredDistributionPct] = useState(30); // 🆕 30% default
+  const [saasTiers, setSaasTiers] = useState([
+    { scansUpTo: 100, monthlyFee: 300, description: 'Piano Starter' },
+    { scansUpTo: 500, monthlyFee: 500, description: 'Piano Professional' },
+    { scansUpTo: 9999, monthlyFee: 800, description: 'Piano Enterprise' }
+  ]);
+  const [saasTieredGrossMarginPct, setSaasTieredGrossMarginPct] = useState(0.85);
   
   // Stati Geographic Pricing
   const [geoPricingEnabled, setGeoPricingEnabled] = useState(true);
@@ -109,23 +126,39 @@ export function RevenueModelDashboard() {
       setHardwareAspByType(prezziByType);
       
       // COGS da Revenue Model
-      setHardwareUnitCost(revenueModel.hardware?.unitCost ?? 10000);
       setHardwareUnitCostByType(revenueModel.hardware?.unitCostByType ?? { carrellati: 25000, portatili: 10000, palmari: 2000 });
       setHardwareWarrantyPct(revenueModel.hardware?.warrantyPct ?? 0.03);
       setHardwareCogsMarginByType(revenueModel.hardware?.cogsMarginByType ?? { carrellati: 0.50, portatili: 0.60, palmari: 0.65 });
       
-      // SaaS
+      // SaaS - Modello Per Dispositivo
       setSaasEnabled(revenueModel.saas?.enabled ?? true);
+      setSaasPerDeviceEnabled(revenueModel.saas?.pricing?.perDevice?.enabled ?? true);
+      setSaasPerDeviceDistributionPct(revenueModel.saas?.pricing?.perDevice?.modelDistributionPct ?? 40);
       setSaasMonthlyFee(revenueModel.saas?.pricing?.perDevice?.monthlyFee ?? 500);
       setSaasAnnualFee(revenueModel.saas?.pricing?.perDevice?.annualFee ?? 5500);
-      setSaasGrossMarginPct(revenueModel.saas?.pricing?.perDevice?.grossMarginPct ?? 0.85);
-      setSaasPerDeviceEnabled(revenueModel.saas?.pricing?.perDevice?.enabled ?? true);
+      setSaasSetupFee(0); // Setup fee - feature futura
+      setSaasActivationRate(revenueModel.saas?.pricing?.perDevice?.activationRate ?? 0.8);
+      setSaasPerDeviceGrossMarginPct(revenueModel.saas?.pricing?.perDevice?.grossMarginPct ?? 0.85);
+      
+      // SaaS - Modello Per Scansione
       setSaasPerScanEnabled(revenueModel.saas?.pricing?.perScan?.enabled ?? false);
+      setSaasPerScanDistributionPct(revenueModel.saas?.pricing?.perScan?.modelDistributionPct ?? 30);
+      setSaasFeePerScan(revenueModel.saas?.pricing?.perScan?.feePerScan ?? 1.5);
+      setSaasRevSharePct(revenueModel.saas?.pricing?.perScan?.revSharePct ?? 0.3);
+      setSaasScansPerDevicePerMonth(revenueModel.saas?.pricing?.perScan?.scansPerDevicePerMonth ?? 150);
+      setSaasPerScanGrossMarginPct(revenueModel.saas?.pricing?.perScan?.grossMarginPct ?? 0.7);
+      
+      // SaaS - Modello Tiered
       setSaasTieredEnabled(revenueModel.saas?.pricing?.tiered?.enabled ?? false);
+      setSaasTieredDistributionPct(revenueModel.saas?.pricing?.tiered?.modelDistributionPct ?? 30);
+      if (revenueModel.saas?.pricing?.tiered?.tiers) {
+        setSaasTiers(revenueModel.saas.pricing.tiered.tiers);
+      }
+      setSaasTieredGrossMarginPct(revenueModel.saas?.pricing?.tiered?.grossMarginPct ?? 0.85);
       
       // Altri moduli
-      setConsumablesEnabled(revenueModel.consumables?.enabled ?? false);
-      setServicesEnabled(revenueModel.services?.enabled ?? false);
+      setConsumablesEnabled(revenueModel?.consumables?.enabled ?? false);
+      setServicesEnabled(revenueModel?.services?.enabled ?? false);
       setBundlingEnabled(revenueModel.bundling?.enabled ?? false);
       setFinancingEnabled(revenueModel.financing?.enabled ?? false);
       
@@ -153,12 +186,23 @@ export function RevenueModelDashboard() {
       hardwareAspByType,
       hardwareCogsMarginByType,
       saasEnabled,
+      // Per-Device
+      saasPerDeviceEnabled,
       saasMonthlyFee,
       saasAnnualFee,
-      saasGrossMarginPct,
-      saasPerDeviceEnabled,
+      saasActivationRate,
+      saasPerDeviceGrossMarginPct,
+      // Per-Scan
       saasPerScanEnabled,
+      saasFeePerScan,
+      saasRevSharePct,
+      saasScansPerDevicePerMonth,
+      saasPerScanGrossMarginPct,
+      // Tiered
       saasTieredEnabled,
+      saasTiers,
+      saasTieredGrossMarginPct,
+      // Altri
       consumablesEnabled,
       servicesEnabled,
       bundlingEnabled,
@@ -169,8 +213,10 @@ export function RevenueModelDashboard() {
   }, [
     hardwareEnabled, hardwareAsp, hardwareUnitCost, hardwareWarrantyPct,
     hardwareAspByType, hardwareCogsMarginByType,
-    saasEnabled, saasMonthlyFee, saasAnnualFee, saasGrossMarginPct,
-    saasPerDeviceEnabled, saasPerScanEnabled, saasTieredEnabled,
+    saasEnabled,
+    saasPerDeviceEnabled, saasMonthlyFee, saasAnnualFee, saasActivationRate, saasPerDeviceGrossMarginPct,
+    saasPerScanEnabled, saasFeePerScan, saasRevSharePct, saasScansPerDevicePerMonth, saasPerScanGrossMarginPct,
+    saasTieredEnabled, saasTiers, saasTieredGrossMarginPct,
     consumablesEnabled, servicesEnabled, bundlingEnabled, financingEnabled,
     geoPricingEnabled, geoPriceMultipliers
   ]);
@@ -187,12 +233,23 @@ export function RevenueModelDashboard() {
       hardwareAspByType: tamSamSomEcografi.prezziMediDispositivi,
       hardwareCogsMarginByType: revenueModel.hardware?.cogsMarginByType,
       saasEnabled: revenueModel.saas?.enabled,
+      // Per-Device
+      saasPerDeviceEnabled: revenueModel.saas?.pricing?.perDevice?.enabled,
       saasMonthlyFee: revenueModel.saas?.pricing?.perDevice?.monthlyFee,
       saasAnnualFee: revenueModel.saas?.pricing?.perDevice?.annualFee,
-      saasGrossMarginPct: revenueModel.saas?.pricing?.perDevice?.grossMarginPct,
-      saasPerDeviceEnabled: revenueModel.saas?.pricing?.perDevice?.enabled,
+      saasActivationRate: revenueModel.saas?.pricing?.perDevice?.activationRate ?? 0.8,
+      saasPerDeviceGrossMarginPct: revenueModel.saas?.pricing?.perDevice?.grossMarginPct,
+      // Per-Scan
       saasPerScanEnabled: revenueModel.saas?.pricing?.perScan?.enabled,
+      saasFeePerScan: revenueModel.saas?.pricing?.perScan?.feePerScan,
+      saasRevSharePct: revenueModel.saas?.pricing?.perScan?.revSharePct,
+      saasScansPerDevicePerMonth: revenueModel.saas?.pricing?.perScan?.scansPerDevicePerMonth ?? 150,
+      saasPerScanGrossMarginPct: revenueModel.saas?.pricing?.perScan?.grossMarginPct,
+      // Tiered
       saasTieredEnabled: revenueModel.saas?.pricing?.tiered?.enabled,
+      saasTiers: revenueModel.saas?.pricing?.tiered?.tiers,
+      saasTieredGrossMarginPct: revenueModel.saas?.pricing?.tiered?.grossMarginPct,
+      // Altri
       consumablesEnabled: revenueModel.consumables?.enabled,
       servicesEnabled: revenueModel.services?.enabled,
       bundlingEnabled: revenueModel.bundling?.enabled,
@@ -212,15 +269,102 @@ export function RevenueModelDashboard() {
     
     if (!changed) return;
     
-    // Debounce: salva dopo 1.5 secondi di inattività
+    // Debounce: salva dopo 800ms di inattività (ridotto per reattività)
     const timeoutId = setTimeout(() => {
       console.log('💾 Auto-saving Revenue Model...');
       saveChanges();
-    }, 1500);
+    }, 800);
     
     return () => clearTimeout(timeoutId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentStateJSON, isInitialized, revenueModel, tamSamSomEcografi]);
+  
+  // Cleanup: salva al unmount del componente
+  useEffect(() => {
+    return () => {
+      if (hasChanges) {
+        console.log('🔄 Component unmounting - saving pending changes...');
+        saveChanges();
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasChanges]);
+  
+  // Salva prima di chiudere/ricaricare la pagina (SINCRONO)
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (hasChanges) {
+        console.log('⚠️ Page unloading - forcing SYNC save...');
+        
+        // Usa sendBeacon per salvataggio garantito anche durante chiusura
+        // (più affidabile di fetch durante unload)
+        const payload = {
+          saas: {
+            enabled: saasEnabled,
+            pricing: {
+              perDevice: {
+                enabled: saasPerDeviceEnabled,
+                monthlyFee: saasMonthlyFee,
+                annualFee: saasAnnualFee,
+                grossMarginPct: saasPerDeviceGrossMarginPct,
+                activationRate: saasActivationRate,
+                description: revenueModel?.saas?.pricing?.perDevice?.description ?? ''
+              },
+              perScan: {
+                enabled: saasPerScanEnabled,
+                feePerScan: saasFeePerScan,
+                revSharePct: saasRevSharePct,
+                scansPerDevicePerMonth: saasScansPerDevicePerMonth,
+                grossMarginPct: saasPerScanGrossMarginPct,
+                description: revenueModel?.saas?.pricing?.perScan?.description ?? ''
+              },
+              tiered: {
+                enabled: saasTieredEnabled,
+                description: revenueModel?.saas?.pricing?.tiered?.description ?? '',
+                tiers: saasTiers,
+                grossMarginPct: saasTieredGrossMarginPct
+              }
+            }
+          }
+        };
+        
+        // Salva con fetch keepalive (garantisce completamento anche dopo unload)
+        fetch('http://localhost:3001/api/database/revenue-model/saas', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload.saas),
+          keepalive: true  // ← CRUCIALE: mantiene richiesta attiva anche dopo chiusura
+        }).catch(err => console.error('❌ Errore salvataggio beforeunload:', err));
+        
+        // Mostra alert se ci sono modifiche
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    };
+    
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    hasChanges, saasEnabled, saasPerDeviceEnabled, saasMonthlyFee, saasAnnualFee,
+    saasPerDeviceGrossMarginPct, saasActivationRate, saasPerScanEnabled,
+    saasFeePerScan, saasRevSharePct, saasScansPerDevicePerMonth, saasPerScanGrossMarginPct,
+    saasTieredEnabled, saasTiers, saasTieredGrossMarginPct
+  ]);
+  
+  // Funzione per salvare immediatamente (esposta per bottone)
+  const handleSaveNow = async () => {
+    console.log('💾 Salvataggio manuale forzato...');
+    setIsSaving(true);
+    try {
+      await saveChanges();
+      console.log('✅ Salvataggio completato!');
+    } catch (error) {
+      console.error('❌ Errore durante salvataggio manuale:', error);
+    } finally {
+      setIsSaving(false);
+    }
+  };
   
   // Funzione salvataggio
   const saveChanges = useCallback(async () => {
@@ -240,7 +384,7 @@ export function RevenueModelDashboard() {
         cogsMarginByType: hardwareCogsMarginByType
       });
       
-      // Salva SaaS
+      // Salva SaaS - tutti i modelli
       await updateRevenueModelSaaS({
         enabled: saasEnabled,
         pricing: {
@@ -248,21 +392,23 @@ export function RevenueModelDashboard() {
             enabled: saasPerDeviceEnabled,
             monthlyFee: saasMonthlyFee,
             annualFee: saasAnnualFee,
-            grossMarginPct: saasGrossMarginPct,
+            grossMarginPct: saasPerDeviceGrossMarginPct,
+            activationRate: saasActivationRate,
             description: revenueModel?.saas?.pricing?.perDevice?.description ?? ''
           },
           perScan: {
             enabled: saasPerScanEnabled,
-            feePerScan: revenueModel?.saas?.pricing?.perScan?.feePerScan ?? 1.5,
-            revSharePct: revenueModel?.saas?.pricing?.perScan?.revSharePct ?? 0.3,
-            grossMarginPct: revenueModel?.saas?.pricing?.perScan?.grossMarginPct ?? 0.7,
+            feePerScan: saasFeePerScan,
+            revSharePct: saasRevSharePct,
+            scansPerDevicePerMonth: saasScansPerDevicePerMonth,
+            grossMarginPct: saasPerScanGrossMarginPct,
             description: revenueModel?.saas?.pricing?.perScan?.description ?? ''
           },
           tiered: {
             enabled: saasTieredEnabled,
             description: revenueModel?.saas?.pricing?.tiered?.description ?? '',
-            tiers: revenueModel?.saas?.pricing?.tiered?.tiers ?? [],
-            grossMarginPct: revenueModel?.saas?.pricing?.tiered?.grossMarginPct ?? 0.85
+            tiers: saasTiers,
+            grossMarginPct: saasTieredGrossMarginPct
           }
         }
       });
@@ -333,8 +479,10 @@ export function RevenueModelDashboard() {
   }, [
     hardwareEnabled, hardwareAsp, hardwareUnitCost, hardwareWarrantyPct,
     hardwareAspByType, hardwareUnitCostByType, hardwareCogsMarginByType,
-    saasEnabled, saasMonthlyFee, saasAnnualFee, saasGrossMarginPct,
-    saasPerDeviceEnabled, saasPerScanEnabled, saasTieredEnabled,
+    saasEnabled, saasMonthlyFee, saasAnnualFee, saasActivationRate,
+    saasPerDeviceEnabled, saasPerDeviceGrossMarginPct,
+    saasPerScanEnabled, saasFeePerScan, saasRevSharePct, saasScansPerDevicePerMonth, saasPerScanGrossMarginPct,
+    saasTieredEnabled, saasTiers, saasTieredGrossMarginPct,
     consumablesEnabled, servicesEnabled, bundlingEnabled, financingEnabled,
     geoPricingEnabled, geoPriceMultipliers,
     updateConfigurazioneTamSamSomEcografi,
@@ -371,10 +519,30 @@ export function RevenueModelDashboard() {
           
           <div className="flex items-center gap-3">
             {hasChanges && (
-              <Badge variant="outline" className="bg-yellow-50 border-yellow-300 text-yellow-700">
-                <Save className="h-3 w-3 mr-1" />
-                Salvataggio in corso...
-              </Badge>
+              <>
+                <Badge variant="outline" className="bg-yellow-50 border-yellow-300 text-yellow-700">
+                  <Save className="h-3 w-3 mr-1" />
+                  Modifiche non salvate
+                </Badge>
+                <Button 
+                  onClick={handleSaveNow}
+                  size="sm"
+                  disabled={isSaving}
+                  className="bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50"
+                >
+                  {isSaving ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2"></div>
+                      Salvataggio...
+                    </>
+                  ) : (
+                    <>
+                      <Save className="h-4 w-4 mr-2" />
+                      Salva ora
+                    </>
+                  )}
+                </Button>
+              </>
             )}
             {!hasChanges && isInitialized && (
               <Badge variant="outline" className="bg-green-50 border-green-300 text-green-700">
@@ -395,10 +563,22 @@ export function RevenueModelDashboard() {
           hardwareAsp={hardwareAsp}
           hardwareUnitCost={hardwareUnitCost}
           saasEnabled={saasEnabled}
+          saasPerDeviceEnabled={saasPerDeviceEnabled}
           saasMonthlyFee={saasMonthlyFee}
           saasAnnualFee={saasAnnualFee}
-          saasGrossMarginPct={saasGrossMarginPct}
-          somDevicesY1={somDevicesY1}
+          saasPerDeviceGrossMarginPct={saasPerDeviceGrossMarginPct}
+          saasActivationRate={saasActivationRate}
+          saasPerScanEnabled={saasPerScanEnabled}
+          saasFeePerScan={saasFeePerScan}
+          saasRevSharePct={saasRevSharePct}
+          saasScansPerDevicePerMonth={saasScansPerDevicePerMonth}
+          saasPerScanGrossMarginPct={saasPerScanGrossMarginPct}
+          saasTieredEnabled={saasTieredEnabled}
+          saasTiers={saasTiers}
+          saasTieredGrossMarginPct={saasTieredGrossMarginPct}
+          dispositiviUnita={dispositiviUnita}
+          selectedYear={selectedYear}
+          setSelectedYear={setSelectedYear}
         />
         
         {/* Cards principali */}
@@ -413,28 +593,48 @@ export function RevenueModelDashboard() {
             setUnitCost={setHardwareUnitCost}
             warrantyPct={hardwareWarrantyPct}
             setWarrantyPct={setHardwareWarrantyPct}
-            aspByType={hardwareAspByType}
-            setAspByType={setHardwareAspByType}
-            cogsMarginByType={hardwareCogsMarginByType}
-            setCogsMarginByType={setHardwareCogsMarginByType}
           />
           
-          {/* SaaS Card */}
-          <SaaSCard 
+          {/* SaaS Multi-Model Card */}
+          <SaaSMultiModelCard 
             enabled={saasEnabled}
             setEnabled={setSaasEnabled}
             perDeviceEnabled={saasPerDeviceEnabled}
             setPerDeviceEnabled={setSaasPerDeviceEnabled}
-            perScanEnabled={saasPerScanEnabled}
-            setPerScanEnabled={setSaasPerScanEnabled}
-            tieredEnabled={saasTieredEnabled}
-            setTieredEnabled={setSaasTieredEnabled}
+            perDeviceDistributionPct={saasPerDeviceDistributionPct}
+            setPerDeviceDistributionPct={setSaasPerDeviceDistributionPct}
             monthlyFee={saasMonthlyFee}
             setMonthlyFee={setSaasMonthlyFee}
             annualFee={saasAnnualFee}
             setAnnualFee={setSaasAnnualFee}
-            grossMarginPct={saasGrossMarginPct}
-            setGrossMarginPct={setSaasGrossMarginPct}
+            setupFee={saasSetupFee}
+            setSetupFee={setSaasSetupFee}
+            activationRate={saasActivationRate}
+            setActivationRate={setSaasActivationRate}
+            perScanEnabled={saasPerScanEnabled}
+            setPerScanEnabled={setSaasPerScanEnabled}
+            perScanDistributionPct={saasPerScanDistributionPct}
+            setPerScanDistributionPct={setSaasPerScanDistributionPct}
+            feePerScan={saasFeePerScan}
+            setFeePerScan={setSaasFeePerScan}
+            revSharePct={saasRevSharePct}
+            setRevSharePct={setSaasRevSharePct}
+            scansPerDevicePerMonth={saasScansPerDevicePerMonth}
+            setScansPerDevicePerMonth={setSaasScansPerDevicePerMonth}
+            tieredEnabled={saasTieredEnabled}
+            setTieredEnabled={setSaasTieredEnabled}
+            tieredDistributionPct={saasTieredDistributionPct}
+            setTieredDistributionPct={setSaasTieredDistributionPct}
+            tiers={saasTiers}
+            setTiers={setSaasTiers}
+            perDeviceGrossMarginPct={saasPerDeviceGrossMarginPct}
+            setPerDeviceGrossMarginPct={setSaasPerDeviceGrossMarginPct}
+            perScanGrossMarginPct={saasPerScanGrossMarginPct}
+            setPerScanGrossMarginPct={setSaasPerScanGrossMarginPct}
+            tieredGrossMarginPct={saasTieredGrossMarginPct}
+            onSave={updateRevenueModelSaaS}
+            setTieredGrossMarginPct={setSaasTieredGrossMarginPct}
+            somDevicesY1={dispositiviUnita[`som${selectedYear}` as keyof typeof dispositiviUnita] || 0}
           />
           
           {/* Pricing Strategy Card */}
@@ -445,70 +645,29 @@ export function RevenueModelDashboard() {
             setGeoPriceMultipliers={setGeoPriceMultipliers}
           />
           
-          {/* Placeholder cards per moduli opzionali */}
-          <Card className="p-6 border-dashed border-2 border-gray-200 hover:border-gray-300 transition-colors cursor-pointer"
-                onClick={() => setConsumablesEnabled(!consumablesEnabled)}>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <ShoppingCart className="h-6 w-6 text-gray-400" />
-                <div>
-                  <h3 className="font-semibold text-gray-700">Consumabili</h3>
-                  <p className="text-sm text-gray-500">Gel, sonde, accessori ricorrenti</p>
-                </div>
-              </div>
-              <Badge variant={consumablesEnabled ? "default" : "outline"}>
-                {consumablesEnabled ? 'Attivo' : 'Disattivato'}
-              </Badge>
-            </div>
-          </Card>
+          {/* Consumables Card */}
+          <ConsumablesCard 
+            enabled={consumablesEnabled}
+            setEnabled={setConsumablesEnabled}
+          />
           
-          <Card className="p-6 border-dashed border-2 border-gray-200 hover:border-gray-300 transition-colors cursor-pointer"
-                onClick={() => setServicesEnabled(!servicesEnabled)}>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <GraduationCap className="h-6 w-6 text-gray-400" />
-                <div>
-                  <h3 className="font-semibold text-gray-700">Servizi</h3>
-                  <p className="text-sm text-gray-500">Training, garanzia estesa, consulenza</p>
-                </div>
-              </div>
-              <Badge variant={servicesEnabled ? "default" : "outline"}>
-                {servicesEnabled ? 'Attivo' : 'Disattivato'}
-              </Badge>
-            </div>
-          </Card>
+          {/* Services Card */}
+          <ServicesCard 
+            enabled={servicesEnabled}
+            setEnabled={setServicesEnabled}
+          />
           
-          <Card className="p-6 border-dashed border-2 border-gray-200 hover:border-gray-300 transition-colors cursor-pointer"
-                onClick={() => setBundlingEnabled(!bundlingEnabled)}>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <Gift className="h-6 w-6 text-gray-400" />
-                <div>
-                  <h3 className="font-semibold text-gray-700">Bundling</h3>
-                  <p className="text-sm text-gray-500">Pacchetti hardware + software + servizi</p>
-                </div>
-              </div>
-              <Badge variant={bundlingEnabled ? "default" : "outline"}>
-                {bundlingEnabled ? 'Attivo' : 'Disattivato'}
-              </Badge>
-            </div>
-          </Card>
+          {/* Bundling Card */}
+          <BundlingCard 
+            enabled={bundlingEnabled}
+            setEnabled={setBundlingEnabled}
+          />
           
-          <Card className="p-6 border-dashed border-2 border-gray-200 hover:border-gray-300 transition-colors cursor-pointer"
-                onClick={() => setFinancingEnabled(!financingEnabled)}>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <CreditCard className="h-6 w-6 text-gray-400" />
-                <div>
-                  <h3 className="font-semibold text-gray-700">Financing</h3>
-                  <p className="text-sm text-gray-500">Leasing, rent-to-own</p>
-                </div>
-              </div>
-              <Badge variant={financingEnabled ? "default" : "outline"}>
-                {financingEnabled ? 'Attivo' : 'Disattivato'}
-              </Badge>
-            </div>
-          </Card>
+          {/* Financing Card */}
+          <FinancingCard 
+            enabled={financingEnabled}
+            setEnabled={setFinancingEnabled}
+          />
         </div>
         
         {/* Footer Info */}

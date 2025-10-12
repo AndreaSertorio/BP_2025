@@ -15,7 +15,8 @@ import {
   Package, 
   Info,
   Database,
-  Edit3
+  Edit3,
+  Server
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
@@ -25,10 +26,41 @@ interface RevenuePreviewProps {
   hardwareAsp: number;
   hardwareUnitCost: number;
   saasEnabled: boolean;
+  
+  // Modello Per Dispositivo
+  saasPerDeviceEnabled: boolean;
   saasMonthlyFee: number;
   saasAnnualFee: number;
-  saasGrossMarginPct: number;
-  somDevicesY1?: number; // Dispositivi SOM Anno 1 dal TAM/SAM/SOM
+  saasPerDeviceGrossMarginPct: number;
+  saasActivationRate: number; // % dispositivi venduti che diventano attivi SaaS
+  
+  // Modello Per Scansione
+  saasPerScanEnabled: boolean;
+  saasFeePerScan: number;
+  saasRevSharePct: number;
+  saasScansPerDevicePerMonth: number;
+  saasPerScanGrossMarginPct: number;
+  
+  // Modello Tiered
+  saasTieredEnabled: boolean;
+  saasTiers: Array<{
+    scansUpTo: number;
+    monthlyFee: number;
+    description: string;
+    distributionPct?: number; // 🆕 % di dispositivi in questo tier
+  }>;
+  saasTieredGrossMarginPct: number;
+  
+  // 🆕 Unità dispositivi per tutti i 5 anni dal TAM/SAM/SOM
+  dispositiviUnita?: {
+    som1: number;
+    som2: number;
+    som3: number;
+    som4: number;
+    som5: number;
+  };
+  selectedYear: 1 | 2 | 3 | 4 | 5;
+  setSelectedYear: (year: 1 | 2 | 3 | 4 | 5) => void;
 }
 
 export function RevenuePreview({
@@ -36,45 +68,99 @@ export function RevenuePreview({
   hardwareAsp,
   hardwareUnitCost,
   saasEnabled,
+  saasPerDeviceEnabled,
   saasMonthlyFee,
   saasAnnualFee,
-  saasGrossMarginPct,
-  somDevicesY1
+  saasPerDeviceGrossMarginPct,
+  saasActivationRate,
+  saasPerScanEnabled,
+  saasFeePerScan,
+  saasRevSharePct,
+  saasScansPerDevicePerMonth,
+  saasPerScanGrossMarginPct,
+  saasTieredEnabled,
+  saasTiers,
+  saasTieredGrossMarginPct,
+  dispositiviUnita,
+  selectedYear,
+  setSelectedYear
 }: RevenuePreviewProps) {
   
-  // 🎛️ DUAL-MODE: Dati Reali vs Simulazione Manuale
+  // 🏛️ DUAL-MODE: Dati Reali vs Simulazione Manuale
   const [useRealData, setUseRealData] = React.useState(true); // DEFAULT: Dati Reali ✅
   const [manualDevices, setManualDevices] = React.useState(100);
   
-  // Determina quale sorgente usare
-  const hasRealData = somDevicesY1 && somDevicesY1 > 0;
-  const realDataDevices = hasRealData ? somDevicesY1 : 0;
+  // 🆕 Leggi unità per l'anno selezionato dal database
+  const devicesForSelectedYear = dispositiviUnita ? dispositiviUnita[`som${selectedYear}` as keyof typeof dispositiviUnita] : 0;
   
-  // Se modalità Real Data: usa som1 o fallback 100
+  // Determina quale sorgente usare
+  const hasRealData = devicesForSelectedYear && devicesForSelectedYear > 0;
+  const realDataDevices = hasRealData ? devicesForSelectedYear : 0;
+  
+  // Se modalità Real Data: usa SOM dell'anno selezionato o fallback 100
   // Se modalità Manual: usa input utente
-  const UNITS_Y1 = useRealData 
+  const UNITS_YEAR = useRealData 
     ? (realDataDevices > 0 ? realDataDevices : 100)  // Real data or fallback
     : manualDevices;                                   // Manual input
   
   const isUsingRealData = useRealData && hasRealData;
-  const ACTIVE_DEVICES = Math.round(UNITS_Y1 * 0.8); // 80% dei venduti diventano attivi SaaS
+  const ACTIVE_DEVICES = Math.round(UNITS_YEAR * saasActivationRate); // % configurabile dei venduti diventano attivi SaaS
   
   // Calcoli Hardware
-  const hardwareRevenue = hardwareEnabled ? UNITS_Y1 * hardwareAsp : 0;
-  const hardwareCogs = hardwareEnabled ? UNITS_Y1 * hardwareUnitCost : 0;
+  const hardwareRevenue = hardwareEnabled ? UNITS_YEAR * hardwareAsp : 0;
+  const hardwareCogs = hardwareEnabled ? UNITS_YEAR * hardwareUnitCost : 0;
   const hardwareGrossProfit = hardwareRevenue - hardwareCogs;
   const hardwareGrossMarginPct = hardwareRevenue > 0 ? (hardwareGrossProfit / hardwareRevenue) * 100 : 0;
   
-  // Calcoli SaaS
-  const saasMrr = saasEnabled ? ACTIVE_DEVICES * saasMonthlyFee : 0;
-  const saasArr = saasEnabled ? ACTIVE_DEVICES * saasAnnualFee : 0;
-  const saasCogs = saasArr * (1 - saasGrossMarginPct);
-  const saasGrossProfit = saasArr - saasCogs;
+  // ==========================================================================
+  // CALCOLI SAAS MULTI-MODEL
+  // ==========================================================================
+  
+  // 1. MODELLO PER DISPOSITIVO
+  const perDeviceMrr = (saasEnabled && saasPerDeviceEnabled) ? ACTIVE_DEVICES * saasMonthlyFee : 0;
+  const perDeviceArr = (saasEnabled && saasPerDeviceEnabled) ? ACTIVE_DEVICES * saasAnnualFee : 0;
+  const perDeviceCogs = perDeviceArr * (1 - saasPerDeviceGrossMarginPct);
+  const perDeviceGrossProfit = perDeviceArr - perDeviceCogs;
+  
+  // 2. MODELLO PER SCANSIONE
+  const totalScansPerMonth = ACTIVE_DEVICES * saasScansPerDevicePerMonth;
+  const totalScansPerYear = totalScansPerMonth * 12;
+  const perScanGrossRevenue = (saasEnabled && saasPerScanEnabled) ? totalScansPerYear * saasFeePerScan : 0;
+  const perScanNetRevenue = perScanGrossRevenue * (1 - saasRevSharePct); // Dopo revenue share
+  const perScanCogs = perScanNetRevenue * (1 - saasPerScanGrossMarginPct);
+  const perScanGrossProfit = perScanNetRevenue - perScanCogs;
+  const perScanMrr = perScanNetRevenue / 12;
+  
+  // 3. MODELLO TIERED - con distribuzione pesata per tier
+  let tieredArr = 0;
+  if (saasEnabled && saasTieredEnabled && saasTiers.length > 0) {
+    // Calcola ARR pesato per ogni tier in base alla distributionPct
+    tieredArr = saasTiers.reduce((total, tier) => {
+      const distribution = tier.distributionPct || 0;
+      const devicesInTier = Math.round(ACTIVE_DEVICES * (distribution / 100));
+      return total + (devicesInTier * tier.monthlyFee * 12);
+    }, 0);
+  }
+  const tieredCogs = tieredArr * (1 - saasTieredGrossMarginPct);
+  const tieredGrossProfit = tieredArr - tieredCogs;
+  const tieredMrr = tieredArr / 12;
+  
+  // AGGREGATI SAAS
+  const saasMrr = perDeviceMrr + perScanMrr + tieredMrr;
+  const saasArr = perDeviceArr + perScanNetRevenue + tieredArr;
+  const saasCogs = perDeviceCogs + perScanCogs + tieredCogs;
+  const saasGrossProfit = perDeviceGrossProfit + perScanGrossProfit + tieredGrossProfit;
+  const saasGrossMarginPct = saasArr > 0 ? saasGrossProfit / saasArr : 0;
   
   // Totali
   const totalRevenue = hardwareRevenue + saasArr;
   const totalGrossProfit = hardwareGrossProfit + saasGrossProfit;
   const totalGrossMarginPct = totalRevenue > 0 ? (totalGrossProfit / totalRevenue) * 100 : 0;
+  
+  // OPEX stimato (25% del Gross Profit come baseline conservativa)
+  const estimatedOpex = totalGrossProfit * 0.25;
+  const netProfit = totalGrossProfit - estimatedOpex;
+  const netMarginPct = totalRevenue > 0 ? (netProfit / totalRevenue) * 100 : 0;
   
   // ARPA
   const arpa = saasEnabled && ACTIVE_DEVICES > 0 ? saasArr / ACTIVE_DEVICES : 0;
@@ -84,7 +170,25 @@ export function RevenuePreview({
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <DollarSign className="h-6 w-6 text-green-600" />
-          <h3 className="text-lg font-semibold text-gray-900">Preview Ricavi Anno 1</h3>
+          <div className="flex items-center gap-3">
+            <h3 className="text-lg font-semibold text-gray-900">Preview Ricavi</h3>
+            {/* 🆕 Selettore Anno */}
+            <div className="flex items-center gap-1 bg-gray-100 rounded-lg p-1">
+              {[1, 2, 3, 4, 5].map((year) => (
+                <button
+                  key={year}
+                  onClick={() => setSelectedYear(year as 1 | 2 | 3 | 4 | 5)}
+                  className={`px-3 py-1 text-sm font-medium rounded transition-colors ${
+                    selectedYear === year
+                      ? 'bg-blue-600 text-white'
+                      : 'text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  Y{year}
+                </button>
+              ))}
+            </div>
+          </div>
           <Tooltip>
             <TooltipTrigger>
               <Info className="h-4 w-4 text-gray-400" />
@@ -136,7 +240,7 @@ export function RevenuePreview({
                   </div>
                 )}
                 <p className="text-xs opacity-75 border-t border-gray-600 pt-2">
-                  • Conversione SaaS: {ACTIVE_DEVICES} devices ({((ACTIVE_DEVICES/UNITS_Y1)*100).toFixed(0)}%)
+                  • Conversione SaaS: {ACTIVE_DEVICES} devices ({((ACTIVE_DEVICES/UNITS_YEAR)*100).toFixed(0)}%)
                 </p>
               </div>
             </TooltipContent>
@@ -201,7 +305,7 @@ export function RevenuePreview({
       
       <div className="grid grid-cols-4 gap-4">
         {/* Hardware Revenue */}
-        <div className="bg-white p-4 rounded-lg border border-gray-200">
+        <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
           <div className="flex items-center gap-2 mb-2">
             <Package className="h-4 w-4 text-blue-600" />
             <span className="text-xs font-medium text-gray-600 uppercase">Hardware</span>
@@ -216,7 +320,7 @@ export function RevenuePreview({
                     = Dispositivi SOM Y1 × ASP Medio
                   </p>
                   <p className="font-mono text-blue-400">
-                    = {UNITS_Y1} × €{hardwareAsp.toLocaleString()}
+                    = {UNITS_YEAR} × €{hardwareAsp.toLocaleString()}
                   </p>
                   <p className="font-mono text-green-400">
                     = €{hardwareRevenue.toLocaleString()}
@@ -237,7 +341,7 @@ export function RevenuePreview({
             €{(hardwareRevenue / 1000000).toFixed(2)}M
           </div>
           <div className="text-xs text-gray-500">
-            {UNITS_Y1} unità × €{(hardwareAsp / 1000).toFixed(0)}K
+            {UNITS_YEAR} unità × €{(hardwareAsp / 1000).toFixed(0)}K
           </div>
           {hardwareEnabled && (
             <div className="mt-2 pt-2 border-t border-gray-100">
@@ -250,7 +354,7 @@ export function RevenuePreview({
         </div>
         
         {/* SaaS MRR */}
-        <div className="bg-white p-4 rounded-lg border border-gray-200">
+        <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
           <div className="flex items-center gap-2 mb-2">
             <Repeat className="h-4 w-4 text-purple-600" />
             <span className="text-xs font-medium text-gray-600 uppercase">MRR</span>
@@ -260,22 +364,31 @@ export function RevenuePreview({
               </TooltipTrigger>
               <TooltipContent className="max-w-sm">
                 <div className="space-y-1 text-xs">
-                  <p className="font-semibold">💻 Monthly Recurring Revenue:</p>
-                  <p className="font-mono">
-                    = Devices Attivi × Fee Mensile
-                  </p>
-                  <p className="font-mono text-purple-400">
-                    = {ACTIVE_DEVICES} × €{saasMonthlyFee}
-                  </p>
-                  <p className="font-mono text-green-400">
+                  <p className="font-semibold">💻 Monthly Recurring Revenue (TOTALE):</p>
+                  <p className="font-mono text-green-400 font-bold">
                     = €{saasMrr.toLocaleString()}/mese
                   </p>
+                  <div className="border-t border-gray-600 pt-2 mt-2 space-y-1">
+                    <p className="font-semibold text-blue-400">Breakdown per Modello:</p>
+                    {saasPerDeviceEnabled && perDeviceMrr > 0 && (
+                      <p className="opacity-90">
+                        • Per-Device: €{perDeviceMrr.toLocaleString()}/mese ({((perDeviceMrr/saasMrr)*100).toFixed(0)}%)
+                      </p>
+                    )}
+                    {saasPerScanEnabled && perScanMrr > 0 && (
+                      <p className="opacity-90">
+                        • Per-Scan: €{perScanMrr.toLocaleString()}/mese ({((perScanMrr/saasMrr)*100).toFixed(0)}%)
+                      </p>
+                    )}
+                    {saasTieredEnabled && tieredMrr > 0 && (
+                      <p className="opacity-90">
+                        • Tiered: €{tieredMrr.toLocaleString()}/mese ({((tieredMrr/saasMrr)*100).toFixed(0)}%)
+                      </p>
+                    )}
+                  </div>
                   <div className="border-t border-gray-600 pt-1 mt-1">
                     <p className="opacity-75">
-                      Devices Attivi = {UNITS_Y1} venduti × 80% conversione
-                    </p>
-                    <p className="opacity-75">
-                      Fee da: revenueModel.saas.pricing.perDevice.monthlyFee
+                      Devices Attivi = {UNITS_YEAR} venduti × {(saasActivationRate*100).toFixed(0)}% conversione
                     </p>
                   </div>
                 </div>
@@ -299,7 +412,7 @@ export function RevenuePreview({
         </div>
         
         {/* SaaS ARR */}
-        <div className="bg-white p-4 rounded-lg border border-gray-200">
+        <div className="bg-purple-50 p-4 rounded-lg border border-purple-200">
           <div className="flex items-center gap-2 mb-2">
             <Repeat className="h-4 w-4 text-purple-600" />
             <span className="text-xs font-medium text-gray-600 uppercase">ARR</span>
@@ -309,22 +422,34 @@ export function RevenuePreview({
               </TooltipTrigger>
               <TooltipContent className="max-w-sm">
                 <div className="space-y-1 text-xs">
-                  <p className="font-semibold">📅 Annual Recurring Revenue:</p>
-                  <p className="font-mono">
-                    = Devices Attivi × Fee Annuale
-                  </p>
-                  <p className="font-mono text-purple-400">
-                    = {ACTIVE_DEVICES} × €{saasAnnualFee.toLocaleString()}
-                  </p>
-                  <p className="font-mono text-green-400">
+                  <p className="font-semibold">📅 Annual Recurring Revenue (TOTALE):</p>
+                  <p className="font-mono text-green-400 font-bold">
                     = €{saasArr.toLocaleString()}/anno
                   </p>
+                  <div className="border-t border-gray-600 pt-2 mt-2 space-y-1">
+                    <p className="font-semibold text-blue-400">Breakdown per Modello:</p>
+                    {saasPerDeviceEnabled && perDeviceArr > 0 && (
+                      <p className="opacity-90">
+                        • Per-Device: €{perDeviceArr.toLocaleString()}/anno ({((perDeviceArr/saasArr)*100).toFixed(0)}%)
+                      </p>
+                    )}
+                    {saasPerScanEnabled && perScanNetRevenue > 0 && (
+                      <p className="opacity-90">
+                        • Per-Scan: €{perScanNetRevenue.toLocaleString()}/anno ({((perScanNetRevenue/saasArr)*100).toFixed(0)}%)
+                      </p>
+                    )}
+                    {saasTieredEnabled && tieredArr > 0 && (
+                      <p className="opacity-90">
+                        • Tiered: €{tieredArr.toLocaleString()}/anno ({((tieredArr/saasArr)*100).toFixed(0)}%)
+                      </p>
+                    )}
+                  </div>
                   <div className="border-t border-gray-600 pt-1 mt-1">
                     <p className="opacity-75">
-                      ARPA (per device): €{arpa.toLocaleString()}/anno
+                      ARPA medio (per device): €{arpa.toLocaleString()}/anno
                     </p>
                     <p className="opacity-75">
-                      Fee da: revenueModel.saas.pricing.perDevice.annualFee
+                      {ACTIVE_DEVICES} dispositivi attivi
                     </p>
                   </div>
                 </div>
@@ -398,12 +523,16 @@ export function RevenuePreview({
         </div>
       </div>
       
-      {/* Breakdown Details */}
+      {/* Breakdown Details - Cards */}
       <div className="mt-4 pt-4 border-t border-gray-200">
-        <div className="grid grid-cols-2 gap-6 text-sm">
-          <div>
-            <div className="font-medium text-gray-700 mb-2">📦 Hardware</div>
-            <div className="space-y-1 text-xs text-gray-600">
+        <div className="grid grid-cols-3 gap-4">
+          {/* Hardware Card */}
+          <Card className="p-4 bg-blue-50 border-blue-200">
+            <div className="flex items-center gap-2 mb-3">
+              <Package className="h-4 w-4 text-blue-600" />
+              <div className="font-semibold text-gray-800">Hardware</div>
+            </div>
+            <div className="space-y-2 text-xs text-gray-600">
               <div className="flex justify-between">
                 <span>Ricavi:</span>
                 <span className="font-medium">€{(hardwareRevenue / 1000).toFixed(0)}K</span>
@@ -412,16 +541,24 @@ export function RevenuePreview({
                 <span>COGS:</span>
                 <span className="font-medium text-red-600">-€{(hardwareCogs / 1000).toFixed(0)}K</span>
               </div>
-              <div className="flex justify-between border-t pt-1">
-                <span>Gross Profit:</span>
-                <span className="font-semibold text-green-600">€{(hardwareGrossProfit / 1000).toFixed(0)}K</span>
+              <div className="flex justify-between border-t border-blue-200 pt-2 mt-2">
+                <span className="font-medium">Gross Profit:</span>
+                <span className="font-bold text-green-600">€{(hardwareGrossProfit / 1000).toFixed(0)}K</span>
+              </div>
+              <div className="flex justify-between text-[10px] text-gray-500 bg-blue-100 px-2 py-1 rounded">
+                <span>Margine Lordo:</span>
+                <span className="font-semibold">{hardwareGrossMarginPct.toFixed(1)}%</span>
               </div>
             </div>
-          </div>
+          </Card>
           
-          <div>
-            <div className="font-medium text-gray-700 mb-2">💻 SaaS</div>
-            <div className="space-y-1 text-xs text-gray-600">
+          {/* SaaS Card */}
+          <Card className="p-4 bg-purple-50 border-purple-200">
+            <div className="flex items-center gap-2 mb-3">
+              <Server className="h-4 w-4 text-purple-600" />
+              <div className="font-semibold text-gray-800">SaaS</div>
+            </div>
+            <div className="space-y-2 text-xs text-gray-600">
               <div className="flex justify-between">
                 <span>Ricavi (ARR):</span>
                 <span className="font-medium">€{(saasArr / 1000).toFixed(0)}K</span>
@@ -430,12 +567,42 @@ export function RevenuePreview({
                 <span>COGS:</span>
                 <span className="font-medium text-red-600">-€{(saasCogs / 1000).toFixed(0)}K</span>
               </div>
-              <div className="flex justify-between border-t pt-1">
-                <span>Gross Profit:</span>
-                <span className="font-semibold text-green-600">€{(saasGrossProfit / 1000).toFixed(0)}K</span>
+              <div className="flex justify-between border-t border-purple-200 pt-2 mt-2">
+                <span className="font-medium">Gross Profit:</span>
+                <span className="font-bold text-green-600">€{(saasGrossProfit / 1000).toFixed(0)}K</span>
+              </div>
+              <div className="flex justify-between text-[10px] text-gray-500 bg-purple-100 px-2 py-1 rounded">
+                <span>Margine Lordo:</span>
+                <span className="font-semibold">{(saasGrossMarginPct * 100).toFixed(1)}%</span>
               </div>
             </div>
-          </div>
+          </Card>
+          
+          {/* Total Card */}
+          <Card className="p-4 bg-gradient-to-br from-green-50 to-blue-50 border-2 border-green-300">
+            <div className="flex items-center gap-2 mb-3">
+              <DollarSign className="h-4 w-4 text-green-700" />
+              <div className="font-semibold text-gray-800">Totale (Lordo + Netto)</div>
+            </div>
+            <div className="space-y-2 text-xs text-gray-600">
+              <div className="flex justify-between">
+                <span>Gross Profit:</span>
+                <span className="font-semibold text-green-600">€{(totalGrossProfit / 1000).toFixed(0)}K</span>
+              </div>
+              <div className="flex justify-between">
+                <span>OPEX (stima):</span>
+                <span className="font-medium text-orange-600">-€{(estimatedOpex / 1000).toFixed(0)}K</span>
+              </div>
+              <div className="flex justify-between border-t-2 border-green-300 pt-2 mt-2">
+                <span className="font-semibold">Net Profit:</span>
+                <span className="font-bold text-blue-700 text-sm">€{(netProfit / 1000).toFixed(0)}K</span>
+              </div>
+              <div className="flex justify-between text-[10px] text-gray-600 bg-gradient-to-r from-green-100 to-blue-100 px-2 py-1 rounded font-medium">
+                <span>Net Margin:</span>
+                <span className="font-bold">{netMarginPct.toFixed(1)}%</span>
+              </div>
+            </div>
+          </Card>
         </div>
       </div>
       

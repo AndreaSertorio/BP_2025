@@ -95,54 +95,45 @@ export function TamSamSomDashboard() {
   const configTamSamSom = data?.configurazioneTamSamSom?.ecografie;
   const configTamSamSomDevices = data?.configurazioneTamSamSom?.ecografi;
 
-  // Carica configurazione Procedures salvata al mount
+  // Carica configurazione salvata al mount (SOLO UNA VOLTA)
   useEffect(() => {
-    if (configTamSamSom) {
+    if (configTamSamSom && configTamSamSomDevices && !isInitialized) {
+      // Carica Procedures
       setPriceMode(configTamSamSom.priceMode || 'semplice');
       setPrezzoMedioProcedura(configTamSamSom.prezzoMedioProcedura || 77.5);
       setVolumeMode(configTamSamSom.volumeMode || 'totale');
       setSamPercentage(configTamSamSom.samPercentage || 35);
       setSomPercentages(configTamSamSom.somPercentages || { y1: 0.5, y3: 2, y5: 5 });
       
-      // Carica regioni selezionate se salvate (con type assertion per nuova proprietà)
       if ((configTamSamSom as any).regioniSelezionate) {
         setSelectedRegions((configTamSamSom as any).regioniSelezionate);
       }
       
-      console.log('✅ Configurazione TAM/SAM/SOM Procedures caricata dal database');
-    }
-  }, [configTamSamSom]);
-  
-  // Carica configurazione Devices salvata al mount (SOLO UNA VOLTA)
-  useEffect(() => {
-    if (configTamSamSomDevices && !isInitialized) {
-      setSamPercentageDevices(configTamSamSomDevices.samPercentage || 35);
-      setSomPercentagesDevices(configTamSamSomDevices.somPercentages || { y1: 0.5, y3: 2, y5: 5 });
+      // Carica Devices
+      setSamPercentageDevices(configTamSamSomDevices.samPercentage || 50);
+      setSomPercentagesDevices(configTamSamSomDevices.somPercentages || { y1: 1, y3: 2, y5: 5 });
       
-      // Carica regioni attive se salvate
       if ((configTamSamSomDevices as any).regioniAttive) {
         setRegioniAttive((configTamSamSomDevices as any).regioniAttive);
       }
       
-      // Carica prezzo medio dispositivo (SOURCE OF TRUTH)
       if (configTamSamSomDevices.prezzoMedioDispositivo !== undefined) {
         setPrezzoMedio(configTamSamSomDevices.prezzoMedioDispositivo);
       }
       
-      // Carica prezzi dispositivi se salvati
       if ((configTamSamSomDevices as any).prezziMediDispositivi) {
         setPrezziDispositivi((configTamSamSomDevices as any).prezziMediDispositivi);
       }
       
       setIsInitialized(true); // Blocca ricaricamenti successivi
-      console.log('✅ Configurazione TAM/SAM/SOM Devices caricata dal database (INIT)');
+      console.log('✅ Configurazione TAM/SAM/SOM caricata dal database (Procedures + Devices)');
     }
-  }, [configTamSamSomDevices, isInitialized]);
+  }, [configTamSamSom, configTamSamSomDevices, isInitialized]);
 
   // Auto-salva configurazione Procedures quando cambiano i parametri (con debounce 1.5s)
   useEffect(() => {
-    // Skip primo mount (quando configTamSamSom non è ancora caricato)
-    if (!configTamSamSom) return;
+    // Skip se non inizializzato (evita salvataggio durante caricamento iniziale)
+    if (!configTamSamSom || !isInitialized) return;
     
     const timer = setTimeout(async () => {
       // Salva SOLO i parametri configurabili (non i valori calcolati che vengono derivati)
@@ -166,7 +157,8 @@ export function TamSamSomDashboard() {
     selectedRegions, 
     volumeMode, 
     samPercentage, 
-    somPercentages
+    somPercentages,
+    isInitialized
   ]);
 
   // Serializza regioniAttive con useMemo per evitare ricalcolo ad ogni render
@@ -193,7 +185,7 @@ export function TamSamSomDashboard() {
       return;
     }
     
-    console.log('🔄 Calcolo valori TAM/SAM/SOM al mount...');
+    console.log('🔄 Calcolo valori TAM/SAM/SOM Devices al mount...');
     console.log('📦 Dati disponibili:', {
       mercatoEcografi: !!mercatoEcografi,
       numeroEcografi: mercatoEcografi?.numeroEcografi?.length || 0,
@@ -202,20 +194,12 @@ export function TamSamSomDashboard() {
       somPercentagesDevices
     });
     
-    // Calcola valori aggiornati
-    const tam = calculateTotalDevices();
-    console.log('📐 TAM calcolato:', tam);
+    // Calcola valori aggiornati DEVICES usando calculateDevicesMetrics() 
+    // che calcola il VALORE DI MERCATO in € (non solo unità)
+    const metrics = calculateDevicesMetrics();
+    const { tam, sam, som1, som3, som5 } = metrics;
     
-    const sam = calculateSamDevices();
-    console.log('📐 SAM calcolato:', sam, `(${samPercentageDevices}% di ${tam})`);
-    
-    const som1 = calculateSomDevices('y1');
-    console.log('📐 SOM1 calcolato:', som1, `(${somPercentagesDevices.y1}% di ${sam})`);
-    
-    const som3 = calculateSomDevices('y3');
-    const som5 = calculateSomDevices('y5');
-    
-    console.log('📊 Valori calcolati FINALI:', { tam, sam, som1, som3, som5 });
+    console.log('📊 Valori Devices calcolati FINALI (valore mercato in €):', { tam, sam, som1, som3, som5 });
     
     // Verifica se valori calcolati esistono già nel DB
     const existingValues = configTamSamSomDevices.valoriCalcolati;
@@ -231,6 +215,10 @@ export function TamSamSomDashboard() {
     if (needsUpdate) {
       // Salva SENZA debounce (immediato)
       console.log('💾 Salvo valori calcolati nel DB...');
+      
+      // 🆕 Calcola anche UNITÀ di dispositivi per tutti i 5 anni
+      const unitsMetrics = calculateDevicesUnitsMetrics();
+      
       updateConfigurazioneTamSamSomEcografi({
         samPercentage: samPercentageDevices,
         somPercentages: somPercentagesDevices,
@@ -243,17 +231,29 @@ export function TamSamSomDashboard() {
           som1,
           som3,
           som5
+        },
+        // 🆕 Aggiungi unità dispositivi per tutti i 5 anni (con interpolazione)
+        dispositiviUnita: {
+          tam: unitsMetrics.tamDispositivi,
+          sam: unitsMetrics.samDispositivi,
+          som1: unitsMetrics.som1Dispositivi,
+          som2: unitsMetrics.som2Dispositivi,  // ← INTERPOLATO
+          som3: unitsMetrics.som3Dispositivi,
+          som4: unitsMetrics.som4Dispositivi,  // ← INTERPOLATO
+          som5: unitsMetrics.som5Dispositivi
         }
       } as any);
       
-      console.log('🚀 Valori calcolati inizializzati al mount:', { tam, sam, som1, som3, som5 });
+      console.log('🚀 Valori calcolati inizializzati al mount:', { tam, sam, som1, som3, som5 }, 'Units:', unitsMetrics);
     } else {
       console.log('✅ Valori calcolati già aggiornati nel DB:', existingValues);
     }
     
     // Esegui quando isInitialized E mercatoEcografi sono disponibili
+    // IMPORTANTE: Ricalcola anche quando cambiano le configurazioni devices (regioni, percentuali, prezzi)
+    // NOTA: NON dipende da activeView perché calcola sempre valori devices
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isInitialized, mercatoEcografi]);
+  }, [isInitialized, mercatoEcografi, regioniAttiveJson, samPercentageDevices, somPercentagesDevices, prezziDispositiviJson, selectedYear]);
 
   // Auto-salva configurazione Devices quando cambiano i parametri (con debounce 1.5s)
   useEffect(() => {
@@ -265,11 +265,21 @@ export function TamSamSomDashboard() {
     
     const timer = setTimeout(async () => {
       // Calcola valori aggiornati per salvarli nel database
-      const tam = activeView === 'devices' ? calculateTotalDevices() : 0;
-      const sam = activeView === 'devices' ? calculateSamDevices() : 0;
-      const som1 = activeView === 'devices' ? calculateSomDevices('y1') : 0;
-      const som3 = activeView === 'devices' ? calculateSomDevices('y3') : 0;
-      const som5 = activeView === 'devices' ? calculateSomDevices('y5') : 0;
+      // IMPORTANTE: Usa calculateDevicesMetrics() che calcola VALORE DI MERCATO in €
+      // (non calculateTotalDevices() che restituisce solo unità)
+      const metrics = activeView === 'devices' ? calculateDevicesMetrics() : { tam: 0, sam: 0, som1: 0, som3: 0, som5: 0 };
+      const { tam, sam, som1, som3, som5 } = metrics;
+      
+      // 🆕 Calcola anche UNITÀ di dispositivi (non solo valori €) per tutti i 5 anni
+      const unitsMetrics = activeView === 'devices' ? calculateDevicesUnitsMetrics() : { 
+        tamDispositivi: 0, 
+        samDispositivi: 0, 
+        som1Dispositivi: 0, 
+        som2Dispositivi: 0, 
+        som3Dispositivi: 0, 
+        som4Dispositivi: 0, 
+        som5Dispositivi: 0 
+      };
       
       await updateConfigurazioneTamSamSomEcografi({
         samPercentage: samPercentageDevices,
@@ -283,6 +293,16 @@ export function TamSamSomDashboard() {
           som1,
           som3,
           som5
+        },
+        // 🆕 Aggiungi unità dispositivi per tutti i 5 anni (con interpolazione)
+        dispositiviUnita: {
+          tam: unitsMetrics.tamDispositivi,
+          sam: unitsMetrics.samDispositivi,
+          som1: unitsMetrics.som1Dispositivi,
+          som2: unitsMetrics.som2Dispositivi,  // ← INTERPOLATO
+          som3: unitsMetrics.som3Dispositivi,
+          som4: unitsMetrics.som4Dispositivi,  // ← INTERPOLATO
+          som5: unitsMetrics.som5Dispositivi
         }
       } as any);
       
@@ -297,6 +317,8 @@ export function TamSamSomDashboard() {
     regioniAttiveJson, // FIX: Usa useMemo per evitare loop infinito
     prezzoMedio, // SOURCE OF TRUTH per ASP dispositivi
     prezziDispositiviJson, // FIX: Usa useMemo per evitare loop infinito
+    selectedYear, // Ricalcola quando cambia l'anno
+    activeView, // Ricalcola solo quando è vista devices
     isInitialized // Aggiungi isInitialized per evitare salvataggio prima dell'init
   ]);
 
@@ -474,7 +496,7 @@ export function TamSamSomDashboard() {
     const percentage = activeView === 'procedures' ? samPercentage : samPercentageDevices;
     return Math.round(tamDevices * (percentage / 100));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [calculateTotalDevices, samPercentage, samPercentageDevices]);
+  }, [calculateTotalDevices, samPercentage, samPercentageDevices, activeView]);
 
   // Helper: Calcola dispositivi SOM (proporzionale al SAM)
   const calculateSomDevices = useCallback((year: 'y1' | 'y3' | 'y5') => {
@@ -482,7 +504,31 @@ export function TamSamSomDashboard() {
     const percentages = activeView === 'procedures' ? somPercentages : somPercentagesDevices;
     return Math.round(samDevices * (percentages[year] / 100));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [calculateSamDevices, somPercentages, somPercentagesDevices]);
+  }, [calculateSamDevices, somPercentages, somPercentagesDevices, activeView]);
+
+  // 🆕 Calcola NUMERO DI DISPOSITIVI (unità, non valori in €) per tutti gli anni con interpolazione
+  const calculateDevicesUnitsMetrics = useCallback(() => {
+    const tamUnits = calculateTotalDevices();
+    const samUnits = Math.round(tamUnits * (samPercentageDevices / 100));
+    const som1Units = Math.round(samUnits * (somPercentagesDevices.y1 / 100));
+    const som3Units = Math.round(samUnits * (somPercentagesDevices.y3 / 100));
+    const som5Units = Math.round(samUnits * (somPercentagesDevices.y5 / 100));
+    
+    // Interpolazione lineare per anno 2 e anno 4
+    const som2Units = Math.round(som1Units + (som3Units - som1Units) / 2);
+    const som4Units = Math.round(som3Units + (som5Units - som3Units) / 2);
+    
+    return {
+      tamDispositivi: tamUnits,
+      samDispositivi: samUnits,
+      som1Dispositivi: som1Units,
+      som2Dispositivi: som2Units,  // ← INTERPOLATO
+      som3Dispositivi: som3Units,
+      som4Dispositivi: som4Units,  // ← INTERPOLATO
+      som5Dispositivi: som5Units
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [calculateTotalDevices, samPercentageDevices, somPercentagesDevices]);
 
   // Helper: Calcola numero totale prestazioni aggredibili per Procedures
   const calculateTotalProcedures = useCallback(() => {

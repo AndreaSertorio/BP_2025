@@ -75,10 +75,10 @@ export class FinancialCalculator {
         
         leads = baseMonthlyLeads * seasonalFactor * drivers.leadMult;
         
-        // Log for debugging
-        if (month === 1 || month === 12 || month === 60) {
-          console.log(`Month ${month}: SAM=${assumptions.sam}K, Penetration=${(currentPenetration*100).toFixed(3)}%, Leads=${leads.toFixed(0)}`);
-        }
+        // Log for debugging (disabled to reduce console noise)
+        // if (month === 1 || month === 12 || month === 60) {
+        //   console.log(`Month ${month}: SAM=${assumptions.sam}K, Penetration=${(currentPenetration*100).toFixed(3)}%, Leads=${leads.toFixed(0)}`);
+        // }
       } else {
         // Original hardcoded logic (fallback)
         if (quarter <= 8) {
@@ -132,10 +132,10 @@ export class FinancialCalculator {
           arpaSubCalculated = avgPricePerExam * drivers.scansPerDevicePerMonth * 12;
           arpaMaintCalculated = arpaSubCalculated * 0.15; // Maintenance is 15% of subscription
           
-          // Log for debugging on key months
-          if (month === 1 || month === 12) {
-            console.log(`ARPA Calculation: Price/exam=€${avgPricePerExam}, Scans/month=${drivers.scansPerDevicePerMonth}, ARPA=€${arpaSubCalculated}`);
-          }
+          // Log for debugging on key months (disabled to reduce console noise)
+          // if (month === 1 || month === 12) {
+          //   console.log(`ARPA Calculation: Price/exam=€${avgPricePerExam}, Scans/month=${drivers.scansPerDevicePerMonth}, ARPA=€${arpaSubCalculated}`);
+          // }
         }
       }
       

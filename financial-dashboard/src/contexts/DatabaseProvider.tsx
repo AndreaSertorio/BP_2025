@@ -121,6 +121,22 @@ interface ConfigurazioneTamSamSomEcografi {
     y5: number;
   };
   valoriCalcolati: ValoriCalcolatiTamSamSom;
+  regioniAttive?: {
+    italia: boolean;
+    europa: boolean;
+    usa: boolean;
+    cina: boolean;
+  };
+  // 🆕 Numero di UNITÀ di dispositivi (non valori in €) per tutti i 5 anni
+  dispositiviUnita?: {
+    tam: number;
+    sam: number;
+    som1: number;
+    som2: number;  // ← Interpolato
+    som3: number;
+    som4: number;  // ← Interpolato
+    som5: number;
+  };
   lastUpdate: string | null;
 }
 
@@ -146,16 +162,20 @@ interface HardwareRevenueModel {
 
 interface SaasPricingPerDevice {
   enabled: boolean;
+  modelDistributionPct?: number; // 🆕 % dispositivi che usano questo modello
   monthlyFee: number;
   annualFee: number;
   grossMarginPct: number;
+  activationRate?: number; // % dispositivi venduti che diventano abbonamenti SaaS attivi
   description: string;
 }
 
 interface SaasPricingPerScan {
   enabled: boolean;
+  modelDistributionPct?: number; // 🆕 % dispositivi che usano questo modello
   feePerScan: number;
   revSharePct: number;
+  scansPerDevicePerMonth: number;
   grossMarginPct: number;
   description: string;
 }
@@ -164,10 +184,12 @@ interface SaasPricingTier {
   scansUpTo: number;
   monthlyFee: number;
   description: string;
+  distributionPct?: number; // 🆕 % dispositivi INTERNI al modello tiered
 }
 
 interface SaasPricingTiered {
   enabled: boolean;
+  modelDistributionPct?: number; // 🆕 % dispositivi che usano questo modello
   description: string;
   tiers: SaasPricingTier[];
   grossMarginPct: number;
@@ -344,6 +366,35 @@ interface Database {
     };
   };
   revenueModel?: RevenueModel;
+  statoPatrimoniale?: {
+    workingCapital?: {
+      dso?: number;
+      dpo?: number;
+      inventoryTurnover?: number;
+      [key: string]: any;
+    };
+    fixedAssets?: {
+      capexAsPercentRevenue?: number;
+      depreciationRate?: number;
+      initialPPE?: number;
+      intangibles?: number;
+      [key: string]: any;
+    };
+    funding?: {
+      rounds?: Array<{
+        year: number;
+        quarter: number;
+        type: string;
+        amount: number;
+        valuation: number;
+        dilution: number;
+        note: string;
+        enabled: boolean;
+      }>;
+      [key: string]: any;
+    };
+    [key: string]: any;
+  };
   market?: any; // Dati mercato per TAM/SAM/SOM (da definire tipo completo)
   budget?: any; // Dati budget (da definire tipo completo)
   metadata?: Record<string, unknown>;

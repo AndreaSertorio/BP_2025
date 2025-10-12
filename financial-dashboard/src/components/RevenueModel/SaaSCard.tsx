@@ -31,6 +31,8 @@ interface SaaSCardProps {
   setAnnualFee: (fee: number) => void;
   grossMarginPct: number;
   setGrossMarginPct: (pct: number) => void;
+  activationRate: number;
+  setActivationRate: (rate: number) => void;
 }
 
 export function SaaSCard({
@@ -47,7 +49,9 @@ export function SaaSCard({
   annualFee,
   setAnnualFee,
   grossMarginPct,
-  setGrossMarginPct
+  setGrossMarginPct,
+  activationRate,
+  setActivationRate
 }: SaaSCardProps) {
   const [editingMonthly, setEditingMonthly] = useState<string | null>(null);
   const [editingAnnual, setEditingAnnual] = useState<string | null>(null);
@@ -269,6 +273,35 @@ export function SaaSCard({
                     min={0}
                     max={100}
                     step={1}
+                    className="w-full"
+                  />
+                </div>
+              </div>
+              
+              {/* Activation Rate */}
+              <div>
+                <label className="text-sm font-medium text-gray-700 mb-1 flex items-center gap-1">
+                  Tasso di Attivazione SaaS
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Info className="h-3 w-3 text-gray-400" />
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>% di dispositivi venduti che diventano abbonamenti SaaS attivi</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </label>
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-gray-600">{(activationRate * 100).toFixed(0)}%</span>
+                    <span className="text-xs text-gray-500">dei dispositivi venduti → SaaS attivi</span>
+                  </div>
+                  <Slider
+                    value={[activationRate * 100]}
+                    onValueChange={(value) => setActivationRate(value[0] / 100)}
+                    min={0}
+                    max={100}
+                    step={5}
                     className="w-full"
                   />
                 </div>

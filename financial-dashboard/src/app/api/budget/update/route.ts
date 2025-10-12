@@ -71,8 +71,12 @@ export async function POST(request: NextRequest) {
     database.version = database.version || '1.0.3';
     database.lastUpdate = new Date().toISOString().split('T')[0];
 
-    // Salva database
+    // Salva database su public (file statico)
     await fs.writeFile(dbPath, JSON.stringify(database, null, 2), 'utf-8');
+    
+    // Sincronizza anche con src/data (file sorgente per API)
+    const srcDbPath = path.join(process.cwd(), 'src', 'data', 'database.json');
+    await fs.writeFile(srcDbPath, JSON.stringify(database, null, 2), 'utf-8');
 
     return NextResponse.json({
       success: true,

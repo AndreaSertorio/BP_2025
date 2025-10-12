@@ -1,6 +1,6 @@
 {
   "version": "1.0.3",
-  "lastUpdate": "2025-10-10",
+  "lastUpdate": "2025-10-12",
   "description": "Database centralizzato per Eco 3D - Dati reali da Eco_ITA_MASTER.xlsx con % Extra-SSN per prestazione",
   "mercatoEcografie": {
     "italia": {
@@ -221,7 +221,7 @@
     "usa": {
       "nome": "USA",
       "flag": "🇺🇸",
-      "moltiplicatoreVolume": 10,
+      "moltiplicatoreVolume": 9.5,
       "moltiplicatoreValore": 1.8,
       "quotaItalia": "17%",
       "note": "Mercato USA - volumi e valori più alti"
@@ -3736,8 +3736,8 @@
       {
         "codice": "88.71.4",
         "descrizione": "Capo e collo",
-        "prezzoPubblico": 36,
-        "prezzoPrivato": 95,
+        "prezzoPubblico": 37,
+        "prezzoPrivato": 96,
         "range": "28–250",
         "devStd": "±35%",
         "confidenza": "A",
@@ -4421,7 +4421,7 @@
         "som3": 524548.5075000001,
         "som5": 1311371.26875
       },
-      "lastUpdate": "2025-10-10T16:04:22.909Z",
+      "lastUpdate": "2025-10-12T13:14:47.988Z",
       "regioniSelezionate": {
         "italia": true,
         "europa": false,
@@ -4431,7 +4431,7 @@
     },
     "ecografi": {
       "priceMode": "semplice",
-      "prezzoMedioDispositivo": 45000,
+      "prezzoMedioDispositivo": 25000,
       "prezziMediDispositivi": {
         "carrellati": 50000,
         "portatili": 25001,
@@ -4444,18 +4444,27 @@
         "y5": 5
       },
       "valoriCalcolati": {
-        "tam": 0,
-        "sam": 0,
-        "som1": 0,
-        "som3": 0,
-        "som5": 0
+        "tam": 219550837,
+        "sam": 109775418.5,
+        "som1": 1097754.185,
+        "som3": 2195508.37,
+        "som5": 5488770.925000001
       },
-      "lastUpdate": "2025-10-10T16:25:33.029Z",
+      "lastUpdate": "2025-10-12T13:18:46.651Z",
       "regioniAttive": {
         "italia": true,
         "europa": false,
         "usa": false,
         "cina": false
+      },
+      "dispositiviUnita": {
+        "tam": 5600,
+        "sam": 2800,
+        "som1": 28,
+        "som2": 42,
+        "som3": 56,
+        "som4": 98,
+        "som5": 140
       }
     },
     "businessPlan": {
@@ -4500,42 +4509,51 @@
       "pricing": {
         "perDevice": {
           "enabled": true,
+          "modelDistributionPct": 40,
           "monthlyFee": 500,
-          "annualFee": 5500,
+          "annualFee": 6000,
           "grossMarginPct": 0.85,
-          "description": "Pricing per dispositivo - €500/mese o €5,500/anno (8% sconto)"
+          "activationRate": 0.35,
+          "description": ""
         },
         "perScan": {
-          "enabled": false,
+          "enabled": true,
+          "modelDistributionPct": 30,
           "feePerScan": 1.5,
-          "revSharePct": 0.3,
+          "revSharePct": 0,
+          "scansPerDevicePerMonth": 150,
           "grossMarginPct": 0.7,
-          "description": "Pricing per scansione - €1.50/scan con 30% revenue share"
+          "description": ""
         },
         "tiered": {
-          "enabled": false,
-          "description": "Pricing a scaglioni basato su volume scansioni mensili",
+          "enabled": true,
+          "modelDistributionPct": 30,
+          "description": "",
           "tiers": [
             {
               "scansUpTo": 100,
-              "monthlyFee": 300,
-              "description": "Piano Starter - fino a 100 scansioni/mese"
+              "monthlyFee": 200,
+              "description": "Piano Starter - fino a 100 scansioni/mese",
+              "distributionPct": 50
             },
             {
               "scansUpTo": 500,
               "monthlyFee": 500,
-              "description": "Piano Professional - fino a 500 scansioni/mese"
+              "description": "Piano Professional - fino a 500 scansioni/mese",
+              "distributionPct": 30
             },
             {
               "scansUpTo": 9999,
               "monthlyFee": 800,
-              "description": "Piano Enterprise - scansioni illimitate"
+              "description": "Piano Enterprise - scansioni illimitate",
+              "distributionPct": 20
             }
           ],
           "grossMarginPct": 0.85
         }
       },
-      "note": "Modello SaaS predefinito: per-device. Altri modelli disponibili per scenari."
+      "note": "Modello SaaS predefinito: per-device. Altri modelli disponibili per scenari.",
+      "activationRate": 0.35
     },
     "consumables": {
       "enabled": false,
@@ -4648,27 +4666,6 @@
     },
     "pricingStrategy": {
       "defaultModel": "hybrid_hardware_saas",
-      "geographicPricing": {
-        "enabled": true,
-        "regions": {
-          "italia": {
-            "priceMultiplier": 1,
-            "note": "Prezzo base di riferimento"
-          },
-          "europa": {
-            "priceMultiplier": 1.1,
-            "note": "Premium 10% per mercato EU (escl. Italia)"
-          },
-          "usa": {
-            "priceMultiplier": 1.3,
-            "note": "Premium 30% per mercato USA (regolamentazione FDA, supporto)"
-          },
-          "cina": {
-            "priceMultiplier": 0.8,
-            "note": "Discount 20% per penetrazione mercato emergente"
-          }
-        }
-      },
       "volumeDiscounts": {
         "enabled": false,
         "tiers": [
@@ -4689,15 +4686,431 @@
           }
         ],
         "note": "Sconti volume per grandi ordini (distributori, catene)"
+      },
+      "geographicPricing": {
+        "enabled": false,
+        "regions": {
+          "italia": {
+            "priceMultiplier": 1,
+            "note": "Prezzo base di riferimento"
+          },
+          "europa": {
+            "priceMultiplier": 1.1,
+            "note": "Premium 10% per mercato EU (escl. Italia)"
+          },
+          "usa": {
+            "priceMultiplier": 1.3,
+            "note": "Premium 30% per mercato USA (regolamentazione FDA, supporto)"
+          },
+          "cina": {
+            "priceMultiplier": 0.8,
+            "note": "Discount 20% per penetrazione mercato emergente"
+          }
+        }
       }
     },
     "metadata": {
       "version": "1.0.0",
       "currency": "EUR",
-      "lastUpdate": "2025-01-10T11:00:00.000Z",
+      "lastUpdate": "2025-10-12T13:18:46.677Z",
       "createdBy": "system",
       "validFrom": "2025-01-01",
       "note": "Schema completo modello di business Eco 3D - Base per proiezioni ricavi e scenari"
+    }
+  },
+  "contoEconomico": {
+    "version": "1.0.0",
+    "lastUpdated": "2025-10-11",
+    "currency": "EUR",
+    "note": "Dati per Conto Economico previsionale - integrati con budget e revenue model",
+    "ricavi": {
+      "note": "I ricavi vengono calcolati dal Revenue Model esistente (revenueModel)",
+      "source": "revenueModel + FinancialCalculator",
+      "lineeBusinessDefault": [
+        {
+          "id": "dispositivi_hw",
+          "nome": "Vendita Dispositivi Hardware",
+          "tipo": "capex",
+          "descrizione": "Vendita una tantum dispositivi ecografici",
+          "active": true
+        },
+        {
+          "id": "saas_subscription",
+          "nome": "Abbonamenti Software SaaS",
+          "tipo": "recurring",
+          "descrizione": "Ricavi ricorrenti da abbonamenti mensili",
+          "active": true
+        },
+        {
+          "id": "servizi_post_vendita",
+          "nome": "Servizi Post-Vendita e Manutenzione",
+          "tipo": "recurring",
+          "descrizione": "Manutenzione, training, supporto tecnico",
+          "active": false
+        }
+      ]
+    },
+    "cogs": {
+      "note": "Costi diretti attribuibili ai ricavi - Cost of Goods Sold",
+      "hardwareCosts": {
+        "costoUnitarioDispositivo": 11000,
+        "note": "Costo produzione per dispositivo (dato da budget prototipo)",
+        "componenti": [
+          {
+            "nome": "Componenti elettronici",
+            "percentuale": 45,
+            "valore": 4950
+          },
+          {
+            "nome": "Sonda ultrasonica",
+            "percentuale": 30,
+            "valore": 3300
+          },
+          {
+            "nome": "Assemblaggio e test",
+            "percentuale": 15,
+            "valore": 1650
+          },
+          {
+            "nome": "Packaging e logistica",
+            "percentuale": 10,
+            "valore": 1100
+          }
+        ],
+        "curvaApprendimento": {
+          "enabled": true,
+          "percentualeRiduzionePerDoppio": 15,
+          "note": "Riduzione costi con economie di scala (learning curve)"
+        }
+      },
+      "saasCosts": {
+        "costoPerUtente": {
+          "cloudInfrastructure": 2,
+          "storage": 1,
+          "bandwidth": 0.5,
+          "totale": 3.5,
+          "note": "Costi mensili cloud per utente attivo (€/mese)"
+        },
+        "commissioniPiattaforma": {
+          "percentuale": 3,
+          "note": "Commissioni payment processor (% sui ricavi)"
+        }
+      },
+      "margineObiettivoPercentuale": {
+        "hardware": 78,
+        "saas": 95,
+        "blended": 85,
+        "note": "Target gross margin % per linea di business"
+      }
+    },
+    "opex": {
+      "note": "I dati OPEX vengono presi dalla sezione budget esistente",
+      "source": "budget.categories",
+      "mapping": {
+        "personale": "cat_4",
+        "rd": "cat_1",
+        "regolatorio": "cat_2",
+        "clinico": "cat_3",
+        "overhead": "cat_5",
+        "marketing": "cat_6"
+      },
+      "categorieAggiuntive": [
+        {
+          "id": "marketing_sales_scale",
+          "nome": "Marketing & Sales (Scaling Phase)",
+          "note": "Costi marketing aggiuntivi fase di scale-up post-lancio",
+          "values": {
+            "2025": 0,
+            "2026": 50,
+            "2027": 100,
+            "2028": 150,
+            "2029": 200
+          }
+        }
+      ],
+      "totaliCalcolatiPerAnno": {
+        "2025": 82,
+        "2026": 452,
+        "2027": 488,
+        "2028": 783,
+        "note": "Totali OPEX calcolati dal budget (in K€)"
+      }
+    },
+    "ammortamenti": {
+      "note": "Ammortamenti asset capitalizzati - quota annuale",
+      "enabled": true,
+      "assets": [
+        {
+          "id": "macchinari_produzione",
+          "nome": "Macchinari e Attrezzature Produzione",
+          "valoreDiAcquisto": 50,
+          "dataAcquisto": "2026-Q1",
+          "anniAmmortamento": 5,
+          "metodologia": "lineare",
+          "quotaAnnuale": 10
+        },
+        {
+          "id": "software_sviluppo",
+          "nome": "Software e Piattaforma Tecnologica",
+          "valoreDiAcquisto": 30,
+          "dataAcquisto": "2025-Q4",
+          "anniAmmortamento": 3,
+          "metodologia": "lineare",
+          "quotaAnnuale": 10
+        },
+        {
+          "id": "brevetti",
+          "nome": "Brevetti e Proprietà Intellettuale",
+          "valoreDiAcquisto": 5,
+          "dataAcquisto": "2025-Q1",
+          "anniAmmortamento": 10,
+          "metodologia": "lineare",
+          "quotaAnnuale": 0.5
+        }
+      ],
+      "totaleAnnualeCalcolato": {
+        "2025": 0.5,
+        "2026": 20.5,
+        "2027": 20.5,
+        "2028": 20.5,
+        "2029": 10,
+        "note": "Totali ammortamenti per anno (in K€)"
+      }
+    },
+    "interessiFinanziari": {
+      "note": "Interessi su debiti e finanziamenti",
+      "enabled": true,
+      "debiti": [
+        {
+          "id": "convertible_note_seed",
+          "tipo": "Convertible Note",
+          "capitale": 200,
+          "tassoInteresse": 5,
+          "dataEmissione": "2025-Q1",
+          "scadenza": "2027-Q1",
+          "interesseAnnuale": 10,
+          "note": "Convertible note da round seed"
+        }
+      ],
+      "totaleAnnualeCalcolato": {
+        "2025": 10,
+        "2026": 10,
+        "2027": 5,
+        "2028": 0,
+        "2029": 0,
+        "note": "Totali interessi per anno (in K€)"
+      }
+    },
+    "tasse": {
+      "note": "Aliquota 28% (24% IRES + ~4% IRAP). Perdite riportabili negli anni successivi",
+      "regime": "IRES + IRAP",
+      "aliquotaEffettiva": 28,
+      "perditeRiportabili": true
+    },
+    "breakEvenAnalysis": {
+      "enabled": true,
+      "metodologia": "units",
+      "assumptions": {
+        "prezzoMedioVendita": 50000,
+        "costoVariabileUnitario": 11000,
+        "costiFissiAnnuali": {
+          "2025": 82,
+          "2026": 452,
+          "2027": 488,
+          "2028": 783,
+          "note": "Costi fissi annuali = OPEX (da budget)"
+        }
+      },
+      "formula": "Q_BEP = Costi_Fissi / (Prezzo_Unitario - Costo_Variabile_Unitario)",
+      "unitaBreakEvenCalcolate": {
+        "2025": 2.1,
+        "2026": 11.6,
+        "2027": 12.5,
+        "2028": 20.1,
+        "note": "Unità necessarie per pareggiare costi fissi"
+      },
+      "note": "Calcolo unità vendute necessarie per raggiungere break-even operativo"
+    },
+    "kpiMetriche": {
+      "grossMarginPercentage": {
+        "formula": "(Ricavi - COGS) / Ricavi * 100",
+        "target": 75,
+        "note": "Margine lordo percentuale - target 75%"
+      },
+      "ebitdaMargin": {
+        "formula": "EBITDA / Ricavi * 100",
+        "target": 30,
+        "note": "Margine EBITDA percentuale - target 30% a regime"
+      },
+      "netMargin": {
+        "formula": "Utile_Netto / Ricavi * 100",
+        "target": 20,
+        "note": "Margine netto percentuale - target 20% a regime"
+      },
+      "breakEvenMonth": {
+        "descrizione": "Mese in cui EBITDA diventa stabilmente positivo",
+        "target": "Q4 2026",
+        "note": "Obiettivo: EBITDA positivo entro fine 2026"
+      }
+    },
+    "scenari": {
+      "note": "Scenari previsionali per sensitivity analysis",
+      "base": {
+        "descrizione": "Scenario base - ipotesi realistiche",
+        "crescitaRicavi": 1.5,
+        "margineLorerdo": 75,
+        "ebitdaY5": 30
+      },
+      "prudente": {
+        "descrizione": "Scenario conservativo - ipotesi cautelative",
+        "crescitaRicavi": 1.2,
+        "margineLorerdo": 70,
+        "ebitdaY5": 20
+      },
+      "ambizioso": {
+        "descrizione": "Scenario ottimistico - massima crescita",
+        "crescitaRicavi": 2,
+        "margineLorerdo": 80,
+        "ebitdaY5": 40
+      }
+    },
+    "metadata": {
+      "createdBy": "Business Planning System",
+      "createdAt": "2025-10-11T15:48:00.000Z",
+      "version": "1.0.0",
+      "lastModified": "2025-10-11T15:48:00.000Z",
+      "note": "Sezione Conto Economico - integrata con budget e revenue model esistenti"
+    }
+  },
+  "statoPatrimoniale": {
+    "description": "Configurazione parametri per Stato Patrimoniale (Balance Sheet) - legge ricavi/costi da contoEconomico e revenueModel",
+    "workingCapital": {
+      "dso": 60,
+      "dsoMin": 30,
+      "dsoMax": 90,
+      "dsoNote": "Days Sales Outstanding - giorni medi incasso clienti B2B. Tipico: 30-60gg (B2C), 60-90gg (B2B)",
+      "dpo": 45,
+      "dpoMin": 30,
+      "dpoMax": 60,
+      "dpoNote": "Days Payable Outstanding - giorni medi pagamento fornitori. Ottimizza cash flow ma mantieni buoni rapporti",
+      "inventoryTurnover": 6,
+      "inventoryTurnoverMin": 4,
+      "inventoryTurnoverMax": 12,
+      "inventoryTurnoverNote": "Rotazione magazzino (volte/anno). 6x = ~2 mesi stock. Hardware: 4-6x, Software: non applicabile"
+    },
+    "fixedAssets": {
+      "capexAsPercentRevenue": 5,
+      "capexMin": 2,
+      "capexMax": 15,
+      "capexNote": "CapEx come % ricavi annuali. Investimenti in macchinari, attrezzature, infrastruttura. Startup early-stage: 5-10%",
+      "depreciationRate": 20,
+      "depreciationRateNote": "Tasso ammortamento annuale (%). 20% = vita utile 5 anni, 10% = 10 anni. Dipende da tipo asset",
+      "initialPPE": 0.5,
+      "initialPPENote": "Property, Plant & Equipment iniziale (M€). Macchinari e attrezzature all'avvio",
+      "intangibles": 0.3,
+      "intangiblesNote": "Brevetti e proprietà intellettuale (M€). Valore capitalizzato IP"
+    },
+    "funding": {
+      "initialCash": 2,
+      "initialCashNote": "Cassa iniziale (M€) - capitale founder + friends & family",
+      "rounds": [
+        {
+          "year": 1,
+          "quarter": 1,
+          "type": "Seed",
+          "amount": 2,
+          "valuation": 8,
+          "dilution": 25,
+          "note": "Round seed - validazione prodotto e prototipo beta",
+          "enabled": true
+        },
+        {
+          "year": 2,
+          "quarter": 1,
+          "type": "Seed+",
+          "amount": 3,
+          "valuation": 15,
+          "dilution": 20,
+          "note": "Bridge round - prime vendite e traction",
+          "enabled": true
+        },
+        {
+          "year": 3,
+          "quarter": 1,
+          "type": "Series A",
+          "amount": 5,
+          "valuation": 25,
+          "dilution": 20,
+          "note": "Series A - scaling e espansione mercato",
+          "enabled": true
+        },
+        {
+          "year": 4,
+          "quarter": 3,
+          "type": "Series B",
+          "amount": 0,
+          "valuation": 50,
+          "dilution": 0,
+          "note": "Series B opzionale - espansione internazionale",
+          "enabled": false
+        }
+      ],
+      "totalFundingEnabled": 10,
+      "note": "Schedule funding rounds. Modificare importi e timing in base a piano raccolta capitale"
+    },
+    "debt": {
+      "enabled": true,
+      "loans": [
+        {
+          "id": "bank_loan_2026",
+          "year": 2,
+          "quarter": 2,
+          "amount": 1,
+          "interestRate": 4.5,
+          "termYears": 5,
+          "type": "Term Loan",
+          "purpose": "Finanziamento bancario per attrezzature produzione",
+          "repaymentSchedule": "quarterly",
+          "enabled": true
+        }
+      ],
+      "totalDebtEnabled": 1,
+      "note": "Debiti e finanziamenti. Convertible notes vanno in equity alla conversione"
+    },
+    "otherLiabilities": {
+      "accruedExpensesAsPercentOpex": 10,
+      "accruedExpensesNote": "Spese maturate ma non pagate (% OPEX mensile). Es: salari, utilities",
+      "deferredRevenue": {
+        "enabled": true,
+        "description": "Abbonamenti SaaS pre-pagati annuali - riconosciuti nel tempo",
+        "monthsInAdvance": 12,
+        "asPercentSaasRevenue": 80,
+        "note": "Se clienti pagano annualmente in anticipo, parte è 'debito' verso servizio futuro"
+      }
+    },
+    "assumptions": {
+      "taxRate": 28,
+      "taxRateNote": "Aliquota fiscale effettiva (IRES 24% + IRAP ~4%)",
+      "workingCapitalBuffer": 0.15,
+      "workingCapitalBufferNote": "Buffer di sicurezza working capital (15% ricavi)",
+      "minimumCashBalance": 0.5,
+      "minimumCashBalanceNote": "Cassa minima operativa (M€) - non scendere sotto"
+    },
+    "calculationSettings": {
+      "projectYears": 5,
+      "useActualCashFlow": true,
+      "useActualCashFlowNote": "Se true, legge cash flow da cashflow.ts. Se false, stima semplificata",
+      "integrateBudget": true,
+      "integrateBudgetNote": "Integra OPEX dettagliato da budget.categories",
+      "integrateRevenueModel": true,
+      "integrateRevenueModelNote": "Integra ricavi da revenueModel (hardware + SaaS)"
+    },
+    "metadata": {
+      "createdBy": "Balance Sheet Implementation",
+      "createdAt": "2025-10-11T18:40:00.000Z",
+      "version": "1.0.0",
+      "lastModified": "2025-10-11T18:40:00.000Z",
+      "note": "Sezione Stato Patrimoniale - usa dati da contoEconomico, revenueModel, budget. Calcoli in balanceSheet.ts"
     }
   }
 }

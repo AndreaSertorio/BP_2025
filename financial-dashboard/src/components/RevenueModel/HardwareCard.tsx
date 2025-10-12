@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
@@ -12,7 +11,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { Package, Info, TrendingUp, DollarSign } from 'lucide-react';
+import { Package, Info, TrendingUp } from 'lucide-react';
 
 interface HardwareCardProps {
   enabled: boolean;
@@ -23,18 +22,6 @@ interface HardwareCardProps {
   setUnitCost: (unitCost: number) => void;
   warrantyPct: number;
   setWarrantyPct: (pct: number) => void;
-  aspByType: {
-    carrellati: number;
-    portatili: number;
-    palmari: number;
-  };
-  setAspByType: (aspByType: any) => void;
-  cogsMarginByType: {
-    carrellati: number;
-    portatili: number;
-    palmari: number;
-  };
-  setCogsMarginByType: (margins: any) => void;
 }
 
 export function HardwareCard({
@@ -46,15 +33,9 @@ export function HardwareCard({
   setUnitCost,
   warrantyPct,
   setWarrantyPct,
-  aspByType,
-  setAspByType,
-  cogsMarginByType,
-  setCogsMarginByType
 }: HardwareCardProps) {
-  const [showDetails, setShowDetails] = useState(true);
   const [editingAsp, setEditingAsp] = useState<string | null>(null);
   const [editingUnitCost, setEditingUnitCost] = useState<string | null>(null);
-  const [editingTypeAsp, setEditingTypeAsp] = useState<{ type: string; value: string } | null>(null);
   
   // Calcoli derivati
   const grossMargin = unitCost > 0 ? ((asp - unitCost) / asp * 100).toFixed(1) : 0;
@@ -72,17 +53,6 @@ export function HardwareCard({
     if (!isNaN(num) && num >= 0) {
       setUnitCost(num);
     }
-  };
-  
-  const handleTypeAspChange = (type: 'carrellati' | 'portatili' | 'palmari', value: string) => {
-    const num = parseFloat(value);
-    if (!isNaN(num) && num >= 0) {
-      setAspByType({ ...aspByType, [type]: num });
-    }
-  };
-  
-  const handleMarginChange = (type: 'carrellati' | 'portatili' | 'palmari', value: number[]) => {
-    setCogsMarginByType({ ...cogsMarginByType, [type]: value[0] / 100 });
   };
   
   return (
@@ -210,8 +180,27 @@ export function HardwareCard({
                   <TooltipTrigger>
                     <Info className="h-3 w-3 text-gray-400" />
                   </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Percentuale ASP dedicata a garanzia/anno</p>
+                  <TooltipContent className="max-w-sm">
+                    <div className="space-y-2 text-xs">
+                      <p className="font-semibold">🛡️ Riserva Costi Garanzia</p>
+                      <p>
+                        Percentuale del prezzo di vendita (ASP) accantonata annualmente per coprire:
+                      </p>
+                      <ul className="list-disc pl-4 space-y-1">
+                        <li>Riparazioni in garanzia</li>
+                        <li>Sostituzioni componenti difettosi</li>
+                        <li>Supporto tecnico garantito</li>
+                        <li>Rischio difetti di fabbricazione</li>
+                      </ul>
+                      <div className="border-t border-gray-600 pt-2 mt-2">
+                        <p className="font-mono text-blue-400">
+                          Esempio: ASP €45,000 × 3% = €1,350/anno
+                        </p>
+                        <p className="opacity-75 mt-1">
+                          Questo costo riduce il margine lordo effettivo
+                        </p>
+                      </div>
+                    </div>
                   </TooltipContent>
                 </Tooltip>
               </label>
@@ -230,184 +219,6 @@ export function HardwareCard({
                 />
               </div>
             </div>
-          </div>
-          
-          {/* Dettagli per tipologia */}
-          <div className="border-t pt-4">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setShowDetails(!showDetails)}
-              className="mb-3 text-blue-600 hover:text-blue-700"
-            >
-              {showDetails ? '▼' : '▶'} Dettaglio per Tipologia
-            </Button>
-            
-            {showDetails && (
-              <div className="space-y-4 bg-gray-50 p-4 rounded-lg">
-                {/* Carrellati */}
-                <div className="grid grid-cols-3 gap-3">
-                  <div className="col-span-3 font-medium text-gray-700 mb-1">
-                    🚛 Carrellati
-                  </div>
-                  <div>
-                    <label className="text-xs text-gray-600 mb-1 block">ASP</label>
-                    {editingTypeAsp?.type === 'carrellati' ? (
-                      <Input
-                        type="number"
-                        value={editingTypeAsp.value}
-                        onChange={(e) => setEditingTypeAsp({ type: 'carrellati', value: e.target.value })}
-                        onBlur={() => {
-                          if (editingTypeAsp) {
-                            handleTypeAspChange('carrellati', editingTypeAsp.value);
-                          }
-                          setEditingTypeAsp(null);
-                        }}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter' && editingTypeAsp) {
-                            handleTypeAspChange('carrellati', editingTypeAsp.value);
-                            setEditingTypeAsp(null);
-                          }
-                        }}
-                        className="h-8 text-sm"
-                        autoFocus
-                      />
-                    ) : (
-                      <div 
-                        className="h-8 px-2 py-1 rounded border border-gray-200 hover:border-blue-300 cursor-pointer text-sm flex items-center"
-                        onClick={() => setEditingTypeAsp({ type: 'carrellati', value: aspByType.carrellati.toString() })}
-                      >
-                        €{aspByType.carrellati.toLocaleString()}
-                      </div>
-                    )}
-                  </div>
-                  <div>
-                    <label className="text-xs text-gray-600 mb-1 block">Margine</label>
-                    <div className="text-sm font-medium text-green-700">
-                      {(cogsMarginByType.carrellati * 100).toFixed(0)}%
-                    </div>
-                  </div>
-                  <div className="col-span-3">
-                    <Slider
-                      value={[cogsMarginByType.carrellati * 100]}
-                      onValueChange={(value) => handleMarginChange('carrellati', value)}
-                      min={0}
-                      max={100}
-                      step={1}
-                      className="w-full"
-                    />
-                  </div>
-                </div>
-                
-                {/* Portatili */}
-                <div className="grid grid-cols-3 gap-3">
-                  <div className="col-span-3 font-medium text-gray-700 mb-1">
-                    💼 Portatili
-                  </div>
-                  <div>
-                    <label className="text-xs text-gray-600 mb-1 block">ASP</label>
-                    {editingTypeAsp?.type === 'portatili' ? (
-                      <Input
-                        type="number"
-                        value={editingTypeAsp.value}
-                        onChange={(e) => setEditingTypeAsp({ type: 'portatili', value: e.target.value })}
-                        onBlur={() => {
-                          if (editingTypeAsp) {
-                            handleTypeAspChange('portatili', editingTypeAsp.value);
-                          }
-                          setEditingTypeAsp(null);
-                        }}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter' && editingTypeAsp) {
-                            handleTypeAspChange('portatili', editingTypeAsp.value);
-                            setEditingTypeAsp(null);
-                          }
-                        }}
-                        className="h-8 text-sm"
-                        autoFocus
-                      />
-                    ) : (
-                      <div 
-                        className="h-8 px-2 py-1 rounded border border-gray-200 hover:border-blue-300 cursor-pointer text-sm flex items-center"
-                        onClick={() => setEditingTypeAsp({ type: 'portatili', value: aspByType.portatili.toString() })}
-                      >
-                        €{aspByType.portatili.toLocaleString()}
-                      </div>
-                    )}
-                  </div>
-                  <div>
-                    <label className="text-xs text-gray-600 mb-1 block">Margine</label>
-                    <div className="text-sm font-medium text-green-700">
-                      {(cogsMarginByType.portatili * 100).toFixed(0)}%
-                    </div>
-                  </div>
-                  <div className="col-span-3">
-                    <Slider
-                      value={[cogsMarginByType.portatili * 100]}
-                      onValueChange={(value) => handleMarginChange('portatili', value)}
-                      min={0}
-                      max={100}
-                      step={1}
-                      className="w-full"
-                    />
-                  </div>
-                </div>
-                
-                {/* Palmari */}
-                <div className="grid grid-cols-3 gap-3">
-                  <div className="col-span-3 font-medium text-gray-700 mb-1">
-                    📱 Palmari
-                  </div>
-                  <div>
-                    <label className="text-xs text-gray-600 mb-1 block">ASP</label>
-                    {editingTypeAsp?.type === 'palmari' ? (
-                      <Input
-                        type="number"
-                        value={editingTypeAsp.value}
-                        onChange={(e) => setEditingTypeAsp({ type: 'palmari', value: e.target.value })}
-                        onBlur={() => {
-                          if (editingTypeAsp) {
-                            handleTypeAspChange('palmari', editingTypeAsp.value);
-                          }
-                          setEditingTypeAsp(null);
-                        }}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter' && editingTypeAsp) {
-                            handleTypeAspChange('palmari', editingTypeAsp.value);
-                            setEditingTypeAsp(null);
-                          }
-                        }}
-                        className="h-8 text-sm"
-                        autoFocus
-                      />
-                    ) : (
-                      <div 
-                        className="h-8 px-2 py-1 rounded border border-gray-200 hover:border-blue-300 cursor-pointer text-sm flex items-center"
-                        onClick={() => setEditingTypeAsp({ type: 'palmari', value: aspByType.palmari.toString() })}
-                      >
-                        €{aspByType.palmari.toLocaleString()}
-                      </div>
-                    )}
-                  </div>
-                  <div>
-                    <label className="text-xs text-gray-600 mb-1 block">Margine</label>
-                    <div className="text-sm font-medium text-green-700">
-                      {(cogsMarginByType.palmari * 100).toFixed(0)}%
-                    </div>
-                  </div>
-                  <div className="col-span-3">
-                    <Slider
-                      value={[cogsMarginByType.palmari * 100]}
-                      onValueChange={(value) => handleMarginChange('palmari', value)}
-                      min={0}
-                      max={100}
-                      step={1}
-                      className="w-full"
-                    />
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         </>
       )}

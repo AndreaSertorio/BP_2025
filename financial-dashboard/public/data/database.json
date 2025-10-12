@@ -1,6 +1,6 @@
 {
   "version": "1.0.3",
-  "lastUpdate": "2025-10-08",
+  "lastUpdate": "2025-10-11",
   "description": "Database centralizzato per Eco 3D - Dati reali da Eco_ITA_MASTER.xlsx con % Extra-SSN per prestazione",
   "mercatoEcografie": {
     "italia": {
@@ -15,7 +15,7 @@
           "B": 102381,
           "D": 388559,
           "P": 562362,
-          "percentualeExtraSSN": 50,
+          "percentualeExtraSSN": 52,
           "aggredibile": true,
           "note": "Prestazione target per Eco3D"
         },
@@ -71,7 +71,7 @@
           "D": 23679,
           "P": 32091,
           "percentualeExtraSSN": 50,
-          "aggredibile": true,
+          "aggredibile": false,
           "note": "Prestazione target per Eco3D"
         },
         {
@@ -115,7 +115,7 @@
           "D": 113121,
           "P": 231136,
           "percentualeExtraSSN": 50,
-          "aggredibile": true,
+          "aggredibile": false,
           "note": "Prestazione target per Eco3D"
         },
         {
@@ -126,7 +126,7 @@
           "D": 193325,
           "P": 733488,
           "percentualeExtraSSN": 50,
-          "aggredibile": true,
+          "aggredibile": false,
           "note": "Prestazione target per Eco3D"
         },
         {
@@ -137,7 +137,7 @@
           "D": 7980,
           "P": 26614,
           "percentualeExtraSSN": 50,
-          "aggredibile": true,
+          "aggredibile": false,
           "note": "Prestazione target per Eco3D"
         },
         {
@@ -148,7 +148,7 @@
           "D": 310733,
           "P": 236922,
           "percentualeExtraSSN": 50,
-          "aggredibile": true,
+          "aggredibile": false,
           "note": "Prestazione target per Eco3D"
         },
         {
@@ -221,7 +221,7 @@
     "usa": {
       "nome": "USA",
       "flag": "🇺🇸",
-      "moltiplicatoreVolume": 9,
+      "moltiplicatoreVolume": 10,
       "moltiplicatoreValore": 1.8,
       "quotaItalia": "17%",
       "note": "Mercato USA - volumi e valori più alti"
@@ -715,11 +715,14 @@
       }
     ],
     "configurazione": {
-      "annoTarget": 2030,
-      "marketShare": 2,
+      "annoTarget": 2033,
+      "marketShare": 1,
       "scenarioParco": "basso",
       "regioniVisibili": [
-        "Italia"
+        "Italia",
+        "Europa",
+        "Stati Uniti",
+        "Cina"
       ],
       "tipologieTarget": [
         "Palmari"
@@ -1282,8 +1285,7 @@
                   "q3_26": 3,
                   "q4_26": 3,
                   "tot_26": 12,
-                  "tot_all": 12,
-                  "q3_25": 1
+                  "tot_all": 12
                 },
                 "formula": "=1*1000/MESE",
                 "note": null,
@@ -1292,7 +1294,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010092",
-                "lastModified": "2025-10-08T16:22:53.045Z"
+                "lastModified": "2025-10-06T22:49:03.010093"
               },
               {
                 "id": "item_18",
@@ -2558,8 +2560,7 @@
           "q3_26": 3,
           "q4_26": 3,
           "tot_26": 12,
-          "tot_all": 12,
-          "q3_25": 1
+          "tot_all": 12
         },
         "formula": "=1*1000/MESE",
         "note": null,
@@ -2568,7 +2569,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010092",
-        "lastModified": "2025-10-08T16:22:53.045Z"
+        "lastModified": "2025-10-06T22:49:03.010093"
       },
       {
         "id": "item_18",
@@ -3728,6 +3729,1240 @@
       "originalFile": "Costi_sviluppo.xlsx",
       "importDate": "2025-10-06T22:49:03.010471",
       "notes": "Budget iniziale importato da Excel"
+    }
+  },
+  "prezziEcografieRegionalizzati": {
+    "italia": [
+      {
+        "codice": "88.71.4",
+        "descrizione": "Capo e collo",
+        "prezzoPubblico": 36,
+        "prezzoPrivato": 95,
+        "range": "28–250",
+        "devStd": "±35%",
+        "confidenza": "A",
+        "nFonti": 12,
+        "note": "Tariffa SSN uniforme; ampia offerta privata; range Nord 80–150, Sud 60–110"
+      },
+      {
+        "codice": "88.72.2",
+        "descrizione": "Cardiaca (ecocardiogramma)",
+        "prezzoPubblico": 36,
+        "prezzoPrivato": 160,
+        "range": "50–206",
+        "devStd": "±40%",
+        "confidenza": "B",
+        "nFonti": 9,
+        "note": "Prezzi dipendono da Doppler e struttura; Nord più alto"
+      },
+      {
+        "codice": "88.73.5",
+        "descrizione": "TSA (tronchi sovra-aortici)",
+        "prezzoPubblico": 88,
+        "prezzoPrivato": 88,
+        "range": "40–220",
+        "devStd": "±30%",
+        "confidenza": "A",
+        "nFonti": 8,
+        "note": "Alta domanda; liste d’attesa SSN lunghe, forte quota privata"
+      },
+      {
+        "codice": "88.77.4",
+        "descrizione": "Arti inferiori (Doppler)",
+        "prezzoPubblico": 36,
+        "prezzoPrivato": 130,
+        "range": "25–300",
+        "devStd": "±35%",
+        "confidenza": "B",
+        "nFonti": 10,
+        "note": "Range ampio; differenze legate a bilateralità"
+      },
+      {
+        "codice": "88.77.6",
+        "descrizione": "Arti superiori (Doppler)",
+        "prezzoPubblico": 36,
+        "prezzoPrivato": 120,
+        "range": "25–200",
+        "devStd": "±30%",
+        "confidenza": "B",
+        "nFonti": 8,
+        "note": "Minore frequenza, prezzi simili agli arti inferiori"
+      },
+      {
+        "codice": "88.76.3",
+        "descrizione": "Grossi vasi addominali",
+        "prezzoPubblico": 36,
+        "prezzoPrivato": 110,
+        "range": "32–160",
+        "devStd": "±25%",
+        "confidenza": "A",
+        "nFonti": 7,
+        "note": "Tariffe SSN standardizzate; domanda stabile"
+      },
+      {
+        "codice": "88.78.2",
+        "descrizione": "Ecografia ginecologica",
+        "prezzoPubblico": 36,
+        "prezzoPrivato": 100,
+        "range": "50–200",
+        "devStd": "±30%",
+        "confidenza": "A",
+        "nFonti": 12,
+        "note": "Ampia offerta privata, variazioni minime regionali"
+      },
+      {
+        "codice": "88.76.1",
+        "descrizione": "Addome completo",
+        "prezzoPubblico": 36,
+        "prezzoPrivato": 115,
+        "range": "45–255",
+        "devStd": "±35%",
+        "confidenza": "A",
+        "nFonti": 15,
+        "note": "Tra le più richieste; range Nord 90–130, Sud 70–110"
+      },
+      {
+        "codice": "88.75.1",
+        "descrizione": "Addome inferiore",
+        "prezzoPubblico": 36,
+        "prezzoPrivato": 95,
+        "range": "30–220",
+        "devStd": "±30%",
+        "confidenza": "B",
+        "nFonti": 9,
+        "note": "In SSN inclusa in pacchetti multipli"
+      },
+      {
+        "codice": "88.74.1",
+        "descrizione": "Addome superiore",
+        "prezzoPubblico": 36,
+        "prezzoPrivato": 100,
+        "range": "40–220",
+        "devStd": "±30%",
+        "confidenza": "B",
+        "nFonti": 9,
+        "note": "Prezzo stabile, media 100€"
+      },
+      {
+        "codice": "88.73.1",
+        "descrizione": "Mammella bilaterale",
+        "prezzoPubblico": 36,
+        "prezzoPrivato": 105,
+        "range": "36–220",
+        "devStd": "±35%",
+        "confidenza": "A",
+        "nFonti": 10,
+        "note": "Prezzo medio privato ~105€, bilaterale comune"
+      },
+      {
+        "codice": "88.73.2",
+        "descrizione": "Mammella monolaterale",
+        "prezzoPubblico": 36,
+        "prezzoPrivato": 85,
+        "range": "30–150",
+        "devStd": "±30%",
+        "confidenza": "A",
+        "nFonti": 10,
+        "note": "Costo ~30% inferiore al bilaterale"
+      },
+      {
+        "codice": "88.79.3",
+        "descrizione": "Muscoloscheletrica (MSK)",
+        "prezzoPubblico": 36,
+        "prezzoPrivato": 90,
+        "range": "28–130",
+        "devStd": "±35%",
+        "confidenza": "B",
+        "nFonti": 8,
+        "note": "Prezzo medio 90€, più frequente in ambito sportivo"
+      },
+      {
+        "codice": "88.79.6",
+        "descrizione": "Scrotale",
+        "prezzoPubblico": 36,
+        "prezzoPrivato": 95,
+        "range": "35–250",
+        "devStd": "±30%",
+        "confidenza": "A",
+        "nFonti": 10,
+        "note": "Range ampio, media 95€"
+      },
+      {
+        "codice": "88.79.E",
+        "descrizione": "Doppler scrotale",
+        "prezzoPubblico": 73.01,
+        "prezzoPrivato": 73.01,
+        "range": "40–220",
+        "devStd": "±30%",
+        "confidenza": "B",
+        "nFonti": 9,
+        "note": "Prezzo medio 110€, legato alla complessità"
+      }
+    ],
+    "europa": [
+      {
+        "codice": "88.71.4",
+        "descrizione": "Capo e collo",
+        "prezzoPubblico": 25,
+        "prezzoPrivato": 100,
+        "range": "50–300",
+        "devStd": "±30%",
+        "confidenza": "A",
+        "nFonti": 15,
+        "note": "Francia 52–70€, UK 170–340€, media 100€"
+      },
+      {
+        "codice": "88.72.2",
+        "descrizione": "Cardiaca",
+        "prezzoPubblico": 40,
+        "prezzoPrivato": 300,
+        "range": "200–600",
+        "devStd": "±40%",
+        "confidenza": "B",
+        "nFonti": 12,
+        "note": "DE 130–260€, UK 290–580€"
+      },
+      {
+        "codice": "88.73.5",
+        "descrizione": "TSA",
+        "prezzoPubblico": 35,
+        "prezzoPrivato": 250,
+        "range": "150–400",
+        "devStd": "±35%",
+        "confidenza": "A",
+        "nFonti": 10,
+        "note": "UK 230–460€, media 250€"
+      },
+      {
+        "codice": "88.77.4",
+        "descrizione": "Arti inferiori",
+        "prezzoPubblico": 35,
+        "prezzoPrivato": 300,
+        "range": "180–500",
+        "devStd": "±35%",
+        "confidenza": "B",
+        "nFonti": 9,
+        "note": "Prezzi privati alti in UK"
+      },
+      {
+        "codice": "88.77.6",
+        "descrizione": "Arti superiori",
+        "prezzoPubblico": 35,
+        "prezzoPrivato": 250,
+        "range": "150–400",
+        "devStd": "±35%",
+        "confidenza": "B",
+        "nFonti": 8,
+        "note": "Simile agli arti inferiori"
+      },
+      {
+        "codice": "88.76.3",
+        "descrizione": "Grossi vasi addominali",
+        "prezzoPubblico": 25,
+        "prezzoPrivato": 150,
+        "range": "100–300",
+        "devStd": "±25%",
+        "confidenza": "A",
+        "nFonti": 8,
+        "note": "Francia 52–76€, UK 170–340€"
+      },
+      {
+        "codice": "88.78.2",
+        "descrizione": "Ginecologica",
+        "prezzoPubblico": 25,
+        "prezzoPrivato": 200,
+        "range": "150–350",
+        "devStd": "±30%",
+        "confidenza": "A",
+        "nFonti": 12,
+        "note": "Francia 52–70€, media UE 200€"
+      },
+      {
+        "codice": "88.76.1",
+        "descrizione": "Addome completo",
+        "prezzoPubblico": 25,
+        "prezzoPrivato": 200,
+        "range": "150–350",
+        "devStd": "±30%",
+        "confidenza": "A",
+        "nFonti": 14,
+        "note": "Francia 54€, UK 170–340€"
+      },
+      {
+        "codice": "88.75.1",
+        "descrizione": "Addome inferiore",
+        "prezzoPubblico": 25,
+        "prezzoPrivato": 180,
+        "range": "150–300",
+        "devStd": "±30%",
+        "confidenza": "B",
+        "nFonti": 8,
+        "note": "Prezzo medio 180€"
+      },
+      {
+        "codice": "88.74.1",
+        "descrizione": "Addome superiore",
+        "prezzoPubblico": 25,
+        "prezzoPrivato": 200,
+        "range": "150–350",
+        "devStd": "±30%",
+        "confidenza": "B",
+        "nFonti": 8,
+        "note": "Prezzo medio 200€"
+      },
+      {
+        "codice": "88.73.1",
+        "descrizione": "Mammella bilaterale",
+        "prezzoPubblico": 25,
+        "prezzoPrivato": 200,
+        "range": "150–300",
+        "devStd": "±30%",
+        "confidenza": "A",
+        "nFonti": 10,
+        "note": "Francia 41–69€, UK 170–340€"
+      },
+      {
+        "codice": "88.73.2",
+        "descrizione": "Mammella monolaterale",
+        "prezzoPubblico": 25,
+        "prezzoPrivato": 150,
+        "range": "130–250",
+        "devStd": "±25%",
+        "confidenza": "A",
+        "nFonti": 10,
+        "note": "Prezzo ~25% inferiore al bilaterale"
+      },
+      {
+        "codice": "88.79.3",
+        "descrizione": "Muscoloscheletrica",
+        "prezzoPubblico": 25,
+        "prezzoPrivato": 200,
+        "range": "150–350",
+        "devStd": "±30%",
+        "confidenza": "B",
+        "nFonti": 9,
+        "note": "UK 170–340€"
+      },
+      {
+        "codice": "88.79.6",
+        "descrizione": "Scrotale",
+        "prezzoPubblico": 25,
+        "prezzoPrivato": 180,
+        "range": "150–300",
+        "devStd": "±25%",
+        "confidenza": "B",
+        "nFonti": 9,
+        "note": "UK 170–340€, media 180€"
+      },
+      {
+        "codice": "88.79.E",
+        "descrizione": "Doppler scrotale",
+        "prezzoPubblico": 25,
+        "prezzoPrivato": 250,
+        "range": "180–400",
+        "devStd": "±30%",
+        "confidenza": "B",
+        "nFonti": 9,
+        "note": "Prezzo simile al Doppler carotideo"
+      }
+    ],
+    "usa": [
+      {
+        "codice": "88.71.4",
+        "descrizione": "Capo e collo",
+        "prezzoPubblico": 0,
+        "prezzoPrivato": 320,
+        "range": "90–550",
+        "devStd": "±45%",
+        "confidenza": "B",
+        "nFonti": 8,
+        "note": "Prezzo varia per assicurazione e sede"
+      },
+      {
+        "codice": "88.72.2",
+        "descrizione": "Cardiaca",
+        "prezzoPubblico": 0,
+        "prezzoPrivato": 800,
+        "range": "330–1230",
+        "devStd": "±50%",
+        "confidenza": "C",
+        "nFonti": 10,
+        "note": "Ecocardio molto costoso fuori rete"
+      },
+      {
+        "codice": "88.73.5",
+        "descrizione": "TSA",
+        "prezzoPubblico": 0,
+        "prezzoPrivato": 260,
+        "range": "140–380",
+        "devStd": "±40%",
+        "confidenza": "B",
+        "nFonti": 7,
+        "note": "Prezzo medio $300, alta variabilità"
+      },
+      {
+        "codice": "88.77.4",
+        "descrizione": "Arti inferiori",
+        "prezzoPubblico": 0,
+        "prezzoPrivato": 400,
+        "range": "220–660",
+        "devStd": "±40%",
+        "confidenza": "C",
+        "nFonti": 8,
+        "note": "Differenze enormi per tipo e copertura"
+      },
+      {
+        "codice": "88.77.6",
+        "descrizione": "Arti superiori",
+        "prezzoPubblico": 0,
+        "prezzoPrivato": 350,
+        "range": "180–600",
+        "devStd": "±40%",
+        "confidenza": "C",
+        "nFonti": 8,
+        "note": "Simile agli arti inferiori"
+      },
+      {
+        "codice": "88.76.3",
+        "descrizione": "Grossi vasi addominali",
+        "prezzoPubblico": 0,
+        "prezzoPrivato": 370,
+        "range": "180–560",
+        "devStd": "±40%",
+        "confidenza": "B",
+        "nFonti": 8,
+        "note": "Costo medio 370€"
+      },
+      {
+        "codice": "88.78.2",
+        "descrizione": "Ginecologica",
+        "prezzoPubblico": 0,
+        "prezzoPrivato": 200,
+        "range": "90–330",
+        "devStd": "±35%",
+        "confidenza": "B",
+        "nFonti": 9,
+        "note": "Prezzo medio $200"
+      },
+      {
+        "codice": "88.76.1",
+        "descrizione": "Addome completo",
+        "prezzoPubblico": 0,
+        "prezzoPrivato": 320,
+        "range": "110–600",
+        "devStd": "±40%",
+        "confidenza": "B",
+        "nFonti": 10,
+        "note": "Molto diffuso, coperto da assicurazioni"
+      },
+      {
+        "codice": "88.75.1",
+        "descrizione": "Addome inferiore",
+        "prezzoPubblico": 0,
+        "prezzoPrivato": 250,
+        "range": "45–380",
+        "devStd": "±40%",
+        "confidenza": "B",
+        "nFonti": 7,
+        "note": "Prezzo medio $250"
+      },
+      {
+        "codice": "88.74.1",
+        "descrizione": "Addome superiore",
+        "prezzoPubblico": 0,
+        "prezzoPrivato": 300,
+        "range": "110–600",
+        "devStd": "±35%",
+        "confidenza": "B",
+        "nFonti": 8,
+        "note": "Media $330"
+      },
+      {
+        "codice": "88.73.1",
+        "descrizione": "Mammella bilaterale",
+        "prezzoPubblico": 0,
+        "prezzoPrivato": 350,
+        "range": "140–550",
+        "devStd": "±35%",
+        "confidenza": "B",
+        "nFonti": 8,
+        "note": "Prezzi simili eco muscolo"
+      },
+      {
+        "codice": "88.73.2",
+        "descrizione": "Mammella monolaterale",
+        "prezzoPubblico": 0,
+        "prezzoPrivato": 250,
+        "range": "85–450",
+        "devStd": "±35%",
+        "confidenza": "B",
+        "nFonti": 8,
+        "note": "Prezzo inferiore di 25% al bilaterale"
+      },
+      {
+        "codice": "88.79.3",
+        "descrizione": "Muscoloscheletrica",
+        "prezzoPubblico": 0,
+        "prezzoPrivato": 270,
+        "range": "90–380",
+        "devStd": "±40%",
+        "confidenza": "B",
+        "nFonti": 8,
+        "note": "Prezzo medio $270"
+      },
+      {
+        "codice": "88.79.6",
+        "descrizione": "Scrotale",
+        "prezzoPubblico": 0,
+        "prezzoPrivato": 270,
+        "range": "85–450",
+        "devStd": "±35%",
+        "confidenza": "B",
+        "nFonti": 7,
+        "note": "Prezzo medio $270"
+      },
+      {
+        "codice": "88.79.E",
+        "descrizione": "Doppler scrotale",
+        "prezzoPubblico": 0,
+        "prezzoPrivato": 300,
+        "range": "100–500",
+        "devStd": "±40%",
+        "confidenza": "C",
+        "nFonti": 7,
+        "note": "Prezzo medio $300"
+      }
+    ],
+    "cina": [
+      {
+        "codice": "88.71.4",
+        "descrizione": "Capo e collo",
+        "prezzoPubblico": 5,
+        "prezzoPrivato": 25,
+        "range": "10–45",
+        "devStd": "±25%",
+        "confidenza": "B",
+        "nFonti": 6,
+        "note": "Prezzo urbano ~20€, rurale ~10€, costo molto accessibile"
+      },
+      {
+        "codice": "88.72.2",
+        "descrizione": "Cardiaca",
+        "prezzoPubblico": 10,
+        "prezzoPrivato": 40,
+        "range": "20–75",
+        "devStd": "±30%",
+        "confidenza": "B",
+        "nFonti": 6,
+        "note": "Prezzo tipico in cliniche 45–75€, copertura pubblica alta"
+      },
+      {
+        "codice": "88.73.5",
+        "descrizione": "TSA",
+        "prezzoPubblico": 8,
+        "prezzoPrivato": 40,
+        "range": "15–75",
+        "devStd": "±30%",
+        "confidenza": "B",
+        "nFonti": 5,
+        "note": "Ampia variabilità urbana/rurale"
+      },
+      {
+        "codice": "88.77.4",
+        "descrizione": "Arti inferiori (Doppler)",
+        "prezzoPubblico": 8,
+        "prezzoPrivato": 45,
+        "range": "20–75",
+        "devStd": "±30%",
+        "confidenza": "B",
+        "nFonti": 5,
+        "note": "Prezzo medio 45€, cresce nelle metropoli"
+      },
+      {
+        "codice": "88.77.6",
+        "descrizione": "Arti superiori (Doppler)",
+        "prezzoPubblico": 8,
+        "prezzoPrivato": 40,
+        "range": "15–70",
+        "devStd": "±25%",
+        "confidenza": "B",
+        "nFonti": 5,
+        "note": "Range simile agli arti inferiori"
+      },
+      {
+        "codice": "88.76.3",
+        "descrizione": "Grossi vasi addominali",
+        "prezzoPubblico": 8,
+        "prezzoPrivato": 35,
+        "range": "15–65",
+        "devStd": "±25%",
+        "confidenza": "B",
+        "nFonti": 5,
+        "note": "Prezzi bassi, ampia offerta pubblica"
+      },
+      {
+        "codice": "88.78.2",
+        "descrizione": "Ginecologica",
+        "prezzoPubblico": 5,
+        "prezzoPrivato": 30,
+        "range": "13–45",
+        "devStd": "±25%",
+        "confidenza": "A",
+        "nFonti": 7,
+        "note": "Altissima frequenza d’uso, bassa variabilità"
+      },
+      {
+        "codice": "88.76.1",
+        "descrizione": "Addome completo",
+        "prezzoPubblico": 8,
+        "prezzoPrivato": 35,
+        "range": "13–45",
+        "devStd": "±25%",
+        "confidenza": "A",
+        "nFonti": 7,
+        "note": "Esame di base, costo medio 35€"
+      },
+      {
+        "codice": "88.75.1",
+        "descrizione": "Addome inferiore",
+        "prezzoPubblico": 8,
+        "prezzoPrivato": 30,
+        "range": "13–45",
+        "devStd": "±25%",
+        "confidenza": "B",
+        "nFonti": 5,
+        "note": "Prezzo simile all’addome completo"
+      },
+      {
+        "codice": "88.74.1",
+        "descrizione": "Addome superiore",
+        "prezzoPubblico": 8,
+        "prezzoPrivato": 35,
+        "range": "13–45",
+        "devStd": "±25%",
+        "confidenza": "B",
+        "nFonti": 5,
+        "note": "Costo medio urbano ~30–40€"
+      },
+      {
+        "codice": "88.73.1",
+        "descrizione": "Mammella bilaterale",
+        "prezzoPubblico": 8,
+        "prezzoPrivato": 35,
+        "range": "13–45",
+        "devStd": "±25%",
+        "confidenza": "B",
+        "nFonti": 5,
+        "note": "Prezzo medio simile all’addome"
+      },
+      {
+        "codice": "88.73.2",
+        "descrizione": "Mammella monolaterale",
+        "prezzoPubblico": 8,
+        "prezzoPrivato": 25,
+        "range": "10–35",
+        "devStd": "±25%",
+        "confidenza": "B",
+        "nFonti": 5,
+        "note": "Prezzo medio inferiore del 25% al bilaterale"
+      },
+      {
+        "codice": "88.79.3",
+        "descrizione": "Muscoloscheletrica",
+        "prezzoPubblico": 8,
+        "prezzoPrivato": 35,
+        "range": "13–45",
+        "devStd": "±25%",
+        "confidenza": "B",
+        "nFonti": 5,
+        "note": "Esame comune, prezzi contenuti"
+      },
+      {
+        "codice": "88.79.6",
+        "descrizione": "Scrotale",
+        "prezzoPubblico": 8,
+        "prezzoPrivato": 35,
+        "range": "13–45",
+        "devStd": "±25%",
+        "confidenza": "B",
+        "nFonti": 5,
+        "note": "Prezzo tipico ospedaliero 30–40€"
+      },
+      {
+        "codice": "88.79.E",
+        "descrizione": "Doppler scrotale",
+        "prezzoPubblico": 8,
+        "prezzoPrivato": 40,
+        "range": "15–50",
+        "devStd": "±25%",
+        "confidenza": "B",
+        "nFonti": 5,
+        "note": "Leggero sovrapprezzo per uso Doppler"
+      }
+    ]
+  },
+  "configurazioneTamSamSom": {
+    "ecografie": {
+      "priceMode": "regionalizzato",
+      "prezzoMedioProcedura": 90.5,
+      "tipoPrezzo": "medio",
+      "regioneSelezionata": "europa",
+      "volumeMode": "totale",
+      "samPercentage": 50,
+      "somPercentages": {
+        "y1": 0.5,
+        "y3": 1.7,
+        "y5": 5
+      },
+      "valoriCalcolati": {
+        "tam": 174849502.5,
+        "sam": 26227425.375,
+        "som1": 131137.12687500002,
+        "som3": 524548.5075000001,
+        "som5": 1311371.26875
+      },
+      "lastUpdate": "2025-10-11T15:27:55.468Z",
+      "regioniSelezionate": {
+        "italia": true,
+        "europa": false,
+        "usa": false,
+        "cina": false
+      }
+    },
+    "ecografi": {
+      "priceMode": "semplice",
+      "prezzoMedioDispositivo": 25000,
+      "prezziMediDispositivi": {
+        "carrellati": 50000,
+        "portatili": 25001,
+        "palmari": 6000
+      },
+      "samPercentage": 50,
+      "somPercentages": {
+        "y1": 1,
+        "y3": 2,
+        "y5": 5
+      },
+      "valoriCalcolati": {
+        "tam": 219550837,
+        "sam": 109775418.5,
+        "som1": 1097754.185,
+        "som3": 2195508.37,
+        "som5": 5488770.925000001
+      },
+      "lastUpdate": "2025-10-11T15:51:53.804Z",
+      "regioniAttive": {
+        "italia": true,
+        "europa": false,
+        "usa": false,
+        "cina": false
+      }
+    },
+    "businessPlan": {
+      "sectionProgress": {
+        "executive-summary": 50,
+        "proposta-valore": 90,
+        "mercato": 95,
+        "competizione": 90,
+        "modello-business": 55,
+        "gtm": 60,
+        "regolatorio": 75,
+        "roadmap-prodotto": 50,
+        "operazioni": 10,
+        "team": 10,
+        "rischi": 40,
+        "piano-finanziario": 20
+      },
+      "lastUpdate": "2025-10-10T15:08:24.481Z"
+    }
+  },
+  "revenueModel": {
+    "hardware": {
+      "enabled": true,
+      "description": "Vendita dispositivi ecografici (CapEx cliente). Prezzi ASP letti da configurazioneTamSamSom.ecografi",
+      "unitCost": 10000,
+      "unitCostByType": {
+        "carrellati": 25000,
+        "portatili": 10000,
+        "palmari": 2000
+      },
+      "warrantyPct": 0.03,
+      "cogsMarginByType": {
+        "carrellati": 0.5,
+        "portatili": 0.6,
+        "palmari": 0.65
+      },
+      "note": "ASP letti da configurazioneTamSamSom.ecografi. COGS e margini gestiti qui."
+    },
+    "saas": {
+      "enabled": true,
+      "description": "Abbonamento software SaaS ricorrente",
+      "pricing": {
+        "perDevice": {
+          "enabled": true,
+          "monthlyFee": 500,
+          "annualFee": 5500,
+          "grossMarginPct": 0.85,
+          "activationRate": 0.8,
+          "description": "Pricing per dispositivo - €500/mese o €5,500/anno (8% sconto)"
+        },
+        "perScan": {
+          "enabled": false,
+          "feePerScan": 1.5,
+          "revSharePct": 0.3,
+          "grossMarginPct": 0.7,
+          "description": "Pricing per scansione - €1.50/scan con 30% revenue share"
+        },
+        "tiered": {
+          "enabled": false,
+          "description": "Pricing a scaglioni basato su volume scansioni mensili",
+          "tiers": [
+            {
+              "scansUpTo": 100,
+              "monthlyFee": 300,
+              "description": "Piano Starter - fino a 100 scansioni/mese"
+            },
+            {
+              "scansUpTo": 500,
+              "monthlyFee": 500,
+              "description": "Piano Professional - fino a 500 scansioni/mese"
+            },
+            {
+              "scansUpTo": 9999,
+              "monthlyFee": 800,
+              "description": "Piano Enterprise - scansioni illimitate"
+            }
+          ],
+          "grossMarginPct": 0.85
+        }
+      },
+      "note": "Modello SaaS predefinito: per-device. Altri modelli disponibili per scenari."
+    },
+    "consumables": {
+      "enabled": false,
+      "description": "Consumabili e materiali ricorrenti (gel, accessori)",
+      "items": [
+        {
+          "id": "gel_eco",
+          "name": "Gel ecografico",
+          "revenuePerDevicePerMonth": 50,
+          "grossMarginPct": 0.4,
+          "description": "Gel per ecografie - consumo medio €50/mese per dispositivo"
+        },
+        {
+          "id": "accessories",
+          "name": "Sonde e accessori",
+          "revenuePerDevicePerMonth": 100,
+          "grossMarginPct": 0.5,
+          "description": "Sonde di ricambio e accessori vari"
+        }
+      ],
+      "totalRevenuePerDevicePerMonth": 150,
+      "note": "Consumabili opzionali - da abilitare solo se modello business include vendita materiali"
+    },
+    "services": {
+      "enabled": false,
+      "description": "Servizi professionali one-time o ricorrenti",
+      "items": [
+        {
+          "id": "training",
+          "name": "Training iniziale",
+          "type": "one-time",
+          "revenue": 2000,
+          "attachRate": 0.8,
+          "grossMarginPct": 0.7,
+          "description": "Formazione iniziale operatori - 80% clienti acquista"
+        },
+        {
+          "id": "extended_warranty",
+          "name": "Garanzia estesa",
+          "type": "annual",
+          "annualRevenue": 1500,
+          "attachRate": 0.4,
+          "grossMarginPct": 0.8,
+          "description": "Manutenzione e supporto esteso - 40% attach rate"
+        },
+        {
+          "id": "consulting",
+          "name": "Consulenza clinica",
+          "type": "project",
+          "revenuePerProject": 5000,
+          "projectsPerYear": 2,
+          "grossMarginPct": 0.65,
+          "description": "Consulenza specialistica per ottimizzazione workflow"
+        }
+      ],
+      "note": "Servizi opzionali - da abilitare se parte del business model"
+    },
+    "bundling": {
+      "enabled": false,
+      "description": "Pacchetti bundle hardware + software + servizi",
+      "bundles": [
+        {
+          "id": "starter_bundle",
+          "name": "Pacchetto Starter",
+          "components": {
+            "hardware": "palmari",
+            "saasMonths": 12,
+            "training": true
+          },
+          "price": 15000,
+          "discount": 0.15,
+          "description": "Dispositivo palmare + 1 anno SaaS + training - 15% sconto"
+        },
+        {
+          "id": "professional_bundle",
+          "name": "Pacchetto Professional",
+          "components": {
+            "hardware": "portatili",
+            "saasMonths": 24,
+            "training": true,
+            "extendedWarranty": true
+          },
+          "price": 35000,
+          "discount": 0.2,
+          "description": "Dispositivo portatile + 2 anni SaaS + training + garanzia - 20% sconto"
+        }
+      ],
+      "note": "Bundle pricing per semplificare vendita e aumentare ARPA"
+    },
+    "financing": {
+      "enabled": false,
+      "description": "Opzioni di finanziamento per clienti",
+      "options": [
+        {
+          "type": "leasing",
+          "durationMonths": 36,
+          "interestRate": 0.05,
+          "downPaymentPct": 0.2,
+          "description": "Leasing operativo 36 mesi - 20% anticipo, 5% interesse annuo"
+        },
+        {
+          "type": "rent_to_own",
+          "durationMonths": 24,
+          "monthlyFee": 1200,
+          "ownershipAtEnd": true,
+          "description": "Rent-to-own 24 mesi - proprietà a fine contratto"
+        }
+      ],
+      "note": "Finanziamento opzionale - migliora accessibilità per PMI"
+    },
+    "pricingStrategy": {
+      "defaultModel": "hybrid_hardware_saas",
+      "geographicPricing": {
+        "enabled": true,
+        "regions": {
+          "italia": {
+            "priceMultiplier": 1,
+            "note": "Prezzo base di riferimento"
+          },
+          "europa": {
+            "priceMultiplier": 1.1,
+            "note": "Premium 10% per mercato EU (escl. Italia)"
+          },
+          "usa": {
+            "priceMultiplier": 1.3,
+            "note": "Premium 30% per mercato USA (regolamentazione FDA, supporto)"
+          },
+          "cina": {
+            "priceMultiplier": 0.8,
+            "note": "Discount 20% per penetrazione mercato emergente"
+          }
+        }
+      },
+      "volumeDiscounts": {
+        "enabled": false,
+        "tiers": [
+          {
+            "unitsFrom": 1,
+            "unitsTo": 5,
+            "discount": 0
+          },
+          {
+            "unitsFrom": 6,
+            "unitsTo": 20,
+            "discount": 0.1
+          },
+          {
+            "unitsFrom": 21,
+            "unitsTo": 9999,
+            "discount": 0.15
+          }
+        ],
+        "note": "Sconti volume per grandi ordini (distributori, catene)"
+      }
+    },
+    "metadata": {
+      "version": "1.0.0",
+      "currency": "EUR",
+      "lastUpdate": "2025-01-10T11:00:00.000Z",
+      "createdBy": "system",
+      "validFrom": "2025-01-01",
+      "note": "Schema completo modello di business Eco 3D - Base per proiezioni ricavi e scenari"
+    }
+  },
+  "contoEconomico": {
+    "version": "1.0.0",
+    "lastUpdated": "2025-10-11",
+    "currency": "EUR",
+    "note": "Dati per Conto Economico previsionale - integrati con budget e revenue model",
+    "ricavi": {
+      "note": "I ricavi vengono calcolati dal Revenue Model esistente (revenueModel)",
+      "source": "revenueModel + FinancialCalculator",
+      "lineeBusinessDefault": [
+        {
+          "id": "dispositivi_hw",
+          "nome": "Vendita Dispositivi Hardware",
+          "tipo": "capex",
+          "descrizione": "Vendita una tantum dispositivi ecografici",
+          "active": true
+        },
+        {
+          "id": "saas_subscription",
+          "nome": "Abbonamenti Software SaaS",
+          "tipo": "recurring",
+          "descrizione": "Ricavi ricorrenti da abbonamenti mensili",
+          "active": true
+        },
+        {
+          "id": "servizi_post_vendita",
+          "nome": "Servizi Post-Vendita e Manutenzione",
+          "tipo": "recurring",
+          "descrizione": "Manutenzione, training, supporto tecnico",
+          "active": false
+        }
+      ]
+    },
+    "cogs": {
+      "note": "Costi diretti attribuibili ai ricavi - Cost of Goods Sold",
+      "hardwareCosts": {
+        "costoUnitarioDispositivo": 11000,
+        "note": "Costo produzione per dispositivo (dato da budget prototipo)",
+        "componenti": [
+          {
+            "nome": "Componenti elettronici",
+            "percentuale": 45,
+            "valore": 4950
+          },
+          {
+            "nome": "Sonda ultrasonica",
+            "percentuale": 30,
+            "valore": 3300
+          },
+          {
+            "nome": "Assemblaggio e test",
+            "percentuale": 15,
+            "valore": 1650
+          },
+          {
+            "nome": "Packaging e logistica",
+            "percentuale": 10,
+            "valore": 1100
+          }
+        ],
+        "curvaApprendimento": {
+          "enabled": true,
+          "percentualeRiduzionePerDoppio": 15,
+          "note": "Riduzione costi con economie di scala (learning curve)"
+        }
+      },
+      "saasCosts": {
+        "costoPerUtente": {
+          "cloudInfrastructure": 2,
+          "storage": 1,
+          "bandwidth": 0.5,
+          "totale": 3.5,
+          "note": "Costi mensili cloud per utente attivo (€/mese)"
+        },
+        "commissioniPiattaforma": {
+          "percentuale": 3,
+          "note": "Commissioni payment processor (% sui ricavi)"
+        }
+      },
+      "margineObiettivoPercentuale": {
+        "hardware": 78,
+        "saas": 95,
+        "blended": 85,
+        "note": "Target gross margin % per linea di business"
+      }
+    },
+    "opex": {
+      "note": "I dati OPEX vengono presi dalla sezione budget esistente",
+      "source": "budget.categories",
+      "mapping": {
+        "personale": "cat_4",
+        "rd": "cat_1",
+        "regolatorio": "cat_2",
+        "clinico": "cat_3",
+        "overhead": "cat_5",
+        "marketing": "cat_6"
+      },
+      "categorieAggiuntive": [
+        {
+          "id": "marketing_sales_scale",
+          "nome": "Marketing & Sales (Scaling Phase)",
+          "note": "Costi marketing aggiuntivi fase di scale-up post-lancio",
+          "values": {
+            "2025": 0,
+            "2026": 50,
+            "2027": 100,
+            "2028": 150,
+            "2029": 200
+          }
+        }
+      ],
+      "totaliCalcolatiPerAnno": {
+        "2025": 82,
+        "2026": 452,
+        "2027": 488,
+        "2028": 783,
+        "note": "Totali OPEX calcolati dal budget (in K€)"
+      }
+    },
+    "ammortamenti": {
+      "note": "Ammortamenti asset capitalizzati - quota annuale",
+      "enabled": true,
+      "assets": [
+        {
+          "id": "macchinari_produzione",
+          "nome": "Macchinari e Attrezzature Produzione",
+          "valoreDiAcquisto": 50,
+          "dataAcquisto": "2026-Q1",
+          "anniAmmortamento": 5,
+          "metodologia": "lineare",
+          "quotaAnnuale": 10
+        },
+        {
+          "id": "software_sviluppo",
+          "nome": "Software e Piattaforma Tecnologica",
+          "valoreDiAcquisto": 30,
+          "dataAcquisto": "2025-Q4",
+          "anniAmmortamento": 3,
+          "metodologia": "lineare",
+          "quotaAnnuale": 10
+        },
+        {
+          "id": "brevetti",
+          "nome": "Brevetti e Proprietà Intellettuale",
+          "valoreDiAcquisto": 5,
+          "dataAcquisto": "2025-Q1",
+          "anniAmmortamento": 10,
+          "metodologia": "lineare",
+          "quotaAnnuale": 0.5
+        }
+      ],
+      "totaleAnnualeCalcolato": {
+        "2025": 0.5,
+        "2026": 20.5,
+        "2027": 20.5,
+        "2028": 20.5,
+        "2029": 10,
+        "note": "Totali ammortamenti per anno (in K€)"
+      }
+    },
+    "interessiFinanziari": {
+      "note": "Interessi su debiti e finanziamenti",
+      "enabled": true,
+      "debiti": [
+        {
+          "id": "convertible_note_seed",
+          "tipo": "Convertible Note",
+          "capitale": 200,
+          "tassoInteresse": 5,
+          "dataEmissione": "2025-Q1",
+          "scadenza": "2027-Q1",
+          "interesseAnnuale": 10,
+          "note": "Convertible note da round seed"
+        }
+      ],
+      "totaleAnnualeCalcolato": {
+        "2025": 10,
+        "2026": 10,
+        "2027": 5,
+        "2028": 0,
+        "2029": 0,
+        "note": "Totali interessi per anno (in K€)"
+      }
+    },
+    "tasse": {
+      "note": "Aliquota 28% (24% IRES + ~4% IRAP). Perdite riportabili negli anni successivi",
+      "regime": "IRES + IRAP",
+      "aliquotaEffettiva": 28,
+      "perditeRiportabili": true
+    },
+    "breakEvenAnalysis": {
+      "enabled": true,
+      "metodologia": "units",
+      "assumptions": {
+        "prezzoMedioVendita": 50000,
+        "costoVariabileUnitario": 11000,
+        "costiFissiAnnuali": {
+          "2025": 82,
+          "2026": 452,
+          "2027": 488,
+          "2028": 783,
+          "note": "Costi fissi annuali = OPEX (da budget)"
+        }
+      },
+      "formula": "Q_BEP = Costi_Fissi / (Prezzo_Unitario - Costo_Variabile_Unitario)",
+      "unitaBreakEvenCalcolate": {
+        "2025": 2.1,
+        "2026": 11.6,
+        "2027": 12.5,
+        "2028": 20.1,
+        "note": "Unità necessarie per pareggiare costi fissi"
+      },
+      "note": "Calcolo unità vendute necessarie per raggiungere break-even operativo"
+    },
+    "kpiMetriche": {
+      "grossMarginPercentage": {
+        "formula": "(Ricavi - COGS) / Ricavi * 100",
+        "target": 75,
+        "note": "Margine lordo percentuale - target 75%"
+      },
+      "ebitdaMargin": {
+        "formula": "EBITDA / Ricavi * 100",
+        "target": 30,
+        "note": "Margine EBITDA percentuale - target 30% a regime"
+      },
+      "netMargin": {
+        "formula": "Utile_Netto / Ricavi * 100",
+        "target": 20,
+        "note": "Margine netto percentuale - target 20% a regime"
+      },
+      "breakEvenMonth": {
+        "descrizione": "Mese in cui EBITDA diventa stabilmente positivo",
+        "target": "Q4 2026",
+        "note": "Obiettivo: EBITDA positivo entro fine 2026"
+      }
+    },
+    "scenari": {
+      "note": "Scenari previsionali per sensitivity analysis",
+      "base": {
+        "descrizione": "Scenario base - ipotesi realistiche",
+        "crescitaRicavi": 1.5,
+        "margineLorerdo": 75,
+        "ebitdaY5": 30
+      },
+      "prudente": {
+        "descrizione": "Scenario conservativo - ipotesi cautelative",
+        "crescitaRicavi": 1.2,
+        "margineLorerdo": 70,
+        "ebitdaY5": 20
+      },
+      "ambizioso": {
+        "descrizione": "Scenario ottimistico - massima crescita",
+        "crescitaRicavi": 2,
+        "margineLorerdo": 80,
+        "ebitdaY5": 40
+      }
+    },
+    "metadata": {
+      "createdBy": "Business Planning System",
+      "createdAt": "2025-10-11T15:48:00.000Z",
+      "version": "1.0.0",
+      "lastModified": "2025-10-11T15:48:00.000Z",
+      "note": "Sezione Conto Economico - integrata con budget e revenue model esistenti"
     }
   }
 }

@@ -61,7 +61,12 @@ export function PricingStrategyCard({
         <div className="flex items-center gap-3">
           <Globe className={`h-6 w-6 ${geoPricingEnabled ? 'text-blue-600' : 'text-gray-400'}`} />
           <div>
-            <h3 className="text-lg font-semibold text-gray-900">Pricing Strategy</h3>
+            <div className="flex items-center gap-2">
+              <h3 className="text-lg font-semibold text-gray-900">Pricing Strategy</h3>
+              <Badge variant="outline" className="bg-amber-50 border-amber-300 text-amber-700 text-xs">
+                ⚠️ Parzialmente implementato
+              </Badge>
+            </div>
             <p className="text-sm text-gray-500">Moltiplicatori geografici e sconti volume</p>
           </div>
         </div>

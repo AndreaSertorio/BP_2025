@@ -25,6 +25,9 @@ import { BudgetWrapper } from './BudgetWrapper';
 import { TamSamSomDashboard } from './TamSamSomDashboard';
 import { BusinessPlanView } from './BusinessPlanView';
 import { RevenueModelDashboard } from './RevenueModel';
+import { IncomeStatementDashboard } from './IncomeStatementDashboard';
+import { BalanceSheetView } from './BalanceSheetView';
+import { DatabaseInspector } from './DatabaseInspector';
 import { LoadingCard, LoadingChart } from './ui/loading-spinner';
 import { MetricTooltip } from './ui/enhanced-tooltip';
 import { exportCompleteScenario, exportMonthlyData, exportAnnualData, exportKPIs, exportAdvancedMetrics, exportCashFlowStatements, exportGrowthMetrics } from '@/lib/exportUtils';
@@ -58,12 +61,13 @@ export function MasterDashboard() {
     try {
       const calculator = new FinancialCalculator(currentScenario);
       const results = calculator.calculate();
-      console.log(`Calculated results for ${currentScenarioKey}:`, {
-        totalRevenueY1: results.annualData[0]?.totalRev,
-        totalRevenueY5: results.annualData[4]?.totalRev,
-        ebitdaY1: results.annualData[0]?.ebitda,
-        ebitdaY5: results.annualData[4]?.ebitda
-      });
+      // Log disabled to reduce console noise
+      // console.log(`Calculated results for ${currentScenarioKey}:`, {
+      //   totalRevenueY1: results.annualData[0]?.totalRev,
+      //   totalRevenueY5: results.annualData[4]?.totalRev,
+      //   ebitdaY1: results.annualData[0]?.ebitda,
+      //   ebitdaY5: results.annualData[4]?.ebitda
+      // });
       setIsCalculating(false);
       return results;
     } catch (error) {
@@ -373,7 +377,10 @@ export function MasterDashboard() {
               <TabsTrigger value="mercato">🌍 Mercato</TabsTrigger>
               <TabsTrigger value="tam-sam-som">🎯 TAM/SAM/SOM</TabsTrigger>
               <TabsTrigger value="revenue-model">💼 Modello Business</TabsTrigger>
+              <TabsTrigger value="income-statement">📊 Conto Economico</TabsTrigger>
+              <TabsTrigger value="balance-sheet">🏦 Stato Patrimoniale</TabsTrigger>
               <TabsTrigger value="budget">💰 Budget</TabsTrigger>
+              <TabsTrigger value="database">🗄️ Database</TabsTrigger>
               <TabsTrigger value="business-plan">📄 Business Plan</TabsTrigger>
               <TabsTrigger value="old-tabs">🗂️ Vecchi Tab</TabsTrigger>
             </TabsList>
@@ -437,8 +444,25 @@ export function MasterDashboard() {
           <RevenueModelDashboard />
         </TabsContent>
 
+        <TabsContent value="income-statement" className="mt-0">
+          <div className="container mx-auto">
+            <IncomeStatementDashboard scenario={currentScenario} />
+          </div>
+        </TabsContent>
+
+        <TabsContent value="balance-sheet" className="mt-0">
+          <BalanceSheetView 
+            scenario={currentScenario}
+            annualData={calculationResults?.annualData || []}
+          />
+        </TabsContent>
+
         <TabsContent value="budget" className="mt-0">
           <BudgetWrapper />
+        </TabsContent>
+
+        <TabsContent value="database" className="mt-0">
+          <DatabaseInspector />
         </TabsContent>
 
         <TabsContent value="business-plan" className="mt-0">

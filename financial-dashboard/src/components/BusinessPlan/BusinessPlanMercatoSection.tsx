@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -12,19 +12,25 @@ import {
   Info,
   ExternalLink,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Settings,
+  Eye,
+  EyeOff
 } from 'lucide-react';
 import {
   LineChart,
   Line,
   BarChart,
   Bar,
+  AreaChart,
+  Area,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
   Legend,
-  ResponsiveContainer
+  ResponsiveContainer,
+  Cell
 } from 'recharts';
 
 interface BusinessPlanMercatoSectionProps {
@@ -40,6 +46,17 @@ export function BusinessPlanMercatoSection({
 }: BusinessPlanMercatoSectionProps) {
   const { data } = useDatabase();
   
+  // Stati per customizzazione visualizzazione
+  const [showCustomPanel, setShowCustomPanel] = useState(false);
+  const [visualOptions, setVisualOptions] = useState({
+    showLegacyBarChart: false,
+    showLegacyLineChart: false,
+    showComparisonTable: true,
+    showGeographicTable: true,
+    showNewFunnelChart: true,
+    showNewGrowthChart: true,
+  });
+  
   const configProcedures = data?.configurazioneTamSamSom?.ecografie;
   const configDevices = data?.configurazioneTamSamSom?.ecografi;
   
@@ -52,6 +69,8 @@ export function BusinessPlanMercatoSection({
     som5: configProcedures?.valoriCalcolati?.som5 || 0,
   }), [configProcedures]);
   
+  // Devices: I valori nel database sono già in € (valore di mercato)
+  // NON servono conversioni, li usiamo direttamente
   const devicesData = useMemo(() => ({
     tam: configDevices?.valoriCalcolati?.tam || 0,
     sam: configDevices?.valoriCalcolati?.sam || 0,
@@ -60,7 +79,7 @@ export function BusinessPlanMercatoSection({
     som5: configDevices?.valoriCalcolati?.som5 || 0,
   }), [configDevices]);
   
-  // Totali combinati
+  // Totali combinati (in €)
   const totals = useMemo(() => ({
     tam: proceduresData.tam + devicesData.tam,
     sam: proceduresData.sam + devicesData.sam,
@@ -206,6 +225,72 @@ export function BusinessPlanMercatoSection({
     }];
   }, [totals]);
   
+  // Dati per grafico FUNNEL TAM→SAM→SOM (nuovo design intuitivo)
+  const funnelData = useMemo(() => [
+    {
+      stage: 'TAM',
+      value: totals.tam,
+      percentage: 100,
+      color: '#3b82f6',
+      description: 'Mercato Totale'
+    },
+    {
+      stage: 'SAM',
+      value: totals.sam,
+      percentage: totals.tam > 0 ? (totals.sam / totals.tam * 100) : 0,
+      color: '#10b981',
+      description: `${samPercentage}% del TAM`
+    },
+    {
+      stage: 'SOM Y1',
+      value: totals.som1,
+      percentage: totals.tam > 0 ? (totals.som1 / totals.tam * 100) : 0,
+      color: '#f59e0b',
+      description: 'Anno 1'
+    },
+    {
+      stage: 'SOM Y5',
+      value: totals.som5,
+      percentage: totals.tam > 0 ? (totals.som5 / totals.tam * 100) : 0,
+      color: '#8b5cf6',
+      description: 'Anno 5'
+    }
+  ], [totals, samPercentage]);
+  
+  // Dati per grafico CRESCITA TEMPORALE (area stacked)
+  const growthData = useMemo(() => [
+    {
+      year: 'Y1',
+      procedures: proceduresData.som1,
+      devices: devicesData.som1,
+      total: totals.som1
+    },
+    {
+      year: 'Y2',
+      procedures: proceduresData.som1 + (proceduresData.som3 - proceduresData.som1) * 0.4,
+      devices: devicesData.som1 + (devicesData.som3 - devicesData.som1) * 0.4,
+      total: totals.som1 + (totals.som3 - totals.som1) * 0.4
+    },
+    {
+      year: 'Y3',
+      procedures: proceduresData.som3,
+      devices: devicesData.som3,
+      total: totals.som3
+    },
+    {
+      year: 'Y4',
+      procedures: proceduresData.som3 + (proceduresData.som5 - proceduresData.som3) * 0.5,
+      devices: devicesData.som3 + (devicesData.som5 - devicesData.som3) * 0.5,
+      total: totals.som3 + (totals.som5 - totals.som3) * 0.5
+    },
+    {
+      year: 'Y5',
+      procedures: proceduresData.som5,
+      devices: devicesData.som5,
+      total: totals.som5
+    }
+  ], [proceduresData, devicesData, totals]);
+  
   const formatCurrency = (value: number) => {
     if (value >= 1000000000) return `€${(value / 1000000000).toFixed(2)}B`;
     if (value >= 1000000) return `€${(value / 1000000).toFixed(1)}M`;
@@ -220,14 +305,25 @@ export function BusinessPlanMercatoSection({
           <span className="flex items-center justify-center w-10 h-10 rounded-full bg-purple-100 text-purple-600 font-bold">3</span>
           Mercato (TAM/SAM/SOM)
         </h2>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={onToggle}
-          className="text-gray-500 hover:text-gray-700"
-        >
-          {isCollapsed ? <ChevronDown className="h-5 w-5" /> : <ChevronUp className="h-5 w-5" />}
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setShowCustomPanel(!showCustomPanel)}
+            className="text-gray-600 hover:text-gray-900"
+          >
+            <Settings className="h-4 w-4 mr-2" />
+            Personalizza visualizzazione
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onToggle}
+            className="text-gray-500 hover:text-gray-700"
+          >
+            {isCollapsed ? <ChevronDown className="h-5 w-5" /> : <ChevronUp className="h-5 w-5" />}
+          </Button>
+        </div>
       </div>
 
       {!isCollapsed && (
@@ -241,6 +337,121 @@ export function BusinessPlanMercatoSection({
             e la quota realisticamente ottenibile nei primi 5 anni (<em>Serviceable Obtainable Market</em>).
           </p>
         </div>
+
+        {/* Pannello Customizzazione Visualizzazione */}
+        {showCustomPanel && (
+          <Card className="p-4 bg-gradient-to-br from-gray-50 to-slate-50 border-2 border-gray-300">
+            <div className="flex items-center justify-between mb-4">
+              <h4 className="text-sm font-bold text-gray-900 flex items-center gap-2">
+                <Settings className="h-4 w-4" />
+                Opzioni Visualizzazione Sezione 3
+              </h4>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowCustomPanel(false)}
+                className="h-6 w-6 p-0"
+              >
+                ×
+              </Button>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-3 text-sm">
+              {/* Grafici Nuovi */}
+              <div className="col-span-2 border-b pb-2 mb-2">
+                <div className="font-semibold text-gray-700 mb-2">📊 Grafici Nuovi (Intuitivi)</div>
+              </div>
+              
+              <label className="flex items-center gap-2 cursor-pointer hover:bg-white/50 p-2 rounded">
+                <input
+                  type="checkbox"
+                  checked={visualOptions.showNewFunnelChart}
+                  onChange={(e) => setVisualOptions({...visualOptions, showNewFunnelChart: e.target.checked})}
+                  className="w-4 h-4"
+                />
+                <span className="flex items-center gap-1">
+                  {visualOptions.showNewFunnelChart ? <Eye className="h-3 w-3 text-green-600" /> : <EyeOff className="h-3 w-3 text-gray-400" />}
+                  Grafico Funnel TAM→SAM→SOM
+                </span>
+              </label>
+              
+              <label className="flex items-center gap-2 cursor-pointer hover:bg-white/50 p-2 rounded">
+                <input
+                  type="checkbox"
+                  checked={visualOptions.showNewGrowthChart}
+                  onChange={(e) => setVisualOptions({...visualOptions, showNewGrowthChart: e.target.checked})}
+                  className="w-4 h-4"
+                />
+                <span className="flex items-center gap-1">
+                  {visualOptions.showNewGrowthChart ? <Eye className="h-3 w-3 text-green-600" /> : <EyeOff className="h-3 w-3 text-gray-400" />}
+                  Grafico Crescita SOM Y1-Y5
+                </span>
+              </label>
+              
+              {/* Tabelle */}
+              <div className="col-span-2 border-b pb-2 mb-2 mt-2">
+                <div className="font-semibold text-gray-700 mb-2">📋 Tabelle</div>
+              </div>
+              
+              <label className="flex items-center gap-2 cursor-pointer hover:bg-white/50 p-2 rounded">
+                <input
+                  type="checkbox"
+                  checked={visualOptions.showComparisonTable}
+                  onChange={(e) => setVisualOptions({...visualOptions, showComparisonTable: e.target.checked})}
+                  className="w-4 h-4"
+                />
+                <span className="flex items-center gap-1">
+                  {visualOptions.showComparisonTable ? <Eye className="h-3 w-3 text-green-600" /> : <EyeOff className="h-3 w-3 text-gray-400" />}
+                  Tabella Comparativa Procedures/Devices
+                </span>
+              </label>
+              
+              <label className="flex items-center gap-2 cursor-pointer hover:bg-white/50 p-2 rounded">
+                <input
+                  type="checkbox"
+                  checked={visualOptions.showGeographicTable}
+                  onChange={(e) => setVisualOptions({...visualOptions, showGeographicTable: e.target.checked})}
+                  className="w-4 h-4"
+                />
+                <span className="flex items-center gap-1">
+                  {visualOptions.showGeographicTable ? <Eye className="h-3 w-3 text-green-600" /> : <EyeOff className="h-3 w-3 text-gray-400" />}
+                  Tabella Breakdown Geografico
+                </span>
+              </label>
+              
+              {/* Grafici Legacy (Vecchi) */}
+              <div className="col-span-2 border-b pb-2 mb-2 mt-2">
+                <div className="font-semibold text-gray-700 mb-2">🗃️ Grafici Legacy (Vecchi)</div>
+              </div>
+              
+              <label className="flex items-center gap-2 cursor-pointer hover:bg-white/50 p-2 rounded">
+                <input
+                  type="checkbox"
+                  checked={visualOptions.showLegacyBarChart}
+                  onChange={(e) => setVisualOptions({...visualOptions, showLegacyBarChart: e.target.checked})}
+                  className="w-4 h-4"
+                />
+                <span className="flex items-center gap-1 text-gray-600">
+                  {visualOptions.showLegacyBarChart ? <Eye className="h-3 w-3 text-orange-600" /> : <EyeOff className="h-3 w-3 text-gray-400" />}
+                  Bar Chart Segmentazione
+                </span>
+              </label>
+              
+              <label className="flex items-center gap-2 cursor-pointer hover:bg-white/50 p-2 rounded">
+                <input
+                  type="checkbox"
+                  checked={visualOptions.showLegacyLineChart}
+                  onChange={(e) => setVisualOptions({...visualOptions, showLegacyLineChart: e.target.checked})}
+                  className="w-4 h-4"
+                />
+                <span className="flex items-center gap-1 text-gray-600">
+                  {visualOptions.showLegacyLineChart ? <Eye className="h-3 w-3 text-orange-600" /> : <EyeOff className="h-3 w-3 text-gray-400" />}
+                  Line Chart Evoluzione Temporale
+                </span>
+              </label>
+            </div>
+          </Card>
+        )}
 
         {/* Link dashboard in alto */}
         {onNavigateToTamSamSom && (
@@ -317,8 +528,16 @@ export function BusinessPlanMercatoSection({
             <div className="text-xs text-gray-500">
               Anno 1: {somPercentages.y1}% del SAM penetrato
             </div>
-            <div className="mt-2 pt-2 border-t border-orange-100 text-xs space-y-1">
-              <div className="flex justify-between">
+            <div className="mt-2 pt-2 border-t border-orange-100 text-xs">
+              <div className="flex justify-between mb-1">
+                <span className="text-gray-600">Procedures Y1:</span>
+                <span className="font-semibold">{formatCurrency(proceduresData.som1)}</span>
+              </div>
+              <div className="flex justify-between mb-2">
+                <span className="text-gray-600">Devices Y1:</span>
+                <span className="font-semibold">{formatCurrency(devicesData.som1)}</span>
+              </div>
+              <div className="flex justify-between pt-1 border-t border-orange-50">
                 <span className="text-gray-600">Anno 3 ({somPercentages.y3}%):</span>
                 <span className="font-semibold">{formatCurrency(totals.som3)}</span>
               </div>
@@ -352,16 +571,155 @@ export function BusinessPlanMercatoSection({
         </div>
       </Card>
       
+      {/* GRAFICI NUOVI INTUITIVI */}
+      {visualOptions.showNewFunnelChart && (
+        <Card className="p-6 bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-300">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+              <TrendingUp className="h-5 w-5 text-blue-600" />
+              Funnel di Mercato: TAM → SAM → SOM
+            </h3>
+            <Badge variant="default" className="bg-blue-600 text-white text-xs">
+              ✨ Nuovo
+            </Badge>
+          </div>
+          <p className="text-sm text-gray-600 mb-6">
+            Visualizzazione intuitiva del restringimento progressivo dal mercato totale alla quota ottenibile
+          </p>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Grafico Funnel a Barre Orizzontali */}
+            <div>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={funnelData} layout="vertical" margin={{ left: 60, right: 20 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                  <XAxis type="number" tickFormatter={(value) => formatCurrency(value)} tick={{ fontSize: 11 }} />
+                  <YAxis dataKey="stage" type="category" tick={{ fontSize: 12, fontWeight: 600 }} />
+                  <Tooltip 
+                    formatter={(value: number) => formatCurrency(value)}
+                    contentStyle={{ backgroundColor: 'white', border: '1px solid #e5e7eb', borderRadius: '8px' }}
+                  />
+                  <Bar dataKey="value" radius={[0, 8, 8, 0]}>
+                    {funnelData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+            
+            {/* Card riassuntive con percentuali */}
+            <div className="space-y-3">
+              {funnelData.map((item, idx) => (
+                <div key={idx} className="p-4 bg-white rounded-lg border-2 shadow-sm" style={{ borderColor: item.color }}>
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }}></div>
+                      <span className="font-bold text-gray-900">{item.stage}</span>
+                    </div>
+                    <Badge variant="outline" style={{ borderColor: item.color, color: item.color }}>
+                      {item.percentage.toFixed(1)}%
+                    </Badge>
+                  </div>
+                  <div className="text-2xl font-bold mb-1" style={{ color: item.color }}>
+                    {formatCurrency(item.value)}
+                  </div>
+                  <div className="text-xs text-gray-600">{item.description}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Card>
+      )}
+      
+      {visualOptions.showNewGrowthChart && (
+        <Card className="p-6 bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-300">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+              <BarChart3 className="h-5 w-5 text-purple-600" />
+              Crescita SOM: Procedures vs Devices (5 anni)
+            </h3>
+            <Badge variant="default" className="bg-purple-600 text-white text-xs">
+              ✨ Nuovo
+            </Badge>
+          </div>
+          <p className="text-sm text-gray-600 mb-6">
+            Evoluzione del mercato ottenibile nei primi 5 anni, suddiviso tra procedure ecografiche e dispositivi hardware
+          </p>
+          
+          <ResponsiveContainer width="100%" height={350}>
+            <AreaChart data={growthData}>
+              <defs>
+                <linearGradient id="colorProcedures" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8}/>
+                  <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.2}/>
+                </linearGradient>
+                <linearGradient id="colorDevices" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#10b981" stopOpacity={0.8}/>
+                  <stop offset="95%" stopColor="#10b981" stopOpacity={0.2}/>
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <XAxis dataKey="year" tick={{ fontSize: 12 }} />
+              <YAxis tickFormatter={(value) => formatCurrency(value)} tick={{ fontSize: 11 }} />
+              <Tooltip 
+                formatter={(value: number) => formatCurrency(value)}
+                contentStyle={{ backgroundColor: 'white', border: '1px solid #e5e7eb', borderRadius: '8px' }}
+              />
+              <Legend wrapperStyle={{ fontSize: '12px' }} />
+              <Area 
+                type="monotone" 
+                dataKey="procedures" 
+                stackId="1"
+                stroke="#3b82f6" 
+                fill="url(#colorProcedures)" 
+                name="Procedures"
+              />
+              <Area 
+                type="monotone" 
+                dataKey="devices" 
+                stackId="1"
+                stroke="#10b981" 
+                fill="url(#colorDevices)" 
+                name="Devices"
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+          
+          {/* Card riassuntive crescita */}
+          <div className="mt-6 grid grid-cols-3 gap-4">
+            <div className="p-4 bg-white rounded-lg border border-blue-200">
+              <div className="text-xs text-gray-600 mb-1">Anno 1</div>
+              <div className="text-xl font-bold text-blue-600">{formatCurrency(totals.som1)}</div>
+            </div>
+            <div className="p-4 bg-white rounded-lg border border-purple-200">
+              <div className="text-xs text-gray-600 mb-1">Anno 3</div>
+              <div className="text-xl font-bold text-purple-600">{formatCurrency(totals.som3)}</div>
+            </div>
+            <div className="p-4 bg-white rounded-lg border border-pink-200">
+              <div className="text-xs text-gray-600 mb-1">Anno 5</div>
+              <div className="text-xl font-bold text-pink-600">{formatCurrency(totals.som5)}</div>
+              <div className="text-xs text-green-600 font-semibold mt-1">
+                {totals.som1 > 0 ? `+${((totals.som5 / totals.som1 - 1) * 100).toFixed(0)}% vs Y1` : 'N/A'}
+              </div>
+            </div>
+          </div>
+        </Card>
+      )}
+      
       {/* 3.2 Segmentazione Mercato */}
-      <div className="border-t pt-6">
-        <h3 className="text-xl font-bold text-gray-900 mb-2">Segmentazione: Procedures vs Devices</h3>
-        <p className="text-sm text-gray-600 mb-4">
-          Il mercato si divide in <strong>procedure ecografiche</strong> (esami annui valorizzabili con pay-per-scan) e 
-          <strong> dispositivi</strong> (ecografi vendibili/noleggiabili). Entrambi rappresentano opportunità di monetizzazione complementari.
-        </p>
-      </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Tabella Comparativa */}
+      {(visualOptions.showComparisonTable || visualOptions.showLegacyBarChart) && (
+        <>
+          <div className="border-t pt-6">
+            <h3 className="text-xl font-bold text-gray-900 mb-2">Segmentazione: Procedures vs Devices</h3>
+            <p className="text-sm text-gray-600 mb-4">
+              Il mercato si divide in <strong>procedure ecografiche</strong> (esami annui valorizzabili con pay-per-scan) e 
+              <strong> dispositivi</strong> (ecografi vendibili/noleggiabili). Entrambi rappresentano opportunità di monetizzazione complementari.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Tabella Comparativa */}
+            {visualOptions.showComparisonTable && (
         <Card className="p-6">
           <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
             <BarChart3 className="h-5 w-5 text-blue-600" />
@@ -460,12 +818,19 @@ export function BusinessPlanMercatoSection({
             </div>
           </div>
         </Card>
+            )}
         
-        {/* Grafico Segmentazione */}
-        <Card className="p-6">
-          <h3 className="text-lg font-bold text-gray-900 mb-4">
-            Visualizzazione TAM/SAM/SOM
-          </h3>
+            {/* Grafico Segmentazione */}
+            {visualOptions.showLegacyBarChart && (
+        <Card className="p-6 border-orange-200 border-2">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-bold text-gray-900">
+              Visualizzazione TAM/SAM/SOM
+            </h3>
+            <Badge variant="outline" className="bg-orange-50 text-orange-700 text-xs">
+              🗃️ Legacy
+            </Badge>
+          </div>
           
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={segmentationData}>
@@ -490,14 +855,23 @@ export function BusinessPlanMercatoSection({
             </BarChart>
           </ResponsiveContainer>
         </Card>
-      </div>
+            )}
+          </div>
+        </>
+      )}
       
       {/* 3.3 Evoluzione Temporale SOM */}
-      <Card className="p-6">
-        <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-          <TrendingUp className="h-5 w-5 text-purple-600" />
-          Proiezione SOM: Anno 1 → Anno 5
-        </h3>
+      {visualOptions.showLegacyLineChart && (
+      <Card className="p-6 border-orange-200 border-2">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+            <TrendingUp className="h-5 w-5 text-purple-600" />
+            Proiezione SOM: Anno 1 → Anno 5
+          </h3>
+          <Badge variant="outline" className="bg-orange-50 text-orange-700 text-xs">
+            🗃️ Legacy
+          </Badge>
+        </div>
         
         <ResponsiveContainer width="100%" height={350}>
           <LineChart data={timelineData}>
@@ -561,8 +935,11 @@ export function BusinessPlanMercatoSection({
           ))}
         </div>
       </Card>
+      )}
       
       {/* 3.5 Breakdown Geografico */}
+      {visualOptions.showGeographicTable && (
+      <>
       <div className="border-t pt-6">
         <h3 className="text-xl font-bold text-gray-900 mb-2">Dimensioni Mercato per Area Geografica</h3>
         <p className="text-sm text-gray-600 mb-4">
@@ -653,6 +1030,8 @@ export function BusinessPlanMercatoSection({
           </div>
         </div>
       </Card>
+      </>
+      )}
       
       {/* Footer con link alla dashboard */}
       {totals.tam === 0 && (
