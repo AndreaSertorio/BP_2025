@@ -1,6 +1,6 @@
 {
   "version": "1.0.3",
-  "lastUpdate": "2025-10-12",
+  "lastUpdate": "2025-10-20",
   "description": "Database centralizzato per Eco 3D - Dati reali da Eco_ITA_MASTER.xlsx con % Extra-SSN per prestazione",
   "mercatoEcografie": {
     "italia": {
@@ -4415,19 +4415,98 @@
         "y5": 5
       },
       "valoriCalcolati": {
-        "tam": 174849502.5,
-        "sam": 26227425.375,
-        "som1": 131137.12687500002,
-        "som3": 524548.5075000001,
-        "som5": 1311371.26875
+        "tam": 305570045,
+        "sam": 152785023,
+        "som1": 763925,
+        "som3": 2107165,
+        "som5": 5760690
       },
-      "lastUpdate": "2025-10-12T13:14:47.988Z",
+      "lastUpdate": "2025-10-20T18:19:00.530Z",
       "regioniSelezionate": {
         "italia": true,
         "europa": false,
         "usa": false,
         "cina": false
-      }
+      },
+      "proiezioni": [
+        {
+          "year": 2025,
+          "tam": 305570045,
+          "sam": 152785023,
+          "som": 763925,
+          "somPercentage": 0.5
+        },
+        {
+          "year": 2026,
+          "tam": 314737146,
+          "sam": 157368573,
+          "som": 1416317,
+          "somPercentage": 0.9
+        },
+        {
+          "year": 2027,
+          "tam": 324179261,
+          "sam": 162089630,
+          "som": 2107165,
+          "somPercentage": 1.3
+        },
+        {
+          "year": 2028,
+          "tam": 333904639,
+          "sam": 166952319,
+          "som": 2838189,
+          "somPercentage": 1.7
+        },
+        {
+          "year": 2029,
+          "tam": 343921778,
+          "sam": 171960889,
+          "som": 5760690,
+          "somPercentage": 3.35
+        },
+        {
+          "year": 2030,
+          "tam": 354239431,
+          "sam": 177119716,
+          "som": 8855986,
+          "somPercentage": 5
+        },
+        {
+          "year": 2031,
+          "tam": 364866614,
+          "sam": 182433307,
+          "som": 10927755,
+          "somPercentage": 5.99
+        },
+        {
+          "year": 2032,
+          "tam": 375812612,
+          "sam": 187906306,
+          "som": 13115860,
+          "somPercentage": 6.98
+        },
+        {
+          "year": 2033,
+          "tam": 387086991,
+          "sam": 193543495,
+          "som": 15425417,
+          "somPercentage": 7.97
+        },
+        {
+          "year": 2034,
+          "tam": 398699600,
+          "sam": 199349800,
+          "som": 17861742,
+          "somPercentage": 8.96
+        },
+        {
+          "year": 2035,
+          "tam": 410660589,
+          "sam": 205330294,
+          "som": 20430364,
+          "somPercentage": 9.95
+        }
+      ]
     },
     "ecografi": {
       "priceMode": "semplice",
@@ -4450,7 +4529,7 @@
         "som3": 2195508.37,
         "som5": 5488770.925000001
       },
-      "lastUpdate": "2025-10-12T13:18:46.651Z",
+      "lastUpdate": "2025-10-20T18:19:18.504Z",
       "regioniAttive": {
         "italia": true,
         "europa": false,
@@ -4511,16 +4590,16 @@
           "enabled": true,
           "modelDistributionPct": 40,
           "monthlyFee": 500,
-          "annualFee": 6000,
+          "annualFee": 5500,
           "grossMarginPct": 0.85,
-          "activationRate": 0.35,
+          "activationRate": 0.8,
           "description": ""
         },
         "perScan": {
           "enabled": true,
           "modelDistributionPct": 30,
           "feePerScan": 1.5,
-          "revSharePct": 0,
+          "revSharePct": 0.3,
           "scansPerDevicePerMonth": 150,
           "grossMarginPct": 0.7,
           "description": ""
@@ -4532,24 +4611,32 @@
           "tiers": [
             {
               "scansUpTo": 100,
-              "monthlyFee": 200,
+              "monthlyFee": 305,
               "description": "Piano Starter - fino a 100 scansioni/mese",
-              "distributionPct": 50
+              "distributionPct": 3
             },
             {
               "scansUpTo": 500,
               "monthlyFee": 500,
               "description": "Piano Professional - fino a 500 scansioni/mese",
-              "distributionPct": 30
+              "distributionPct": 4
             },
             {
               "scansUpTo": 9999,
               "monthlyFee": 800,
               "description": "Piano Enterprise - scansioni illimitate",
-              "distributionPct": 20
+              "distributionPct": 4
             }
           ],
           "grossMarginPct": 0.85
+        },
+        "summary": {
+          "description": "Riepilogo aggregato modelli pricing SaaS attivi",
+          "totalModelsActive": 3,
+          "avgMonthlyRevenue": 538,
+          "avgAnnualRevenue": 6456,
+          "weightedGrossMargin": 0.8,
+          "note": "Calcolato come media pesata dei 3 modelli attivi (perDevice 40%, perScan 30%, tiered 30%)"
         }
       },
       "note": "Modello SaaS predefinito: per-device. Altri modelli disponibili per scenari.",
@@ -4712,10 +4799,337 @@
     "metadata": {
       "version": "1.0.0",
       "currency": "EUR",
-      "lastUpdate": "2025-10-12T13:18:46.677Z",
+      "lastUpdate": "2025-10-20T18:19:18.526Z",
       "createdBy": "system",
       "validFrom": "2025-01-01",
       "note": "Schema completo modello di business Eco 3D - Base per proiezioni ricavi e scenari"
+    }
+  },
+  "goToMarket": {
+    "enabled": true,
+    "description": "Motore Go-To-Market con riconciliazione Top-Down vs Bottom-Up",
+    "version": "2.0.0",
+    "lastUpdate": "2025-10-20T18:29:32.060Z",
+    "salesCapacity": {
+      "description": "Capacità commerciale team vendite",
+      "repsByYear": {
+        "y1": 1,
+        "y2": 2,
+        "y3": 3,
+        "y4": 5,
+        "y5": 7
+      },
+      "dealsPerRepPerQuarter": 5,
+      "salesCycleDays": 90,
+      "rampUpQuarters": 1,
+      "rampUpMonths": 3,
+      "note": "rampUpQuarters: primi trimestri a produttività ridotta per onboarding. rampUpMonths = rampUpQuarters × 3"
+    },
+    "conversionFunnel": {
+      "description": "Tassi conversione funnel vendita Lead→Demo→Pilot→Deal",
+      "leadToDemo": 0.1,
+      "demoToPilot": 0.5,
+      "pilotToDeal": 0.6,
+      "funnelEfficiency": 0.03,
+      "note": "Efficiency = 0.1 × 0.5 × 0.6 = 3% (100 leads → 3 deals)",
+      "lead_to_demo": 0.28,
+      "demo_to_pilot": 0.53,
+      "pilot_to_deal": 0.67
+    },
+    "salesCycle": {
+      "description": "Ciclo vendita medio per segmento cliente",
+      "bySegment": {
+        "pubblico": 9,
+        "privato": 3,
+        "research": 6
+      },
+      "avgWeighted": 6,
+      "note": "Media pesata basata su salesMix definito in globalSettings"
+    },
+    "channelMix": {
+      "description": "Mix canali distribuzione e margini",
+      "direct": 0.6,
+      "distributors": 0.4,
+      "oem": 0,
+      "distributorMargin": 0.2,
+      "channelEfficiency": 0.92,
+      "note": "Efficiency = 1 - (0.4 × 0.2) = 92% (distributori erodono 8%)"
+    },
+    "adoptionCurve": {
+      "description": "Curva penetrazione mercato progressiva per regione",
+      "italia": {
+        "y1": 0.2,
+        "y2": 0.6,
+        "y3": 1,
+        "y4": 1,
+        "y5": 1
+      },
+      "europa": {
+        "y1": 0.1,
+        "y2": 0.4,
+        "y3": 0.8,
+        "y4": 1,
+        "y5": 1
+      },
+      "usa": {
+        "y1": 0,
+        "y2": 0.2,
+        "y3": 0.5,
+        "y4": 0.8,
+        "y5": 1
+      },
+      "cina": {
+        "y1": 0,
+        "y2": 0.1,
+        "y3": 0.3,
+        "y4": 0.6,
+        "y5": 1
+      },
+      "note": "1.0 = penetrazione completa SOM target. <1.0 = adoption progressiva"
+    },
+    "scenarios": {
+      "description": "Scenari budget/team alternativi per simulazioni",
+      "current": "medio",
+      "prudente": {
+        "name": "Prudente",
+        "description": "Budget ridotto, founder-led, growth conservativo",
+        "budget": 50000,
+        "reps": 0,
+        "multiplier": 0.5,
+        "overrides": {
+          "salesCapacity": {
+            "repsByYear": {
+              "y1": 1,
+              "y2": 1,
+              "y3": 2,
+              "y4": 3,
+              "y5": 4
+            }
+          },
+          "conversionFunnel": {
+            "leadToDemo": 0.08,
+            "demoToPilot": 0.4,
+            "pilotToDeal": 0.5
+          }
+        }
+      },
+      "medio": {
+        "name": "Base",
+        "description": "Piano realistico standard",
+        "budget": 150000,
+        "reps": 1,
+        "multiplier": 1,
+        "overrides": {}
+      },
+      "ottimista": {
+        "name": "Ottimista",
+        "description": "Budget elevato, team ampio, growth aggressivo",
+        "budget": 300000,
+        "reps": 3,
+        "multiplier": 1.5,
+        "overrides": {
+          "salesCapacity": {
+            "repsByYear": {
+              "y1": 2,
+              "y2": 4,
+              "y3": 6,
+              "y4": 10,
+              "y5": 15
+            }
+          },
+          "conversionFunnel": {
+            "leadToDemo": 0.15,
+            "demoToPilot": 0.6,
+            "pilotToDeal": 0.7
+          }
+        }
+      }
+    },
+    "marketingPlan": {
+      "description": "Proiezioni marketing anno per anno calcolate dal simulatore",
+      "globalSettings": {
+        "devicePrice": 50000,
+        "costPerLeadDefault": 55,
+        "note": "devicePrice SSOT: sincronizzato con globalSettings.business.devicePrice"
+      },
+      "projections": {
+        "y1": {
+          "costPerLead": 50,
+          "calculated": {
+            "reps": 1,
+            "rampFactor": null,
+            "capacity": null,
+            "funnelEfficiency": 0.09942800000000003,
+            "leadsNeeded": null,
+            "leadsMonthly": null,
+            "budgetMarketing": null,
+            "budgetMonthly": null,
+            "cacEffettivo": 503,
+            "expectedRevenue": null,
+            "marketingPercentage": 0,
+            "productivityRepYear": 20
+          },
+          "lastUpdate": "2025-10-20T18:29:32.060Z"
+        },
+        "y2": {
+          "year": 2,
+          "costPerLead": 50,
+          "calculated": {
+            "reps": 2,
+            "dealsPerRepPerQuarter": 5,
+            "rampUpQuarters": 0,
+            "capacity": 40,
+            "funnelEfficiency": 0.03,
+            "leadsNeeded": 1333,
+            "budgetMarketing": 66667,
+            "cacEffettivo": 1667,
+            "expectedRevenue": 2000000,
+            "marketingPercentRevenue": 3.33
+          },
+          "lastUpdate": "2025-10-14T18:30:00.000Z"
+        },
+        "y3": {
+          "year": 3,
+          "costPerLead": 45,
+          "calculated": {
+            "reps": 3,
+            "dealsPerRepPerQuarter": 5,
+            "rampUpQuarters": 0,
+            "capacity": 60,
+            "funnelEfficiency": 0.03,
+            "leadsNeeded": 2000,
+            "budgetMarketing": 90000,
+            "cacEffettivo": 1500,
+            "expectedRevenue": 3000000,
+            "marketingPercentRevenue": 3
+          },
+          "lastUpdate": "2025-10-14T18:30:00.000Z"
+        },
+        "y4": {
+          "year": 4,
+          "costPerLead": 40,
+          "calculated": {
+            "reps": 5,
+            "dealsPerRepPerQuarter": 5,
+            "rampUpQuarters": 0,
+            "capacity": 100,
+            "funnelEfficiency": 0.03,
+            "leadsNeeded": 3333,
+            "budgetMarketing": 133333,
+            "cacEffettivo": 1333,
+            "expectedRevenue": 5000000,
+            "marketingPercentRevenue": 2.67
+          },
+          "lastUpdate": "2025-10-14T18:30:00.000Z"
+        },
+        "y5": {
+          "year": 5,
+          "costPerLead": 35,
+          "calculated": {
+            "reps": 7,
+            "dealsPerRepPerQuarter": 5,
+            "rampUpQuarters": 0,
+            "capacity": 140,
+            "funnelEfficiency": 0.03,
+            "leadsNeeded": 4667,
+            "budgetMarketing": 163333,
+            "cacEffettivo": 1167,
+            "expectedRevenue": 7000000,
+            "marketingPercentRevenue": 2.33
+          },
+          "lastUpdate": "2025-10-14T18:30:00.000Z"
+        }
+      },
+      "lastUpdate": "2025-10-20T18:29:32.060Z"
+    },
+    "calculated": {
+      "description": "Riconciliazione Top-Down (SOM) vs Bottom-Up (Capacità Commerciale) - calcoli runtime",
+      "maxSalesCapacity": {
+        "y1": 15,
+        "y2": 40,
+        "y3": 60,
+        "y4": 100,
+        "y5": 140,
+        "note": "Capacità massima vendite basata su: reps × deals/quarter × 4 × rampFactor"
+      },
+      "realisticSales": {
+        "y1": 5,
+        "y2": 25,
+        "y3": 55,
+        "y4": 92,
+        "y5": 128,
+        "note": "Vendite realistiche = MIN(SOM_adjusted, maxSalesCapacity_adjusted)"
+      },
+      "constrainingFactor": {
+        "y1": "market",
+        "y2": "market",
+        "y3": "capacity",
+        "y4": "capacity",
+        "y5": "capacity",
+        "note": "capacity = limitati da team commerciale | market = limitati da domanda SOM"
+      },
+      "details": {
+        "y1": {
+          "somTarget": 28,
+          "somAdjustedByAdoption": 5,
+          "capacityBeforeChannels": 15,
+          "capacityAfterChannels": 13,
+          "realisticSales": 5,
+          "constrainingFactor": "market",
+          "adoptionRate": 0.2,
+          "channelEfficiency": 0.9199999999999999
+        },
+        "y2": {
+          "somTarget": 42,
+          "somAdjustedByAdoption": 25,
+          "capacityBeforeChannels": 40,
+          "capacityAfterChannels": 36,
+          "realisticSales": 25,
+          "constrainingFactor": "market",
+          "adoptionRate": 0.6,
+          "channelEfficiency": 0.9199999999999999
+        },
+        "y3": {
+          "somTarget": 56,
+          "somAdjustedByAdoption": 56,
+          "capacityBeforeChannels": 60,
+          "capacityAfterChannels": 55,
+          "realisticSales": 55,
+          "constrainingFactor": "capacity",
+          "adoptionRate": 1,
+          "channelEfficiency": 0.9199999999999999
+        },
+        "y4": {
+          "somTarget": 98,
+          "somAdjustedByAdoption": 98,
+          "capacityBeforeChannels": 100,
+          "capacityAfterChannels": 92,
+          "realisticSales": 92,
+          "constrainingFactor": "capacity",
+          "adoptionRate": 1,
+          "channelEfficiency": 0.9199999999999999
+        },
+        "y5": {
+          "somTarget": 140,
+          "somAdjustedByAdoption": 140,
+          "capacityBeforeChannels": 140,
+          "capacityAfterChannels": 128,
+          "realisticSales": 128,
+          "constrainingFactor": "capacity",
+          "adoptionRate": 1,
+          "channelEfficiency": 0.9199999999999999
+        }
+      },
+      "lastUpdate": "2025-10-20T18:04:45.094Z",
+      "note": "Valori ricalcolati automaticamente quando cambiano salesCapacity, funnel, TAM/SAM/SOM o adoptionCurve"
+    },
+    "metadata": {
+      "createdBy": "GTM Engine Implementation",
+      "createdAt": "2025-10-12T14:00:00.000Z",
+      "lastModified": "2025-10-14T18:30:00.000Z",
+      "version": "2.0.0",
+      "source": "Guida 39 Piano Finanziario + Guida 8 GTM Strategy",
+      "note": "Sezione completamente funzionale con auto-save, calcoli real-time e riconciliazione"
     }
   },
   "contoEconomico": {
@@ -5111,6 +5525,5543 @@
       "version": "1.0.0",
       "lastModified": "2025-10-11T18:40:00.000Z",
       "note": "Sezione Stato Patrimoniale - usa dati da contoEconomico, revenueModel, budget. Calcoli in balanceSheet.ts"
+    }
+  },
+  "timeline": {
+    "version": "1.0.0",
+    "lastUpdate": "2025-10-12T23:11:16.597Z",
+    "description": "Timeline completa progetto Eco 3D - Regolatorio, Prodotto, Business",
+    "categories": [
+      {
+        "id": "cat_prototipo",
+        "name": "Prototipo",
+        "color": "#ff6b6b",
+        "description": "Sviluppo prototipi e validazione tecnica",
+        "order": 1
+      },
+      {
+        "id": "cat_brevetti",
+        "name": "Brevetti & IP",
+        "color": "#4ecdc4",
+        "description": "Protezione proprietà intellettuale",
+        "order": 2
+      },
+      {
+        "id": "cat_regolatorio",
+        "name": "Regolatorio",
+        "color": "#f9ca24",
+        "description": "Certificazioni e approvazioni regolatorie",
+        "order": 3
+      },
+      {
+        "id": "cat_fda",
+        "name": "FDA",
+        "color": "#e056fd",
+        "description": "Approvazione FDA per mercato USA",
+        "order": 4
+      },
+      {
+        "id": "cat_business",
+        "name": "Business & GTM",
+        "color": "#95afc0",
+        "description": "Go-to-market e attività commerciali",
+        "order": 5
+      }
+    ],
+    "tasks": [
+      {
+        "id": "task_001",
+        "name": "PROTOTIPO 1 - Prototipo",
+        "start_date": "2025-04-01",
+        "end_date": "2025-06-30",
+        "progress": 100,
+        "category": "cat_prototipo",
+        "dependencies": [],
+        "note": "Primo prototipo funzionante",
+        "milestone": true,
+        "cost": 50000
+      },
+      {
+        "id": "task_002",
+        "name": "PROTOTIPO - Post Solidi",
+        "start_date": "2025-07-01",
+        "end_date": "2025-09-30",
+        "progress": 50,
+        "category": "cat_prototipo",
+        "dependencies": [
+          "task_001"
+        ],
+        "note": "Consolidamento prototipo con test solidi",
+        "cost": 30000
+      },
+      {
+        "id": "task_003",
+        "name": "Prototipo 2",
+        "start_date": "2025-10-03",
+        "end_date": "2026-02-27",
+        "progress": 0,
+        "category": "cat_prototipo",
+        "dependencies": [
+          "task_002"
+        ],
+        "note": "Secondo prototipo con miglioramenti",
+        "cost": 75000
+      },
+      {
+        "id": "task_004",
+        "name": "Presentazione Brevetto",
+        "start_date": "2025-10-30",
+        "end_date": "2025-10-30",
+        "progress": 0,
+        "category": "cat_brevetti",
+        "dependencies": [],
+        "note": "Deposito domanda brevetto",
+        "milestone": true,
+        "cost": 8000
+      },
+      {
+        "id": "task_005",
+        "name": "Approvazione Brevetto",
+        "start_date": "2025-11-04",
+        "end_date": "2026-08-03",
+        "progress": 0,
+        "category": "cat_brevetti",
+        "dependencies": [
+          "task_004"
+        ],
+        "note": "Iter approvazione brevetto",
+        "cost": 5000
+      },
+      {
+        "id": "task_006",
+        "name": "Estensione Brevetto all'estero - Protezione PCT",
+        "start_date": "2026-05-01",
+        "end_date": "2027-12-31",
+        "progress": 0,
+        "category": "cat_brevetti",
+        "dependencies": [
+          "task_005"
+        ],
+        "note": "Estensione internazionale brevetto",
+        "cost": 15000
+      },
+      {
+        "id": "task_007",
+        "name": "Regolare rapporto ricerca internazionale",
+        "start_date": "2027-01-01",
+        "end_date": "2027-12-31",
+        "progress": 0,
+        "category": "cat_brevetti",
+        "dependencies": [
+          "task_006"
+        ],
+        "note": "Rapporto ricerca PCT",
+        "cost": 10000
+      },
+      {
+        "id": "task_008",
+        "name": "Estendere a singoli paesi il brevetto",
+        "start_date": "2028-01-01",
+        "end_date": "2028-12-31",
+        "progress": 0,
+        "category": "cat_brevetti",
+        "dependencies": [
+          "task_007"
+        ],
+        "note": "Deposito nazionale in paesi target",
+        "milestone": true,
+        "cost": 25000
+      },
+      {
+        "id": "task_009",
+        "name": "Documento Base Regolatorio",
+        "start_date": "2026-01-01",
+        "end_date": "2026-06-30",
+        "progress": 0,
+        "category": "cat_regolatorio",
+        "dependencies": [
+          "task_003"
+        ],
+        "note": "Preparazione documentazione tecnica di base",
+        "cost": 15000
+      },
+      {
+        "id": "task_010",
+        "name": "DOC Necessari Per Valutazione Clinica",
+        "start_date": "2026-03-01",
+        "end_date": "2026-09-30",
+        "progress": 0,
+        "category": "cat_regolatorio",
+        "dependencies": [],
+        "note": "Documentazione per trial clinici - sovrapposta a Documento Base",
+        "cost": 12000
+      },
+      {
+        "id": "task_011",
+        "name": "Valutazione Pre-clinica",
+        "start_date": "2026-04-01",
+        "end_date": "2026-09-30",
+        "progress": 0,
+        "category": "cat_regolatorio",
+        "dependencies": [],
+        "note": "Test pre-clinici - parzialmente sovrapposta",
+        "cost": 25000
+      },
+      {
+        "id": "task_012",
+        "name": "Documentazione Tecnica e Sistema di Gestione Qualità",
+        "start_date": "2026-05-01",
+        "end_date": "2027-01-31",
+        "progress": 0,
+        "category": "cat_regolatorio",
+        "dependencies": [],
+        "note": "Sistema qualità ISO 13485 - sovrapposta ad altre attività",
+        "cost": 35000
+      },
+      {
+        "id": "task_013",
+        "name": "Aspettare Approvazione Studio dal CEP",
+        "start_date": "2026-07-01",
+        "end_date": "2027-05-31",
+        "progress": 0,
+        "category": "cat_regolatorio",
+        "dependencies": [],
+        "note": "Periodo di attesa approvazione Comitato Etico",
+        "cost": 8000
+      },
+      {
+        "id": "task_014",
+        "name": "CEP",
+        "start_date": "2027-06-01",
+        "end_date": "2027-07-31",
+        "progress": 0,
+        "category": "cat_regolatorio",
+        "dependencies": [
+          "task_013"
+        ],
+        "note": "Comitato Etico approvazione",
+        "milestone": true,
+        "cost": 5000
+      },
+      {
+        "id": "task_014b",
+        "name": "UDI",
+        "start_date": "2027-08-01",
+        "end_date": "2027-09-30",
+        "progress": 0,
+        "category": "cat_regolatorio",
+        "dependencies": [
+          "task_014"
+        ],
+        "note": "Unique Device Identification",
+        "cost": 3000
+      },
+      {
+        "id": "task_015",
+        "name": "CER - Valutazione clinica Documentata",
+        "start_date": "2026-08-01",
+        "end_date": "2027-11-30",
+        "progress": 0,
+        "category": "cat_regolatorio",
+        "dependencies": [],
+        "note": "Clinical Evaluation Report - parallela ad altre",
+        "cost": 20000
+      },
+      {
+        "id": "task_016",
+        "name": "Studio Clinico - Campus Biomedico di Roma",
+        "start_date": "2027-08-01",
+        "end_date": "2028-07-31",
+        "progress": 0,
+        "category": "cat_regolatorio",
+        "dependencies": [
+          "task_014"
+        ],
+        "note": "Trial clinico con Campus Biomedico - 12 mesi",
+        "cost": 80000
+      },
+      {
+        "id": "task_017",
+        "name": "Certificazione CE - ON",
+        "start_date": "2028-08-01",
+        "end_date": "2029-07-31",
+        "progress": 0,
+        "category": "cat_regolatorio",
+        "dependencies": [
+          "task_016"
+        ],
+        "note": "Ottenimento certificazione CE - processo 12 mesi",
+        "cost": 50000
+      },
+      {
+        "id": "task_018",
+        "name": "Registro dispositivo EUDAMED",
+        "start_date": "2029-01-01",
+        "end_date": "2029-09-30",
+        "progress": 0,
+        "category": "cat_regolatorio",
+        "dependencies": [
+          "task_017"
+        ],
+        "note": "Registrazione database europeo",
+        "cost": 10000
+      },
+      {
+        "id": "task_019",
+        "name": "STUDI POST MARKET",
+        "start_date": "2029-10-01",
+        "end_date": "2030-12-31",
+        "progress": 0,
+        "category": "cat_regolatorio",
+        "dependencies": [
+          "task_018"
+        ],
+        "note": "Post-market surveillance",
+        "cost": 30000
+      },
+      {
+        "id": "task_020",
+        "name": "Predicate FDA - 510k",
+        "start_date": "2026-04-01",
+        "end_date": "2026-12-31",
+        "progress": 0,
+        "category": "cat_fda",
+        "dependencies": [
+          "task_009"
+        ],
+        "note": "Ricerca dispositivi predicati",
+        "milestone": true,
+        "cost": 10000
+      },
+      {
+        "id": "task_021",
+        "name": "Linee Guida Per AI",
+        "start_date": "2026-07-01",
+        "end_date": "2027-03-31",
+        "progress": 0,
+        "category": "cat_fda",
+        "dependencies": [
+          "task_020"
+        ],
+        "note": "Compliance linee guida FDA per AI",
+        "cost": 15000
+      },
+      {
+        "id": "task_022",
+        "name": "APPROVAZIONE con 510k",
+        "start_date": "2027-04-01",
+        "end_date": "2027-12-31",
+        "progress": 0,
+        "category": "cat_fda",
+        "dependencies": [
+          "task_021"
+        ],
+        "note": "Submission 510k FDA",
+        "milestone": true,
+        "cost": 45000
+      }
+    ],
+    "filters": {
+      "activeCategories": [
+        "cat_prototipo",
+        "cat_brevetti",
+        "cat_regolatorio",
+        "cat_fda",
+        "cat_business"
+      ],
+      "showMilestonesOnly": false,
+      "dateRange": {
+        "start": "2025-01-01",
+        "end": "2030-12-31"
+      }
+    },
+    "metadata": {
+      "createdBy": "Timeline Implementation",
+      "createdAt": "2025-10-12T21:35:00.000Z",
+      "source": "Timeline_Regolatorio.pdf e Timelinev1.png",
+      "note": "Timeline completa con focus regolatorio. Tasks sono editabili e possono avere dependencies."
+    }
+  },
+  "valueProposition": {
+    "version": "1.0.0",
+    "lastUpdated": "2025-10-20T19:43:02.761803Z",
+    "metadata": {
+      "framework": "vpc",
+      "completionStatus": 85,
+      "lastReviewed": "2025-10-20T19:43:02.761803Z",
+      "reviewedBy": "Eco 3D Team",
+      "targetAudiences": [
+        "clinici",
+        "strutture_sanitarie",
+        "investors"
+      ]
+    },
+    "customerProfile": {
+      "activeSegmentId": "segment_clinici",
+      "segments": [
+        {
+          "id": "segment_clinici",
+          "name": "Medici e Radiologi",
+          "priority": "high",
+          "icon": "👨‍⚕️",
+          "visible": true,
+          "order": 0,
+          "jobs": [
+            {
+              "id": "job_1",
+              "description": "Ottenere immagini diagnostiche 3D rapide e precise per migliorare accuratezza diagnosi",
+              "category": "functional",
+              "importance": 5,
+              "difficulty": 4,
+              "notes": "Driver critico adozione",
+              "visible": true,
+              "order": 0
+            },
+            {
+              "id": "job_2",
+              "description": "Ridurre tempi esame mantenendo alta qualità immagini",
+              "category": "functional",
+              "importance": 4,
+              "difficulty": 3,
+              "notes": "Aumenta throughput pazienti",
+              "visible": true,
+              "order": 1
+            },
+            {
+              "id": "job_3",
+              "description": "Utilizzare strumentazione portatile in diverse location",
+              "category": "functional",
+              "importance": 4,
+              "difficulty": 2,
+              "notes": "Flessibilità operativa",
+              "visible": true,
+              "order": 2
+            }
+          ],
+          "pains": [
+            {
+              "id": "pain_1",
+              "description": "Ecografi tradizionali limitati a immagini 2D",
+              "severity": 5,
+              "frequency": 5,
+              "category": "functional",
+              "notes": "Pain principale",
+              "visible": true,
+              "order": 0
+            },
+            {
+              "id": "pain_2",
+              "description": "Strumentazione ingombrante e poco trasportabile",
+              "severity": 4,
+              "frequency": 4,
+              "category": "functional",
+              "notes": "Limita flessibilità",
+              "visible": true,
+              "order": 1
+            },
+            {
+              "id": "pain_3",
+              "description": "Costi elevati acquisto e manutenzione",
+              "severity": 4,
+              "frequency": 5,
+              "category": "cost",
+              "notes": "Barriera economica",
+              "visible": true,
+              "order": 2
+            }
+          ],
+          "gains": [
+            {
+              "id": "gain_1",
+              "description": "Visualizzazione 3D migliora accuratezza diagnostica",
+              "desirability": 5,
+              "impact": 5,
+              "category": "performance",
+              "notes": "Gain critico",
+              "visible": true,
+              "order": 0
+            },
+            {
+              "id": "gain_2",
+              "description": "Portabilità consente uso in ambulatorio, PS, domicilio",
+              "desirability": 4,
+              "impact": 4,
+              "category": "experience",
+              "notes": "Flessibilità strategica",
+              "visible": true,
+              "order": 1
+            },
+            {
+              "id": "gain_3",
+              "description": "Riduzione tempi esame aumenta throughput e revenue",
+              "desirability": 4,
+              "impact": 4,
+              "category": "time",
+              "notes": "Impatto economico",
+              "visible": true,
+              "order": 2
+            }
+          ]
+        },
+        {
+          "id": "segment_strutture",
+          "name": "Strutture Sanitarie",
+          "priority": "high",
+          "icon": "🏥",
+          "visible": true,
+          "order": 1,
+          "jobs": [
+            {
+              "id": "job_s1",
+              "description": "Offrire servizi diagnostici avanzati per attrarre pazienti",
+              "category": "functional",
+              "importance": 5,
+              "difficulty": 3,
+              "notes": "Differenziazione competitiva",
+              "visible": true,
+              "order": 0
+            },
+            {
+              "id": "job_s2",
+              "description": "Ottimizzare spazi e aumentare efficienza operativa",
+              "category": "functional",
+              "importance": 4,
+              "difficulty": 3,
+              "notes": "Impatto su margini",
+              "visible": true,
+              "order": 1
+            }
+          ],
+          "pains": [
+            {
+              "id": "pain_s1",
+              "description": "Investimenti elevati con ROI lungo",
+              "severity": 5,
+              "frequency": 5,
+              "category": "cost",
+              "notes": "Barriera principale",
+              "visible": true,
+              "order": 0
+            },
+            {
+              "id": "pain_s2",
+              "description": "Manutenzione costosa e downtime riducono disponibilità",
+              "severity": 4,
+              "frequency": 4,
+              "category": "cost",
+              "notes": "TCO elevato",
+              "visible": true,
+              "order": 1
+            }
+          ],
+          "gains": [
+            {
+              "id": "gain_s1",
+              "description": "Modello SaaS migliora cash flow",
+              "desirability": 5,
+              "impact": 5,
+              "category": "cost",
+              "notes": "Value driver principale",
+              "visible": true,
+              "order": 0
+            },
+            {
+              "id": "gain_s2",
+              "description": "Aumento throughput genera più revenue",
+              "desirability": 5,
+              "impact": 5,
+              "category": "performance",
+              "notes": "ROI migliorato",
+              "visible": true,
+              "order": 1
+            }
+          ]
+        }
+      ]
+    },
+    "valueMap": {
+      "productsAndServices": [
+        {
+          "id": "product_eco3d",
+          "name": "Eco 3D - Ecografo Portatile 3D",
+          "type": "hardware",
+          "description": "Dispositivo ecografico portatile con imaging 3D real-time e AI",
+          "icon": "🔬",
+          "visible": true,
+          "order": 0,
+          "features": [
+            {
+              "id": "feature_1",
+              "name": "Imaging 3D Real-Time",
+              "description": "Acquisizione volumetrica in tempo reale",
+              "category": "core",
+              "technicalSpec": "Risoluzione 3D 0.5mm, 15fps",
+              "visible": true,
+              "order": 0
+            },
+            {
+              "id": "feature_2",
+              "name": "Portabilità",
+              "description": "Peso <2kg, batteria 4h",
+              "category": "differentiating",
+              "technicalSpec": "Dimensioni 20x15x8cm, 1.8kg",
+              "visible": true,
+              "order": 1
+            },
+            {
+              "id": "feature_3",
+              "name": "AI Assistita",
+              "description": "Algoritmi AI per segmentazione automatica",
+              "category": "differentiating",
+              "technicalSpec": "Accuratezza >95%",
+              "visible": true,
+              "order": 2
+            },
+            {
+              "id": "feature_4",
+              "name": "Connettività Cloud",
+              "description": "Upload automatico, telemedicina, PACS",
+              "category": "enabling",
+              "technicalSpec": "WiFi, 4G/5G, API DICOM",
+              "visible": true,
+              "order": 3
+            },
+            {
+              "id": "feature_5",
+              "name": "UI Intuitiva",
+              "description": "Touchscreen con workflow guidato",
+              "category": "enabling",
+              "technicalSpec": "Display 10'' touch",
+              "visible": true,
+              "order": 4
+            },
+            {
+              "id": "feature_6",
+              "name": "Certificazione CE MDR",
+              "description": "Dispositivo medico certificato",
+              "category": "core",
+              "technicalSpec": "CE MDR Classe IIa",
+              "visible": true,
+              "order": 5
+            }
+          ]
+        }
+      ],
+      "painRelievers": [
+        {
+          "id": "reliever_1",
+          "linkedPainId": "pain_1",
+          "linkedFeatureIds": [
+            "feature_1",
+            "feature_3"
+          ],
+          "description": "Imaging 3D elimina limiti 2D, AI assiste interpretazione",
+          "effectiveness": 5,
+          "proof": "+35% accuratezza vs 2D standard",
+          "visible": true,
+          "order": 0
+        },
+        {
+          "id": "reliever_2",
+          "linkedPainId": "pain_2",
+          "linkedFeatureIds": [
+            "feature_2"
+          ],
+          "description": "Design portatile <2kg consente uso ovunque",
+          "effectiveness": 5,
+          "proof": "Testato in ambulatori, PS, domicilio",
+          "visible": true,
+          "order": 1
+        },
+        {
+          "id": "reliever_3",
+          "linkedPainId": "pain_3",
+          "linkedFeatureIds": [
+            "feature_2"
+          ],
+          "description": "SaaS abbatte costi da €50K a €500/mese",
+          "effectiveness": 5,
+          "proof": "Payback <18 mesi vs 4-5 anni",
+          "visible": true,
+          "order": 2
+        }
+      ],
+      "gainCreators": [
+        {
+          "id": "creator_1",
+          "linkedGainId": "gain_1",
+          "linkedFeatureIds": [
+            "feature_1",
+            "feature_3"
+          ],
+          "description": "3D + AI portano accuratezza a livello ospedaliero",
+          "magnitude": 5,
+          "proof": "Sensitivity/specificity >95% vs 85%",
+          "visible": true,
+          "order": 0
+        },
+        {
+          "id": "creator_2",
+          "linkedGainId": "gain_2",
+          "linkedFeatureIds": [
+            "feature_2",
+            "feature_4"
+          ],
+          "description": "Portabilità e cloud abilitano telemedicina",
+          "magnitude": 5,
+          "proof": "Uso in 15+ scenari diversi",
+          "visible": true,
+          "order": 1
+        },
+        {
+          "id": "creator_3",
+          "linkedGainId": "gain_3",
+          "linkedFeatureIds": [
+            "feature_1",
+            "feature_3",
+            "feature_5"
+          ],
+          "description": "Riduzione tempo esame consente +60% pazienti/giorno",
+          "magnitude": 4,
+          "proof": "Da 8-10 a 13-16 pazienti/giorno",
+          "visible": true,
+          "order": 2
+        }
+      ]
+    },
+    "messaging": {
+      "elevatorPitch": {
+        "version": "1.0",
+        "lastUpdated": "2025-10-20T19:43:02.761803Z",
+        "tone": "professional",
+        "targetAudience": "clinici",
+        "content": "Eco 3D è il primo ecografo portatile con imaging volumetrico 3D real-time e intelligenza artificiale assistita. Portiamo la qualità diagnostica degli ecografi ospedalieri da €50.000+ in un dispositivo portatile da meno di 2kg a €500/mese. I medici ottengono immagini 3D in 15 minuti invece di 25, con accuratezza diagnostica superiore del 35% rispetto agli ecografi 2D standard. Eliminiamo la necessità di referral a centri specializzati, accelerando la diagnosi di 5 giorni e aumentando la patient retention del 40%. Perfetto per ambulatori, pronto soccorso e visite domiciliari.",
+        "wordCount": 98,
+        "editable": true
+      },
+      "valueStatements": [],
+      "narrativeFlow": {
+        "hook": "Il 70% delle diagnosi mediche si basa su imaging, ma solo il 15% delle strutture sanitarie ha accesso a ecografi 3D.",
+        "problem": "Gli ecografi tradizionali costano €50.000+, sono ingombranti, producono solo immagini 2D limitate e richiedono settimane di training. Risultato: diagnosi meno accurate, referral costosi, perdita di revenue.",
+        "solution": "Eco 3D è il primo ecografo portatile (<2kg) con imaging 3D real-time e AI assistita, a €500/mese invece di €50.000 upfront.",
+        "how": "Tecnologia proprietaria: sensori multi-element, algoritmi di ricostruzione volumetrica real-time, deep learning per segmentazione. Cloud platform PACS integrato. Certificato CE MDR Classe IIa.",
+        "proof": "25 strutture pilota. +35% accuratezza vs 2D. Tempo esame -40%. Patient retention +40%, revenue +€120/paziente. Payback <18 mesi. NPS 72.",
+        "vision": "Democratizzare imaging 3D medico. Da 15% a 80% strutture con accesso a imaging 3D nei prossimi 5 anni.",
+        "editable": true
+      },
+      "positioningStatement": {
+        "category": "Dispositivi di imaging diagnostico portatili",
+        "targetCustomer": "Medici, radiologi e strutture sanitarie che necessitano di imaging 3D accessibile",
+        "customerNeed": "Ottenere immagini diagnostiche 3D accurate in modo rapido, portatile ed economicamente sostenibile",
+        "keyBenefit": "Imaging 3D real-time di livello ospedaliero in dispositivo portatile <2kg a €500/mese, con AI assistita",
+        "primaryCompetitor": "Ecografi tradizionali (GE, Philips, Siemens) ed ecografi portatili base (Butterfly iQ, Vscan)",
+        "uniqueDifferentiator": "Unica soluzione che combina imaging volumetrico 3D real-time + AI + portabilità estrema + modello SaaS accessibile",
+        "editable": true,
+        "lastUpdated": "2025-10-20T19:43:02.761803Z"
+      },
+      "competitiveMessages": [],
+      "customerTestimonials": [],
+      "objections": []
+    },
+    "roiCalculator": {
+      "enabled": true,
+      "targetCustomer": "Ambulatorio medico medio",
+      "devicePrice": 500,
+      "assumptions": {
+        "pazientiMese": 200,
+        "prezzoEsame3D": 120,
+        "penetrazione3D": 0.3,
+        "costoReferral": 150,
+        "tempoRisparmiato": 10,
+        "tassoOrario": 60
+      },
+      "results": {
+        "ricaviAggiuntivi": 7200,
+        "costiRisparmiati": 3000,
+        "beneficioMensile": 9700,
+        "beneficioAnnuale": 116400,
+        "paybackPeriod": 0.05,
+        "roi1anno": 23280,
+        "roi3anni": 349680
+      }
+    },
+    "uiConfiguration": {
+      "layout": "canvas",
+      "visibleComponents": {
+        "customerProfile": true,
+        "valueMap": true,
+        "competitorAnalysis": true,
+        "messaging": true,
+        "roiCalculator": true
+      },
+      "componentOrder": [
+        "customerProfile",
+        "valueMap",
+        "competitorAnalysis",
+        "messaging",
+        "roiCalculator"
+      ],
+      "theme": "strategyzer",
+      "autoSave": true,
+      "autoSaveInterval": 2000
+    }
+  },
+  "teamManagement": {
+    "metadata": {
+      "createdBy": "Team Management System",
+      "createdAt": "2025-10-15T18:00:00.000Z",
+      "lastModified": "2025-10-20T20:00:00.000Z",
+      "version": "1.0.0",
+      "note": "Sistema completo di gestione team con WBS, OKR, RAID, RACI integrati"
+    },
+    "company": {
+      "name": "Eco 3D Multisonda",
+      "legalName": "Eco 3D Multisonda S.r.l.",
+      "foundedYear": 2025,
+      "mission": "Democratizzare l'imaging 3D medicale con dispositivi portatili AI-powered",
+      "vision": "Portare la diagnostica ecografica 3D in ogni ambulatorio, pronto soccorso e casa di cura",
+      "values": [
+        "Innovation",
+        "Patient Safety",
+        "Scientific Rigor",
+        "Accessibility"
+      ],
+      "industry": "Medical Devices - Diagnostic Imaging",
+      "stage": "Pre-Seed / R&D",
+      "website": "https://eco3d.com",
+      "headquarters": "Milano, Italia"
+    },
+    "members": [
+      {
+        "id": "member_001",
+        "name": "Fondatore",
+        "role": "CEO & Founder",
+        "department": "leadership",
+        "level": "founder",
+        "email": "founder@eco3d.com",
+        "phone": "+39 000 000 0000",
+        "hireDate": "2025-01-01",
+        "salary": 0,
+        "equity": 100,
+        "status": "active",
+        "skills": [
+          "leadership",
+          "strategy",
+          "fundraising",
+          "medical-devices",
+          "business-development"
+        ],
+        "responsibilities": [
+          "Visione strategica e direzione aziendale",
+          "Fundraising e relazioni con investitori",
+          "Business development e partnership strategiche",
+          "Decisioni chiave su prodotto e mercato"
+        ],
+        "avatar": "👨‍💼",
+        "bio": "Founder con esperienza in medical devices e healthtech. Background in ingegneria biomedica e business development.",
+        "reportTo": null,
+        "workload": 100,
+        "performance": null,
+        "notes": "Founder-CEO pre-fundraising. Equity sarà diluita con round seed."
+      }
+    ],
+    "openPositions": [
+      {
+        "id": "position_001",
+        "title": "CTO - Chief Technology Officer",
+        "department": "engineering",
+        "level": "c-level",
+        "priority": "critical",
+        "targetHireDate": "2025-12-01",
+        "salary": 80000,
+        "equity": 5,
+        "requiredSkills": [
+          "AI/ML",
+          "medical-devices",
+          "team-leadership",
+          "python",
+          "deep-learning"
+        ],
+        "responsibilities": [
+          "Sviluppo tecnologico completo (HW + SW + AI)",
+          "Gestione team engineering (5-7 persone entro Y1)",
+          "Architettura tecnica e scelte tecnologiche",
+          "Validazione tecnica e testing",
+          "Interfaccia con fornitori e partner tecnici"
+        ],
+        "description": "CTO per guidare lo sviluppo del dispositivo Eco 3D dalla prototipazione alla produzione. Esperienza in AI/ML applicata a medical imaging, conoscenza normative MDR/FDA, leadership tecnica.",
+        "status": "open",
+        "candidates": []
+      },
+      {
+        "id": "position_002",
+        "title": "Head of Regulatory Affairs & Quality",
+        "department": "regulatory",
+        "level": "senior",
+        "priority": "critical",
+        "targetHireDate": "2026-01-15",
+        "salary": 70000,
+        "equity": 2,
+        "requiredSkills": [
+          "MDR",
+          "FDA",
+          "regulatory",
+          "ISO-13485",
+          "ISO-14971"
+        ],
+        "responsibilities": [
+          "Gestione certificazione MDR Classe IIa",
+          "Preparazione documentazione regolatoria (DHF, DMR, RMF)",
+          "Interfaccia con Notified Body",
+          "Quality Management System ISO 13485",
+          "Post-market surveillance"
+        ],
+        "description": "Head QA/RA per guidare certificazione MDR e preparare FDA 510(k). Esperienza minima 5 anni in medical devices Classe II, conoscenza MDR 2017/745, capacità di interfacciarsi con Notified Body.",
+        "status": "open",
+        "candidates": []
+      },
+      {
+        "id": "position_003",
+        "title": "AI/ML Engineer Senior",
+        "department": "engineering",
+        "level": "senior",
+        "priority": "high",
+        "targetHireDate": "2026-03-01",
+        "salary": 60000,
+        "equity": 1.5,
+        "requiredSkills": [
+          "AI/ML",
+          "deep-learning",
+          "python",
+          "pytorch",
+          "medical-imaging"
+        ],
+        "responsibilities": [
+          "Sviluppo algoritmi ML per ricostruzione 3D",
+          "Training e validazione modelli deep learning",
+          "Ottimizzazione pipeline imaging",
+          "Integrazione modelli in dispositivo",
+          "Documentazione SW secondo IEC 62304"
+        ],
+        "description": "ML Engineer per sviluppare e validare algoritmi di ricostruzione 3D e segmentazione automatica. Esperienza con CNNs, medical imaging, Python/PyTorch.",
+        "status": "planned",
+        "candidates": []
+      },
+      {
+        "id": "position_004",
+        "title": "Hardware Engineer - Ultrasound",
+        "department": "engineering",
+        "level": "senior",
+        "priority": "high",
+        "targetHireDate": "2026-04-01",
+        "salary": 50000,
+        "equity": 1,
+        "requiredSkills": [
+          "electronics",
+          "ultrasound",
+          "embedded-systems",
+          "pcb-design"
+        ],
+        "responsibilities": [
+          "Design elettronica dispositivo",
+          "Sviluppo trasduttore ultrasuoni multi-element",
+          "Testing EMC e sicurezza elettrica IEC 60601",
+          "Ottimizzazione SNR e risoluzione imaging",
+          "Interfaccia con fornitori componenti"
+        ],
+        "description": "HW Engineer specializzato in ultrasuoni per sviluppare trasduttore 3D. Esperienza in elettronica medicale, progettazione PCB, test conformità.",
+        "status": "planned",
+        "candidates": []
+      },
+      {
+        "id": "position_005",
+        "title": "Sales Manager - Healthcare",
+        "department": "sales",
+        "level": "senior",
+        "priority": "medium",
+        "targetHireDate": "2026-09-01",
+        "salary": 55000,
+        "equity": 1,
+        "requiredSkills": [
+          "b2b-sales",
+          "healthcare",
+          "medical-devices",
+          "crm"
+        ],
+        "responsibilities": [
+          "Sviluppo pipeline commerciale",
+          "Gestione clienti target (ambulatori, ospedali, cliniche)",
+          "Negoziazione contratti e pricing",
+          "Coordinamento team vendite (da Y2)",
+          "Reporting forecast e KPI commerciali"
+        ],
+        "description": "Sales Manager per costruire pipeline commerciale e gestire primi clienti pilota. Esperienza in vendita B2B healthcare, conoscenza mercato italiano dispositivi medici.",
+        "status": "planned",
+        "candidates": []
+      },
+      {
+        "id": "position_006",
+        "title": "Clinical Specialist",
+        "department": "clinical",
+        "level": "mid",
+        "priority": "medium",
+        "targetHireDate": "2027-01-01",
+        "salary": 50000,
+        "equity": 0.5,
+        "requiredSkills": [
+          "clinical-trials",
+          "radiology",
+          "medical-imaging",
+          "gcp"
+        ],
+        "responsibilities": [
+          "Supporto trial clinici",
+          "Training medici su dispositivo",
+          "Raccolta feedback clinico",
+          "Clinical evaluation e PMCF",
+          "Interfaccia con PI e siti clinici"
+        ],
+        "description": "Clinical Specialist per supportare trial e training. Background in radiologia/ecografia, esperienza in trial clinici GCP, capacità formative.",
+        "status": "planned",
+        "candidates": []
+      }
+    ],
+    "departments": [
+      {
+        "id": "leadership",
+        "name": "Leadership",
+        "color": "#9333EA",
+        "icon": "👑",
+        "budget": 0,
+        "headcount": 1,
+        "targetHeadcount": 1,
+        "description": "Direzione strategica e governance"
+      },
+      {
+        "id": "engineering",
+        "name": "Engineering",
+        "color": "#3B82F6",
+        "icon": "⚙️",
+        "budget": 400000,
+        "headcount": 0,
+        "targetHeadcount": 5,
+        "description": "Sviluppo HW, SW, AI e firmware"
+      },
+      {
+        "id": "regulatory",
+        "name": "Regulatory Affairs",
+        "color": "#10B981",
+        "icon": "📋",
+        "budget": 150000,
+        "headcount": 0,
+        "targetHeadcount": 2,
+        "description": "QA, RA, certificazioni MDR/FDA"
+      },
+      {
+        "id": "sales",
+        "name": "Sales & Marketing",
+        "color": "#F59E0B",
+        "icon": "🎯",
+        "budget": 200000,
+        "headcount": 0,
+        "targetHeadcount": 3,
+        "description": "Business development e commerciale"
+      },
+      {
+        "id": "clinical",
+        "name": "Clinical Affairs",
+        "color": "#EF4444",
+        "icon": "🏥",
+        "budget": 100000,
+        "headcount": 0,
+        "targetHeadcount": 2,
+        "description": "Trial clinici e medical affairs"
+      },
+      {
+        "id": "operations",
+        "name": "Operations",
+        "color": "#8B5CF6",
+        "icon": "🔧",
+        "budget": 80000,
+        "headcount": 0,
+        "targetHeadcount": 2,
+        "description": "Operations, finance, amministrazione"
+      }
+    ],
+    "skills": [
+      {
+        "id": "AI/ML",
+        "name": "AI/ML",
+        "category": "technical",
+        "color": "#3B82F6"
+      },
+      {
+        "id": "deep-learning",
+        "name": "Deep Learning",
+        "category": "technical",
+        "color": "#3B82F6"
+      },
+      {
+        "id": "python",
+        "name": "Python",
+        "category": "technical",
+        "color": "#3B82F6"
+      },
+      {
+        "id": "pytorch",
+        "name": "PyTorch",
+        "category": "technical",
+        "color": "#3B82F6"
+      },
+      {
+        "id": "medical-imaging",
+        "name": "Medical Imaging",
+        "category": "technical",
+        "color": "#3B82F6"
+      },
+      {
+        "id": "electronics",
+        "name": "Electronics",
+        "category": "technical",
+        "color": "#3B82F6"
+      },
+      {
+        "id": "ultrasound",
+        "name": "Ultrasound",
+        "category": "technical",
+        "color": "#3B82F6"
+      },
+      {
+        "id": "embedded-systems",
+        "name": "Embedded Systems",
+        "category": "technical",
+        "color": "#3B82F6"
+      },
+      {
+        "id": "pcb-design",
+        "name": "PCB Design",
+        "category": "technical",
+        "color": "#3B82F6"
+      },
+      {
+        "id": "react",
+        "name": "React",
+        "category": "technical",
+        "color": "#3B82F6"
+      },
+      {
+        "id": "typescript",
+        "name": "TypeScript",
+        "category": "technical",
+        "color": "#3B82F6"
+      },
+      {
+        "id": "fundraising",
+        "name": "Fundraising",
+        "category": "business",
+        "color": "#F59E0B"
+      },
+      {
+        "id": "business-development",
+        "name": "Business Development",
+        "category": "business",
+        "color": "#F59E0B"
+      },
+      {
+        "id": "b2b-sales",
+        "name": "B2B Sales",
+        "category": "business",
+        "color": "#F59E0B"
+      },
+      {
+        "id": "crm",
+        "name": "CRM",
+        "category": "business",
+        "color": "#F59E0B"
+      },
+      {
+        "id": "product-management",
+        "name": "Product Management",
+        "category": "business",
+        "color": "#F59E0B"
+      },
+      {
+        "id": "medical-devices",
+        "name": "Medical Devices",
+        "category": "domain",
+        "color": "#10B981"
+      },
+      {
+        "id": "regulatory",
+        "name": "Regulatory Affairs",
+        "category": "domain",
+        "color": "#10B981"
+      },
+      {
+        "id": "MDR",
+        "name": "MDR 2017/745",
+        "category": "domain",
+        "color": "#10B981"
+      },
+      {
+        "id": "FDA",
+        "name": "FDA 510(k)",
+        "category": "domain",
+        "color": "#10B981"
+      },
+      {
+        "id": "ISO-13485",
+        "name": "ISO 13485",
+        "category": "domain",
+        "color": "#10B981"
+      },
+      {
+        "id": "ISO-14971",
+        "name": "ISO 14971",
+        "category": "domain",
+        "color": "#10B981"
+      },
+      {
+        "id": "healthcare",
+        "name": "Healthcare",
+        "category": "domain",
+        "color": "#10B981"
+      },
+      {
+        "id": "clinical-trials",
+        "name": "Clinical Trials",
+        "category": "domain",
+        "color": "#10B981"
+      },
+      {
+        "id": "radiology",
+        "name": "Radiology",
+        "category": "domain",
+        "color": "#10B981"
+      },
+      {
+        "id": "gcp",
+        "name": "GCP",
+        "category": "domain",
+        "color": "#10B981"
+      },
+      {
+        "id": "leadership",
+        "name": "Leadership",
+        "category": "soft",
+        "color": "#8B5CF6"
+      },
+      {
+        "id": "strategy",
+        "name": "Strategic Thinking",
+        "category": "soft",
+        "color": "#8B5CF6"
+      },
+      {
+        "id": "team-leadership",
+        "name": "Team Leadership",
+        "category": "soft",
+        "color": "#8B5CF6"
+      }
+    ],
+    "milestones": [
+      {
+        "id": "milestone_001",
+        "title": "Team Fondatore Completo",
+        "date": "2026-03-31",
+        "description": "Core team completo con CTO e Head QA/RA operativi",
+        "status": "planned",
+        "requiredPositions": [
+          "position_001",
+          "position_002"
+        ]
+      },
+      {
+        "id": "milestone_002",
+        "title": "Team Engineering Operativo",
+        "date": "2026-12-31",
+        "description": "Team tecnico completo (5 FTE) per sviluppo MVP certificabile",
+        "status": "planned",
+        "requiredPositions": [
+          "position_003",
+          "position_004"
+        ]
+      },
+      {
+        "id": "milestone_003",
+        "title": "Team Go-To-Market",
+        "date": "2027-06-30",
+        "description": "Team commerciale e clinico per lancio prodotto",
+        "status": "planned",
+        "requiredPositions": [
+          "position_005",
+          "position_006"
+        ]
+      }
+    ],
+    "uiSettings": {
+      "visibleCards": {
+        "orgChart": true,
+        "teamOverview": true,
+        "openPositions": true,
+        "skillMatrix": true,
+        "timeline": true,
+        "budgetBreakdown": true,
+        "milestones": true,
+        "candidates": false,
+        "raci": true,
+        "okr": true,
+        "raid": true,
+        "doa": false
+      },
+      "layout": "grid",
+      "theme": "professional",
+      "chartStyle": "tree"
+    }
+  },
+  "competitorAnalysis": {
+    "metadata": {
+      "lastUpdate": "2025-10-20T23:41:41.779596Z",
+      "version": "1.2-PERCEPTUAL-CORRECT",
+      "totalCompetitors": 32,
+      "dataSource": "Excel Export 2025-10-17 (COMPLETE RESTORE)",
+      "categories": [
+        "direct",
+        "indirect",
+        "substitute",
+        "emerging"
+      ]
+    },
+    "competitors": [
+      {
+        "id": "comp_001",
+        "name": "GE Healthcare - Voluson Series",
+        "shortName": "GE Voluson",
+        "tier": "tier1",
+        "type": "direct",
+        "status": "active",
+        "priority": "high",
+        "threatLevel": "critical",
+        "monitoringPriority": 1,
+        "companyInfo": {
+          "founded": 1994,
+          "headquarters": "Chicago, IL, USA",
+          "employees": 50000,
+          "revenue": 19200000000,
+          "funding": {},
+          "website": "https://www.gehealthcare.com",
+          "logo": "🏥"
+        },
+        "products": [
+          {
+            "name": "Voluson E10 / E8 / E6, Invenia ABUS",
+            "category": "Medical Imaging / Ultrasound",
+            "priceRange": "€150,000 - €300,000",
+            "priceMin": 150000,
+            "priceMax": 300000,
+            "features": {
+              "imaging3D": true,
+              "imaging4D": true,
+              "aiGuided": true,
+              "portable": false,
+              "wireless": false,
+              "multiProbe": false,
+              "realtime": true,
+              "cloudConnected": true
+            },
+            "targetMarket": [
+              "women's health",
+              "obstetrics",
+              "breast imaging"
+            ],
+            "strengths": [],
+            "weaknesses": [],
+            "certifications": []
+          }
+        ],
+        "marketPosition": {
+          "marketShare": 28.0,
+          "region": "Global",
+          "segments": [
+            "women's health",
+            "obstetrics",
+            "breast imaging"
+          ],
+          "customerBase": 5000,
+          "growthRate": null
+        },
+        "swotAnalysis": {
+          "strengths": [
+            "Fully wireless cordless",
+            "Cart-quality handheld",
+            "Multiple specialized probes",
+            "Anesthesia adoption"
+          ],
+          "weaknesses": [
+            "2D only",
+            "No automation",
+            "No 3D",
+            "Manual operation",
+            "Higher price than Butterfly"
+          ],
+          "opportunities": [
+            "Add 3D capability",
+            "Multi-probe sync",
+            "Automation"
+          ],
+          "threats": [
+            "Eco 3D cordless multi-probe with volumetrics",
+            "Automated vs manual"
+          ]
+        },
+        "battlecard": {
+          "whyWeWin": [
+            "Eco 3D offers true multi-probe autonomous scanning vs GE's manual operation",
+            "Near real-time 3D/4D (3-5 vol/s) vs GE's slower volumetric acquisition",
+            "Multi-district capability vs GE's single-district focus (ABUS)",
+            "Compact handheld design vs GE's cart-based systems",
+            "Lower cost per exam through automation"
+          ],
+          "theirStrengths": [
+            "Established market leader with 28% share",
+            "HDlive rendering is industry gold standard",
+            "Caption AI provides real-time guidance",
+            "Extensive clinical validation and FDA clearances"
+          ],
+          "theirWeaknesses": [
+            "Manual scanning still required - operator dependent",
+            "ABUS automation limited to breast only",
+            "High capital cost (€150k-€300k)",
+            "Large footprint, not portable",
+            "No multi-probe synchronization"
+          ],
+          "competitiveResponse": "GE has the image quality and brand, but Eco 3D revolutionizes the workflow with autonomous multi-probe scanning that works across all anatomical districts, not just specialized applications. Our 3-5 vol/s real-time capability and compact design address the key limitations of traditional cart-based systems."
+        },
+        "innovation": {
+          "patents": 0,
+          "rdInvestment": 0,
+          "recentLaunches": []
+        },
+        "customerReferences": {
+          "testimonials": [],
+          "casestudies": 0,
+          "clinicalStudies": 0
+        },
+        "lastUpdated": "2025-10-17",
+        "notes": "Imported from Excel export 2025-10-17"
+      },
+      {
+        "id": "comp_002",
+        "name": "Philips - EPIQ / Affiniti",
+        "shortName": "Philips EPIQ",
+        "tier": "tier1",
+        "type": "direct",
+        "status": "active",
+        "priority": "high",
+        "threatLevel": "critical",
+        "monitoringPriority": 1,
+        "companyInfo": {
+          "founded": 1891,
+          "headquarters": "Amsterdam, Netherlands",
+          "employees": 77000,
+          "revenue": 17800000000,
+          "funding": {},
+          "website": "https://www.philips.com",
+          "logo": "🏥"
+        },
+        "products": [
+          {
+            "name": "EPIQ Elite / EPIQ CVx",
+            "category": "Medical Imaging / Ultrasound",
+            "priceRange": "€180,000 - €350,000",
+            "priceMin": 180000,
+            "priceMax": 350000,
+            "features": {
+              "imaging3D": true,
+              "imaging4D": true,
+              "aiGuided": true,
+              "portable": false,
+              "wireless": false,
+              "multiProbe": false,
+              "realtime": true,
+              "cloudConnected": true
+            },
+            "targetMarket": [
+              "cardiology",
+              "radiology",
+              "general imaging"
+            ],
+            "strengths": [],
+            "weaknesses": [],
+            "certifications": []
+          }
+        ],
+        "marketPosition": {
+          "marketShare": 22.0,
+          "region": "Global",
+          "segments": [
+            "cardiology",
+            "radiology",
+            "general imaging"
+          ],
+          "customerBase": 7700,
+          "growthRate": null
+        },
+        "swotAnalysis": {
+          "strengths": [
+            "Leader in cardiac ultrasound (xMATRIX)",
+            "Fusion imaging with CT/MR",
+            "AI-based cardiac quantification",
+            "Strong European market presence",
+            "Premium image quality"
+          ],
+          "weaknesses": [
+            "No robotic automation",
+            "Highly operator-dependent",
+            "Focused on cardiology, less multi-organ",
+            "High price point",
+            "Complex user interface"
+          ],
+          "opportunities": [
+            "AI-driven automation",
+            "Point-of-care cardiology",
+            "Telehealth integration"
+          ],
+          "threats": [
+            "Eco 3D general-purpose multi-organ approach",
+            "Autonomous scanning eliminates operator variability",
+            "Lower cost competitors in POCUS"
+          ]
+        },
+        "battlecard": {
+          "whyWeWin": [
+            "Eco 3D is general-purpose multi-organ vs Philips' cardiology focus",
+            "Autonomous multi-probe scanning vs manual operation",
+            "Robotically guided positioning vs operator skill dependent",
+            "Compact handheld vs cart-based",
+            "Faster workflow with automation"
+          ],
+          "theirStrengths": [
+            "xMATRIX live 3D Echo is best-in-class for cardiac",
+            "Fusion imaging integrates CT/MR data",
+            "AI quantification tools for cardiac assessment",
+            "Strong brand in cardiology departments"
+          ],
+          "theirWeaknesses": [
+            "No robotics or automation",
+            "Requires expert operators for cardiac studies",
+            "Focused on single specialty (cardiology)",
+            "Very high cost (€180k-€350k)",
+            "Not portable or suitable for POCUS"
+          ],
+          "competitiveResponse": "Philips excels in cardiac imaging, but Eco 3D offers a broader solution for multi-organ autonomous scanning. While they optimize for expert cardiologists, we democratize advanced imaging through automation and AI guidance across all anatomical regions."
+        },
+        "innovation": {
+          "patents": 0,
+          "rdInvestment": 0,
+          "recentLaunches": []
+        },
+        "customerReferences": {
+          "testimonials": [],
+          "casestudies": 0,
+          "clinicalStudies": 0
+        },
+        "lastUpdated": "2025-10-17",
+        "notes": "Imported from Excel export 2025-10-17"
+      },
+      {
+        "id": "comp_003",
+        "name": "Siemens Healthineers - Acuson",
+        "shortName": "Siemens Acuson",
+        "tier": "tier1",
+        "type": "direct",
+        "status": "active",
+        "priority": "high",
+        "threatLevel": "high",
+        "monitoringPriority": 2,
+        "companyInfo": {
+          "founded": 1847,
+          "headquarters": "Erlangen, Germany",
+          "employees": 66000,
+          "revenue": 19600000000,
+          "funding": {},
+          "website": "https://www.siemens-healthineers.com",
+          "logo": "🏥"
+        },
+        "products": [
+          {
+            "name": "Acuson S2000 ABVS",
+            "category": "Medical Imaging / Ultrasound",
+            "priceRange": "€120,000 - €180,000",
+            "priceMin": 120000,
+            "priceMax": 180000,
+            "features": {
+              "imaging3D": true,
+              "imaging4D": false,
+              "aiGuided": false,
+              "portable": false,
+              "wireless": false,
+              "multiProbe": false,
+              "realtime": false,
+              "cloudConnected": false
+            },
+            "targetMarket": [
+              "breast imaging",
+              "radiology"
+            ],
+            "strengths": [],
+            "weaknesses": [],
+            "certifications": []
+          }
+        ],
+        "marketPosition": {
+          "marketShare": 18.0,
+          "region": "Global",
+          "segments": [
+            "breast imaging",
+            "radiology"
+          ],
+          "customerBase": 6600,
+          "growthRate": null
+        },
+        "swotAnalysis": {
+          "strengths": [
+            "Pioneer ABVS",
+            "Hands-free workflow",
+            "Reproducible",
+            "Siemens brand"
+          ],
+          "weaknesses": [
+            "Breast-only",
+            "Cannot extend to multi-district",
+            "Slow (15+ min)",
+            "No real-time"
+          ],
+          "opportunities": [
+            "Expand to other organs"
+          ],
+          "threats": [
+            "Eco 3D hands-free for whole body",
+            "Faster 3-5 vol/s"
+          ]
+        },
+        "battlecard": {
+          "whyWeWin": [
+            "Eco 3D extends hands-free to ANY organ vs Siemens breast-only",
+            "Multi-probe simultaneous scanning vs single transducer",
+            "3-5 vol/s real-time vs slow offline reconstruction",
+            "AI-native multi-angle fusion vs manual positioning",
+            "One device for all anatomical regions"
+          ],
+          "theirStrengths": [
+            "Proven ABVS technology for breast screening",
+            "Fully automated, reproducible workflow",
+            "Strong clinical evidence for dense breast",
+            "Siemens brand credibility in radiology"
+          ],
+          "theirWeaknesses": [
+            "Breast district only - not extensible",
+            "Slow scan time (15+ minutes)",
+            "No real-time visualization",
+            "Cannot handle multiple anatomical regions",
+            "Requires separate system for general ultrasound"
+          ],
+          "competitiveResponse": "Siemens pioneered automated breast scanning, validating the hands-free concept. Eco 3D takes this proven approach and applies it universally across all anatomical districts with faster imaging (3-5 vol/s) and AI-driven multi-angle fusion."
+        },
+        "innovation": {
+          "patents": 0,
+          "rdInvestment": 0,
+          "recentLaunches": []
+        },
+        "customerReferences": {
+          "testimonials": [],
+          "casestudies": 0,
+          "clinicalStudies": 0
+        },
+        "lastUpdated": "2025-10-17",
+        "notes": "Imported from Excel export 2025-10-17"
+      },
+      {
+        "id": "comp_004",
+        "name": "Canon Medical - Aplio i-series",
+        "shortName": "Canon Aplio",
+        "tier": "tier1",
+        "type": "direct",
+        "status": "active",
+        "priority": "high",
+        "threatLevel": "high",
+        "monitoringPriority": 2,
+        "companyInfo": {
+          "founded": 1937,
+          "headquarters": "Otawara, Japan",
+          "employees": 17000,
+          "revenue": 4200000000,
+          "funding": {},
+          "website": "https://global.medical.canon",
+          "logo": "🏥"
+        },
+        "products": [
+          {
+            "name": "Aplio i-series (i800, i700)",
+            "category": "Medical Imaging / Ultrasound",
+            "priceRange": "€140,000 - €250,000",
+            "priceMin": 140000,
+            "priceMax": 250000,
+            "features": {
+              "imaging3D": true,
+              "imaging4D": false,
+              "aiGuided": true,
+              "portable": false,
+              "wireless": false,
+              "multiProbe": false,
+              "realtime": true,
+              "cloudConnected": true
+            },
+            "targetMarket": [
+              "radiology",
+              "vascular imaging"
+            ],
+            "strengths": [],
+            "weaknesses": [],
+            "certifications": []
+          }
+        ],
+        "marketPosition": {
+          "marketShare": 12.0,
+          "region": "Asia-Pacific, Europe",
+          "segments": [
+            "radiology",
+            "vascular imaging"
+          ],
+          "customerBase": 1700,
+          "growthRate": null
+        },
+        "swotAnalysis": {
+          "strengths": [
+            "Unique 360° transmission tomography",
+            "Quantitative tissue measurement"
+          ],
+          "weaknesses": [
+            "Breast-only limitation",
+            "Large bulky machine",
+            "Not portable"
+          ],
+          "opportunities": [
+            "Extend to other soft tissue"
+          ],
+          "threats": [
+            "Eco 3D compact multi-district approach"
+          ]
+        },
+        "battlecard": {
+          "whyWeWin": [
+            "Automated multi-probe volumetric acquisition vs Canon's manual 3D",
+            "Wider angular coverage without manual maneuvering",
+            "Autonomous scanning vs operator-dependent technique",
+            "Multi-district capability in one scan session",
+            "Faster workflow through robotics"
+          ],
+          "theirStrengths": [
+            "Impressive fly-through 3D virtual endoscopy",
+            "Leading micro-flow imaging for small vessels",
+            "AI enhancement of image quality",
+            "Strong innovation in vascular applications"
+          ],
+          "theirWeaknesses": [
+            "Manual 3D scanning requires skilled operator",
+            "No robotic or automated positioning",
+            "Single probe operation only",
+            "Limited automation features",
+            "Smaller service network outside Asia"
+          ],
+          "competitiveResponse": "Canon has innovative 3D visualization (fly-through), but Eco 3D eliminates the manual acquisition challenge through automated multi-probe scanning. We combine Canon's visualization goals with autonomous workflow that reduces operator dependency."
+        },
+        "innovation": {
+          "patents": 0,
+          "rdInvestment": 0,
+          "recentLaunches": []
+        },
+        "customerReferences": {
+          "testimonials": [],
+          "casestudies": 0,
+          "clinicalStudies": 0
+        },
+        "lastUpdated": "2025-10-17",
+        "notes": "Imported from Excel export 2025-10-17"
+      },
+      {
+        "id": "comp_005",
+        "name": "Samsung - HERA W10",
+        "shortName": "Samsung HERA",
+        "tier": "tier1",
+        "type": "direct",
+        "status": "active",
+        "priority": "high",
+        "threatLevel": "high",
+        "monitoringPriority": 2,
+        "companyInfo": {
+          "founded": 1969,
+          "headquarters": "Seoul, South Korea",
+          "employees": 267937,
+          "revenue": 234000000000,
+          "funding": {},
+          "website": "https://www.samsunghealthcare.com",
+          "logo": "🏥"
+        },
+        "products": [
+          {
+            "name": "HERA W10 / RS85 Prestige",
+            "category": "Medical Imaging / Ultrasound",
+            "priceRange": "€120,000 - €220,000",
+            "priceMin": 120000,
+            "priceMax": 220000,
+            "features": {
+              "imaging3D": true,
+              "imaging4D": true,
+              "aiGuided": true,
+              "portable": false,
+              "wireless": false,
+              "multiProbe": false,
+              "realtime": true,
+              "cloudConnected": true
+            },
+            "targetMarket": [
+              "women's health",
+              "obstetrics"
+            ],
+            "strengths": [],
+            "weaknesses": [],
+            "certifications": []
+          }
+        ],
+        "marketPosition": {
+          "marketShare": 8.0,
+          "region": "Asia, Middle East, Growing in Europe",
+          "segments": [
+            "women's health",
+            "obstetrics"
+          ],
+          "customerBase": 26793,
+          "growthRate": null
+        },
+        "swotAnalysis": {
+          "strengths": [
+            "Photorealistic 4D rendering (Realistic Vue)",
+            "S-Detect AI for breast lesion characterization",
+            "Modern consumer-grade user interface",
+            "Aggressive pricing vs Western competitors",
+            "Fast-growing market share in Asia and Middle East"
+          ],
+          "weaknesses": [
+            "Focused primarily on women's health/obstetrics",
+            "Zero robotic automation",
+            "Still requires skilled operator",
+            "Newer brand with less clinical legacy than GE/Philips",
+            "Limited service network in some regions"
+          ],
+          "opportunities": [
+            "Expand beyond women's health to multi-organ",
+            "Add automation features",
+            "Leverage Samsung's consumer electronics expertise for POCUS"
+          ],
+          "threats": [
+            "Eco 3D multi-organ approach vs single specialty",
+            "Automation reduces operator skill requirement",
+            "Portable AI-driven systems (Butterfly, Clarius) disrupting low-end"
+          ]
+        },
+        "battlecard": {
+          "whyWeWin": [
+            "Eco 3D is multi-organ, not just obstetrics",
+            "Autonomous multi-probe vs manual operation",
+            "Lower operator variability through automation",
+            "Standardized exams across all anatomical regions",
+            "Robotics ensure reproducible positioning"
+          ],
+          "theirStrengths": [
+            "Best-in-class photorealistic 4D rendering",
+            "S-Detect AI for lesion characterization",
+            "Intuitive touchscreen UI (consumer-grade)",
+            "Competitive pricing vs GE/Philips",
+            "Growing brand in emerging markets"
+          ],
+          "theirWeaknesses": [
+            "Women's health focus limits addressable market",
+            "No automation or robotics",
+            "Operator skill still critical for quality",
+            "Newer player with less clinical evidence",
+            "Limited multi-organ applications"
+          ],
+          "competitiveResponse": "Samsung has impressive 4D rendering and modern UI, but Eco 3D addresses the broader challenge of operator-independent, multi-organ autonomous scanning. While they optimize the visual experience, we revolutionize the acquisition workflow."
+        },
+        "innovation": {
+          "patents": 0,
+          "rdInvestment": 0,
+          "recentLaunches": []
+        },
+        "customerReferences": {
+          "testimonials": [],
+          "casestudies": 0,
+          "clinicalStudies": 0
+        },
+        "lastUpdated": "2025-10-17",
+        "notes": "Imported from Excel export 2025-10-17"
+      },
+      {
+        "id": "comp_006",
+        "name": "Delphinus Medical - SoftVue",
+        "shortName": "Delphinus",
+        "tier": "tier2",
+        "type": "indirect",
+        "status": "active",
+        "priority": "low",
+        "threatLevel": "low",
+        "monitoringPriority": 4,
+        "companyInfo": {
+          "founded": 2005,
+          "headquarters": "Novi, MI, USA",
+          "employees": 65,
+          "revenue": 12000000,
+          "funding": {},
+          "website": "https://www.delphinusmedical.com",
+          "logo": "🏥"
+        },
+        "products": [
+          {
+            "name": "SoftVue",
+            "category": "Medical Imaging / Ultrasound",
+            "priceRange": "€200,000 - €400,000",
+            "priceMin": 200000,
+            "priceMax": 400000,
+            "features": {
+              "imaging3D": true,
+              "imaging4D": false,
+              "aiGuided": false,
+              "portable": false,
+              "wireless": false,
+              "multiProbe": false,
+              "realtime": false,
+              "cloudConnected": false
+            },
+            "targetMarket": [
+              "breast imaging"
+            ],
+            "strengths": [],
+            "weaknesses": [],
+            "certifications": []
+          }
+        ],
+        "marketPosition": {
+          "marketShare": 0.5,
+          "region": "USA",
+          "segments": [
+            "breast imaging"
+          ],
+          "customerBase": 6,
+          "growthRate": null
+        },
+        "swotAnalysis": {
+          "strengths": [
+            "Unique 360° transmission tomography",
+            "Quantitative tissue measurement"
+          ],
+          "weaknesses": [
+            "Breast-only limitation",
+            "Large bulky machine",
+            "Not portable"
+          ],
+          "opportunities": [
+            "Extend to other soft tissue"
+          ],
+          "threats": [
+            "Eco 3D compact multi-district approach"
+          ]
+        },
+        "battlecard": {
+          "whyWeWin": [
+            "Compact handheld vs bulky ring",
+            "Multi-district vs breast-only",
+            "3-5 vol/s vs offline"
+          ],
+          "theirStrengths": [
+            "360° transmission imaging unique"
+          ],
+          "theirWeaknesses": [
+            "Breast only",
+            "Very expensive (€200k-€400k)"
+          ],
+          "competitiveResponse": "Delphinus has innovative transmission tomography for breast. Eco 3D offers broader reflection imaging for any anatomy."
+        },
+        "innovation": {
+          "patents": 0,
+          "rdInvestment": 0,
+          "recentLaunches": []
+        },
+        "customerReferences": {
+          "testimonials": [],
+          "casestudies": 0,
+          "clinicalStudies": 0
+        },
+        "lastUpdated": "2025-10-17",
+        "notes": "Imported from Excel export 2025-10-17"
+      },
+      {
+        "id": "comp_007",
+        "name": "QT Imaging - QTscan",
+        "shortName": "QT Imaging",
+        "tier": "tier2",
+        "type": "indirect",
+        "status": "active",
+        "priority": "low",
+        "threatLevel": "low",
+        "monitoringPriority": 4,
+        "companyInfo": {
+          "founded": 2009,
+          "headquarters": "Novato, CA, USA",
+          "employees": 45,
+          "revenue": 6000000,
+          "funding": {},
+          "website": "https://www.qtimaging.com",
+          "logo": "🏥"
+        },
+        "products": [
+          {
+            "name": "QTscan",
+            "category": "Medical Imaging / Ultrasound",
+            "priceRange": "€180,000 - €300,000",
+            "priceMin": 180000,
+            "priceMax": 300000,
+            "features": {
+              "imaging3D": false,
+              "imaging4D": false,
+              "aiGuided": false,
+              "portable": false,
+              "wireless": false,
+              "multiProbe": false,
+              "realtime": false,
+              "cloudConnected": false
+            },
+            "targetMarket": [
+              "breast screening"
+            ],
+            "strengths": [],
+            "weaknesses": [],
+            "certifications": []
+          }
+        ],
+        "marketPosition": {
+          "marketShare": 0.3,
+          "region": "USA",
+          "segments": [
+            "breast screening"
+          ],
+          "customerBase": 4,
+          "growthRate": null
+        },
+        "swotAnalysis": {
+          "strengths": [
+            "pMUT on silicon scalable",
+            "Promise of pocket 3D+AI",
+            "Intel/Varian backing",
+            "Low cost potential"
+          ],
+          "weaknesses": [
+            "Still prototype",
+            "3D/AI not validated",
+            "No commercial product yet",
+            "Timeline unclear"
+          ],
+          "opportunities": [
+            "Disrupt with ultra-portable 3D",
+            "AI-native",
+            "Mass manufacturing"
+          ],
+          "threats": [
+            "Eco 3D has working pMUT multi-array now",
+            "ToF calibration proven",
+            "Commercial-ready vs prototype"
+          ]
+        },
+        "battlecard": {
+          "whyWeWin": [
+            "Multi-organ vs breast-only",
+            "3-5 vol/s volumetric"
+          ],
+          "theirStrengths": [
+            "Unique quantitative measurement"
+          ],
+          "theirWeaknesses": [
+            "Breast-only",
+            "No real-time"
+          ],
+          "competitiveResponse": "QT has niche quantitative transmission. Eco 3D offers broader AI quantitative across all organs."
+        },
+        "innovation": {
+          "patents": 0,
+          "rdInvestment": 0,
+          "recentLaunches": []
+        },
+        "customerReferences": {
+          "testimonials": [],
+          "casestudies": 0,
+          "clinicalStudies": 0
+        },
+        "lastUpdated": "2025-10-17",
+        "notes": "Imported from Excel export 2025-10-17"
+      },
+      {
+        "id": "comp_008",
+        "name": "Patent CN 115040157 A - Multi-probe ToF",
+        "shortName": "CN ToF Patent",
+        "tier": "tier3",
+        "type": "substitute",
+        "status": "monitoring",
+        "priority": "low",
+        "threatLevel": "low",
+        "monitoringPriority": 4,
+        "companyInfo": {
+          "founded": null,
+          "headquarters": "China",
+          "employees": null,
+          "revenue": null,
+          "funding": {},
+          "website": "N/A",
+          "logo": "🏥"
+        },
+        "products": [
+          {
+            "name": "Multi-probe ToF scanning patent",
+            "category": "Medical Imaging / Ultrasound",
+            "priceRange": "N/A",
+            "priceMin": null,
+            "priceMax": null,
+            "features": {
+              "imaging3D": false,
+              "imaging4D": false,
+              "aiGuided": false,
+              "portable": false,
+              "wireless": false,
+              "multiProbe": false,
+              "realtime": false,
+              "cloudConnected": false
+            },
+            "targetMarket": [
+              "technology"
+            ],
+            "strengths": [],
+            "weaknesses": [],
+            "certifications": []
+          }
+        ],
+        "marketPosition": {
+          "marketShare": null,
+          "region": "China (Patent)",
+          "segments": [
+            "technology"
+          ],
+          "customerBase": null,
+          "growthRate": null
+        },
+        "swotAnalysis": {
+          "strengths": [
+            "Multi-channel routing"
+          ],
+          "weaknesses": [
+            "Sequential not simultaneous"
+          ],
+          "opportunities": [
+            "N/A"
+          ],
+          "threats": [
+            "N/A"
+          ]
+        },
+        "battlecard": {
+          "whyWeWin": [
+            "N probes vs pairs",
+            "Real-time 3-5 vol/s"
+          ],
+          "theirStrengths": [
+            "ToF concept"
+          ],
+          "theirWeaknesses": [
+            "Fixed architecture"
+          ],
+          "competitiveResponse": "N/A"
+        },
+        "innovation": {
+          "patents": 0,
+          "rdInvestment": 0,
+          "recentLaunches": []
+        },
+        "customerReferences": {
+          "testimonials": [],
+          "casestudies": 0,
+          "clinicalStudies": 0
+        },
+        "lastUpdated": "2025-10-17",
+        "notes": "Imported from Excel export 2025-10-17"
+      },
+      {
+        "id": "comp_009",
+        "name": "Patent US 6503199 B1 - Free-hand 3D",
+        "shortName": "US Free-hand Patent",
+        "tier": "tier3",
+        "type": "substitute",
+        "status": "monitoring",
+        "priority": "low",
+        "threatLevel": "low",
+        "monitoringPriority": 4,
+        "companyInfo": {
+          "founded": null,
+          "headquarters": "USA",
+          "employees": null,
+          "revenue": null,
+          "funding": {},
+          "website": "N/A",
+          "logo": "🏥"
+        },
+        "products": [
+          {
+            "name": "Free-hand 3D mechanical",
+            "category": "Medical Imaging / Ultrasound",
+            "priceRange": "N/A",
+            "priceMin": null,
+            "priceMax": null,
+            "features": {
+              "imaging3D": false,
+              "imaging4D": false,
+              "aiGuided": false,
+              "portable": false,
+              "wireless": false,
+              "multiProbe": false,
+              "realtime": false,
+              "cloudConnected": false
+            },
+            "targetMarket": [
+              "technology"
+            ],
+            "strengths": [],
+            "weaknesses": [],
+            "certifications": []
+          }
+        ],
+        "marketPosition": {
+          "marketShare": null,
+          "region": "USA (Patent)",
+          "segments": [
+            "technology"
+          ],
+          "customerBase": null,
+          "growthRate": null
+        },
+        "swotAnalysis": {
+          "strengths": [
+            "Suction adherence concept"
+          ],
+          "weaknesses": [
+            "Manual variability"
+          ],
+          "opportunities": [
+            "N/A"
+          ],
+          "threats": [
+            "N/A"
+          ]
+        },
+        "battlecard": {
+          "whyWeWin": [
+            "Robotized vs manual",
+            "Multi-array vs single"
+          ],
+          "theirStrengths": [
+            "Suction concept"
+          ],
+          "theirWeaknesses": [
+            "Stitching artifacts"
+          ],
+          "competitiveResponse": "N/A"
+        },
+        "innovation": {
+          "patents": 0,
+          "rdInvestment": 0,
+          "recentLaunches": []
+        },
+        "customerReferences": {
+          "testimonials": [],
+          "casestudies": 0,
+          "clinicalStudies": 0
+        },
+        "lastUpdated": "2025-10-17",
+        "notes": "Imported from Excel export 2025-10-17"
+      },
+      {
+        "id": "comp_010",
+        "name": "Patent US 10401493 B2 - Tracking 3D",
+        "shortName": "US Tracking Patent",
+        "tier": "tier3",
+        "type": "substitute",
+        "status": "monitoring",
+        "priority": "low",
+        "threatLevel": "low",
+        "monitoringPriority": 4,
+        "companyInfo": {
+          "founded": null,
+          "headquarters": "USA",
+          "employees": null,
+          "revenue": null,
+          "funding": {},
+          "website": "N/A",
+          "logo": "🏥"
+        },
+        "products": [
+          {
+            "name": "Optical/EM tracking",
+            "category": "Medical Imaging / Ultrasound",
+            "priceRange": "N/A",
+            "priceMin": null,
+            "priceMax": null,
+            "features": {
+              "imaging3D": false,
+              "imaging4D": false,
+              "aiGuided": false,
+              "portable": false,
+              "wireless": false,
+              "multiProbe": false,
+              "realtime": false,
+              "cloudConnected": false
+            },
+            "targetMarket": [
+              "technology"
+            ],
+            "strengths": [],
+            "weaknesses": [],
+            "certifications": []
+          }
+        ],
+        "marketPosition": {
+          "marketShare": null,
+          "region": "USA (Patent)",
+          "segments": [
+            "technology"
+          ],
+          "customerBase": null,
+          "growthRate": null
+        },
+        "swotAnalysis": {
+          "strengths": [
+            "Spatial tracking"
+          ],
+          "weaknesses": [
+            "Single probe",
+            "External sensors"
+          ],
+          "opportunities": [
+            "N/A"
+          ],
+          "threats": [
+            "N/A"
+          ]
+        },
+        "battlecard": {
+          "whyWeWin": [
+            "Integrated ToF+IMU",
+            "Multi-probe"
+          ],
+          "theirStrengths": [
+            "Tracking fusion"
+          ],
+          "theirWeaknesses": [
+            "External hardware"
+          ],
+          "competitiveResponse": "N/A"
+        },
+        "innovation": {
+          "patents": 0,
+          "rdInvestment": 0,
+          "recentLaunches": []
+        },
+        "customerReferences": {
+          "testimonials": [],
+          "casestudies": 0,
+          "clinicalStudies": 0
+        },
+        "lastUpdated": "2025-10-17",
+        "notes": "Imported from Excel export 2025-10-17"
+      },
+      {
+        "id": "comp_011",
+        "name": "Patent US 2024285256 A1 - Multi-probe 2024",
+        "shortName": "US Multi-probe 2024",
+        "tier": "tier3",
+        "type": "substitute",
+        "status": "monitoring",
+        "priority": "medium",
+        "threatLevel": "medium",
+        "monitoringPriority": 3,
+        "companyInfo": {
+          "founded": null,
+          "headquarters": "USA",
+          "employees": null,
+          "revenue": null,
+          "funding": {},
+          "website": "N/A",
+          "logo": "🏥"
+        },
+        "products": [
+          {
+            "name": "Multi-probe ultrasound device",
+            "category": "Medical Imaging / Ultrasound",
+            "priceRange": "N/A",
+            "priceMin": null,
+            "priceMax": null,
+            "features": {
+              "imaging3D": false,
+              "imaging4D": false,
+              "aiGuided": false,
+              "portable": false,
+              "wireless": false,
+              "multiProbe": false,
+              "realtime": false,
+              "cloudConnected": false
+            },
+            "targetMarket": [
+              "technology"
+            ],
+            "strengths": [],
+            "weaknesses": [],
+            "certifications": []
+          }
+        ],
+        "marketPosition": {
+          "marketShare": null,
+          "region": "USA (Patent)",
+          "segments": [
+            "technology"
+          ],
+          "customerBase": null,
+          "growthRate": null
+        },
+        "swotAnalysis": {
+          "strengths": [
+            "Recent multi-probe patent"
+          ],
+          "weaknesses": [
+            "Manual calibration",
+            "No AI"
+          ],
+          "opportunities": [
+            "N/A"
+          ],
+          "threats": [
+            "N/A"
+          ]
+        },
+        "battlecard": {
+          "whyWeWin": [
+            "Auto-calibration",
+            "AI embedded",
+            "3-5 vol/s vs 1-3"
+          ],
+          "theirStrengths": [
+            "Recent 2024 filing"
+          ],
+          "theirWeaknesses": [
+            "Centralized latency"
+          ],
+          "competitiveResponse": "N/A"
+        },
+        "innovation": {
+          "patents": 0,
+          "rdInvestment": 0,
+          "recentLaunches": []
+        },
+        "customerReferences": {
+          "testimonials": [],
+          "casestudies": 0,
+          "clinicalStudies": 0
+        },
+        "lastUpdated": "2025-10-17",
+        "notes": "Imported from Excel export 2025-10-17"
+      },
+      {
+        "id": "comp_012",
+        "name": "Patent US 2014/0235962 A1 - Breast Cup",
+        "shortName": "US Breast Cup",
+        "tier": "tier3",
+        "type": "substitute",
+        "status": "monitoring",
+        "priority": "low",
+        "threatLevel": "low",
+        "monitoringPriority": 4,
+        "companyInfo": {
+          "founded": null,
+          "headquarters": "USA",
+          "employees": null,
+          "revenue": null,
+          "funding": {},
+          "website": "N/A",
+          "logo": "🏥"
+        },
+        "products": [
+          {
+            "name": "Vacuum cup breast imager",
+            "category": "Medical Imaging / Ultrasound",
+            "priceRange": "N/A",
+            "priceMin": null,
+            "priceMax": null,
+            "features": {
+              "imaging3D": false,
+              "imaging4D": false,
+              "aiGuided": false,
+              "portable": false,
+              "wireless": false,
+              "multiProbe": false,
+              "realtime": false,
+              "cloudConnected": false
+            },
+            "targetMarket": [
+              "breast"
+            ],
+            "strengths": [],
+            "weaknesses": [],
+            "certifications": []
+          }
+        ],
+        "marketPosition": {
+          "marketShare": null,
+          "region": "USA (Patent)",
+          "segments": [
+            "breast"
+          ],
+          "customerBase": null,
+          "growthRate": null
+        },
+        "swotAnalysis": {
+          "strengths": [
+            "Vacuum stabilization"
+          ],
+          "weaknesses": [
+            "Bulky cup",
+            "Breast-only"
+          ],
+          "opportunities": [
+            "N/A"
+          ],
+          "threats": [
+            "N/A"
+          ]
+        },
+        "battlecard": {
+          "whyWeWin": [
+            "Compact vs bulky",
+            "Multi-region"
+          ],
+          "theirStrengths": [
+            "Vacuum concept"
+          ],
+          "theirWeaknesses": [
+            "Single district"
+          ],
+          "competitiveResponse": "N/A"
+        },
+        "innovation": {
+          "patents": 0,
+          "rdInvestment": 0,
+          "recentLaunches": []
+        },
+        "customerReferences": {
+          "testimonials": [],
+          "casestudies": 0,
+          "clinicalStudies": 0
+        },
+        "lastUpdated": "2025-10-17",
+        "notes": "Imported from Excel export 2025-10-17"
+      },
+      {
+        "id": "comp_013",
+        "name": "Patent CN 105147326 A - Heating System",
+        "shortName": "CN Heating",
+        "tier": "tier3",
+        "type": "substitute",
+        "status": "monitoring",
+        "priority": "low",
+        "threatLevel": "low",
+        "monitoringPriority": 4,
+        "companyInfo": {
+          "founded": null,
+          "headquarters": "China",
+          "employees": null,
+          "revenue": null,
+          "funding": {},
+          "website": "N/A",
+          "logo": "🏥"
+        },
+        "products": [
+          {
+            "name": "Heating system",
+            "category": "Medical Imaging / Ultrasound",
+            "priceRange": "N/A",
+            "priceMin": null,
+            "priceMax": null,
+            "features": {
+              "imaging3D": false,
+              "imaging4D": false,
+              "aiGuided": false,
+              "portable": false,
+              "wireless": false,
+              "multiProbe": false,
+              "realtime": false,
+              "cloudConnected": false
+            },
+            "targetMarket": [
+              "technology"
+            ],
+            "strengths": [],
+            "weaknesses": [],
+            "certifications": []
+          }
+        ],
+        "marketPosition": {
+          "marketShare": null,
+          "region": "China (Patent)",
+          "segments": [
+            "technology"
+          ],
+          "customerBase": null,
+          "growthRate": null
+        },
+        "swotAnalysis": {
+          "strengths": [
+            "Heating concept"
+          ],
+          "weaknesses": [
+            "No imaging",
+            "Bulky cart"
+          ],
+          "opportunities": [
+            "N/A"
+          ],
+          "threats": [
+            "N/A"
+          ]
+        },
+        "battlecard": {
+          "whyWeWin": [
+            "Integrated in autogel sleeves",
+            "Imaging capable"
+          ],
+          "theirStrengths": [
+            "Heating distribution"
+          ],
+          "theirWeaknesses": [
+            "No imaging"
+          ],
+          "competitiveResponse": "N/A"
+        },
+        "innovation": {
+          "patents": 0,
+          "rdInvestment": 0,
+          "recentLaunches": []
+        },
+        "customerReferences": {
+          "testimonials": [],
+          "casestudies": 0,
+          "clinicalStudies": 0
+        },
+        "lastUpdated": "2025-10-17",
+        "notes": "Imported from Excel export 2025-10-17"
+      },
+      {
+        "id": "comp_014",
+        "name": "Patent CN 112206003 A - Cascaded Socket",
+        "shortName": "CN Socket",
+        "tier": "tier3",
+        "type": "substitute",
+        "status": "monitoring",
+        "priority": "low",
+        "threatLevel": "low",
+        "monitoringPriority": 4,
+        "companyInfo": {
+          "founded": null,
+          "headquarters": "China",
+          "employees": null,
+          "revenue": null,
+          "funding": {},
+          "website": "N/A",
+          "logo": "🏥"
+        },
+        "products": [
+          {
+            "name": "Cascaded socket",
+            "category": "Medical Imaging / Ultrasound",
+            "priceRange": "N/A",
+            "priceMin": null,
+            "priceMax": null,
+            "features": {
+              "imaging3D": false,
+              "imaging4D": false,
+              "aiGuided": false,
+              "portable": false,
+              "wireless": false,
+              "multiProbe": false,
+              "realtime": false,
+              "cloudConnected": false
+            },
+            "targetMarket": [
+              "technology"
+            ],
+            "strengths": [],
+            "weaknesses": [],
+            "certifications": []
+          }
+        ],
+        "marketPosition": {
+          "marketShare": null,
+          "region": "China (Patent)",
+          "segments": [
+            "technology"
+          ],
+          "customerBase": null,
+          "growthRate": null
+        },
+        "swotAnalysis": {
+          "strengths": [
+            "Multi-channel routing"
+          ],
+          "weaknesses": [
+            "Sequential not simultaneous"
+          ],
+          "opportunities": [
+            "N/A"
+          ],
+          "threats": [
+            "N/A"
+          ]
+        },
+        "battlecard": {
+          "whyWeWin": [
+            "Simultaneous acquisition",
+            "Dedicated front-end"
+          ],
+          "theirStrengths": [
+            "Modular architecture"
+          ],
+          "theirWeaknesses": [
+            "Switching latency"
+          ],
+          "competitiveResponse": "N/A"
+        },
+        "innovation": {
+          "patents": 0,
+          "rdInvestment": 0,
+          "recentLaunches": []
+        },
+        "customerReferences": {
+          "testimonials": [],
+          "casestudies": 0,
+          "clinicalStudies": 0
+        },
+        "lastUpdated": "2025-10-17",
+        "notes": "Imported from Excel export 2025-10-17"
+      },
+      {
+        "id": "comp_015",
+        "name": "ROPCA ARTHUR Robot",
+        "shortName": "ROPCA",
+        "tier": "tier3",
+        "type": "substitute",
+        "status": "monitoring",
+        "priority": "low",
+        "threatLevel": "low",
+        "monitoringPriority": 4,
+        "companyInfo": {
+          "founded": 2019,
+          "headquarters": "France",
+          "employees": 15,
+          "revenue": null,
+          "funding": {},
+          "website": "N/A",
+          "logo": "🏥"
+        },
+        "products": [
+          {
+            "name": "ARTHUR hand scanner",
+            "category": "Medical Imaging / Ultrasound",
+            "priceRange": "N/A",
+            "priceMin": null,
+            "priceMax": null,
+            "features": {
+              "imaging3D": false,
+              "imaging4D": false,
+              "aiGuided": false,
+              "portable": false,
+              "wireless": false,
+              "multiProbe": false,
+              "realtime": false,
+              "cloudConnected": false
+            },
+            "targetMarket": [
+              "rheumatology"
+            ],
+            "strengths": [],
+            "weaknesses": [],
+            "certifications": []
+          }
+        ],
+        "marketPosition": {
+          "marketShare": null,
+          "region": "France (Research)",
+          "segments": [
+            "rheumatology"
+          ],
+          "customerBase": 1,
+          "growthRate": null
+        },
+        "swotAnalysis": {
+          "strengths": [
+            "Robotic positioning"
+          ],
+          "weaknesses": [
+            "Hand-only",
+            "No 3D"
+          ],
+          "opportunities": [
+            "N/A"
+          ],
+          "threats": [
+            "N/A"
+          ]
+        },
+        "battlecard": {
+          "whyWeWin": [
+            "Any district vs hand",
+            "Volumetric 3D"
+          ],
+          "theirStrengths": [
+            "Robotic positioning"
+          ],
+          "theirWeaknesses": [
+            "Single district"
+          ],
+          "competitiveResponse": "N/A"
+        },
+        "innovation": {
+          "patents": 0,
+          "rdInvestment": 0,
+          "recentLaunches": []
+        },
+        "customerReferences": {
+          "testimonials": [],
+          "casestudies": 0,
+          "clinicalStudies": 0
+        },
+        "lastUpdated": "2025-10-17",
+        "notes": "Imported from Excel export 2025-10-17"
+      },
+      {
+        "id": "comp_016",
+        "name": "AdEchoTech MELODY",
+        "shortName": "AdEchoTech",
+        "tier": "tier3",
+        "type": "substitute",
+        "status": "monitoring",
+        "priority": "low",
+        "threatLevel": "low",
+        "monitoringPriority": 4,
+        "companyInfo": {
+          "founded": 2018,
+          "headquarters": "France",
+          "employees": 25,
+          "revenue": null,
+          "funding": {},
+          "website": "https://www.adechotech.com",
+          "logo": "🏥"
+        },
+        "products": [
+          {
+            "name": "MELODY tele-robot",
+            "category": "Medical Imaging / Ultrasound",
+            "priceRange": "N/A",
+            "priceMin": null,
+            "priceMax": null,
+            "features": {
+              "imaging3D": false,
+              "imaging4D": false,
+              "aiGuided": false,
+              "portable": false,
+              "wireless": false,
+              "multiProbe": false,
+              "realtime": false,
+              "cloudConnected": false
+            },
+            "targetMarket": [
+              "telehealth"
+            ],
+            "strengths": [],
+            "weaknesses": [],
+            "certifications": []
+          }
+        ],
+        "marketPosition": {
+          "marketShare": null,
+          "region": "France",
+          "segments": [
+            "telehealth"
+          ],
+          "customerBase": 2,
+          "growthRate": null
+        },
+        "swotAnalysis": {
+          "strengths": [
+            "Tele-ultrasound",
+            "Braccio tele-operato per ecografia a distanza"
+          ],
+          "weaknesses": [
+            "Not autonomous",
+            "Requires operator",
+            "Non autonomo: dipende da operatore remoto, nessuna fusione multi-sonda"
+          ],
+          "opportunities": [
+            "N/A"
+          ],
+          "threats": [
+            "N/A",
+            "Eco 3D: • Ecografia autonoma senza operatore remoto• Fusione multi-sonda e AI-guidata per ricostruzione 3D/4D"
+          ]
+        },
+        "battlecard": {
+          "whyWeWin": [
+            "Autonomous vs tele-operated",
+            "Multi-probe"
+          ],
+          "theirStrengths": [
+            "Remote care"
+          ],
+          "theirWeaknesses": [
+            "Operator dependent"
+          ],
+          "competitiveResponse": "N/A"
+        },
+        "innovation": {
+          "patents": 0,
+          "rdInvestment": 0,
+          "recentLaunches": []
+        },
+        "customerReferences": {
+          "testimonials": [],
+          "casestudies": 0,
+          "clinicalStudies": 0
+        },
+        "lastUpdated": "2025-10-17",
+        "notes": "Imported from Excel export 2025-10-17"
+      },
+      {
+        "id": "comp_017",
+        "name": "MGIUS-R3 (MGI Tech)",
+        "shortName": "MGIUS-R3",
+        "tier": "tier3",
+        "type": "substitute",
+        "status": "monitoring",
+        "priority": "low",
+        "threatLevel": "low",
+        "monitoringPriority": 4,
+        "companyInfo": {
+          "founded": 2020,
+          "headquarters": "China",
+          "employees": 35,
+          "revenue": null,
+          "funding": {},
+          "website": "N/A",
+          "logo": "🏥"
+        },
+        "products": [
+          {
+            "name": "MGIUS-R3 mobile robot",
+            "category": "Medical Imaging / Ultrasound",
+            "priceRange": "N/A",
+            "priceMin": null,
+            "priceMax": null,
+            "features": {
+              "imaging3D": false,
+              "imaging4D": false,
+              "aiGuided": false,
+              "portable": false,
+              "wireless": false,
+              "multiProbe": false,
+              "realtime": false,
+              "cloudConnected": false
+            },
+            "targetMarket": [
+              "rural telehealth"
+            ],
+            "strengths": [],
+            "weaknesses": [],
+            "certifications": []
+          }
+        ],
+        "marketPosition": {
+          "marketShare": null,
+          "region": "China (rural)",
+          "segments": [
+            "rural telehealth"
+          ],
+          "customerBase": 3,
+          "growthRate": null
+        },
+        "swotAnalysis": {
+          "strengths": [
+            "Mobile platform",
+            "Robot mobile per tele-ecografia rurale in Cina, primissima adozione commerciale"
+          ],
+          "weaknesses": [
+            "2D only",
+            "Remote operator",
+            "Dipende da operatore remoto; solo imaging 2D; zero volumetria"
+          ],
+          "opportunities": [
+            "N/A"
+          ],
+          "threats": [
+            "N/A",
+            "Eco 3D: • Ecografia autonoma multi-sonda senza operatore remoto• Volumetria 3–5 vol/s con AI di fusione e super-risoluzione"
+          ]
+        },
+        "battlecard": {
+          "whyWeWin": [
+            "Autonomous vs remote",
+            "3D volumetrics"
+          ],
+          "theirStrengths": [
+            "Mobile for rural"
+          ],
+          "theirWeaknesses": [
+            "Operator needed"
+          ],
+          "competitiveResponse": "N/A"
+        },
+        "innovation": {
+          "patents": 0,
+          "rdInvestment": 0,
+          "recentLaunches": []
+        },
+        "customerReferences": {
+          "testimonials": [],
+          "casestudies": 0,
+          "clinicalStudies": 0
+        },
+        "lastUpdated": "2025-10-17",
+        "notes": "Imported from Excel export 2025-10-17"
+      },
+      {
+        "id": "comp_018",
+        "name": "GE + NVIDIA Automation Prototype",
+        "shortName": "GE+NVIDIA",
+        "tier": "tier3",
+        "type": "substitute",
+        "status": "monitoring",
+        "priority": "medium",
+        "threatLevel": "medium",
+        "monitoringPriority": 3,
+        "companyInfo": {
+          "founded": 2025,
+          "headquarters": "USA",
+          "employees": null,
+          "revenue": null,
+          "funding": {},
+          "website": "N/A",
+          "logo": "🏥"
+        },
+        "products": [
+          {
+            "name": "US/X-ray automation (2025 demo)",
+            "category": "Medical Imaging / Ultrasound",
+            "priceRange": "N/A",
+            "priceMin": null,
+            "priceMax": null,
+            "features": {
+              "imaging3D": false,
+              "imaging4D": false,
+              "aiGuided": false,
+              "portable": false,
+              "wireless": false,
+              "multiProbe": false,
+              "realtime": false,
+              "cloudConnected": false
+            },
+            "targetMarket": [
+              "future"
+            ],
+            "strengths": [],
+            "weaknesses": [],
+            "certifications": []
+          }
+        ],
+        "marketPosition": {
+          "marketShare": null,
+          "region": "R&D (announced 2025)",
+          "segments": [
+            "future"
+          ],
+          "customerBase": null,
+          "growthRate": null
+        },
+        "swotAnalysis": {
+          "strengths": [
+            "Multimodal automation",
+            "GE+NVIDIA partnership"
+          ],
+          "weaknesses": [
+            "Demo only",
+            "Not standalone US"
+          ],
+          "opportunities": [
+            "N/A"
+          ],
+          "threats": [
+            "N/A"
+          ]
+        },
+        "battlecard": {
+          "whyWeWin": [
+            "Standalone autonomous US",
+            "Commercial-ready"
+          ],
+          "theirStrengths": [
+            "Strong partnership"
+          ],
+          "theirWeaknesses": [
+            "R&D stage"
+          ],
+          "competitiveResponse": "N/A"
+        },
+        "innovation": {
+          "patents": 0,
+          "rdInvestment": 0,
+          "recentLaunches": []
+        },
+        "customerReferences": {
+          "testimonials": [],
+          "casestudies": 0,
+          "clinicalStudies": 0
+        },
+        "lastUpdated": "2025-10-17",
+        "notes": "Imported from Excel export 2025-10-17"
+      },
+      {
+        "id": "comp_019",
+        "name": "NASA/Canada Custom Research Robots",
+        "shortName": "NASA Research",
+        "tier": "tier3",
+        "type": "substitute",
+        "status": "monitoring",
+        "priority": "low",
+        "threatLevel": "low",
+        "monitoringPriority": 4,
+        "companyInfo": {
+          "founded": null,
+          "headquarters": "USA/Canada",
+          "employees": null,
+          "revenue": null,
+          "funding": {},
+          "website": "N/A",
+          "logo": "🏥"
+        },
+        "products": [
+          {
+            "name": "Custom robotic arms",
+            "category": "Medical Imaging / Ultrasound",
+            "priceRange": "N/A",
+            "priceMin": null,
+            "priceMax": null,
+            "features": {
+              "imaging3D": false,
+              "imaging4D": false,
+              "aiGuided": false,
+              "portable": false,
+              "wireless": false,
+              "multiProbe": false,
+              "realtime": false,
+              "cloudConnected": false
+            },
+            "targetMarket": [
+              "space medicine"
+            ],
+            "strengths": [],
+            "weaknesses": [],
+            "certifications": []
+          }
+        ],
+        "marketPosition": {
+          "marketShare": null,
+          "region": "Research",
+          "segments": [
+            "space medicine"
+          ],
+          "customerBase": null,
+          "growthRate": null
+        },
+        "swotAnalysis": {
+          "strengths": [
+            "Precision robotics"
+          ],
+          "weaknesses": [
+            "Experimental",
+            "Bulky"
+          ],
+          "opportunities": [
+            "N/A"
+          ],
+          "threats": [
+            "N/A"
+          ]
+        },
+        "battlecard": {
+          "whyWeWin": [
+            "Compact modular",
+            "Clinical-grade"
+          ],
+          "theirStrengths": [
+            "High precision"
+          ],
+          "theirWeaknesses": [
+            "Not commercial"
+          ],
+          "competitiveResponse": "N/A"
+        },
+        "innovation": {
+          "patents": 0,
+          "rdInvestment": 0,
+          "recentLaunches": []
+        },
+        "customerReferences": {
+          "testimonials": [],
+          "casestudies": 0,
+          "clinicalStudies": 0
+        },
+        "lastUpdated": "2025-10-17",
+        "notes": "Imported from Excel export 2025-10-17"
+      },
+      {
+        "id": "comp_020",
+        "name": "Siemens Somatom Photon-Counting CT",
+        "shortName": "Siemens PCD-CT",
+        "tier": "tier3",
+        "type": "substitute",
+        "status": "monitoring",
+        "priority": "low",
+        "threatLevel": "low",
+        "monitoringPriority": 4,
+        "companyInfo": {
+          "founded": null,
+          "headquarters": "Erlangen, Germany",
+          "employees": null,
+          "revenue": 19600000000,
+          "funding": {},
+          "website": "N/A",
+          "logo": "🏥"
+        },
+        "products": [
+          {
+            "name": "Photon-Counting CT",
+            "category": "Medical Imaging / Ultrasound",
+            "priceRange": "N/A",
+            "priceMin": null,
+            "priceMax": null,
+            "features": {
+              "imaging3D": false,
+              "imaging4D": false,
+              "aiGuided": false,
+              "portable": false,
+              "wireless": false,
+              "multiProbe": false,
+              "realtime": false,
+              "cloudConnected": false
+            },
+            "targetMarket": [
+              "radiology"
+            ],
+            "strengths": [],
+            "weaknesses": [],
+            "certifications": []
+          }
+        ],
+        "marketPosition": {
+          "marketShare": null,
+          "region": "Global",
+          "segments": [
+            "radiology"
+          ],
+          "customerBase": null,
+          "growthRate": null
+        },
+        "swotAnalysis": {
+          "strengths": [
+            "Low-dose CT",
+            "Spectral imaging"
+          ],
+          "weaknesses": [
+            "Ionizing radiation",
+            "Static",
+            "Expensive"
+          ],
+          "opportunities": [
+            "N/A"
+          ],
+          "threats": [
+            "N/A"
+          ]
+        },
+        "battlecard": {
+          "whyWeWin": [
+            "Zero radiation",
+            "Real-time 3-5 vol/s soft tissue"
+          ],
+          "theirStrengths": [
+            "Spectral discrimination"
+          ],
+          "theirWeaknesses": [
+            "Radiation",
+            "Poor soft tissue contrast"
+          ],
+          "competitiveResponse": "N/A"
+        },
+        "innovation": {
+          "patents": 0,
+          "rdInvestment": 0,
+          "recentLaunches": []
+        },
+        "customerReferences": {
+          "testimonials": [],
+          "casestudies": 0,
+          "clinicalStudies": 0
+        },
+        "lastUpdated": "2025-10-17",
+        "notes": "Imported from Excel export 2025-10-17"
+      },
+      {
+        "id": "comp_021",
+        "name": "EOS 3D X-ray",
+        "shortName": "EOS",
+        "tier": "tier3",
+        "type": "substitute",
+        "status": "monitoring",
+        "priority": "low",
+        "threatLevel": "low",
+        "monitoringPriority": 4,
+        "companyInfo": {
+          "founded": null,
+          "headquarters": "Paris, France",
+          "employees": null,
+          "revenue": null,
+          "funding": {},
+          "website": "N/A",
+          "logo": "🏥"
+        },
+        "products": [
+          {
+            "name": "EOS 3D biplanar X-ray",
+            "category": "Medical Imaging / Ultrasound",
+            "priceRange": "N/A",
+            "priceMin": null,
+            "priceMax": null,
+            "features": {
+              "imaging3D": false,
+              "imaging4D": false,
+              "aiGuided": false,
+              "portable": false,
+              "wireless": false,
+              "multiProbe": false,
+              "realtime": false,
+              "cloudConnected": false
+            },
+            "targetMarket": [
+              "orthopedics"
+            ],
+            "strengths": [],
+            "weaknesses": [],
+            "certifications": []
+          }
+        ],
+        "marketPosition": {
+          "marketShare": null,
+          "region": "Global",
+          "segments": [
+            "orthopedics"
+          ],
+          "customerBase": null,
+          "growthRate": null
+        },
+        "swotAnalysis": {
+          "strengths": [
+            "Low-dose biplanar",
+            "Standing weight-bearing"
+          ],
+          "weaknesses": [
+            "Bones only",
+            "Radiation",
+            "Static"
+          ],
+          "opportunities": [
+            "N/A"
+          ],
+          "threats": [
+            "N/A"
+          ]
+        },
+        "battlecard": {
+          "whyWeWin": [
+            "Soft tissue real-time",
+            "No radiation"
+          ],
+          "theirStrengths": [
+            "Biplanar synchronized"
+          ],
+          "theirWeaknesses": [
+            "Bones only"
+          ],
+          "competitiveResponse": "N/A"
+        },
+        "innovation": {
+          "patents": 0,
+          "rdInvestment": 0,
+          "recentLaunches": []
+        },
+        "customerReferences": {
+          "testimonials": [],
+          "casestudies": 0,
+          "clinicalStudies": 0
+        },
+        "lastUpdated": "2025-10-17",
+        "notes": "Imported from Excel export 2025-10-17"
+      },
+      {
+        "id": "comp_022",
+        "name": "Hyperfine Swoop - Portable MRI",
+        "shortName": "Hyperfine",
+        "tier": "tier3",
+        "type": "substitute",
+        "status": "monitoring",
+        "priority": "low",
+        "threatLevel": "low",
+        "monitoringPriority": 4,
+        "companyInfo": {
+          "founded": 2014,
+          "headquarters": "Guilford, CT, USA",
+          "employees": null,
+          "revenue": null,
+          "funding": {},
+          "website": "N/A",
+          "logo": "🏥"
+        },
+        "products": [
+          {
+            "name": "Swoop portable MRI",
+            "category": "Medical Imaging / Ultrasound",
+            "priceRange": "N/A",
+            "priceMin": null,
+            "priceMax": null,
+            "features": {
+              "imaging3D": false,
+              "imaging4D": false,
+              "aiGuided": false,
+              "portable": false,
+              "wireless": false,
+              "multiProbe": false,
+              "realtime": false,
+              "cloudConnected": false
+            },
+            "targetMarket": [
+              "portable imaging"
+            ],
+            "strengths": [],
+            "weaknesses": [],
+            "certifications": []
+          }
+        ],
+        "marketPosition": {
+          "marketShare": null,
+          "region": "USA",
+          "segments": [
+            "portable imaging"
+          ],
+          "customerBase": null,
+          "growthRate": null
+        },
+        "swotAnalysis": {
+          "strengths": [
+            "Portable MRI",
+            "No radiation"
+          ],
+          "weaknesses": [
+            "Low SNR",
+            "Slow (minutes)",
+            "Expensive"
+          ],
+          "opportunities": [
+            "N/A"
+          ],
+          "threats": [
+            "N/A"
+          ]
+        },
+        "battlecard": {
+          "whyWeWin": [
+            "1s/volume vs minutes",
+            "Real-time 3-5 vol/s"
+          ],
+          "theirStrengths": [
+            "Portable MRI",
+            "Auto-shielding"
+          ],
+          "theirWeaknesses": [
+            "Long scan time"
+          ],
+          "competitiveResponse": "N/A"
+        },
+        "innovation": {
+          "patents": 0,
+          "rdInvestment": 0,
+          "recentLaunches": []
+        },
+        "customerReferences": {
+          "testimonials": [],
+          "casestudies": 0,
+          "clinicalStudies": 0
+        },
+        "lastUpdated": "2025-10-17",
+        "notes": "Imported from Excel export 2025-10-17"
+      },
+      {
+        "id": "comp_023",
+        "name": "Cone Beam CT Extremity (Planmed/CurveBeam)",
+        "shortName": "CBCT",
+        "tier": "tier3",
+        "type": "substitute",
+        "status": "monitoring",
+        "priority": "low",
+        "threatLevel": "low",
+        "monitoringPriority": 4,
+        "companyInfo": {
+          "founded": null,
+          "headquarters": "Finland/USA",
+          "employees": null,
+          "revenue": null,
+          "funding": {},
+          "website": "N/A",
+          "logo": "🏥"
+        },
+        "products": [
+          {
+            "name": "CBCT extremity scanner",
+            "category": "Medical Imaging / Ultrasound",
+            "priceRange": "N/A",
+            "priceMin": null,
+            "priceMax": null,
+            "features": {
+              "imaging3D": false,
+              "imaging4D": false,
+              "aiGuided": false,
+              "portable": false,
+              "wireless": false,
+              "multiProbe": false,
+              "realtime": false,
+              "cloudConnected": false
+            },
+            "targetMarket": [
+              "orthopedics"
+            ],
+            "strengths": [],
+            "weaknesses": [],
+            "certifications": []
+          }
+        ],
+        "marketPosition": {
+          "marketShare": null,
+          "region": "Global",
+          "segments": [
+            "orthopedics"
+          ],
+          "customerBase": null,
+          "growthRate": null
+        },
+        "swotAnalysis": {
+          "strengths": [
+            "0.2mm voxel resolution",
+            "Weight-bearing"
+          ],
+          "weaknesses": [
+            "Radiation",
+            "Bones only",
+            "Not portable"
+          ],
+          "opportunities": [
+            "N/A"
+          ],
+          "threats": [
+            "N/A"
+          ]
+        },
+        "battlecard": {
+          "whyWeWin": [
+            "Multi-sonda soft tissue",
+            "No radiation",
+            "Real-time dynamic"
+          ],
+          "theirStrengths": [
+            "Excellent bone imaging"
+          ],
+          "theirWeaknesses": [
+            "Radiation",
+            "Static"
+          ],
+          "competitiveResponse": "N/A"
+        },
+        "innovation": {
+          "patents": 0,
+          "rdInvestment": 0,
+          "recentLaunches": []
+        },
+        "customerReferences": {
+          "testimonials": [],
+          "casestudies": 0,
+          "clinicalStudies": 0
+        },
+        "lastUpdated": "2025-10-17",
+        "notes": "Imported from Excel export 2025-10-17"
+      },
+      {
+        "id": "comp_024",
+        "name": "Fujifilm SonoSite",
+        "shortName": "SonoSite",
+        "tier": "tier2",
+        "type": "direct",
+        "status": "active",
+        "priority": "medium",
+        "threatLevel": "medium",
+        "monitoringPriority": 3,
+        "companyInfo": {
+          "founded": 1998,
+          "headquarters": "Bothell, WA, USA",
+          "employees": 1200,
+          "revenue": 550000000,
+          "funding": {},
+          "website": "https://www.sonosite.com",
+          "logo": "🏥"
+        },
+        "products": [
+          {
+            "name": "SonoSite PX + Sofia ABUS",
+            "category": "Medical Imaging / Ultrasound",
+            "priceRange": "€25,000 - €120,000",
+            "priceMin": 25000,
+            "priceMax": 120000,
+            "features": {
+              "imaging3D": false,
+              "imaging4D": false,
+              "aiGuided": false,
+              "portable": true,
+              "wireless": false,
+              "multiProbe": false,
+              "realtime": true,
+              "cloudConnected": false
+            },
+            "targetMarket": [
+              "point-of-care",
+              "emergency",
+              "breast"
+            ],
+            "strengths": [],
+            "weaknesses": [],
+            "certifications": []
+          }
+        ],
+        "marketPosition": {
+          "marketShare": 15.0,
+          "region": "Global (POCUS)",
+          "segments": [
+            "point-of-care",
+            "emergency",
+            "breast"
+          ],
+          "customerBase": 120,
+          "growthRate": null
+        },
+        "swotAnalysis": {
+          "strengths": [
+            "POCUS market leader",
+            "Rugged systems",
+            "Elastography",
+            "ABUS for breast"
+          ],
+          "weaknesses": [
+            "Portable 2D only",
+            "ABUS single district",
+            "Separate systems"
+          ],
+          "opportunities": [
+            "Expand portable to 3D",
+            "Multi-district automation"
+          ],
+          "threats": [
+            "Eco 3D combines portability + 3D volumetrics"
+          ]
+        },
+        "battlecard": {
+          "whyWeWin": [
+            "Portability + volumetrics in one",
+            "3-5 vol/s 3D vs 2D",
+            "Multi-district vs breast-only"
+          ],
+          "theirStrengths": [
+            "POCUS leader",
+            "Rugged portability",
+            "ABUS automation"
+          ],
+          "theirWeaknesses": [
+            "Portable 2D only",
+            "ABUS breast-only",
+            "Separate devices"
+          ],
+          "competitiveResponse": "SonoSite leads POCUS and ABUS separately. Eco 3D merges: portable 3D volumetric across all districts."
+        },
+        "innovation": {
+          "patents": 0,
+          "rdInvestment": 0,
+          "recentLaunches": []
+        },
+        "customerReferences": {
+          "testimonials": [],
+          "casestudies": 0,
+          "clinicalStudies": 0
+        },
+        "lastUpdated": "2025-10-17",
+        "notes": "Imported from Excel export 2025-10-17"
+      },
+      {
+        "id": "comp_025",
+        "name": "Mindray - Resona 7",
+        "shortName": "Mindray",
+        "tier": "tier2",
+        "type": "direct",
+        "status": "active",
+        "priority": "medium",
+        "threatLevel": "medium",
+        "monitoringPriority": 3,
+        "companyInfo": {
+          "founded": 1991,
+          "headquarters": "Shenzhen, China",
+          "employees": 12000,
+          "revenue": 3200000000,
+          "funding": {},
+          "website": "https://www.mindray.com",
+          "logo": "🏥"
+        },
+        "products": [
+          {
+            "name": "Resona 7 / Resona A-series",
+            "category": "Medical Imaging / Ultrasound",
+            "priceRange": "€50,000 - €120,000",
+            "priceMin": 50000,
+            "priceMax": 120000,
+            "features": {
+              "imaging3D": true,
+              "imaging4D": true,
+              "aiGuided": true,
+              "portable": false,
+              "wireless": false,
+              "multiProbe": false,
+              "realtime": true,
+              "cloudConnected": false
+            },
+            "targetMarket": [
+              "general imaging",
+              "cost-conscious"
+            ],
+            "strengths": [],
+            "weaknesses": [],
+            "certifications": []
+          }
+        ],
+        "marketPosition": {
+          "marketShare": 11.0,
+          "region": "China dominant, growing globally",
+          "segments": [
+            "general imaging",
+            "cost-conscious"
+          ],
+          "customerBase": 1200,
+          "growthRate": null
+        },
+        "swotAnalysis": {
+          "strengths": [
+            "Aggressive pricing (30-50% below Western)",
+            "pMUT roadmap",
+            "AI auto-measurements",
+            "China dominance"
+          ],
+          "weaknesses": [
+            "Manual scanning",
+            "No multi-probe",
+            "Follower perception",
+            "Less validation"
+          ],
+          "opportunities": [
+            "pMUT miniaturization",
+            "AI automation",
+            "Western expansion"
+          ],
+          "threats": [
+            "Eco 3D exclusive multi-probe autonomous",
+            "Patent advantage",
+            "Premium positioning"
+          ]
+        },
+        "battlecard": {
+          "whyWeWin": [
+            "Exclusive multi-probe autonomous",
+            "Patent HW/SW advantage",
+            "True innovation vs follower"
+          ],
+          "theirStrengths": [
+            "Very competitive price",
+            "pMUT roadmap",
+            "AI auto-measurements",
+            "Growing share"
+          ],
+          "theirWeaknesses": [
+            "Manual scanning",
+            "No multi-probe",
+            "Follower brand",
+            "Limited innovation"
+          ],
+          "competitiveResponse": "Mindray competes on price with decent 3D/4D. Eco 3D offers breakthrough autonomous multi-probe."
+        },
+        "innovation": {
+          "patents": 0,
+          "rdInvestment": 0,
+          "recentLaunches": []
+        },
+        "customerReferences": {
+          "testimonials": [],
+          "casestudies": 0,
+          "clinicalStudies": 0
+        },
+        "lastUpdated": "2025-10-17",
+        "notes": "Imported from Excel export 2025-10-17"
+      },
+      {
+        "id": "comp_026",
+        "name": "Esaote - MyLab Omega",
+        "shortName": "Esaote",
+        "tier": "tier2",
+        "type": "direct",
+        "status": "active",
+        "priority": "low",
+        "threatLevel": "low",
+        "monitoringPriority": 4,
+        "companyInfo": {
+          "founded": 1982,
+          "headquarters": "Genoa, Italy",
+          "employees": 1050,
+          "revenue": 290000000,
+          "funding": {},
+          "website": "https://www.esaote.com",
+          "logo": "🏥"
+        },
+        "products": [
+          {
+            "name": "MyLab Omega / MyLab Alpha",
+            "category": "Medical Imaging / Ultrasound",
+            "priceRange": "€60,000 - €150,000",
+            "priceMin": 60000,
+            "priceMax": 150000,
+            "features": {
+              "imaging3D": true,
+              "imaging4D": false,
+              "aiGuided": true,
+              "portable": false,
+              "wireless": false,
+              "multiProbe": false,
+              "realtime": false,
+              "cloudConnected": false
+            },
+            "targetMarket": [
+              "MSK",
+              "sports medicine"
+            ],
+            "strengths": [],
+            "weaknesses": [],
+            "certifications": []
+          }
+        ],
+        "marketPosition": {
+          "marketShare": 3.0,
+          "region": "Europe (Italy focus)",
+          "segments": [
+            "MSK",
+            "sports medicine"
+          ],
+          "customerBase": 105,
+          "growthRate": null
+        },
+        "swotAnalysis": {
+          "strengths": [
+            "MSK specialization",
+            "Compact designs",
+            "Italian market"
+          ],
+          "weaknesses": [
+            "Mid-range positioning",
+            "Limited R&D",
+            "Static 3D",
+            "Small globally"
+          ],
+          "opportunities": [
+            "MSK automation",
+            "AI injury detection"
+          ],
+          "threats": [
+            "Eco 3D multi-organ includes MSK",
+            "High-end automation"
+          ]
+        },
+        "battlecard": {
+          "whyWeWin": [
+            "High-end volumetric automation",
+            "Multi-organ includes MSK",
+            "3-5 vol/s 4D vs static 3D"
+          ],
+          "theirStrengths": [
+            "MSK dedicated",
+            "Compact",
+            "Good value"
+          ],
+          "theirWeaknesses": [
+            "Mid-range",
+            "Limited R&D",
+            "Manual operation"
+          ],
+          "competitiveResponse": "Esaote serves MSK niche. Eco 3D offers premium multi-organ including MSK with automation."
+        },
+        "innovation": {
+          "patents": 0,
+          "rdInvestment": 0,
+          "recentLaunches": []
+        },
+        "customerReferences": {
+          "testimonials": [],
+          "casestudies": 0,
+          "clinicalStudies": 0
+        },
+        "lastUpdated": "2025-10-17",
+        "notes": "Imported from Excel export 2025-10-17"
+      },
+      {
+        "id": "comp_027",
+        "name": "Butterfly Network - iQ",
+        "shortName": "Butterfly",
+        "tier": "tier2",
+        "type": "emerging",
+        "status": "active",
+        "priority": "medium",
+        "threatLevel": "medium",
+        "monitoringPriority": 3,
+        "companyInfo": {
+          "founded": 2011,
+          "headquarters": "Guilford, CT, USA",
+          "employees": 450,
+          "revenue": 85000000,
+          "funding": {},
+          "website": "https://www.butterflynetwork.com",
+          "logo": "🏥"
+        },
+        "products": [
+          {
+            "name": "Butterfly iQ / iQ+",
+            "category": "Medical Imaging / Ultrasound",
+            "priceRange": "€2,000 - €3,500",
+            "priceMin": 2000,
+            "priceMax": 3500,
+            "features": {
+              "imaging3D": false,
+              "imaging4D": false,
+              "aiGuided": true,
+              "portable": true,
+              "wireless": true,
+              "multiProbe": false,
+              "realtime": false,
+              "cloudConnected": false
+            },
+            "targetMarket": [
+              "POCUS",
+              "primary care",
+              "education"
+            ],
+            "strengths": [],
+            "weaknesses": [],
+            "certifications": []
+          }
+        ],
+        "marketPosition": {
+          "marketShare": 5.0,
+          "region": "USA, expanding globally",
+          "segments": [
+            "POCUS",
+            "primary care",
+            "education"
+          ],
+          "customerBase": 45,
+          "growthRate": null
+        },
+        "swotAnalysis": {
+          "strengths": [
+            "Disruptive €2k price (99% cheaper)",
+            "CMUT-on-chip scalable",
+            "Smartphone integration",
+            "AI guidance",
+            "45% growth"
+          ],
+          "weaknesses": [
+            "2D only",
+            "Single probe",
+            "Image quality compromises",
+            "Limited depth"
+          ],
+          "opportunities": [
+            "Expand to 3D",
+            "Multi-probe architecture"
+          ],
+          "threats": [
+            "Eco 3D multi-CMUT arrays for true 3D",
+            "Professional-grade volumetrics"
+          ]
+        },
+        "battlecard": {
+          "whyWeWin": [
+            "True 3-5 vol/s volumetrics vs 2D",
+            "Multi-probe sync vs single",
+            "Professional diagnostics vs consumer POCUS"
+          ],
+          "theirStrengths": [
+            "Disruptive €2k price",
+            "CMUT chip manufacturing",
+            "Smartphone UI",
+            "Viral adoption"
+          ],
+          "theirWeaknesses": [
+            "2D only",
+            "Single probe",
+            "Quality compromises",
+            "Not for complex diagnostics"
+          ],
+          "competitiveResponse": "Butterfly democratized ultrasound access with €2k pricing. Eco 3D targets premium autonomous 3D—different segments."
+        },
+        "innovation": {
+          "patents": 0,
+          "rdInvestment": 0,
+          "recentLaunches": []
+        },
+        "customerReferences": {
+          "testimonials": [],
+          "casestudies": 0,
+          "clinicalStudies": 0
+        },
+        "lastUpdated": "2025-10-17",
+        "notes": "Imported from Excel export 2025-10-17"
+      },
+      {
+        "id": "comp_028",
+        "name": "Clarius Mobile Health",
+        "shortName": "Clarius",
+        "tier": "tier2",
+        "type": "emerging",
+        "status": "active",
+        "priority": "medium",
+        "threatLevel": "medium",
+        "monitoringPriority": 3,
+        "companyInfo": {
+          "founded": 2014,
+          "headquarters": "Burnaby, BC, Canada",
+          "employees": 180,
+          "revenue": 45000000,
+          "funding": {},
+          "website": "https://www.clarius.com",
+          "logo": "🏥"
+        },
+        "products": [
+          {
+            "name": "Clarius C3 / C7 / PA / L7",
+            "category": "Medical Imaging / Ultrasound",
+            "priceRange": "€5,000 - €12,000",
+            "priceMin": 5000,
+            "priceMax": 12000,
+            "features": {
+              "imaging3D": false,
+              "imaging4D": false,
+              "aiGuided": false,
+              "portable": true,
+              "wireless": true,
+              "multiProbe": false,
+              "realtime": false,
+              "cloudConnected": false
+            },
+            "targetMarket": [
+              "MSK",
+              "anesthesia",
+              "veterinary",
+              "POCUS"
+            ],
+            "strengths": [],
+            "weaknesses": [],
+            "certifications": []
+          }
+        ],
+        "marketPosition": {
+          "marketShare": 3.0,
+          "region": "North America, Europe",
+          "segments": [
+            "MSK",
+            "anesthesia",
+            "veterinary",
+            "POCUS"
+          ],
+          "customerBase": 18,
+          "growthRate": null
+        },
+        "swotAnalysis": {
+          "strengths": [
+            "Fully wireless cordless",
+            "Cart-quality handheld",
+            "Multiple specialized probes",
+            "Anesthesia adoption"
+          ],
+          "weaknesses": [
+            "2D only",
+            "No automation",
+            "No 3D",
+            "Manual operation",
+            "Higher price than Butterfly"
+          ],
+          "opportunities": [
+            "Add 3D capability",
+            "Multi-probe sync",
+            "Automation"
+          ],
+          "threats": [
+            "Eco 3D cordless multi-probe with volumetrics",
+            "Automated vs manual"
+          ]
+        },
+        "battlecard": {
+          "whyWeWin": [
+            "Cordless multi-probe synchronization",
+            "Volumetric 3-5 vol/s 3D vs 2D",
+            "Automated vs manual"
+          ],
+          "theirStrengths": [
+            "Wireless freedom",
+            "Cart-quality handheld",
+            "Anesthesia market",
+            "Good battery"
+          ],
+          "theirWeaknesses": [
+            "2D only",
+            "Manual scanning",
+            "No automation",
+            "No multi-probe sync"
+          ],
+          "competitiveResponse": "Clarius offers wireless convenience with good 2D. Eco 3D extends to multi-probe 3D/4D volumetric with automation."
+        },
+        "innovation": {
+          "patents": 0,
+          "rdInvestment": 0,
+          "recentLaunches": []
+        },
+        "customerReferences": {
+          "testimonials": [],
+          "casestudies": 0,
+          "clinicalStudies": 0
+        },
+        "lastUpdated": "2025-10-17",
+        "notes": "Imported from Excel export 2025-10-17"
+      },
+      {
+        "id": "comp_029",
+        "name": "Exo Imaging - Iris",
+        "shortName": "Exo",
+        "tier": "tier2",
+        "type": "emerging",
+        "status": "active",
+        "priority": "medium",
+        "threatLevel": "medium",
+        "monitoringPriority": 3,
+        "companyInfo": {
+          "founded": 2015,
+          "headquarters": "Santa Clara, CA, USA",
+          "employees": 120,
+          "revenue": 8000000,
+          "funding": {},
+          "website": "https://www.exo.inc",
+          "logo": "🏥"
+        },
+        "products": [
+          {
+            "name": "Exo Iris (Prototype)",
+            "category": "Medical Imaging / Ultrasound",
+            "priceRange": "€3,000 - €8,000 (estimated)",
+            "priceMin": 3000,
+            "priceMax": 8000,
+            "features": {
+              "imaging3D": false,
+              "imaging4D": false,
+              "aiGuided": true,
+              "portable": true,
+              "wireless": true,
+              "multiProbe": false,
+              "realtime": false,
+              "cloudConnected": false
+            },
+            "targetMarket": [
+              "POCUS",
+              "future"
+            ],
+            "strengths": [],
+            "weaknesses": [],
+            "certifications": []
+          }
+        ],
+        "marketPosition": {
+          "marketShare": null,
+          "region": "Pre-launch (USA target)",
+          "segments": [
+            "POCUS",
+            "future"
+          ],
+          "customerBase": 12,
+          "growthRate": null
+        },
+        "swotAnalysis": {
+          "strengths": [
+            "pMUT on silicon scalable",
+            "Promise of pocket 3D+AI",
+            "Intel/Varian backing",
+            "Low cost potential"
+          ],
+          "weaknesses": [
+            "Still prototype",
+            "3D/AI not validated",
+            "No commercial product yet",
+            "Timeline unclear"
+          ],
+          "opportunities": [
+            "Disrupt with ultra-portable 3D",
+            "AI-native",
+            "Mass manufacturing"
+          ],
+          "threats": [
+            "Eco 3D has working pMUT multi-array now",
+            "ToF calibration proven",
+            "Commercial-ready vs prototype"
+          ]
+        },
+        "battlecard": {
+          "whyWeWin": [
+            "Working pMUT multi-array (not prototype)",
+            "Integrated ToF calibration",
+            "Proven 3-5 vol/s reconstruction",
+            "Commercial-ready"
+          ],
+          "theirStrengths": [
+            "pMUT miniaturization promise",
+            "AI+3D vision for pocket",
+            "Silicon Valley backing"
+          ],
+          "theirWeaknesses": [
+            "Still prototype",
+            "Claims not validated",
+            "No product available",
+            "Single probe concept"
+          ],
+          "competitiveResponse": "Exo promises future pocket 3D AI ultrasound. Eco 3D delivers working multi-probe autonomous 3D/4D today."
+        },
+        "innovation": {
+          "patents": 0,
+          "rdInvestment": 0,
+          "recentLaunches": []
+        },
+        "customerReferences": {
+          "testimonials": [],
+          "casestudies": 0,
+          "clinicalStudies": 0
+        },
+        "lastUpdated": "2025-10-17",
+        "notes": "Imported from Excel export 2025-10-17"
+      },
+      {
+        "id": "comp_030",
+        "name": "EchoNous - Kosmos",
+        "shortName": "EchoNous",
+        "tier": "tier2",
+        "type": "emerging",
+        "status": "active",
+        "priority": "low",
+        "threatLevel": "low",
+        "monitoringPriority": 4,
+        "companyInfo": {
+          "founded": 2013,
+          "headquarters": "Redmond, WA, USA",
+          "employees": 85,
+          "revenue": 22000000,
+          "funding": {},
+          "website": "https://www.echonous.com",
+          "logo": "🏥"
+        },
+        "products": [
+          {
+            "name": "Kosmos / Kosmos Bridge",
+            "category": "Medical Imaging / Ultrasound",
+            "priceRange": "€8,000 - €15,000",
+            "priceMin": 8000,
+            "priceMax": 15000,
+            "features": {
+              "imaging3D": false,
+              "imaging4D": false,
+              "aiGuided": true,
+              "portable": true,
+              "wireless": true,
+              "multiProbe": false,
+              "realtime": false,
+              "cloudConnected": false
+            },
+            "targetMarket": [
+              "POCUS",
+              "primary care cardiology"
+            ],
+            "strengths": [],
+            "weaknesses": [],
+            "certifications": []
+          }
+        ],
+        "marketPosition": {
+          "marketShare": 1.0,
+          "region": "USA",
+          "segments": [
+            "POCUS",
+            "primary care cardiology"
+          ],
+          "customerBase": 8,
+          "growthRate": null
+        },
+        "swotAnalysis": {
+          "strengths": [
+            "Real-time AI guidance for positioning",
+            "Cardiology-optimized",
+            "Helps novice users",
+            "Primary care adoption"
+          ],
+          "weaknesses": [
+            "2D only",
+            "No multi-probe",
+            "No volumetrics",
+            "Cardio-limited",
+            "Manual scanning required"
+          ],
+          "opportunities": [
+            "Extend AI to multi-probe",
+            "Add 3D/4D",
+            "Expand beyond cardio"
+          ],
+          "threats": [
+            "Eco 3D extends AI to multi-probe 3D",
+            "Autonomous positioning vs AI hints"
+          ]
+        },
+        "battlecard": {
+          "whyWeWin": [
+            "AI guidance to multi-probe volumetric",
+            "Autonomous robotic positioning vs hints",
+            "3-5 vol/s 3D vs 2D guidance",
+            "Multi-organ vs cardio"
+          ],
+          "theirStrengths": [
+            "Real-time AI guidance helps novices",
+            "Cardiology algorithms",
+            "Good usability",
+            "Primary care fit"
+          ],
+          "theirWeaknesses": [
+            "2D only",
+            "Manual scanning with AI hints",
+            "Single probe",
+            "Cardiology-limited"
+          ],
+          "competitiveResponse": "EchoNous uses AI to guide manual scanning. Eco 3D automates the acquisition with AI-driven multi-probe volumetric fusion."
+        },
+        "innovation": {
+          "patents": 0,
+          "rdInvestment": 0,
+          "recentLaunches": []
+        },
+        "customerReferences": {
+          "testimonials": [],
+          "casestudies": 0,
+          "clinicalStudies": 0
+        },
+        "lastUpdated": "2025-10-17",
+        "notes": "Imported from Excel export 2025-10-17"
+      },
+      {
+        "id": "comp_031",
+        "name": "GE Invenia ABUS (separate from Voluson)",
+        "shortName": "GE Invenia",
+        "tier": "tier2",
+        "type": "direct",
+        "status": "active",
+        "priority": "low",
+        "threatLevel": "low",
+        "monitoringPriority": 4,
+        "companyInfo": {
+          "founded": 1994,
+          "headquarters": "Chicago, IL, USA",
+          "employees": 50000,
+          "revenue": 19200000000,
+          "funding": {},
+          "website": "https://www.gehealthcare.com",
+          "logo": "🏥"
+        },
+        "products": [
+          {
+            "name": "Invenia ABUS 2.0",
+            "category": "Medical Imaging / Ultrasound",
+            "priceRange": "€100,000 - €150,000",
+            "priceMin": 100000,
+            "priceMax": 150000,
+            "features": {
+              "imaging3D": true,
+              "imaging4D": false,
+              "aiGuided": false,
+              "portable": false,
+              "wireless": false,
+              "multiProbe": false,
+              "realtime": false,
+              "cloudConnected": false
+            },
+            "targetMarket": [
+              "breast screening",
+              "dense breast"
+            ],
+            "strengths": [],
+            "weaknesses": [],
+            "certifications": []
+          }
+        ],
+        "marketPosition": {
+          "marketShare": 4.0,
+          "region": "Global",
+          "segments": [
+            "breast screening",
+            "dense breast"
+          ],
+          "customerBase": 5000,
+          "growthRate": null
+        },
+        "swotAnalysis": {
+          "strengths": [
+            "Fully automated breast scanning",
+            "Coronal plane unique view",
+            "Strong clinical evidence",
+            "GE brand"
+          ],
+          "weaknesses": [
+            "Single district (breast only)",
+            "Long scan time (>15 minutes)",
+            "Not real-time",
+            "Cannot extend to other organs"
+          ],
+          "opportunities": [
+            "Expand automation to other organs",
+            "Faster scanning"
+          ],
+          "threats": [
+            "Eco 3D multi-district hands-free",
+            "3-5 vol/s vs slow offline",
+            "One device for all anatomy"
+          ]
+        },
+        "battlecard": {
+          "whyWeWin": [
+            "Multi-district automation vs breast-only",
+            "Rapid 3-5 vol/s vs >15min",
+            "Near real-time vs offline",
+            "One device for all"
+          ],
+          "theirStrengths": [
+            "Proven ABUS automation for breast",
+            "Coronal reconstruction",
+            "Clinical evidence",
+            "FDA-approved"
+          ],
+          "theirWeaknesses": [
+            "Breast-only",
+            "Slow (>15min)",
+            "Not real-time",
+            "Separate device needed for general US"
+          ],
+          "competitiveResponse": "GE Invenia pioneered automated breast scanning. Eco 3D extends this automation universally across all organs with faster imaging."
+        },
+        "innovation": {
+          "patents": 0,
+          "rdInvestment": 0,
+          "recentLaunches": []
+        },
+        "customerReferences": {
+          "testimonials": [],
+          "casestudies": 0,
+          "clinicalStudies": 0
+        },
+        "lastUpdated": "2025-10-17",
+        "notes": "Imported from Excel export 2025-10-17"
+      },
+      {
+        "id": "comp_032",
+        "name": "Siemens Acuson S2000 ABVS (separate entry)",
+        "shortName": "Siemens ABVS",
+        "tier": "tier2",
+        "type": "direct",
+        "status": "active",
+        "priority": "low",
+        "threatLevel": "low",
+        "monitoringPriority": 4,
+        "companyInfo": {
+          "founded": 1847,
+          "headquarters": "Erlangen, Germany",
+          "employees": 66000,
+          "revenue": 19600000000,
+          "funding": {},
+          "website": "https://www.siemens-healthineers.com",
+          "logo": "🏥"
+        },
+        "products": [
+          {
+            "name": "Acuson S2000 ABVS",
+            "category": "Medical Imaging / Ultrasound",
+            "priceRange": "€120,000 - €180,000",
+            "priceMin": 120000,
+            "priceMax": 180000,
+            "features": {
+              "imaging3D": true,
+              "imaging4D": false,
+              "aiGuided": false,
+              "portable": false,
+              "wireless": false,
+              "multiProbe": false,
+              "realtime": false,
+              "cloudConnected": false
+            },
+            "targetMarket": [
+              "breast screening"
+            ],
+            "strengths": [],
+            "weaknesses": [],
+            "certifications": []
+          }
+        ],
+        "marketPosition": {
+          "marketShare": 3.0,
+          "region": "Europe, Asia",
+          "segments": [
+            "breast screening"
+          ],
+          "customerBase": 6600,
+          "growthRate": null
+        },
+        "swotAnalysis": {
+          "strengths": [
+            "Pioneer ABVS",
+            "Hands-free workflow",
+            "Reproducible",
+            "Siemens brand"
+          ],
+          "weaknesses": [
+            "Breast-only",
+            "Cannot extend to multi-district",
+            "Slow (15+ min)",
+            "No real-time"
+          ],
+          "opportunities": [
+            "Expand to other organs"
+          ],
+          "threats": [
+            "Eco 3D hands-free for whole body",
+            "Faster 3-5 vol/s"
+          ]
+        },
+        "battlecard": {
+          "whyWeWin": [
+            "Hands-free for ANY organ vs breast-only",
+            "Multi-probe simultaneous",
+            "3-5 vol/s vs slow",
+            "One device for all regions"
+          ],
+          "theirStrengths": [
+            "Proven ABVS for breast",
+            "Fully automated",
+            "Reproducible"
+          ],
+          "theirWeaknesses": [
+            "Breast-only",
+            "Slow (15+ min)",
+            "Not real-time",
+            "Cannot handle multiple regions"
+          ],
+          "competitiveResponse": "Siemens pioneered automated breast scanning. Eco 3D takes this hands-free concept universally across all anatomy."
+        },
+        "innovation": {
+          "patents": 0,
+          "rdInvestment": 0,
+          "recentLaunches": []
+        },
+        "customerReferences": {
+          "testimonials": [],
+          "casestudies": 0,
+          "clinicalStudies": 0
+        },
+        "lastUpdated": "2025-10-17",
+        "notes": "Imported from Excel export 2025-10-17"
+      }
+    ],
+    "frameworks": {
+      "porter5Forces": {
+        "enabled": true,
+        "competitiveRivalry": {
+          "score": 4.5,
+          "level": "high",
+          "description": "Intense competition among established players with aggressive innovation and pricing",
+          "factors": [
+            "Market dominated by 5 major players: GE (28%), Philips (22%), Siemens (18%), Canon (12%), Samsung (8%)",
+            "High fixed costs drive volume competition",
+            "Technology convergence: All offer 3D/4D, AI, cloud connectivity",
+            "Price wars in mid-range segment (Mindray, emerging players)",
+            "Innovation race: CMUT, pMUT, AI auto-measurements, fusion imaging",
+            "Emerging threats: Butterfly (€2k), Clarius (€8k) disrupting low end",
+            "Service network and installed base create switching costs but also competitive pressure"
+          ],
+          "impact": "Fierce competition on price, features, and innovation - margins under pressure"
+        },
+        "threatNewEntrants": {
+          "score": 2.5,
+          "level": "medium-low",
+          "description": "High barriers to entry limit new traditional players, but technology shifts enable startups",
+          "factors": [
+            "Regulatory barriers: FDA 510(k) requires 12-24 months and €500k-€2M",
+            "High R&D investment: €10M-€50M for full system development",
+            "Established brand trust critical in medical device purchasing",
+            "BUT: CMUT/pMUT technology enables new entrants (Butterfly €2k disruption)",
+            "AI and software differentiation lower traditional hardware barriers",
+            "Cloud platforms and smartphone integration reduce console costs"
+          ],
+          "impact": "Traditional barriers weakening due to technology shift - startups entering at low end"
+        },
+        "bargainingPowerSuppliers": {
+          "score": 3.5,
+          "level": "medium-high",
+          "description": "Specialized transducer manufacturers and semiconductor suppliers have moderate power",
+          "factors": [
+            "Limited number of high-quality transducer manufacturers (Vermon, Broadsound, Imasonic)",
+            "CMUT/pMUT silicon chips require specialized semiconductor fabs (TSMC, Intel)",
+            "Custom ASIC design increases switching costs",
+            "Long qualification periods (6-12 months) for new suppliers",
+            "Growing competition in CMUT manufacturing reduces power"
+          ],
+          "impact": "Moderate pressure on component costs and supply chain reliability"
+        },
+        "bargainingPowerBuyers": {
+          "score": 4.0,
+          "level": "high",
+          "description": "Hospitals and imaging centers have strong negotiating power due to high purchase volumes",
+          "factors": [
+            "Large hospital systems (HCA, Ascension) purchase in volume",
+            "GPO (Group Purchasing Organizations) negotiate bulk discounts 20-40%",
+            "High switching costs but long replacement cycles (7-10 years) create leverage",
+            "Reimbursement pressure from payers drives price sensitivity",
+            "Multiple viable alternatives (GE, Philips, Siemens) increase buyer power"
+          ],
+          "impact": "Significant downward pressure on pricing, especially for cart systems"
+        },
+        "threatSubstitutes": {
+          "score": 2.0,
+          "level": "low-medium",
+          "description": "Limited direct substitutes for ultrasound, but alternative modalities compete in some applications",
+          "factors": [
+            "CT: Superior bone/lung imaging but ionizing radiation, higher cost",
+            "MRI: Best soft tissue contrast but expensive (€1M+), slow (30-60 min scans), limited availability",
+            "X-ray: Bone imaging only, radiation, no soft tissue visualization",
+            "Ultrasound advantages: Real-time, portable, no radiation, low cost per exam (€50 vs €500 CT)",
+            "Growing AI-enabled ultrasound expanding into traditional CT/MRI territory",
+            "Point-of-care ultrasound (POCUS) substituting for physical exam + imaging"
+          ],
+          "impact": "Low substitution threat - ultrasound has unique real-time + portability + safety combination"
+        },
+        "overallAttractiveness": {
+          "score": 3.0,
+          "rating": "Moderate",
+          "summary": "Medical ultrasound industry is moderately attractive with high rivalry and buyer power offset by low substitution threat and weakening entry barriers creating opportunity for innovation-driven disruption",
+          "opportunities": [],
+          "risks": []
+        },
+        "industryAnalysis": {
+          "industry": "Medical Ultrasound Imaging Systems",
+          "marketSize": "€6.28B (2024)",
+          "growthRate": "8.5% CAGR (2024-2030)"
+        }
+      },
+      "perceptualMap": {
+        "enabled": true,
+        "description": "Posizionamento strategico su Innovation vs Automation",
+        "axes": {
+          "x": {
+            "label": "Innovazione Tecnologica (0-10)",
+            "min": 3,
+            "max": 10,
+            "minLabel": "3",
+            "maxLabel": "10"
+          },
+          "y": {
+            "label": "Livello Automazione (0-10)",
+            "min": 0,
+            "max": 10,
+            "minLabel": "0",
+            "maxLabel": "10"
+          }
+        },
+        "positions": [
+          {
+            "id": "pos_001",
+            "competitorId": "comp_001",
+            "name": "GE Voluson",
+            "x": 7.5,
+            "y": 2.0,
+            "label": "GE Voluson",
+            "size": 20,
+            "isReference": false,
+            "color": "#EF4444"
+          },
+          {
+            "id": "pos_002",
+            "competitorId": "comp_002",
+            "name": "Philips EPIQ",
+            "x": 8.0,
+            "y": 2.5,
+            "label": "Philips EPIQ",
+            "size": 20,
+            "isReference": false,
+            "color": "#EF4444"
+          },
+          {
+            "id": "pos_003",
+            "competitorId": "comp_003",
+            "name": "Siemens ABVS",
+            "x": 6.0,
+            "y": 8.0,
+            "label": "Siemens ABVS",
+            "size": 20,
+            "isReference": false,
+            "color": "#EF4444"
+          },
+          {
+            "id": "pos_004",
+            "competitorId": "comp_004",
+            "name": "Canon Aplio",
+            "x": 7.0,
+            "y": 2.0,
+            "label": "Canon Aplio",
+            "size": 20,
+            "isReference": false,
+            "color": "#EF4444"
+          },
+          {
+            "id": "pos_005",
+            "competitorId": "comp_005",
+            "name": "Samsung HERA",
+            "x": 7.5,
+            "y": 2.5,
+            "label": "Samsung HERA",
+            "size": 20,
+            "isReference": false,
+            "color": "#EF4444"
+          },
+          {
+            "id": "pos_006",
+            "competitorId": "comp_006",
+            "name": "SonoSite",
+            "x": 5.5,
+            "y": 3.0,
+            "label": "SonoSite",
+            "size": 10,
+            "isReference": false,
+            "color": "#F59E0B"
+          },
+          {
+            "id": "pos_007",
+            "competitorId": "comp_007",
+            "name": "Mindray",
+            "x": 5.0,
+            "y": 2.0,
+            "label": "Mindray",
+            "size": 10,
+            "isReference": false,
+            "color": "#F59E0B"
+          },
+          {
+            "id": "pos_008",
+            "competitorId": "comp_008",
+            "name": "Butterfly",
+            "x": 8.5,
+            "y": 1.0,
+            "label": "Butterfly",
+            "size": 10,
+            "isReference": false,
+            "color": "#F59E0B"
+          },
+          {
+            "id": "pos_009",
+            "competitorId": "comp_009",
+            "name": "Clarius",
+            "x": 6.5,
+            "y": 1.5,
+            "label": "Clarius",
+            "size": 10,
+            "isReference": false,
+            "color": "#F59E0B"
+          },
+          {
+            "id": "pos_010",
+            "competitorId": "comp_010",
+            "name": "Exo (pMUT)",
+            "x": 9.0,
+            "y": 3.0,
+            "label": "Exo (pMUT)",
+            "size": 10,
+            "isReference": false,
+            "color": "#F59E0B"
+          },
+          {
+            "id": "pos_011",
+            "competitorId": "comp_011",
+            "name": "EchoNous",
+            "x": 7.0,
+            "y": 2.0,
+            "label": "EchoNous",
+            "size": 10,
+            "isReference": false,
+            "color": "#F59E0B"
+          },
+          {
+            "id": "pos_012",
+            "competitorId": "comp_012",
+            "name": "Esaote",
+            "x": 4.5,
+            "y": 1.5,
+            "label": "Esaote",
+            "size": 10,
+            "isReference": false,
+            "color": "#F59E0B"
+          },
+          {
+            "id": "pos_013",
+            "competitorId": "comp_013",
+            "name": "GE Invenia",
+            "x": 5.5,
+            "y": 8.5,
+            "label": "GE Invenia",
+            "size": 10,
+            "isReference": false,
+            "color": "#F59E0B"
+          },
+          {
+            "id": "pos_014",
+            "competitorId": "comp_014",
+            "name": "Siemens ABVS",
+            "x": 5.0,
+            "y": 8.0,
+            "label": "Siemens ABVS",
+            "size": 10,
+            "isReference": false,
+            "color": "#F59E0B"
+          },
+          {
+            "id": "pos_015",
+            "competitorId": "comp_015",
+            "name": "Delphinus",
+            "x": 7.0,
+            "y": 9.0,
+            "label": "Delphinus",
+            "size": 10,
+            "isReference": false,
+            "color": "#F59E0B"
+          },
+          {
+            "id": "pos_016",
+            "competitorId": "comp_016",
+            "name": "QT Imaging",
+            "x": 6.0,
+            "y": 8.5,
+            "label": "QT Imaging",
+            "size": 10,
+            "isReference": false,
+            "color": "#F59E0B"
+          },
+          {
+            "id": "pos_017",
+            "competitorId": "comp_017",
+            "name": "Eco 3D",
+            "x": 9.5,
+            "y": 9.5,
+            "label": "Eco 3D",
+            "size": 5,
+            "isReference": true,
+            "color": "#00D2FF"
+          },
+          {
+            "id": "pos_018",
+            "competitorId": "comp_018",
+            "name": "CN ToF Patent",
+            "x": 6.0,
+            "y": 4.0,
+            "label": "CN ToF Patent",
+            "size": 5,
+            "isReference": false,
+            "color": "#6B7280"
+          },
+          {
+            "id": "pos_019",
+            "competitorId": "comp_019",
+            "name": "US Free-hand",
+            "x": 5.0,
+            "y": 3.0,
+            "label": "US Free-hand",
+            "size": 5,
+            "isReference": false,
+            "color": "#6B7280"
+          },
+          {
+            "id": "pos_020",
+            "competitorId": "comp_020",
+            "name": "US Tracking",
+            "x": 5.5,
+            "y": 3.5,
+            "label": "US Tracking",
+            "size": 5,
+            "isReference": false,
+            "color": "#6B7280"
+          },
+          {
+            "id": "pos_021",
+            "competitorId": "comp_021",
+            "name": "US Multi-probe 2024",
+            "x": 7.0,
+            "y": 5.0,
+            "label": "US Multi-probe 2024",
+            "size": 5,
+            "isReference": false,
+            "color": "#6B7280"
+          },
+          {
+            "id": "pos_022",
+            "competitorId": "comp_022",
+            "name": "US Breast Cup",
+            "x": 4.5,
+            "y": 7.0,
+            "label": "US Breast Cup",
+            "size": 5,
+            "isReference": false,
+            "color": "#6B7280"
+          },
+          {
+            "id": "pos_023",
+            "competitorId": "comp_023",
+            "name": "CN Heating",
+            "x": 4.0,
+            "y": 2.5,
+            "label": "CN Heating",
+            "size": 5,
+            "isReference": false,
+            "color": "#6B7280"
+          },
+          {
+            "id": "pos_024",
+            "competitorId": "comp_024",
+            "name": "CN Socket",
+            "x": 5.0,
+            "y": 4.5,
+            "label": "CN Socket",
+            "size": 5,
+            "isReference": false,
+            "color": "#6B7280"
+          },
+          {
+            "id": "pos_025",
+            "competitorId": "comp_025",
+            "name": "ROPCA",
+            "x": 5.0,
+            "y": 6.0,
+            "label": "ROPCA",
+            "size": 5,
+            "isReference": false,
+            "color": "#6B7280"
+          },
+          {
+            "id": "pos_026",
+            "competitorId": "comp_026",
+            "name": "AdEchoTech",
+            "x": 5.5,
+            "y": 5.5,
+            "label": "AdEchoTech",
+            "size": 5,
+            "isReference": false,
+            "color": "#6B7280"
+          },
+          {
+            "id": "pos_027",
+            "competitorId": "comp_027",
+            "name": "MGIUS-R3",
+            "x": 4.5,
+            "y": 5.0,
+            "label": "MGIUS-R3",
+            "size": 5,
+            "isReference": false,
+            "color": "#6B7280"
+          },
+          {
+            "id": "pos_028",
+            "competitorId": "comp_028",
+            "name": "GE+NVIDIA",
+            "x": 8.0,
+            "y": 6.5,
+            "label": "GE+NVIDIA",
+            "size": 5,
+            "isReference": false,
+            "color": "#6B7280"
+          },
+          {
+            "id": "pos_029",
+            "competitorId": "comp_029",
+            "name": "NASA Research",
+            "x": 6.5,
+            "y": 7.0,
+            "label": "NASA Research",
+            "size": 5,
+            "isReference": false,
+            "color": "#6B7280"
+          },
+          {
+            "id": "pos_030",
+            "competitorId": "comp_030",
+            "name": "Siemens PCD-CT",
+            "x": 7.5,
+            "y": 1.0,
+            "label": "Siemens PCD-CT",
+            "size": 5,
+            "isReference": false,
+            "color": "#6B7280"
+          },
+          {
+            "id": "pos_031",
+            "competitorId": "comp_031",
+            "name": "EOS X-ray",
+            "x": 5.5,
+            "y": 1.5,
+            "label": "EOS X-ray",
+            "size": 5,
+            "isReference": false,
+            "color": "#6B7280"
+          },
+          {
+            "id": "pos_032",
+            "competitorId": "comp_032",
+            "name": "Hyperfine MRI",
+            "x": 8.0,
+            "y": 2.0,
+            "label": "Hyperfine MRI",
+            "size": 5,
+            "isReference": false,
+            "color": "#6B7280"
+          }
+        ],
+        "clusters": [],
+        "opportunities": [
+          {
+            "id": "opp_high_innovation_high_automation",
+            "name": "High Innovation & High Automation",
+            "description": "White space: alta innovazione + alta automazione - posizione strategica di Eco 3D",
+            "x": 9,
+            "y": 9,
+            "size": 2,
+            "color": "#10b981"
+          }
+        ]
+      },
+      "benchmarking": {
+        "enabled": true,
+        "description": "Analisi competitiva su 10 dimensioni chiave (scala 0-3) per cluster strategici",
+        "dimensions": [
+          {
+            "id": "dim_3d_4d_volumetric",
+            "name": "3D/4D Volumetrico Real-time",
+            "weight": 0.15,
+            "maxScore": 3,
+            "description": "Capacità di acquisizione volumetrica 3D/4D con frame rate real-time (>3 vol/s)"
+          },
+          {
+            "id": "dim_ai_guidance",
+            "name": "AI Guida/Auto-misure",
+            "weight": 0.1,
+            "maxScore": 3,
+            "description": "AI per guida posizionamento sonde e misurazioni automatiche"
+          },
+          {
+            "id": "dim_multi_probe",
+            "name": "Multi-probe Sync",
+            "weight": 0.1,
+            "maxScore": 3,
+            "description": "Sincronizzazione simultanea di multiple sonde per copertura angolare"
+          },
+          {
+            "id": "dim_automation",
+            "name": "Automazione/Hands-free",
+            "weight": 0.1,
+            "maxScore": 3,
+            "description": "Livello di automazione acquisizione, riduzione operator-dependency"
+          },
+          {
+            "id": "dim_exam_time",
+            "name": "Tempo Esame (velocità)",
+            "weight": 0.15,
+            "maxScore": 3,
+            "description": "Velocità esame - score alto = tempo basso (≤5 min = 3, 10-20 min = 1)"
+          },
+          {
+            "id": "dim_multi_district",
+            "name": "Multi-distretto Anatomico",
+            "weight": 0.1,
+            "maxScore": 3,
+            "description": "Capacità di coprire multipli distretti anatomici (non solo seno/cardio)"
+          },
+          {
+            "id": "dim_portability",
+            "name": "Portabilità",
+            "weight": 0.1,
+            "maxScore": 3,
+            "description": "Handheld/portable (3) vs Cart-based (1)"
+          },
+          {
+            "id": "dim_ris_pacs",
+            "name": "Integrazione RIS/PACS",
+            "weight": 0.05,
+            "maxScore": 3,
+            "description": "Integrazione con sistemi informativi ospedalieri (DICOM, HL7, API)"
+          },
+          {
+            "id": "dim_tco",
+            "name": "TCO Atteso (economicità)",
+            "weight": 0.1,
+            "maxScore": 3,
+            "description": "Total Cost of Ownership - score alto = costo basso (€100/esame = 3, €500+ = 1)"
+          },
+          {
+            "id": "dim_maturity",
+            "name": "Maturità (CE/FDA)",
+            "weight": 0.05,
+            "maxScore": 3,
+            "description": "Certificazioni e maturità prodotto (CE/FDA = 3, R&D = 1)"
+          }
+        ],
+        "competitors": [
+          {
+            "competitorId": "cluster_eco3d",
+            "name": "Eco 3D (Target)",
+            "shortName": "Eco 3D",
+            "isCluster": true,
+            "isReference": true,
+            "color": "#00D2FF",
+            "scores": {
+              "dim_3d_4d_volumetric": 3,
+              "dim_ai_guidance": 3,
+              "dim_multi_probe": 3,
+              "dim_automation": 2,
+              "dim_exam_time": 3,
+              "dim_multi_district": 3,
+              "dim_portability": 3,
+              "dim_ris_pacs": 3,
+              "dim_tco": 2,
+              "dim_maturity": 1
+            },
+            "totalScore": 2.7,
+            "description": "Sistema portatile multi-sonda con volumetria 3D/4D real-time e AI"
+          },
+          {
+            "competitorId": "cluster_console_3d",
+            "name": "Console 3D Premium",
+            "shortName": "Console 3D",
+            "isCluster": true,
+            "isReference": false,
+            "color": "#8B5CF6",
+            "scores": {
+              "dim_3d_4d_volumetric": 3,
+              "dim_ai_guidance": 2,
+              "dim_multi_probe": 0,
+              "dim_automation": 1,
+              "dim_exam_time": 1,
+              "dim_multi_district": 3,
+              "dim_portability": 1,
+              "dim_ris_pacs": 3,
+              "dim_tco": 1,
+              "dim_maturity": 3
+            },
+            "totalScore": 1.7,
+            "description": "GE Voluson, Philips EPIQ, Samsung HERA - console carrellati premium"
+          },
+          {
+            "competitorId": "cluster_abus",
+            "name": "ABUS/ABVS (Seno Automatico)",
+            "shortName": "ABUS/ABVS",
+            "isCluster": true,
+            "isReference": false,
+            "color": "#EF4444",
+            "scores": {
+              "dim_3d_4d_volumetric": 3,
+              "dim_ai_guidance": 1,
+              "dim_multi_probe": 0,
+              "dim_automation": 3,
+              "dim_exam_time": 1,
+              "dim_multi_district": 0,
+              "dim_portability": 0,
+              "dim_ris_pacs": 3,
+              "dim_tco": 1,
+              "dim_maturity": 3
+            },
+            "totalScore": 1.4,
+            "description": "GE Invenia ABUS, Siemens ABVS - automazione breast-only"
+          },
+          {
+            "competitorId": "cluster_handheld_2d",
+            "name": "Handheld 2D (POCUS)",
+            "shortName": "Handheld 2D",
+            "isCluster": true,
+            "isReference": false,
+            "color": "#10B981",
+            "scores": {
+              "dim_3d_4d_volumetric": 0,
+              "dim_ai_guidance": 1,
+              "dim_multi_probe": 0,
+              "dim_automation": 0,
+              "dim_exam_time": 2,
+              "dim_multi_district": 2,
+              "dim_portability": 3,
+              "dim_ris_pacs": 1,
+              "dim_tco": 3,
+              "dim_maturity": 3
+            },
+            "totalScore": 1.4,
+            "description": "Butterfly iQ, Clarius - portabili economici ma solo 2D"
+          },
+          {
+            "id": "ge_voluson",
+            "name": "GE Voluson / Vivid / Logiq",
+            "shortName": "GE Voluson",
+            "type": "Console 3D Premium",
+            "color": "#751D49",
+            "scores": {
+              "dim_3d_4d_volumetric": 3,
+              "dim_ai_guidance": 3,
+              "dim_multi_probe": 0,
+              "dim_automation": 1,
+              "dim_exam_time": 1,
+              "dim_multi_district": 3,
+              "dim_portability": 1,
+              "dim_ris_pacs": 3,
+              "dim_tco": 1,
+              "dim_maturity": 3
+            },
+            "totalScore": 1.8,
+            "competitorId": "ge_voluson",
+            "isCluster": false,
+            "isReference": false,
+            "description": "Console 3D Premium - Score 1.8/3"
+          },
+          {
+            "id": "philips_epiq",
+            "name": "Philips EPIQ/xMATRIX · Lumify",
+            "shortName": "Philips EPIQ",
+            "type": "Console 3D Premium",
+            "color": "#AB6615",
+            "scores": {
+              "dim_3d_4d_volumetric": 3,
+              "dim_ai_guidance": 3,
+              "dim_multi_probe": 0,
+              "dim_automation": 0,
+              "dim_exam_time": 1,
+              "dim_multi_district": 3,
+              "dim_portability": 1,
+              "dim_ris_pacs": 3,
+              "dim_tco": 1,
+              "dim_maturity": 3
+            },
+            "totalScore": 1.7,
+            "competitorId": "philips_epiq",
+            "isCluster": false,
+            "isReference": false,
+            "description": "Console 3D Premium - Score 1.7/3"
+          },
+          {
+            "id": "ge_invenia_abus",
+            "name": "GE Invenia ABUS (seno)",
+            "shortName": "GE ABUS",
+            "type": "ABUS/ABVS",
+            "color": "#DC2626",
+            "scores": {
+              "dim_3d_4d_volumetric": 3,
+              "dim_ai_guidance": 1,
+              "dim_multi_probe": 0,
+              "dim_automation": 3,
+              "dim_exam_time": 1,
+              "dim_multi_district": 0,
+              "dim_portability": 0,
+              "dim_ris_pacs": 3,
+              "dim_tco": 1,
+              "dim_maturity": 3
+            },
+            "totalScore": 1.4,
+            "competitorId": "ge_invenia_abus",
+            "isCluster": false,
+            "isReference": false,
+            "description": "ABUS/ABVS - Score 1.4/3"
+          },
+          {
+            "id": "siemens_abvs",
+            "name": "Siemens ABVS (seno)",
+            "shortName": "Siemens ABVS",
+            "type": "ABUS/ABVS",
+            "color": "#EA580C",
+            "scores": {
+              "dim_3d_4d_volumetric": 3,
+              "dim_ai_guidance": 1,
+              "dim_multi_probe": 0,
+              "dim_automation": 3,
+              "dim_exam_time": 1,
+              "dim_multi_district": 0,
+              "dim_portability": 0,
+              "dim_ris_pacs": 3,
+              "dim_tco": 1,
+              "dim_maturity": 3
+            },
+            "totalScore": 1.4,
+            "competitorId": "siemens_abvs",
+            "isCluster": false,
+            "isReference": false,
+            "description": "ABUS/ABVS - Score 1.4/3"
+          },
+          {
+            "id": "canon_aplio",
+            "name": "Canon Aplio i-Series",
+            "shortName": "Canon Aplio",
+            "type": "Console 3D Premium",
+            "color": "#0A529C",
+            "scores": {
+              "dim_3d_4d_volumetric": 2,
+              "dim_ai_guidance": 2,
+              "dim_multi_probe": 0,
+              "dim_automation": 0,
+              "dim_exam_time": 1,
+              "dim_multi_district": 3,
+              "dim_portability": 1,
+              "dim_ris_pacs": 3,
+              "dim_tco": 1,
+              "dim_maturity": 3
+            },
+            "totalScore": 1.45,
+            "competitorId": "canon_aplio",
+            "isCluster": false,
+            "isReference": false,
+            "description": "Console 3D Premium - Score 1.45/3"
+          },
+          {
+            "id": "samsung_hera",
+            "name": "Samsung HERA/RS/Z20",
+            "shortName": "Samsung HERA",
+            "type": "Console 3D Premium",
+            "color": "#3E1203",
+            "scores": {
+              "dim_3d_4d_volumetric": 3,
+              "dim_ai_guidance": 3,
+              "dim_multi_probe": 0,
+              "dim_automation": 0,
+              "dim_exam_time": 1,
+              "dim_multi_district": 2,
+              "dim_portability": 1,
+              "dim_ris_pacs": 3,
+              "dim_tco": 1,
+              "dim_maturity": 3
+            },
+            "totalScore": 1.6,
+            "competitorId": "samsung_hera",
+            "isCluster": false,
+            "isReference": false,
+            "description": "Console 3D Premium - Score 1.6/3"
+          },
+          {
+            "id": "esaote_mylab",
+            "name": "Esaote MyLab Omega/Alpha",
+            "shortName": "Esaote MyLab",
+            "type": "Console Mid-range",
+            "color": "#7C3AED",
+            "scores": {
+              "dim_3d_4d_volumetric": 2,
+              "dim_ai_guidance": 2,
+              "dim_multi_probe": 0,
+              "dim_automation": 0,
+              "dim_exam_time": 1,
+              "dim_multi_district": 2,
+              "dim_portability": 2,
+              "dim_ris_pacs": 3,
+              "dim_tco": 2,
+              "dim_maturity": 3
+            },
+            "totalScore": 1.55,
+            "competitorId": "esaote_mylab",
+            "isCluster": false,
+            "isReference": false,
+            "description": "Console Mid-range - Score 1.55/3"
+          },
+          {
+            "id": "butterfly_iq",
+            "name": "Butterfly iQ",
+            "shortName": "Butterfly",
+            "type": "Handheld 2D",
+            "color": "#10B981",
+            "scores": {
+              "dim_3d_4d_volumetric": 0,
+              "dim_ai_guidance": 2,
+              "dim_multi_probe": 0,
+              "dim_automation": 0,
+              "dim_exam_time": 3,
+              "dim_multi_district": 3,
+              "dim_portability": 3,
+              "dim_ris_pacs": 1,
+              "dim_tco": 3,
+              "dim_maturity": 3
+            },
+            "totalScore": 1.75,
+            "competitorId": "butterfly_iq",
+            "isCluster": false,
+            "isReference": false,
+            "description": "Handheld 2D - Score 1.75/3"
+          },
+          {
+            "id": "clarius",
+            "name": "Clarius",
+            "shortName": "Clarius",
+            "type": "Handheld 2D",
+            "color": "#059669",
+            "scores": {
+              "dim_3d_4d_volumetric": 0,
+              "dim_ai_guidance": 2,
+              "dim_multi_probe": 0,
+              "dim_automation": 0,
+              "dim_exam_time": 3,
+              "dim_multi_district": 3,
+              "dim_portability": 3,
+              "dim_ris_pacs": 1,
+              "dim_tco": 2,
+              "dim_maturity": 3
+            },
+            "totalScore": 1.65,
+            "competitorId": "clarius",
+            "isCluster": false,
+            "isReference": false,
+            "description": "Handheld 2D - Score 1.65/3"
+          },
+          {
+            "id": "exo_iris",
+            "name": "Exo Iris (pMUT)",
+            "shortName": "Exo Iris",
+            "type": "Handheld 2D (R&D)",
+            "color": "#84CC16",
+            "scores": {
+              "dim_3d_4d_volumetric": 1,
+              "dim_ai_guidance": 2,
+              "dim_multi_probe": 0,
+              "dim_automation": 0,
+              "dim_exam_time": 3,
+              "dim_multi_district": 3,
+              "dim_portability": 3,
+              "dim_ris_pacs": 1,
+              "dim_tco": 2,
+              "dim_maturity": 1
+            },
+            "totalScore": 1.7,
+            "competitorId": "exo_iris",
+            "isCluster": false,
+            "isReference": false,
+            "description": "Handheld 2D (R&D) - Score 1.7/3"
+          }
+        ],
+        "methodology": {
+          "scale": "0-3 per feature",
+          "source": "BP_2025_01.md sezione 4.6 - Scoring ponderato",
+          "lastUpdate": "2025-10-21",
+          "notes": [
+            "Score 3 = eccellenza nella feature",
+            "Score 2 = buono/parziale",
+            "Score 1 = limitato/debole",
+            "Score 0 = assente",
+            "Total Score ponderato con pesi dimensioni"
+          ]
+        }
+      }
+    },
+    "configuration": {
+      "analysisFrameworks": {
+        "swot": {
+          "enabled": true
+        },
+        "porter5": {
+          "enabled": true
+        },
+        "bcg": {
+          "enabled": false
+        },
+        "perceptualMap": {
+          "enabled": true
+        },
+        "benchmarking": {
+          "enabled": true
+        }
+      },
+      "filters": {
+        "showTiers": [
+          "tier1",
+          "tier2",
+          "tier3"
+        ],
+        "showTypes": [
+          "direct",
+          "indirect",
+          "substitute",
+          "emerging"
+        ],
+        "showRegions": [
+          "Global",
+          "Europe",
+          "USA",
+          "Asia"
+        ]
+      },
+      "view": "overview",
+      "sortBy": "threatLevel",
+      "sortOrder": "desc",
+      "defaultCompetitorForBattlecard": "comp_001"
     }
   }
 }
