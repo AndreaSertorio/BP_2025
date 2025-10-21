@@ -14,14 +14,35 @@ const valuePropositionRoutes = require('./server-routes/valueProposition');
 const app = express();
 const PORT = 3001;
 const DB_PATH = path.join(__dirname, 'src', 'data', 'database.json');
+const DB_BACKUP_DIR = path.join(__dirname, 'src', 'data', 'backups');
+
+// ============================================================================
+// WRITE QUEUE - Previene race conditions e corruption del database
+// ============================================================================
+let writeQueue = Promise.resolve();
+let isWriting = false;
+const MIN_DB_SIZE = 100000; // 100KB - database valido deve essere almeno questo
+
+/**
+ * Serializza tutte le scritture attraverso una queue
+ * Previene race conditions quando arrivano multiple PATCH simultanee
+ */
+function queueWrite(writeFunction) {
+  writeQueue = writeQueue.then(writeFunction).catch(err => {
+    console.error('❌ Errore nella write queue:', err);
+    throw err;
+  });
+  return writeQueue;
+}
 
 // Middleware
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '50mb' })); // Aumentato limit per database grande
 
 // Logger middleware
 app.use((req, res, next) => {
-  console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+  const timestamp = new Date().toISOString();
+  console.log(`[${timestamp}] ${req.method} ${req.url}`);
   next();
 });
 
@@ -51,29 +72,95 @@ function sanitizeJSON(jsonString) {
 }
 
 /**
- * Salva database in modo sicuro con sanitizzazione
+ * Crea backup automatico del database prima di salvare
+ */
+async function createBackup() {
+  try {
+    // Crea directory backups se non esiste
+    await fs.mkdir(DB_BACKUP_DIR, { recursive: true });
+    
+    // Leggi database corrente
+    const currentDB = await fs.readFile(DB_PATH, 'utf-8');
+    
+    // Verifica dimensione minima (protezione contro file corrotti)
+    if (currentDB.length < MIN_DB_SIZE) {
+      console.warn(`⚠️ Database corrente troppo piccolo (${currentDB.length} bytes), skip backup`);
+      return null;
+    }
+    
+    // Nome backup con timestamp
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const backupPath = path.join(DB_BACKUP_DIR, `database_${timestamp}.json`);
+    
+    // Salva backup
+    await fs.writeFile(backupPath, currentDB, 'utf-8');
+    console.log(`💾 Backup creato: ${path.basename(backupPath)}`);
+    
+    return backupPath;
+  } catch (error) {
+    console.error('⚠️ Errore creazione backup (continuo comunque):', error.message);
+    return null;
+  }
+}
+
+/**
+ * Salva database in modo sicuro con queue, validazione e backup
+ * QUESTA È LA FUNZIONE CRITICA CHE PREVIENE LA CORRUPTION
  */
 async function saveDatabaseSafe(database) {
-  try {
-    // Converti in JSON
-    let jsonString = JSON.stringify(database, null, 2);
+  // Serializza TUTTE le scritture attraverso la queue
+  return queueWrite(async () => {
+    if (isWriting) {
+      console.warn('⚠️ Scrittura già in corso, attendo...');
+    }
     
-    // NOTA: sanitizeJSON() DISABILITATA temporaneamente perché JSON.stringify() 
-    // produce SEMPRE JSON valido. Le parentesi duplicate vengono da altrove.
-    // Se riappaiono, investigare la fonte invece di correggere a posteriori.
-    // jsonString = sanitizeJSON(jsonString);
+    isWriting = true;
     
-    // Verifica che sia JSON valido prima di salvare
-    JSON.parse(jsonString); // Throw error se invalido
-    
-    // Salva
-    await fs.writeFile(DB_PATH, jsonString, 'utf-8');
-    
-    return { success: true };
-  } catch (error) {
-    console.error('❌ Errore salvataggio database:', error);
-    throw error;
-  }
+    try {
+      // 1. VALIDAZIONE PRE-SCRITTURA
+      if (!database || typeof database !== 'object') {
+        throw new Error('Database invalido: deve essere un oggetto');
+      }
+      
+      // Converti in JSON
+      const jsonString = JSON.stringify(database, null, 2);
+      
+      // 2. VALIDAZIONE DIMENSIONE
+      if (jsonString.length < MIN_DB_SIZE) {
+        throw new Error(`Database troppo piccolo (${jsonString.length} bytes < ${MIN_DB_SIZE} bytes). Possibile corruption!`);
+      }
+      
+      // 3. VALIDAZIONE JSON
+      JSON.parse(jsonString); // Throw se JSON invalido
+      
+      // 4. BACKUP AUTOMATICO (solo se database corrente è valido)
+      await createBackup();
+      
+      // 5. SCRITTURA ATOMICA
+      // Scrivi prima in file temporaneo poi rinomina (atomic operation)
+      const tempPath = DB_PATH + '.tmp';
+      await fs.writeFile(tempPath, jsonString, 'utf-8');
+      
+      // Verifica che il file temporaneo sia stato scritto correttamente
+      const writtenContent = await fs.readFile(tempPath, 'utf-8');
+      if (writtenContent.length !== jsonString.length) {
+        throw new Error('Scrittura file incompleta!');
+      }
+      
+      // Rename atomico (questo è atomic su POSIX)
+      await fs.rename(tempPath, DB_PATH);
+      
+      console.log(`✅ Database salvato: ${(jsonString.length / 1024).toFixed(1)} KB`);
+      
+      return { success: true };
+      
+    } catch (error) {
+      console.error('❌ ERRORE CRITICO salvataggio database:', error.message);
+      throw error;
+    } finally {
+      isWriting = false;
+    }
+  });
 }
 
 /**
