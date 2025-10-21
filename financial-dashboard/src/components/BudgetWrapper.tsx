@@ -11,8 +11,6 @@ import {
   Settings,
   Download,
   Upload,
-  TrendingUp,
-  TrendingDown,
   ChevronDown,
   ChevronRight,
   RotateCcw
@@ -32,11 +30,16 @@ import {
 import { BudgetProvider, useBudget } from '@/contexts/BudgetContext';
 import { BudgetService } from '@/lib/budget-service';
 import type { BudgetData } from '@/types/budget.types';
+import OpexSummaryCard from './OpexSummaryCard';
 
 /**
  * BUDGET WRAPPER
  * Container principale per gestione budget aziendale
  */
+
+// ⚙️ CONFIGURAZIONE ALTEZZA TABELLA
+// Modifica questo valore per aumentare/diminuire l'altezza massima della tabella Budget
+const TABLE_MAX_HEIGHT = 800; // In pixels (es: 600, 800, 1000, 1200)
 
 export function BudgetWrapper() {
   return (
@@ -47,7 +50,7 @@ export function BudgetWrapper() {
 }
 
 function BudgetWrapperContent() {
-  const { budgetData, budgetService, loading, error, updateBudgetData } = useBudget();
+  const { budgetData, budgetService, loading, updateBudgetData } = useBudget();
   const [activeTab, setActiveTab] = useState<'dashboard' | 'table' | 'charts' | 'settings'>('dashboard');
 
   const tabs = [
@@ -58,11 +61,12 @@ function BudgetWrapperContent() {
   ] as const;
 
   return (
-    <div className="w-full space-y-6">
+    <div className="w-full">
       
       {/* Header */}
-      <div className="flex justify-between items-center px-6 pt-6">
-        <div>
+      <div className="container mx-auto px-6 pt-6">
+        <div className="flex justify-between items-center">
+          <div>
           <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
             💰 Budget Aziendale
             <Badge variant="outline" className="text-sm bg-purple-50">
@@ -72,9 +76,9 @@ function BudgetWrapperContent() {
           <p className="text-gray-600 mt-2">
             Gestione completa costi di sviluppo Eco 3D
           </p>
-        </div>
+          </div>
         
-        <div className="flex gap-2">
+          <div className="flex gap-2">
           <Button variant="outline" size="sm">
             <Upload className="h-4 w-4 mr-2" />
             Importa
@@ -87,43 +91,48 @@ function BudgetWrapperContent() {
             <RotateCcw className="h-4 w-4 mr-2" />
             Reset
           </Button>
+          </div>
         </div>
       </div>
 
       {/* Tab Navigation */}
-      <Card className="p-1 bg-gray-100 mx-6">
-        <div className="flex gap-1">
-          {tabs.map((tab) => {
-            const Icon = tab.icon;
-            const isActive = activeTab === tab.id;
-            
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id as 'dashboard' | 'table' | 'charts' | 'settings')}
-                className={`
-                  flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-md
-                  font-medium transition-all
-                  ${isActive 
-                    ? 'bg-white text-purple-700 shadow-sm' 
-                    : 'text-gray-600 hover:bg-gray-50'
-                  }
-                `}
-              >
-                <Icon className={`h-4 w-4 ${isActive ? 'text-purple-600' : ''}`} />
-                <span className="hidden sm:inline">{tab.label}</span>
-              </button>
-            );
-          })}
-        </div>
-      </Card>
+      <div className="container mx-auto px-6">
+        <Card className="p-1 bg-gray-100">
+          <div className="flex gap-1">
+            {tabs.map((tab) => {
+              const Icon = tab.icon;
+              const isActive = activeTab === tab.id;
+              
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id as 'dashboard' | 'table' | 'charts' | 'settings')}
+                  className={`
+                    flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-md
+                    font-medium transition-all
+                    ${isActive 
+                      ? 'bg-white text-purple-700 shadow-sm' 
+                      : 'text-gray-600 hover:bg-gray-50'
+                    }
+                  `}
+                >
+                  <Icon className={`h-4 w-4 ${isActive ? 'text-purple-600' : ''}`} />
+                  <span className="hidden sm:inline">{tab.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </Card>
+      </div>
 
       {/* Tab Content */}
-      <div className="min-h-[600px] w-full">
-        {activeTab === 'dashboard' && <BudgetDashboard budgetService={budgetService} loading={loading} />}
-        {activeTab === 'table' && <BudgetTableView budgetData={budgetData} budgetService={budgetService} loading={loading} updateBudgetData={updateBudgetData} />}
-        {activeTab === 'charts' && <BudgetChartsView budgetData={budgetData} budgetService={budgetService} />}
-        {activeTab === 'settings' && <BudgetSettings />}
+      <div className="container mx-auto px-6">
+        <div className="min-h-[600px] w-full">
+          {activeTab === 'dashboard' && <BudgetDashboard budgetService={budgetService} loading={loading} />}
+          {activeTab === 'table' && <BudgetTableView budgetData={budgetData} budgetService={budgetService} loading={loading} updateBudgetData={updateBudgetData} />}
+          {activeTab === 'charts' && <BudgetChartsView budgetData={budgetData} budgetService={budgetService} />}
+          {activeTab === 'settings' && <BudgetSettings />}
+        </div>
       </div>
       
     </div>
@@ -149,9 +158,9 @@ function BudgetDashboard({ budgetService, loading }: { budgetService: BudgetServ
             <Calculator className="h-5 w-5 text-blue-600" />
           </div>
           <p className="text-3xl font-bold text-blue-900">
-            {budgetService ? budgetService.formatCurrency(budgetService.calculateGrandTotal()) : '€0'}
+            {budgetService ? budgetService.formatCurrency(budgetService.calculateGrandTotal()) : '€0K'}
           </p>
-          <p className="text-xs text-blue-600 mt-1">2025-2028</p>
+          <p className="text-xs text-blue-600 mt-1">2025-2028 • Valori in migliaia €</p>
         </Card>
 
         <Card className="p-6 bg-gradient-to-br from-green-50 to-green-100 border-green-200">
@@ -169,7 +178,7 @@ function BudgetDashboard({ budgetService, loading }: { budgetService: BudgetServ
             <Calculator className="h-5 w-5 text-purple-600" />
           </div>
           <p className="text-3xl font-bold text-purple-900">€33K</p>
-          <p className="text-xs text-purple-600 mt-1">Burn rate medio</p>
+          <p className="text-xs text-purple-600 mt-1">Burn rate medio (K€)</p>
         </Card>
 
         <Card className="p-6 bg-gradient-to-br from-amber-50 to-amber-100 border-amber-200">
@@ -177,8 +186,8 @@ function BudgetDashboard({ budgetService, loading }: { budgetService: BudgetServ
             <h3 className="text-sm font-semibold text-amber-800">Categorie</h3>
             <Table className="h-5 w-5 text-amber-600" />
           </div>
-          <p className="text-3xl font-bold text-amber-900">8</p>
-          <p className="text-xs text-amber-600 mt-1">66 voci totali</p>
+          <p className="text-3xl font-bold text-amber-900">7</p>
+          <p className="text-xs text-amber-600 mt-1">69 voci totali</p>
         </Card>
         
       </div>
@@ -203,6 +212,50 @@ function BudgetDashboard({ budgetService, loading }: { budgetService: BudgetServ
           </div>
         </div>
       </Card>
+
+      {/* ========================================
+          NUOVO: OPEX SUMMARY & BENCHMARKS
+          ======================================== */}
+      <OpexSummaryCard
+        data={[
+          {
+            year: 2025,
+            opex: {
+              staff: 220000,
+              rd: 136000,
+              salesMarketing: 44000,
+              ga: 49000,
+              total: 449000
+            },
+            revenue: 360000
+          },
+          {
+            year: 2026,
+            opex: {
+              staff: 365000,
+              rd: 84000,
+              salesMarketing: 80000,
+              ga: 54000,
+              total: 583000
+            },
+            revenue: 800000
+          },
+          {
+            year: 2027,
+            opex: {
+              staff: 420000,
+              rd: 90000,
+              salesMarketing: 100000,
+              ga: 60000,
+              total: 670000
+            },
+            revenue: 1500000
+          }
+        ]}
+        stage="growth_stage"
+        title="OPEX Analysis & Industry Benchmarks"
+        className="w-full"
+      />
 
       {/* Quick Actions */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -461,20 +514,20 @@ function BudgetTableView({ budgetData, budgetService, loading, updateBudgetData 
       </Card>
 
       {/* Tabella */}
-      <Card className="overflow-hidden">
-        <div className="overflow-x-auto">
+      <Card>
+        <div className="overflow-auto" style={{ maxHeight: `${TABLE_MAX_HEIGHT}px` }}>
           <table className="w-full border-collapse text-sm">
-            <thead className="bg-gradient-to-r from-purple-100 to-blue-100 sticky top-0 z-10">
+            <thead className="bg-gradient-to-r from-purple-100 to-blue-100 sticky top-0 z-20">
               <tr>
-                <th className="p-3 text-left border-r-2 border-white sticky left-0 bg-purple-100 min-w-[300px]">
-                  Voce di Costo
+                <th className="p-3 text-left border-r-2 border-white sticky left-0 bg-purple-100 min-w-[300px] z-30">
+                  Voce di Costo <span className="text-xs text-gray-500">(valori in K€)</span>
                 </th>
                 {periodsToShow.map((period, idx) => {
                   const isYearTotal = period.id.startsWith('tot_');
                   return (
                     <th 
                       key={period.id} 
-                      className={`p-3 text-right border-r border-white min-w-[120px] ${
+                      className={`p-3 text-right border-r border-white min-w-[120px] sticky top-0 ${
                         isYearTotal 
                           ? 'bg-amber-200 font-bold text-amber-900' 
                           : idx % 2 === 0 ? 'bg-blue-100' : 'bg-purple-100'
@@ -484,10 +537,15 @@ function BudgetTableView({ budgetData, budgetService, loading, updateBudgetData 
                     </th>
                   );
                 })}
+                {/* COLONNA TOTALE GENERALE */}
+                <th className="p-3 text-right border-l-2 border-white min-w-[140px] bg-gradient-to-r from-green-200 to-emerald-200 font-black text-green-900 sticky top-0">
+                  💰 TOTALE<br/>GENERALE
+                </th>
               </tr>
             </thead>
             <tbody>
-              {budgetData.categories.map((category) => {
+              {/* Ordina categorie per campo order prima di mappare */}
+              {[...budgetData.categories].sort((a, b) => a.order - b.order).map((category) => {
                 const isExpanded = expandedCategories.has(category.id);
                 
                 return (
@@ -509,6 +567,14 @@ function BudgetTableView({ budgetData, budgetService, loading, updateBudgetData 
                           </td>
                         );
                       })}
+                      {/* TOTALE GENERALE CATEGORIA (somma tutti i totali annuali) */}
+                      <td className="p-3 text-right font-black bg-gradient-to-r from-green-100 to-emerald-100 text-green-900 border-l-2 border-green-300">
+                        {budgetService.formatCurrency(
+                          periodsToShow
+                            .filter(p => p.id.startsWith('tot_'))
+                            .reduce((sum, p) => sum + budgetService.calculateCategoryTotal(category.id, p.id), 0)
+                        )}
+                      </td>
                     </tr>
 
                     {/* Items della categoria (se espanso) */}
@@ -521,6 +587,8 @@ function BudgetTableView({ budgetData, budgetService, loading, updateBudgetData 
                           {periodsToShow.map(() => (
                             <td key={subcat.id} className="p-2"></td>
                           ))}
+                          {/* Cella vuota per colonna TOTALE GENERALE */}
+                          <td className="p-2 bg-green-50"></td>
                         </tr>
                         {subcat.items.map((item) => (
                           <tr key={item.id} className="hover:bg-gray-50 border-b">
@@ -578,6 +646,26 @@ function BudgetTableView({ budgetData, budgetService, loading, updateBudgetData 
                                 </td>
                               );
                             })}
+                            {/* TOTALE GENERALE ITEM (somma tutti i valori di tutti i trimestri) */}
+                            <td className="p-1 text-right bg-gradient-to-r from-green-50 to-emerald-50 border-l-2 border-green-200">
+                              <div className="px-2 py-1 rounded font-bold text-green-900">
+                                {(() => {
+                                  // Somma tutti i valori dell'item (tutti i periodi visibili)
+                                  const itemGrandTotal = periodsToShow
+                                    .filter(p => !p.id.startsWith('tot_')) // Solo trimestri, non totali
+                                    .reduce((sum, period) => {
+                                      const val = item.values[period.id];
+                                      return sum + (typeof val === 'number' ? val : 0);
+                                    }, 0);
+                                  
+                                  return itemGrandTotal > 0 ? (
+                                    <span>{itemGrandTotal.toLocaleString()}</span>
+                                  ) : (
+                                    <span className="text-gray-300">-</span>
+                                  );
+                                })()}
+                              </div>
+                            </td>
                           </tr>
                         ))}
                       </React.Fragment>
@@ -585,6 +673,45 @@ function BudgetTableView({ budgetData, budgetService, loading, updateBudgetData 
                   </React.Fragment>
                 );
               })}
+              
+              {/* RIGA TOTALE GENERALE - SEMPRE VISIBILE */}
+              <tr className="bg-gradient-to-r from-yellow-100 to-amber-100 border-t-4 border-amber-400 font-bold sticky bottom-0">
+                <td className="p-4 text-lg sticky left-0 bg-gradient-to-r from-yellow-100 to-amber-100">
+                  💰 TOTALE GENERALE
+                </td>
+                {periodsToShow.map((period) => {
+                  // Calcola somma di tutte le categorie per questo periodo
+                  const grandTotal = budgetData.categories.reduce((sum, cat) => {
+                    return sum + budgetService.calculateCategoryTotal(cat.id, period.id);
+                  }, 0);
+                  
+                  const isYearTotal = period.id.startsWith('tot_');
+                  
+                  return (
+                    <td 
+                      key={period.id} 
+                      className={`p-4 text-right text-lg ${
+                        isYearTotal ? 'bg-amber-200 font-black text-amber-900' : 'bg-yellow-50'
+                      }`}
+                    >
+                      {budgetService.formatCurrency(grandTotal)}
+                    </td>
+                  );
+                })}
+                {/* TOTALE GENERALE ASSOLUTO (somma di tutti i totali annuali) */}
+                <td className="p-4 text-right text-xl font-black bg-gradient-to-r from-green-200 to-emerald-300 text-green-900 border-l-4 border-green-500">
+                  {budgetService.formatCurrency(
+                    periodsToShow
+                      .filter(p => p.id.startsWith('tot_'))
+                      .reduce((sum, period) => {
+                        const total = budgetData.categories.reduce((catSum, cat) => {
+                          return catSum + budgetService.calculateCategoryTotal(cat.id, period.id);
+                        }, 0);
+                        return sum + total;
+                      }, 0)
+                  )}
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -595,7 +722,8 @@ function BudgetTableView({ budgetData, budgetService, loading, updateBudgetData 
         <p>
           <strong>Totale Budget:</strong> {budgetService.formatCurrency(budgetService.calculateGrandTotal())} • 
           <strong className="ml-2">Categorie:</strong> {budgetData.categories.length} • 
-          <strong className="ml-2">Voci:</strong> {budgetData.allItems.length}
+          <strong className="ml-2">Voci:</strong> {budgetData.allItems.length} • 
+          <span className="ml-2 text-blue-600 font-semibold">💡 Tutti i valori sono in migliaia di euro (K€)</span>
         </p>
       </div>
     </div>

@@ -1,4 +1,13 @@
 import { CalculationResults } from '@/types/financial';
+import * as XLSX from 'xlsx';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+
+// ==========================================
+// EXPORT DESTINATION:
+// Tutti gli export vengono salvati nella cartella "Downloads" del browser
+// (standard per applicazioni web client-side)
+// ==========================================
 
 // CSV Export Functions
 export function downloadCSV(data: any[], filename: string) {
@@ -239,4 +248,221 @@ export function exportScenarioComparison(scenarios: Array<{name: string, results
   }));
 
   downloadCSV(comparisonData, `scenario-comparison-${new Date().toISOString().split('T')[0]}`);
+}
+
+// ==========================================
+// EXCEL EXPORT FUNCTIONS (REAL - using xlsx)
+// ==========================================
+
+/**
+ * Export data to Excel with professional formatting
+ * @param data Array of objects to export
+ * @param filename Output filename (without extension)
+ * @param sheetName Name of the worksheet
+ */
+export function downloadExcel(data: Record<string, any>[], filename: string, sheetName: string = 'Data') {
+  if (!data || data.length === 0) {
+    console.warn('No data to export to Excel');
+    return;
+  }
+
+  // Create workbook and worksheet
+  const wb = XLSX.utils.book_new();
+  const ws = XLSX.utils.json_to_sheet(data);
+
+  // Auto-size columns
+  const colWidths = Object.keys(data[0]).map(key => {
+    const maxLen = Math.max(
+      key.length,
+      ...data.map(row => String(row[key] || '').length)
+    );
+    return { wch: Math.min(maxLen + 2, 50) };
+  });
+  ws['!cols'] = colWidths;
+
+  // Add worksheet to workbook
+  XLSX.utils.book_append_sheet(wb, ws, sheetName);
+
+  // Generate Excel file and download
+  XLSX.writeFile(wb, `${filename}.xlsx`);
+}
+
+/**
+ * Export multiple sheets to a single Excel file
+ * @param sheets Array of {name, data} objects
+ * @param filename Output filename
+ */
+export function downloadExcelMultiSheet(
+  sheets: Array<{ name: string; data: Record<string, any>[] }>,
+  filename: string
+) {
+  const wb = XLSX.utils.book_new();
+
+  sheets.forEach(({ name, data }) => {
+    if (data && data.length > 0) {
+      const ws = XLSX.utils.json_to_sheet(data);
+      
+      // Auto-size columns
+      const colWidths = Object.keys(data[0]).map(key => {
+        const maxLen = Math.max(
+          key.length,
+          ...data.map(row => String(row[key] || '').length)
+        );
+        return { wch: Math.min(maxLen + 2, 50) };
+      });
+      ws['!cols'] = colWidths;
+
+      XLSX.utils.book_append_sheet(wb, ws, name.substring(0, 31)); // Excel limit: 31 chars
+    }
+  });
+
+  XLSX.writeFile(wb, `${filename}.xlsx`);
+}
+
+// ==========================================
+// PDF EXPORT FUNCTIONS (REAL - using jsPDF)
+// ==========================================
+
+/**
+ * Export data to PDF table
+ * @param data Array of objects to export
+ * @param filename Output filename (without extension)
+ * @param title Document title
+ * @param subtitle Optional subtitle
+ */
+export function downloadPDF(
+  data: Record<string, any>[],
+  filename: string,
+  title: string,
+  subtitle?: string
+) {
+  if (!data || data.length === 0) {
+    console.warn('No data to export to PDF');
+    return;
+  }
+
+  const doc = new jsPDF('l', 'mm', 'a4'); // Landscape A4
+
+  // Add title
+  doc.setFontSize(18);
+  doc.setFont('helvetica', 'bold');
+  doc.text(title, 14, 20);
+
+  // Add subtitle if provided
+  if (subtitle) {
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(100);
+    doc.text(subtitle, 14, 28);
+  }
+
+  // Extract headers and rows
+  const headers = Object.keys(data[0]);
+  const rows = data.map(obj => headers.map(key => obj[key] ?? ''));
+
+  // Generate table
+  autoTable(doc, {
+    head: [headers],
+    body: rows,
+    startY: subtitle ? 35 : 28,
+    styles: {
+      fontSize: 8,
+      cellPadding: 2,
+    },
+    headStyles: {
+      fillColor: [59, 130, 246], // Blue
+      textColor: 255,
+      fontStyle: 'bold',
+    },
+    alternateRowStyles: {
+      fillColor: [240, 240, 240],
+    },
+    margin: { top: 35 },
+  });
+
+  // Add footer with date
+  const pageCount = (doc as any).internal.getNumberOfPages();
+  doc.setFontSize(8);
+  doc.setTextColor(150);
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i);
+    doc.text(
+      `Generated: ${new Date().toLocaleDateString()} - Page ${i} of ${pageCount}`,
+      doc.internal.pageSize.width / 2,
+      doc.internal.pageSize.height - 10,
+      { align: 'center' }
+    );
+  }
+
+  // Save PDF
+  doc.save(`${filename}.pdf`);
+}
+
+/**
+ * Export multiple sections to a single PDF
+ * @param sections Array of {title, data} objects
+ * @param filename Output filename
+ * @param mainTitle Main document title
+ */
+export function downloadPDFMultiSection(
+  sections: Array<{ title: string; data: Record<string, any>[] }>,
+  filename: string,
+  mainTitle: string
+) {
+  const doc = new jsPDF('l', 'mm', 'a4');
+
+  // Add main title
+  doc.setFontSize(20);
+  doc.setFont('helvetica', 'bold');
+  doc.text(mainTitle, 14, 20);
+
+  let startY = 35;
+
+  sections.forEach((section, index) => {
+    if (!section.data || section.data.length === 0) return;
+
+    // Add section title
+    if (index > 0) {
+      doc.addPage();
+      startY = 20;
+    }
+    
+    doc.setFontSize(14);
+    doc.setFont('helvetica', 'bold');
+    doc.text(section.title, 14, startY);
+
+    const headers = Object.keys(section.data[0]);
+    const rows = section.data.map(obj => headers.map(key => obj[key] ?? ''));
+
+    autoTable(doc, {
+      head: [headers],
+      body: rows,
+      startY: startY + 8,
+      styles: { fontSize: 8, cellPadding: 2 },
+      headStyles: {
+        fillColor: [59, 130, 246],
+        textColor: 255,
+        fontStyle: 'bold',
+      },
+      alternateRowStyles: { fillColor: [240, 240, 240] },
+    });
+
+    startY = (doc as any).lastAutoTable.finalY + 15;
+  });
+
+  // Add footer
+  const pageCount = (doc as any).internal.getNumberOfPages();
+  doc.setFontSize(8);
+  doc.setTextColor(150);
+  for (let i = 1; i <= pageCount; i++) {
+    doc.setPage(i);
+    doc.text(
+      `Eco 3D - Generated: ${new Date().toLocaleDateString()} - Page ${i}/${pageCount}`,
+      doc.internal.pageSize.width / 2,
+      doc.internal.pageSize.height - 10,
+      { align: 'center' }
+    );
+  }
+
+  doc.save(`${filename}.pdf`);
 }

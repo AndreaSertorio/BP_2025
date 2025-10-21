@@ -109,75 +109,182 @@ Implementiamo **3 calcoli periodici** (trimestri/anni) in un nuovo namespace `fo
 Nel tuo frontend hai già il **Context** e l’update immutabile: aggiungiamo un servizio `ForecastService` che legge `market + revenueModel + budget` e scrive `forecast` in memoria (non persistiamo i totali, li ricalcoliamo a vista — stessa filosofia dei “totali automatici” che già usi). 
 
 ---
-
 # 5) KPI investitori (base → avanzato)
 
-Mostra un riquadro KPI (per periodo e “as of today”):
+## 5.1 Struttura dati (nuovo blocco)
 
-* **MRR / ARR** (solo per parti ricorrenti: SaaS, per-scan se contrattualizzato)
-* **Gross Margin %**
-* **Burn rate** e **Runway** (mesi)
-* **Break-even**: in **€ mensili** e in **unità/anno** (hardware) = *costi fissi / margine di contribuzione unitario*
-* **LTV, CAC, LTV/CAC** (quando avrai i primi dati/assunzioni di funnel; inizialmente ipotesi)
+Aggiungi un blocco **derivato** (non editabile) che la tua app calcola e scrive in memoria (o rigenera a vista):
 
-Queste sono le metriche che la guida ti chiede di presentare chiaramente agli investitori, con formule e storytelling coerente. 
+```json
+"kpi": {
+  "period": "2025-Q4",
+  "mrr": 0,
+  "arr": 0,
+  "grossMarginPct": 0,
+  "burnRateMonthly": 0,
+  "runwayMonths": 0,
+  "breakEvenMonthly€": 0,
+  "breakEvenUnitsPerYear": 0,
+  "ltv": 0,
+  "cac": 0,
+  "ltvToCac": 0
+}
+
+```
+
+> Questi sono esattamente i KPI che la guida chiede di presentare agli investitori (MRR/ARR, GM, Burn/Runway, Break-even, LTV/CAC).
+> 
+
+## 5.2 Formule (motore “ForecastService”)
+
+- **MRR/ARR**: somma solo le linee ricorrenti (SaaS, maintenance, fee-per-scan contrattualizzate).
+    
+    `ARR = 12 × MRR`.
+    
+- **Gross Margin %**: `(Ricavi tot − COGS tot) / Ricavi tot`.
+- **Burn rate** (mensile): media degli **outflow netti operativi** per mese (escludi equity/debito in entrata).
+    
+    `burn = |cash_op_out − cash_op_in| / mesi` (puoi calcolarlo trimestralmente/12).
+    
+- **Runway (mesi)**: `runway = cassa_attuale / burn`.
+- **Break-even (€/mese)**: `costi_fissi_mensili / margine_contribuzione_%`.
+    
+    **Unità/anno** (hardware): `costi_fissi_annui / margine_contribuzione_unitario`.
+    
+- **LTV** (ricorrente): `ARPU_annuo × (12 / churn_mensile)` / `12`.
+    
+    **CAC**: `spese S&M periodo / #nuovi clienti periodo`.
+    
+    **LTV/CAC**: `ltv / cac`. (Mostralo solo se il modello ha vera ricorrenza).
+    
+
+## 5.3 Validazioni & “spie”
+
+- **MRR include solo ricorrente** (se > Ricavi ricorrenti: errore).
+- **Runway**: warning se `< 6` mesi; rosso se `< 3`.
+- **LTV/CAC**: nascondi se mancano dati funnel; warning se `< 1.5`.
+
+**UI**: strip KPI fissa in alto nel tab *Forecast* con semafori (verde/giallo/rosso) e tooltip “formula + fonte”.
 
 ---
 
 # 6) Scenari & sensibilità (Prudente / Base / Ambizioso)
 
-Aggiungi in `database.json` un blocco `scenarios` con override puntuali:
+## 6.1 Engine scenari (override dichiarativi)
+
+Hai già i moltiplicatori e la logica di **single source**; estendila con override per scenario:
 
 ```json
 "scenarios": {
-  "prudente": { "goToMarket.salesCapacity.reps": 1, "revenueModel.saas.priceMonthly": 400, "procedures.volumeMultiplier": 0.9 },
-  "base":     { },
-  "ambizioso":{ "goToMarket.salesCapacity.reps": 4, "conversionFunnel.demo→po": 0.40, "procedures.volumeMultiplier": 1.1 }
+  "prudente": {
+    "goToMarket.salesCapacity.reps": 1,
+    "conversionFunnel.demoToPo": 0.2,
+    "market.procedures.volumeMultiplier": 0.9,
+    "revenueModel.saas.priceMonthly": 400
+  },
+  "base": {},
+  "ambizioso": {
+    "goToMarket.salesCapacity.reps": 4,
+    "conversionFunnel.demoToPo": 0.4,
+    "market.procedures.volumeMultiplier": 1.1,
+    "revenueModel.saas.priceMonthly": 650
+  }
 }
+
 ```
 
-Il selettore scenario applica gli override in tempo reale (come già fai coi moltiplicatori mercato). La guida raccomanda esplicitamente **scenari multipli** e un **buffer 10–20%** per imprevisti: inserisci un toggle “buffer” che aumenta OPEX o riduce ricavi dello x%. 
+Lo **ScenarioSelector** applica gli override al volo; i prospetti si ricalcolano senza ricaricare (pattern Context immutabile che già usi).
+
+## 6.2 Sensitivity (tornado chart)
+
+Parametri consigliati (slider ±20% con default): **penetrazione (SOM)**, **scans/mese**, **prezzo per esame/ASP**, **COGS unit**, **mix CapEx/Sub**, **churn**. Mostra impatto su **ARR Y3/Y5** e **cassa minima**. (Allineato al focus investitori su driver che cambiano la traiettoria).
 
 ---
 
-# 7) Use of Funds & Capital Needed (output pronto-investitori)
+# 7) Use of Funds & Capital Needed
 
-Dalla serie di cassa proiettata estrai:
+## 7.1 Calcolo fabbisogno
 
-* **Punto di cassa minima** e **fabbisogno** = deficit massimo + buffer.
-* **Runway con round richiesto** (mesi).
-* **Allocazione fondi** (R&D/Certificazioni, Sales/Marketing, Produzione/Scala, G&A/Buffer) con percentuali.
+Dal rendiconto cassa cumulato trova il **minimo di cassa** (valore più basso della curva).
 
-Questa sezione esce “one-click” dal tuo `forecast.cash` ed è esattamente ciò che la guida suggerisce di comunicare (importo, uso, mesi coperti, milestone). 
+`capital_needed = |min_cassa| + buffer` (10–20%). Questo è il numero che **chiedi** al round.
+
+## 7.2 Allocazione fondi (auto-build)
+
+Crea una card “**Use of Funds**” che legge il **budget** e propone la ripartizione:
+
+```json
+"useOfFunds": {
+  "rnd": 0.35,
+  "certificazioni": 0.15,
+  "salesMarketing": 0.25,
+  "produzione": 0.15,
+  "g&a": 0.10
+}
+
+```
+
+Spiega in nota: “copre **X mesi** di runway a burn **Y/mese**” (prende runway/burn dai KPI). Questo è esattamente ciò che la guida chiede di evidenziare (importo, mesi coperti, destinazione, milestone coperte).
 
 ---
 
-# 8) UI: cosa aggiungere dove (rapido e concreto)
+# 8) Pannello Valutazione & Round (VC Method + Milestone ladder)
 
-* **Tab Mercato** (già esiste): mostra *doppia vista* “Esami” vs “Ecografi” e un widget **TAM/SAM/SOM** con switch. (Continua a usare il tuo slider moltiplicatore volume). 
-* **Tab Budget** (già esiste): aggiungi colonna “ammortamenti” auto-derivata dal CAPEX; lascia i totali calcolati runtime come fai ora. 
-* **Nuovo Tab “Forecast”**: tre pannelli (P&L, Cash Flow, Balance), card KPI, pulsante **Esporta**. Le tabelle sono *read-only* (derivate).
-* **Scenario bar** persistente (top): switch 3 scenari + toggle buffer + selezione regione.
+## 8.1 VC Method (widget semplice)
+
+Input: **ARR target Y5** (dal forecast), **multiplo di exit Ricavi** (2–4×), **ROI target investitore** (10–15×), **diluizione cumulativa stimata** (seed→A→B).
+
+Calcolo base:
+
+`EnterpriseValue_exit = Revenues_Y5 × ExitMultiple`
+
+`PostMoney_oggi ≈ (Investment × ROI_target) / (Ownership_a_exit)`
+
+Dove `Ownership_a_exit` = quota investitore oggi × (1 − diluizione futura). Mostra **range** con multipli/ROI slider. (Metodo standard per early stage).
+
+## 8.2 Milestone-based step-ups (ladder)
+
+Tabella pre-compilata con **step di valutazione** e **evento**:
+
+- **+20–30%**: **Brevetto concesso** (T+12m).
+- **×2–3**: **Validazione clinica pilota** (12–18m).
+- **×2**: **Marcatura CE** (24–36m).
+- **×?**: **Prime vendite / run-rate** (36–48m).
+
+Mostra “oggi”, “post-brevetto”, “post-pilota”, “post-CE” con stime automatiche. (È esattamente lo schema che i VC si aspettano di vedere).
+
+## 8.3 Dilution simulator (cap table semplificata)
+
+Campi: **pre-money**, **raise**, **option pool (%)**, **round A**, **round B**.
+
+Output: quote founder/investitori a ogni round. (La guida 26 insiste su gestione equity e step-up).
 
 ---
 
-## Piano per sprint (3 settimane “from now” come traccia operativa)
+# 9) Prospetti completi & coerenza contabile
 
-**Sprint 1 – Fundamentals (mercato + modello + forecast P&L)**
+## 9.1 P&L → Cash Flow → Stato Patrimoniale
 
-1. Estendi `database.json` con `procedures`, `devices`, `revenueModel`, `goToMarket`. 
-2. Implementa `ForecastService.v1` → calcola **unità vendute**, **ricavi per linea**, **COGS**, **Gross Margin**, **OPEX link** (dal Budget) → **EBITDA/EBIT/Net**. 
-3. UI: Tab Forecast (P&L + KPI base: GM%, EBITDA, MRR/ARR se applicabile). 
+Implementa i tre prospetti come **derivati** (read-only). La 38c dà l’ordine e le definizioni; tu hai già il pattern “calcolo a vista dal single source”.
 
-**Sprint 2 – Cash & Balance + scenari**
-4) Aggiungi working capital (DSO, DPO, inventory), CAPEX → **Cash Flow** + **Cassa finale/minima**. 
-5) Deriva **Stato Patrimoniale** semplificato. 
-6) Scenario engine (+ buffer 10–20%). 
+- **P&L**: ricavi per linea → **COGS** → **Gross Margin** → **OPEX** (dal Budget) → **EBITDA/EBIT/Net**.
+- **Cash Flow**: `EBITDA ± ΔWC − CAPEX +/− Finanza = ΔCassa`; curva cumulata per **minimo cassa**.
+- **Balance**: cassa finale, crediti, inventario, immobilizzazioni nette, debiti, patrimonio; **check**: Attivo = Passivo+PN.
 
-**Sprint 3 – KPI avanzati & investitori**
-7) KPI completi: **Burn, Runway, Break-even (€/mese e unità/anno), LTV/CAC** (con ipotesi iniziali), **Use of Funds** auto-compilato. 
-8) Export deck/Excel dai dati del `forecast` (nessun dato duplicato; tutto proviene dal single source). 
+## 9.2 Validazioni automatiche
 
+- **P&L vs Cash**: `Utile netto + ammortamenti − ΔWC − CAPEX ≈ CF operativo+investimenti`.
+- **Balance**: scarto massimo accettato `< €1`.
+- **Coerenza ricavi**: MRR × 12 = ARR (entro 1%).
+
+---
+
+# 10) UI: componenti aggiuntivi minimi
+
+- **KPI strip** (sticky) con semafori.
+- **Scenario bar**: 3 scenari + toggle “Buffer 15%”.
+- **Card Use of Funds** (importo richiesto, mesi coperti, % allocazioni).
+- **Valuation tab**: VC Method (slider), Milestone ladder (tabella), Dilution sim (grafico stacked).
 ---
 
 ## Perché questo approccio “funziona” con ciò che hai già

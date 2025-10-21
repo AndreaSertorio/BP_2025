@@ -2,22 +2,28 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { TooltipProvider } from '@/components/ui/tooltip';
+import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { useDatabase } from '@/contexts/DatabaseProvider';
 import {
   Info,
   DollarSign,
   CheckCircle2,
-  Save
+  Save,
+  TrendingDown,
+  TrendingUp,
+  GitCompare
 } from 'lucide-react';
 import { HardwareCard } from './HardwareCard';
 import { SaaSMultiModelCard } from './SaaSMultiModelCard';
+import { GTMEngineUnified } from '../GTMEngineUnified';
+import { GTMReconciliationCard } from '../GTMReconciliationCard';
 import { PricingStrategyCard } from './PricingStrategyCard';
 import { ConsumablesCard } from './ConsumablesCard';
 import { ServicesCard } from './ServicesCard';
 import { BundlingCard } from './BundlingCard';
 import { FinancingCard } from './FinancingCard';
 import { RevenuePreview } from './RevenuePreview';
+import { GtmCalculationService } from '@/services/gtmCalculations';
 
 export function RevenueModelDashboard() {
   const { 
@@ -31,6 +37,7 @@ export function RevenueModelDashboard() {
   
   const tamSamSomEcografi = data?.configurazioneTamSamSom?.ecografi;
   const revenueModel = data?.revenueModel;
+  const goToMarket = data?.goToMarket;
   
   // 🆕 Leggi UNITÀ di dispositivi SOM dal TAM/SAM/SOM per tutti i 5 anni
   const dispositiviUnita = tamSamSomEcografi?.dispositiviUnita || {
@@ -43,6 +50,28 @@ export function RevenueModelDashboard() {
   
   // State per anno selezionato (default: Anno 1)
   const [selectedYear, setSelectedYear] = useState<1 | 2 | 3 | 4 | 5>(1);
+  
+  // 🆕 State per tab attivo
+  const [activeTab, setActiveTab] = useState<'top-down' | 'bottom-up' | 'riconciliazione'>('top-down');
+  
+  // 🆕 Calcola proiezioni GTM con il service (usato in Bottom-Up e Riconciliazione)
+  const gtmProjections = useMemo(() => {
+    if (!goToMarket || !dispositiviUnita) return null;
+    
+    const somDevicesByYear = {
+      y1: dispositiviUnita.som1 || 0,
+      y2: dispositiviUnita.som2 || 0,
+      y3: dispositiviUnita.som3 || 0,
+      y4: dispositiviUnita.som4 || 0,
+      y5: dispositiviUnita.som5 || 0
+    };
+    
+    return GtmCalculationService.projectSalesOverYears(
+      goToMarket,
+      somDevicesByYear,
+      'italia'
+    );
+  }, [goToMarket, dispositiviUnita]);
   
   // Flag per evitare loop infinito tra caricamento e salvataggio
   const [isInitialized, setIsInitialized] = useState(false);
@@ -557,34 +586,82 @@ export function RevenueModelDashboard() {
           </div>
         </div>
         
-        {/* Revenue Preview - Widget sommario */}
-        <RevenuePreview 
-          hardwareEnabled={hardwareEnabled}
-          hardwareAsp={hardwareAsp}
-          hardwareUnitCost={hardwareUnitCost}
-          saasEnabled={saasEnabled}
-          saasPerDeviceEnabled={saasPerDeviceEnabled}
-          saasMonthlyFee={saasMonthlyFee}
-          saasAnnualFee={saasAnnualFee}
-          saasPerDeviceGrossMarginPct={saasPerDeviceGrossMarginPct}
-          saasActivationRate={saasActivationRate}
-          saasPerScanEnabled={saasPerScanEnabled}
-          saasFeePerScan={saasFeePerScan}
-          saasRevSharePct={saasRevSharePct}
-          saasScansPerDevicePerMonth={saasScansPerDevicePerMonth}
-          saasPerScanGrossMarginPct={saasPerScanGrossMarginPct}
-          saasTieredEnabled={saasTieredEnabled}
-          saasTiers={saasTiers}
-          saasTieredGrossMarginPct={saasTieredGrossMarginPct}
-          dispositiviUnita={dispositiviUnita}
-          selectedYear={selectedYear}
-          setSelectedYear={setSelectedYear}
-        />
+        {/* 🆕 TAB NAVIGATION */}
+        <Card className="p-4 bg-gradient-to-r from-purple-50 to-blue-50 border-2 border-purple-200">
+          <div className="flex items-center gap-3">
+            <Button
+              variant={activeTab === 'top-down' ? 'default' : 'outline'}
+              onClick={() => setActiveTab('top-down')}
+              className={`flex items-center gap-2 ${activeTab === 'top-down' ? 'bg-purple-600' : ''}`}
+            >
+              <TrendingDown className="w-4 h-4" />
+              Top-Down (Market-Driven)
+            </Button>
+            
+            <Button
+              variant={activeTab === 'bottom-up' ? 'default' : 'outline'}
+              onClick={() => setActiveTab('bottom-up')}
+              className={`flex items-center gap-2 ${activeTab === 'bottom-up' ? 'bg-blue-600' : ''}`}
+            >
+              <TrendingUp className="w-4 h-4" />
+              Bottom-Up (Capacity-Driven)
+            </Button>
+            
+            <Button
+              variant={activeTab === 'riconciliazione' ? 'default' : 'outline'}
+              onClick={() => setActiveTab('riconciliazione')}
+              className={`flex items-center gap-2 ${activeTab === 'riconciliazione' ? 'bg-green-600' : ''}`}
+            >
+              <GitCompare className="w-4 h-4" />
+              Riconciliazione
+            </Button>
+          </div>
+          
+          <div className="mt-3 text-sm text-gray-700">
+            {activeTab === 'top-down' && (
+              <p><strong>Top-Down:</strong> Proiezioni basate su TAM/SAM/SOM e modelli di pricing</p>
+            )}
+            {activeTab === 'bottom-up' && (
+              <p><strong>Bottom-Up:</strong> Proiezioni basate su capacità commerciale effettiva del team</p>
+            )}
+            {activeTab === 'riconciliazione' && (
+              <p><strong>Riconciliazione:</strong> Confronto e analisi tra le due metodologie per proiezioni realistiche</p>
+            )}
+          </div>
+        </Card>
         
-        {/* Cards principali */}
+        {/* Cards principali - Contenuto condizionale per tab */}
         <div className="grid grid-cols-1 gap-6">
-          {/* Hardware Card */}
-          <HardwareCard 
+          
+          {/* ==================== TAB TOP-DOWN ==================== */}
+          {activeTab === 'top-down' && (
+            <>
+              {/* Revenue Preview Top-Down */}
+              <RevenuePreview 
+                hardwareEnabled={hardwareEnabled}
+                hardwareAsp={hardwareAsp}
+                hardwareUnitCost={hardwareUnitCost}
+                saasEnabled={saasEnabled}
+                saasPerDeviceEnabled={saasPerDeviceEnabled}
+                saasMonthlyFee={saasMonthlyFee}
+                saasAnnualFee={saasAnnualFee}
+                saasPerDeviceGrossMarginPct={saasPerDeviceGrossMarginPct}
+                saasActivationRate={saasActivationRate}
+                saasPerScanEnabled={saasPerScanEnabled}
+                saasFeePerScan={saasFeePerScan}
+                saasRevSharePct={saasRevSharePct}
+                saasScansPerDevicePerMonth={saasScansPerDevicePerMonth}
+                saasPerScanGrossMarginPct={saasPerScanGrossMarginPct}
+                saasTieredEnabled={saasTieredEnabled}
+                saasTiers={saasTiers}
+                saasTieredGrossMarginPct={saasTieredGrossMarginPct}
+                dispositiviUnita={dispositiviUnita}
+                selectedYear={selectedYear}
+                setSelectedYear={setSelectedYear}
+              />
+              
+              {/* Hardware Card */}
+              <HardwareCard 
             enabled={hardwareEnabled}
             setEnabled={setHardwareEnabled}
             asp={hardwareAsp}
@@ -668,6 +745,191 @@ export function RevenueModelDashboard() {
             enabled={financingEnabled}
             setEnabled={setFinancingEnabled}
           />
+            </>
+          )}
+          
+          {/* ==================== TAB BOTTOM-UP ==================== */}
+          {activeTab === 'bottom-up' && (
+            <>
+              {/* 📊 Preview Bottom-Up: Capacity-Driven Projections */}
+              <Card className="p-6 bg-gradient-to-r from-blue-50 to-cyan-50 border-2 border-blue-300">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <TrendingUp className="w-6 h-6 text-blue-600" />
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-900">Proiezioni Bottom-Up</h3>
+                      <p className="text-sm text-gray-600">Basate su capacità commerciale effettiva</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <Info className="w-5 h-5 text-blue-500 cursor-help" />
+                        </TooltipTrigger>
+                        <TooltipContent className="max-w-md">
+                          <p className="font-semibold mb-2">Bottom-Up: Capacity-Driven</p>
+                          <p className="text-xs mb-2">
+                            Proiezioni realistiche basate sulla <strong>capacità effettiva del team commerciale</strong>.
+                          </p>
+                          <p className="text-xs font-mono bg-white p-2 rounded mb-2">
+                            Capacity = reps × deals/Q × 4 × ramp_factor
+                          </p>
+                          <p className="text-xs">
+                            Il calcolo considera: ramp-up team, adoption curve, channel efficiency e funnel conversione.
+                          </p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                    <Badge className="bg-blue-600">Capacity-Driven</Badge>
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-5 gap-3 mb-4">
+                  {[1, 2, 3, 4, 5].map((year) => {
+                    const yearKey = `y${year}` as 'y1' | 'y2' | 'y3' | 'y4' | 'y5';
+                    const somKey = `som${year}` as keyof typeof dispositiviUnita;
+                    
+                    // Usa i calcoli dal service GTM
+                    const capacity = gtmProjections?.maxSalesCapacity[yearKey] || 0;
+                    const realistic = gtmProjections?.realisticSales[yearKey] || 0;
+                    const som = dispositiviUnita[somKey] || 0;
+                    const limiting = gtmProjections?.constrainingFactor[yearKey];
+                    
+                    return (
+                      <div key={year} className="p-4 bg-white rounded-lg border-2 border-blue-200 text-center">
+                        <div className="text-xs font-semibold text-gray-500 mb-1">ANNO {year}</div>
+                        <div className="text-2xl font-bold text-blue-600 mb-2">
+                          {realistic.toLocaleString()}
+                        </div>
+                        <Badge 
+                          variant="outline" 
+                          className={`text-xs mb-2 ${limiting === 'capacity' ? 'border-orange-500 text-orange-700' : 'border-green-500 text-green-700'}`}
+                        >
+                          {limiting === 'capacity' ? '⚡ Cap' : '🎯 Mkt'}
+                        </Badge>
+                        <div className="text-xs text-gray-600">
+                          <div>Capacity: {capacity}</div>
+                          <div>SOM: {som}</div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                
+                <div className="p-3 bg-blue-100 rounded text-sm">
+                  <p className="text-blue-900">
+                    <strong>💡 Logica:</strong> Realistic Sales = min(Capacity × channel efficiency, SOM × adoption curve). 
+                    Calcoli precisi da GTM Engine con ramp-up, produttività reps e penetrazione mercato.
+                  </p>
+                </div>
+              </Card>
+              
+              {/* Go-To-Market Engine Unified - Tutto in un componente compatto! */}
+              <GTMEngineUnified />
+            </>
+          )}
+          
+          {/* ==================== TAB RICONCILIAZIONE ==================== */}
+          {activeTab === 'riconciliazione' && (
+            <>
+              {/* 📊 Preview Riconciliazione: Summary Widget */}
+              <Card className="p-6 bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-400">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <GitCompare className="w-6 h-6 text-green-600" />
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-900">Riepilogo Riconciliazione</h3>
+                      <p className="text-sm text-gray-600">Proiezioni Realistiche = min(Top-Down, Bottom-Up)</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <Info className="w-5 h-5 text-green-500 cursor-help" />
+                        </TooltipTrigger>
+                        <TooltipContent className="max-w-md">
+                          <p className="font-semibold mb-2">Riconciliazione Top-Down/Bottom-Up</p>
+                          <p className="text-xs mb-2">
+                            Confronta le due metodologie per identificare il <strong>fattore limitante</strong> e definire proiezioni realistiche.
+                          </p>
+                          <p className="text-xs font-mono bg-white p-2 rounded mb-2">
+                            Realistic = min(SOM × adoption, Capacity × efficiency)
+                          </p>
+                          <p className="text-xs mb-1">
+                            <strong>🎯 Market-Limited:</strong> SOM disponibile è il limite → Focus su lead gen
+                          </p>
+                          <p className="text-xs">
+                            <strong>⚡ Capacity-Limited:</strong> Team è il limite → Assumere o aumentare efficienza
+                          </p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                    <Badge className="bg-green-600">Reconciled</Badge>
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-5 gap-3">
+                  {[1, 2, 3, 4, 5].map((year) => {
+                    const yearKey = `y${year}` as 'y1' | 'y2' | 'y3' | 'y4' | 'y5';
+                    const somKey = `som${year}` as keyof typeof dispositiviUnita;
+                    
+                    // Top-Down: SOM devices
+                    const topDown = dispositiviUnita[somKey] || 0;
+                    
+                    // Bottom-Up: da GTM Engine con calcoli precisi
+                    const bottomUp = gtmProjections?.maxSalesCapacity[yearKey] || 0;
+                    
+                    // Realistic: dal service (considera anche adoption + channel efficiency)
+                    const realistic = gtmProjections?.realisticSales[yearKey] || 0;
+                    const limiting = gtmProjections?.constrainingFactor[yearKey];
+                    const isMarketLimited = limiting === 'market';
+                    
+                    return (
+                      <div key={year} className="p-4 bg-white rounded-lg border-2 border-green-300">
+                        <div className="text-xs font-semibold text-gray-500 mb-1">ANNO {year}</div>
+                        <div className="text-3xl font-bold text-green-600 mb-2">
+                          {realistic.toLocaleString()}
+                        </div>
+                        <Badge 
+                          variant={isMarketLimited ? 'default' : 'secondary'}
+                          className={`w-full justify-center text-xs ${
+                            isMarketLimited ? 'bg-green-600' : 'bg-orange-600'
+                          }`}
+                        >
+                          {isMarketLimited ? '🎯 Market' : '⚡ Capacity'}
+                        </Badge>
+                        <div className="text-xs text-gray-500 mt-2 space-y-1">
+                          <div>Top: {topDown.toLocaleString()}</div>
+                          <div>Bot: {bottomUp.toLocaleString()}</div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                
+                <div className="mt-4 grid grid-cols-2 gap-3">
+                  <div className="p-3 bg-green-100 rounded">
+                    <div className="text-xs font-semibold text-green-900 mb-1">🎯 Market-Limited</div>
+                    <p className="text-xs text-green-800">
+                      SOM disponibile {'<'} Capacità team. Focus: lead gen e marketing.
+                    </p>
+                  </div>
+                  <div className="p-3 bg-orange-100 rounded">
+                    <div className="text-xs font-semibold text-orange-900 mb-1">⚡ Capacity-Limited</div>
+                    <p className="text-xs text-orange-800">
+                      Capacità team {'<'} SOM. Focus: assumere sales reps o efficienza.
+                    </p>
+                  </div>
+                </div>
+              </Card>
+              
+              {/* 🎯 GTM Reconciliation Card - Completa e Unificata */}
+              <GTMReconciliationCard />
+            </>
+          )}
+          
         </div>
         
         {/* Footer Info */}

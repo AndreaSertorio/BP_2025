@@ -1,6 +1,7 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { MercatoEcografie } from './MercatoEcografie';
 import { MercatoEcografieRegionale } from './MercatoEcografieRegionale';
@@ -8,9 +9,27 @@ import { MercatoEcografi } from './MercatoEcografi';
 import { MercatoRiepilogo } from './MercatoRiepilogo';
 
 export function MercatoWrapper() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [activeTab, setActiveTab] = useState('riepilogo');
+
+  // Sync sub-tab with URL
+  useEffect(() => {
+    const subtabParam = searchParams.get('subtab');
+    if (subtabParam && ['riepilogo', 'ecografie', 'ecografi'].includes(subtabParam)) {
+      setActiveTab(subtabParam);
+    }
+  }, [searchParams]);
+
+  const handleTabChange = (newTab: string) => {
+    setActiveTab(newTab);
+    const tabParam = searchParams.get('tab') || 'mercato';
+    router.push(`/?tab=${tabParam}&subtab=${newTab}`);
+  };
+
   return (
     <div className="min-h-screen bg-background">
-      <Tabs defaultValue="riepilogo" className="w-full">
+      <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
         <div className="border-b bg-card">
           <div className="container mx-auto px-6">
             <TabsList>

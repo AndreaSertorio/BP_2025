@@ -1,33 +1,37 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { ScenarioSelector } from './ScenarioSelector';
 import { ParameterControl } from './ParameterControl';
-import { AdvancedMetricsView } from './AdvancedMetrics';
-import { FinancialStatements } from './FinancialStatements';
-import ParametersPanel from './ParametersPanel';
-import { Financials } from './Financials';
-import { SensitivityAnalysis } from './SensitivityAnalysis';
-import { Glossary } from './Glossary';
 import { KPICard } from './KPICard';
 import { ChartCard } from './ChartCard';
-import { FunnelGTM } from './FunnelGTM';
+import { ExportPanel } from './ExportPanel';
+import { Financials } from './Financials';
+import { SensitivityAnalysis } from './SensitivityAnalysis';
+import { AdvancedMetricsView } from './AdvancedMetrics';
+import { FinancialStatements } from './FinancialStatements';
 import { CashFlowView } from './CashFlowView';
 import { GrowthMetricsView } from './GrowthMetricsView';
 import { ScenarioComparison } from './ScenarioComparison';
-import { ExportPanel } from './ExportPanel';
+import ParametersPanel from './ParametersPanel';
 import { ParametersOverview } from './ParametersOverview';
 import { SectorMarketConfig } from './SectorMarketConfig';
 import { MetricsExplainer } from './MetricsExplainer';
-import { OldDashboard } from './OldDashboard';
+import { FunnelGTM } from './FunnelGTM';
+import { Glossary } from './Glossary';
 import { MercatoWrapper } from './MercatoWrapper';
 import { BudgetWrapper } from './BudgetWrapper';
 import { TamSamSomDashboard } from './TamSamSomDashboard';
 import { BusinessPlanView } from './BusinessPlanView';
 import { RevenueModelDashboard } from './RevenueModel';
-import { IncomeStatementDashboard } from './IncomeStatementDashboard';
-import { BalanceSheetView } from './BalanceSheetView';
+import { FinancialPlanDashboard } from './FinancialPlanDashboard';
 import { DatabaseInspector } from './DatabaseInspector';
+import { TimelineView } from './TimelineView';
+import { TeamManagementDashboard } from './TeamManagement/TeamManagementDashboard';
+import { ValuePropositionDashboard } from './ValueProposition';
+import { CompetitorAnalysisDashboard } from './CompetitorAnalysis';
+import { DashboardQuickLinks } from './DashboardQuickLinks';
 import { LoadingCard, LoadingChart } from './ui/loading-spinner';
 import { MetricTooltip } from './ui/enhanced-tooltip';
 import { exportCompleteScenario, exportMonthlyData, exportAnnualData, exportKPIs, exportAdvancedMetrics, exportCashFlowStatements, exportGrowthMetrics } from '@/lib/exportUtils';
@@ -41,12 +45,24 @@ import { Scenario, ScenarioKey, FinancialAssumptions } from '@/types/financial';
 import { downloadJSON } from '@/lib/utils';
 
 export function MasterDashboard() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  
   const [currentScenarioKey, setCurrentScenarioKey] = useState<ScenarioKey>('base');
   const [scenarios, setScenarios] = useState(defaultScenarios);
   const [isCalculating, setIsCalculating] = useState(false);
   const [forceRecalc, setForceRecalc] = useState(0); // Force recalculation trigger
-  const [activeTab, setActiveTab] = useState('dashboard');
-  const [comparisonScenarios, setComparisonScenarios] = useState<string[]>(['prudente', 'base', 'ambizioso']);
+  const [comparisonScenarios] = useState<string[]>(['prudente', 'base', 'ambizioso']);
+  
+  // Sync active tab with URL query params
+  const [activeTab, setActiveTab] = useState<string>('dashboard');
+  
+  useEffect(() => {
+    const tabParam = searchParams.get('tab');
+    if (tabParam) {
+      setActiveTab(tabParam);
+    }
+  }, [searchParams]);
 
   const currentScenario = scenarios[currentScenarioKey];
   
@@ -75,25 +91,25 @@ export function MasterDashboard() {
       setIsCalculating(false);
       return null;
     }
-  }, [currentScenario.drivers, currentScenario.assumptions, currentScenario.base, currentScenarioKey, forceRecalc]);
+  }, [currentScenario, currentScenarioKey, forceRecalc]);
 
-  // Calculate base scenario results for comparison
-  const baseResults = useMemo(() => {
-    if (currentScenarioKey === 'base') return null;
-    
-    const baseScenario = scenarios.base;
-    if (!baseScenario || !baseScenario.drivers || !baseScenario.base) {
-      return null;
-    }
-    
-    try {
-      const calculator = new FinancialCalculator(baseScenario);
-      return calculator.calculate();
-    } catch (error) {
-      console.error('Error calculating base scenario for comparison:', error);
-      return null;
-    }
-  }, [currentScenarioKey, scenarios.base]);
+  // Calculate base scenario results for comparison (currently unused)
+  // const baseResults = useMemo(() => {
+  //   if (currentScenarioKey === 'base') return null;
+  //   
+  //   const baseScenario = scenarios.base;
+  //   if (!baseScenario || !baseScenario.drivers || !baseScenario.base) {
+  //     return null;
+  //   }
+  //   
+  //   try {
+  //     const calculator = new FinancialCalculator(baseScenario);
+  //     return calculator.calculate();
+  //   } catch (error) {
+  //     console.error('Error calculating base scenario for comparison:', error);
+  //     return null;
+  //   }
+  // }, [currentScenarioKey, scenarios.base]);
 
   // Prepare chart data
   const revenueChartData = useMemo(() => {
@@ -214,7 +230,7 @@ export function MasterDashboard() {
     selectedSectors: string[];
     customTAM: number;
     customSAM: number;
-    sectorMarkets: any;
+    sectorMarkets: FinancialAssumptions['sectorMarkets'];
   }) => {
     console.log('Market Config Update - Current Scenario:', currentScenarioKey);
     console.log('Selected Sectors:', config.selectedSectors);
@@ -358,6 +374,12 @@ export function MasterDashboard() {
     }
   };
 
+  // Handler for tab changes - updates URL
+  const handleTabChange = (newTab: string) => {
+    setActiveTab(newTab);
+    router.push(`/?tab=${newTab}`);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <ScenarioSelector
@@ -369,64 +391,50 @@ export function MasterDashboard() {
         onImportScenario={handleImportScenario}
       />
 
-      <Tabs defaultValue="dashboard" className="w-full">
+      <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
         <div className="border-b bg-card">
           <div className="container mx-auto px-6">
             <TabsList>
               <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
               <TabsTrigger value="mercato">🌍 Mercato</TabsTrigger>
               <TabsTrigger value="tam-sam-som">🎯 TAM/SAM/SOM</TabsTrigger>
+              <TabsTrigger value="value-proposition">🎯 Value Proposition</TabsTrigger>
+              <TabsTrigger value="competitor-analysis">⚔️ Competitor Analysis</TabsTrigger>
               <TabsTrigger value="revenue-model">💼 Modello Business</TabsTrigger>
-              <TabsTrigger value="income-statement">📊 Conto Economico</TabsTrigger>
-              <TabsTrigger value="balance-sheet">🏦 Stato Patrimoniale</TabsTrigger>
+              <TabsTrigger value="financial-plan">📈 Piano Finanziario</TabsTrigger>
               <TabsTrigger value="budget">💰 Budget</TabsTrigger>
+              <TabsTrigger value="team">👥 Team</TabsTrigger>
+              <TabsTrigger value="timeline">📅 Timeline</TabsTrigger>
               <TabsTrigger value="database">🗄️ Database</TabsTrigger>
               <TabsTrigger value="business-plan">📄 Business Plan</TabsTrigger>
-              <TabsTrigger value="old-tabs">🗂️ Vecchi Tab</TabsTrigger>
+              <TabsTrigger value="varie">📚 Varie</TabsTrigger>
             </TabsList>
           </div>
         </div>
 
         <TabsContent value="dashboard" className="mt-0">
-          <div className="container mx-auto p-6 space-y-6">
-            {/* NUOVA DASHBOARD VUOTA - IN COSTRUZIONE */}
-            <div className="bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-blue-300 rounded-lg p-8 text-center">
-              <h1 className="text-3xl font-bold text-blue-900 mb-4">
-                🚧 Nuova Dashboard in Costruzione
-              </h1>
-              <p className="text-lg text-blue-700 mb-6">
-                Questa è la nuova dashboard semplificata per Eco 3D.
+          <div className="container mx-auto p-6 space-y-8 max-w-7xl">
+            {/* HEADER - IN COSTRUZIONE */}
+            <div className="bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-blue-300 rounded-lg p-6">
+              <div className="flex items-center justify-center gap-3 mb-3">
+                <span className="text-3xl">🚧</span>
+                <h1 className="text-2xl font-bold text-blue-900">
+                  Dashboard in Costruzione
+                </h1>
+              </div>
+              <p className="text-center text-blue-700 mb-4">
+                Stiamo costruendo una nuova interfaccia più intuitiva e focalizzata sulle metriche essenziali.
               </p>
-              <div className="bg-white rounded-lg p-6 shadow-md max-w-2xl mx-auto">
-                <h2 className="text-xl font-semibold text-gray-800 mb-3">📍 Stato Attuale</h2>
-                <p className="text-gray-600 mb-4">
-                  La dashboard precedente è stata archiviata nel tab <strong>&quot;🗂️ Vecchi Tab&quot;</strong> 
-                  e può essere consultata in qualsiasi momento.
-                </p>
-                <p className="text-gray-600">
-                  Stiamo costruendo una nuova interfaccia più intuitiva e focalizzata sulle metriche essenziali.
+              <div className="bg-white/60 rounded-lg p-4 max-w-xl mx-auto">
+                <p className="text-sm text-gray-700 text-center">
+                  Nel frattempo, usa i <strong>Quick Links</strong> qui sotto per navigare velocemente 
+                  alle sezioni chiave dell&apos;applicazione.
                 </p>
               </div>
             </div>
 
-            {/* Placeholder per future sezioni */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <div className="bg-white border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                <div className="text-4xl mb-3">📊</div>
-                <h3 className="font-semibold text-gray-700">Metriche Chiave</h3>
-                <p className="text-sm text-gray-500 mt-2">Coming soon...</p>
-              </div>
-              <div className="bg-white border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                <div className="text-4xl mb-3">📈</div>
-                <h3 className="font-semibold text-gray-700">Grafici Principali</h3>
-                <p className="text-sm text-gray-500 mt-2">Coming soon...</p>
-              </div>
-              <div className="bg-white border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                <div className="text-4xl mb-3">⚙️</div>
-                <h3 className="font-semibold text-gray-700">Parametri Essenziali</h3>
-                <p className="text-sm text-gray-500 mt-2">Coming soon...</p>
-              </div>
-            </div>
+            {/* QUICK LINKS */}
+            <DashboardQuickLinks />
           </div>
         </TabsContent>
 
@@ -440,18 +448,20 @@ export function MasterDashboard() {
           </div>
         </TabsContent>
 
+        <TabsContent value="value-proposition" className="mt-0">
+          <ValuePropositionDashboard />
+        </TabsContent>
+
+        <TabsContent value="competitor-analysis" className="mt-0">
+          <CompetitorAnalysisDashboard />
+        </TabsContent>
+
         <TabsContent value="revenue-model" className="mt-0">
           <RevenueModelDashboard />
         </TabsContent>
 
-        <TabsContent value="income-statement" className="mt-0">
-          <div className="container mx-auto">
-            <IncomeStatementDashboard scenario={currentScenario} />
-          </div>
-        </TabsContent>
-
-        <TabsContent value="balance-sheet" className="mt-0">
-          <BalanceSheetView 
+        <TabsContent value="financial-plan" className="mt-0">
+          <FinancialPlanDashboard 
             scenario={currentScenario}
             annualData={calculationResults?.annualData || []}
           />
@@ -461,8 +471,18 @@ export function MasterDashboard() {
           <BudgetWrapper />
         </TabsContent>
 
+        <TabsContent value="team" className="mt-0">
+          <TeamManagementDashboard />
+        </TabsContent>
+
         <TabsContent value="database" className="mt-0">
           <DatabaseInspector />
+        </TabsContent>
+
+        <TabsContent value="timeline" className="mt-0">
+          <div className="container mx-auto p-6">
+            <TimelineView />
+          </div>
         </TabsContent>
 
         <TabsContent value="business-plan" className="mt-0">
@@ -1090,151 +1110,17 @@ export function MasterDashboard() {
           </div>
         </TabsContent>
 
-        {/* NEW: Vecchi Tab - All old tabs grouped here */}
-        <TabsContent value="old-tabs" className="mt-0">
+        {/* Tab Varie - Solo Glossario */}
+        <TabsContent value="varie" className="mt-0">
           <div className="container mx-auto p-6">
-            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
-              <h2 className="text-lg font-semibold mb-2 text-yellow-800">⚠️ Vecchi Tab - Da Riorganizzare</h2>
-              <p className="text-sm text-yellow-700">
-                Questi tab contengono funzionalità esistenti che verranno gradualmente integrate nella nuova dashboard semplificata.
-                Sono mantenuti qui per riferimento e per poter recuperare componenti specifici.
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+              <h2 className="text-lg font-semibold mb-2 text-blue-800">📚 Varie</h2>
+              <p className="text-sm text-blue-700">
+                Risorse aggiuntive e terminologia tecnica per supportare la comprensione del piano finanziario.
               </p>
             </div>
 
-            <Tabs defaultValue="old-dashboard" className="w-full">
-              <TabsList className="grid grid-cols-4 lg:grid-cols-7 gap-2">
-                <TabsTrigger value="old-dashboard">🗄️ Dashboard Vecchia</TabsTrigger>
-                <TabsTrigger value="financials">Financials</TabsTrigger>
-                <TabsTrigger value="advanced">Advanced</TabsTrigger>
-                <TabsTrigger value="cashflow">Cash Flow</TabsTrigger>
-                <TabsTrigger value="growth">Growth</TabsTrigger>
-                <TabsTrigger value="statements">Statements</TabsTrigger>
-                <TabsTrigger value="comparison">Compare</TabsTrigger>
-                <TabsTrigger value="sensitivity">Sensitivity</TabsTrigger>
-                <TabsTrigger value="parameters">Parameters</TabsTrigger>
-                <TabsTrigger value="overview">Overview</TabsTrigger>
-                <TabsTrigger value="market-config">Market Config</TabsTrigger>
-                <TabsTrigger value="calculations">Calcoli</TabsTrigger>
-                <TabsTrigger value="glossary">Glossary</TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="old-dashboard" className="mt-4">
-                <OldDashboard
-                  currentScenario={currentScenario}
-                  currentScenarioKey={currentScenarioKey}
-                  scenarios={scenarios}
-                  isCalculating={isCalculating}
-                  calculationResults={calculationResults}
-                  revenueChartData={revenueChartData}
-                  ebitdaChartData={ebitdaChartData}
-                  arrChartData={arrChartData}
-                  handleScenarioChange={handleScenarioChange}
-                  handleAssumptionChange={(key: string, value: number) => handleAssumptionChange(key as any, value)}
-                  handleAssumptionReset={(key: string) => handleAssumptionReset(key as any)}
-                  handleParameterChange={(key: string, value: number) => handleParameterChange(key as any, value)}
-                  handleParameterReset={(key: string) => handleParameterReset(key as any)}
-                  handleExportMonthly={handleExportMonthly}
-                  handleExportAnnual={handleExportAnnual}
-                  handleExportKPIs={handleExportKPIs}
-                  handleExportAdvanced={handleExportAdvanced}
-                  handleExportCashFlow={handleExportCashFlow}
-                  handleExportGrowth={handleExportGrowth}
-                  handleExportComplete={handleExportComplete}
-                />
-              </TabsContent>
-
-              <TabsContent value="financials" className="mt-4">
-                {calculationResults && <Financials results={calculationResults} />}
-              </TabsContent>
-
-              <TabsContent value="advanced" className="mt-4">
-                {calculationResults && calculationResults.advancedMetrics && (
-                  <AdvancedMetricsView 
-                    metrics={calculationResults.advancedMetrics}
-                    monthlyData={calculationResults.monthlyData}
-                  />
-                )}
-              </TabsContent>
-
-              <TabsContent value="cashflow" className="mt-4">
-                {calculationResults && calculationResults.cashFlowStatements && calculationResults.monthlyCashFlows ? (
-                  <CashFlowView 
-                    cashFlowStatements={calculationResults.cashFlowStatements}
-                    monthlyCashFlows={calculationResults.monthlyCashFlows}
-                  />
-                ) : (
-                  <LoadingChart height={400} />
-                )}
-              </TabsContent>
-
-              <TabsContent value="growth" className="mt-4">
-                {calculationResults && calculationResults.growthMetrics ? (
-                  <GrowthMetricsView 
-                    growthMetrics={calculationResults.growthMetrics}
-                  />
-                ) : (
-                  <LoadingChart height={400} />
-                )}
-              </TabsContent>
-
-              <TabsContent value="statements" className="mt-4">
-                {calculationResults && (
-                  <FinancialStatements 
-                    scenario={currentScenario}
-                    annualData={calculationResults.annualData}
-                  />
-                )}
-              </TabsContent>
-
-              <TabsContent value="comparison" className="mt-4">
-                <ScenarioComparison 
-                  scenarios={comparisonScenarios.map(key => ({
-                    name: scenarios[key as ScenarioKey]?.name || key,
-                    key,
-                    results: (() => {
-                      try {
-                        const calculator = new FinancialCalculator(scenarios[key as ScenarioKey]);
-                        return calculator.calculate();
-                      } catch (error) {
-                        console.error(`Error calculating ${key}:`, error);
-                        return calculationResults!;
-                      }
-                    })(),
-                    color: key === 'prudente' ? '#ef4444' : key === 'base' ? '#3b82f6' : '#10b981'
-                  }))}
-                />
-              </TabsContent>
-
-              <TabsContent value="sensitivity" className="mt-4">
-                <SensitivityAnalysis baseScenario={currentScenario} />
-              </TabsContent>
-
-              <TabsContent value="parameters" className="mt-4">
-                <ParametersPanel 
-                  scenario={currentScenario}
-                  onScenarioChange={handleScenarioChange}
-                />
-              </TabsContent>
-
-              <TabsContent value="overview" className="mt-4">
-                <ParametersOverview scenario={currentScenario} />
-              </TabsContent>
-
-              <TabsContent value="market-config" className="mt-4">
-                <SectorMarketConfig 
-                  scenario={currentScenario}
-                  onUpdateMarketConfig={handleMarketConfigUpdate}
-                />
-              </TabsContent>
-
-              <TabsContent value="calculations" className="mt-4">
-                <MetricsExplainer scenario={currentScenario} />
-              </TabsContent>
-
-              <TabsContent value="glossary" className="mt-4">
-                <Glossary />
-              </TabsContent>
-            </Tabs>
+            <Glossary />
           </div>
         </TabsContent>
       </Tabs>

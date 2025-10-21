@@ -1,0 +1,627 @@
+{
+  "valueProposition": {
+    "version": "1.0.0",
+    "lastUpdated": "2025-10-16T14:30:00Z",
+    
+    "metadata": {
+      "framework": "hybrid",
+      "completionStatus": 65,
+      "lastReviewed": "2025-10-15",
+      "reviewedBy": "CEO",
+      "targetAudiences": ["investors", "clinici", "strutture_sanitarie"]
+    },
+    
+    "customerProfile": {
+      "segments": [
+        {
+          "id": "seg_001",
+          "name": "Ginecologi - Strutture Pubbliche",
+          "priority": "high",
+          "icon": "🏥",
+          "jobs": [
+            {
+              "id": "job_001",
+              "description": "Ottenere immagini 3D fetali accurate per diagnosi prenatale complessa",
+              "category": "functional",
+              "importance": 5,
+              "difficulty": 4,
+              "notes": "Richiesto per anatomia fetale dettagliata",
+              "visible": true,
+              "order": 1
+            },
+            {
+              "id": "job_002",
+              "description": "Ridurre tempi di attesa per imaging avanzato",
+              "category": "functional",
+              "importance": 4,
+              "difficulty": 5,
+              "notes": "Liste di attesa 2-4 settimane per ecografia 3D specialistica",
+              "visible": true,
+              "order": 2
+            },
+            {
+              "id": "job_003",
+              "description": "Rassicurare pazienti con visualizzazione chiara",
+              "category": "emotional",
+              "importance": 4,
+              "difficulty": 3,
+              "notes": "Comunicazione efficace con genitori",
+              "visible": true,
+              "order": 3
+            }
+          ],
+          "pains": [
+            {
+              "id": "pain_001",
+              "description": "Ecografi 2D limitano visualizzazione anatomica complessa",
+              "severity": 5,
+              "frequency": 5,
+              "category": "functional",
+              "notes": "Causa referral a centri specializzati con costi e ritardi",
+              "visible": true,
+              "order": 1
+            },
+            {
+              "id": "pain_002",
+              "description": "Costo elevato e ingombro ecografi 3D carrellati (€150K+)",
+              "severity": 5,
+              "frequency": 4,
+              "category": "cost",
+              "notes": "Budget limitati strutture pubbliche",
+              "visible": true,
+              "order": 2
+            },
+            {
+              "id": "pain_003",
+              "description": "Tempi lunghi per ottenere immagini 3D (30+ minuti setup)",
+              "severity": 4,
+              "frequency": 4,
+              "category": "functional",
+              "notes": "Impatto su throughput ambulatoriale",
+              "visible": true,
+              "order": 3
+            },
+            {
+              "id": "pain_004",
+              "description": "Difficoltà interpretazione immagini 2D da parte dei pazienti",
+              "severity": 3,
+              "frequency": 5,
+              "category": "experience",
+              "notes": "Aumenta ansia e richieste di chiarimenti",
+              "visible": true,
+              "order": 4
+            }
+          ],
+          "gains": [
+            {
+              "id": "gain_001",
+              "description": "Diagnosi più rapida e accurata senza referral",
+              "desirability": 5,
+              "impact": 5,
+              "category": "performance",
+              "notes": "Riduce ansia pazienti e migliora outcome clinici",
+              "visible": true,
+              "order": 1
+            },
+            {
+              "id": "gain_002",
+              "description": "Risparmio tempo per visita (15 min vs 30 min)",
+              "desirability": 4,
+              "impact": 4,
+              "category": "time",
+              "notes": "Più pazienti visitati per turno",
+              "visible": true,
+              "order": 2
+            },
+            {
+              "id": "gain_003",
+              "description": "Maggiore soddisfazione pazienti con imaging 3D chiaro",
+              "desirability": 4,
+              "impact": 3,
+              "category": "experience",
+              "notes": "Migliora reputazione struttura",
+              "visible": true,
+              "order": 3
+            },
+            {
+              "id": "gain_004",
+              "description": "Accesso a tecnologia premium a costo sostenibile",
+              "desirability": 5,
+              "impact": 5,
+              "category": "cost",
+              "notes": "ROI in 12-18 mesi vs mai per carrellati",
+              "visible": true,
+              "order": 4
+            }
+          ],
+          "visible": true,
+          "order": 1
+        },
+        {
+          "id": "seg_002",
+          "name": "Cliniche Private - Ginecologia",
+          "priority": "high",
+          "icon": "🏢",
+          "jobs": [
+            {
+              "id": "job_004",
+              "description": "Offrire servizio premium differenziante",
+              "category": "social",
+              "importance": 5,
+              "difficulty": 4,
+              "visible": true,
+              "order": 1
+            }
+          ],
+          "pains": [
+            {
+              "id": "pain_005",
+              "description": "Difficile giustificare investimento €150K per carrellato",
+              "severity": 5,
+              "frequency": 3,
+              "category": "cost",
+              "visible": true,
+              "order": 1
+            }
+          ],
+          "gains": [
+            {
+              "id": "gain_005",
+              "description": "Incremento ricavi da servizio premium 3D",
+              "desirability": 5,
+              "impact": 5,
+              "category": "cost",
+              "notes": "€80/esame × 50 esami/mese = €4K ricavi aggiuntivi",
+              "visible": true,
+              "order": 1
+            }
+          ],
+          "visible": true,
+          "order": 2
+        }
+      ],
+      "activeSegmentId": "seg_001"
+    },
+    
+    "valueMap": {
+      "productsAndServices": [
+        {
+          "id": "prod_001",
+          "name": "Ecografo 3D Portatile Eco 3D",
+          "type": "hardware",
+          "description": "Dispositivo medicale classe IIb, imaging volumetrico 3D real-time",
+          "icon": "🏥",
+          "features": [
+            {
+              "id": "feat_001",
+              "name": "Imaging volumetrico 3D real-time",
+              "description": "Acquisizione e ricostruzione 3D in tempo reale",
+              "category": "core",
+              "technicalSpec": "Risoluzione 512×512×512 voxel, 30 fps",
+              "visible": true,
+              "order": 1
+            },
+            {
+              "id": "feat_002",
+              "name": "Sonda multi-elemento 64 canali",
+              "description": "Array phased per imaging cardiaco e ostetrico",
+              "category": "core",
+              "technicalSpec": "Frequenza 2-8 MHz, penetrazione 20cm",
+              "visible": true,
+              "order": 2
+            },
+            {
+              "id": "feat_003",
+              "name": "AI segmentazione automatica",
+              "description": "Identificazione automatica anatomia fetale",
+              "category": "differentiating",
+              "technicalSpec": "Rete neurale CNN, accuratezza 92%",
+              "visible": true,
+              "order": 3
+            },
+            {
+              "id": "feat_004",
+              "name": "Design portatile (<5kg)",
+              "description": "Trasportabile tra ambulatori",
+              "category": "differentiating",
+              "technicalSpec": "4.2 kg con batteria integrata 4h autonomia",
+              "visible": true,
+              "order": 4
+            },
+            {
+              "id": "feat_005",
+              "name": "Setup rapido <2 minuti",
+              "description": "Plug & play senza calibrazione complessa",
+              "category": "enabling",
+              "technicalSpec": "Connessione WiFi/USB-C, auto-calibrazione",
+              "visible": true,
+              "order": 5
+            },
+            {
+              "id": "feat_006",
+              "name": "Touchscreen 12\" Full HD",
+              "description": "Interfaccia intuitiva touch-based",
+              "category": "enabling",
+              "technicalSpec": "1920×1080, 10-point multitouch",
+              "visible": true,
+              "order": 6
+            },
+            {
+              "id": "feat_007",
+              "name": "Cloud storage e PACS integration",
+              "description": "Sincronizzazione automatica con sistemi ospedalieri",
+              "category": "enabling",
+              "technicalSpec": "HL7/DICOM, crittografia AES-256",
+              "visible": true,
+              "order": 7
+            },
+            {
+              "id": "feat_008",
+              "name": "Certificazione MDR classe IIb",
+              "description": "Conforme regolamento dispositivi medici EU",
+              "category": "core",
+              "technicalSpec": "In corso, submission Q1 2026",
+              "visible": true,
+              "order": 8
+            }
+          ],
+          "visible": true,
+          "order": 1
+        },
+        {
+          "id": "prod_002",
+          "name": "Piattaforma SaaS + AI",
+          "type": "software",
+          "description": "Software cloud per analisi avanzata e telemedicina",
+          "icon": "☁️",
+          "features": [
+            {
+              "id": "feat_009",
+              "name": "Dashboard clinico multi-paziente",
+              "category": "core",
+              "visible": true,
+              "order": 1
+            },
+            {
+              "id": "feat_010",
+              "name": "Teleconsulto integrato",
+              "category": "differentiating",
+              "visible": true,
+              "order": 2
+            }
+          ],
+          "visible": true,
+          "order": 2
+        }
+      ],
+      
+      "painRelievers": [
+        {
+          "id": "pr_001",
+          "linkedPainId": "pain_001",
+          "linkedFeatureIds": ["feat_001", "feat_003"],
+          "description": "Imaging 3D + AI elimina necessità referral a centri specializzati",
+          "effectiveness": 5,
+          "proof": "Pilota con 5 ginecologi: riduzione referral dell'87% (da 23 a 3 casi/mese)",
+          "visible": true,
+          "order": 1
+        },
+        {
+          "id": "pr_002",
+          "linkedPainId": "pain_002",
+          "linkedFeatureIds": ["feat_004"],
+          "description": "Prezzo €40K vs €150K+ per carrellati (73% risparmio)",
+          "effectiveness": 5,
+          "proof": "Comparazione prezzi: GE Voluson E10 €180K, Eco 3D €40K",
+          "visible": true,
+          "order": 2
+        },
+        {
+          "id": "pr_003",
+          "linkedPainId": "pain_003",
+          "linkedFeatureIds": ["feat_005", "feat_006"],
+          "description": "Setup <2 min vs 15-30 min per carrellati",
+          "effectiveness": 4,
+          "proof": "Test usabilità: tempo medio setup 1'45\" (n=12 operatori)",
+          "visible": true,
+          "order": 3
+        },
+        {
+          "id": "pr_004",
+          "linkedPainId": "pain_004",
+          "linkedFeatureIds": ["feat_001"],
+          "description": "Visualizzazione 3D intuitiva comprensibile per pazienti",
+          "effectiveness": 5,
+          "proof": "Survey pazienti: 95% comprensione anatomia 3D vs 45% per 2D (n=50)",
+          "visible": true,
+          "order": 4
+        }
+      ],
+      
+      "gainCreators": [
+        {
+          "id": "gc_001",
+          "linkedGainId": "gain_001",
+          "linkedFeatureIds": ["feat_001", "feat_003"],
+          "description": "Diagnosi in ambulatorio senza attesa referral (0 giorni vs 14-28 giorni)",
+          "magnitude": 5,
+          "proof": "Riduzione tempo diagnosi da 21 giorni medi a <1 giorno",
+          "visible": true,
+          "order": 1
+        },
+        {
+          "id": "gc_002",
+          "linkedGainId": "gain_002",
+          "linkedFeatureIds": ["feat_005", "feat_006"],
+          "description": "Riduzione tempo visita del 40% (da 25 a 15 minuti)",
+          "magnitude": 5,
+          "proof": "Time-motion study: 25 min media → 15 min con Eco 3D (n=30 visite)",
+          "visible": true,
+          "order": 2
+        },
+        {
+          "id": "gc_003",
+          "linkedGainId": "gain_003",
+          "linkedFeatureIds": ["feat_001"],
+          "description": "NPS +45 punti con imaging 3D (da 65 a 110 su 100)",
+          "magnitude": 4,
+          "proof": "Survey soddisfazione: NPS 3D=85 vs 2D=40 (n=100 pazienti)",
+          "visible": true,
+          "order": 3
+        },
+        {
+          "id": "gc_004",
+          "linkedGainId": "gain_004",
+          "linkedFeatureIds": ["feat_004"],
+          "description": "ROI in 12-18 mesi grazie a prezzo accessibile €40K",
+          "magnitude": 5,
+          "proof": "Clinica 5 ginecologi: payback 14 mesi (ricavi €4K/mese)",
+          "visible": true,
+          "order": 4
+        }
+      ]
+    },
+    
+    "competitorAnalysis": {
+      "framework": "radar",
+      "competitors": [
+        {
+          "id": "comp_001",
+          "name": "GE Voluson E10",
+          "type": "carrellato",
+          "isOwn": false,
+          "attributes": {
+            "prezzo": 1,
+            "portabilita": 0,
+            "qualita_immagine": 5,
+            "facilita_uso": 3,
+            "velocita_diagnosi": 3,
+            "ai_integrata": 2,
+            "certificazioni": 5,
+            "setup_rapido": 2
+          },
+          "notes": "Leader mercato, qualità premium ma costoso e ingombrante",
+          "visible": true
+        },
+        {
+          "id": "comp_002",
+          "name": "Philips Epiq Elite",
+          "type": "carrellato",
+          "isOwn": false,
+          "attributes": {
+            "prezzo": 1,
+            "portabilita": 0,
+            "qualita_immagine": 5,
+            "facilita_uso": 4,
+            "velocita_diagnosi": 3,
+            "ai_integrata": 3,
+            "certificazioni": 5,
+            "setup_rapido": 2
+          },
+          "visible": true
+        },
+        {
+          "id": "comp_003",
+          "name": "Samsung HERA W10",
+          "type": "portatile",
+          "isOwn": false,
+          "attributes": {
+            "prezzo": 3,
+            "portabilita": 4,
+            "qualita_immagine": 4,
+            "facilita_uso": 4,
+            "velocita_diagnosi": 4,
+            "ai_integrata": 3,
+            "certificazioni": 4,
+            "setup_rapido": 4
+          },
+          "notes": "Buon compromesso portatile, ma 3D limitato",
+          "visible": true
+        },
+        {
+          "id": "comp_004",
+          "name": "Butterfly iQ+",
+          "type": "palmare",
+          "isOwn": false,
+          "attributes": {
+            "prezzo": 5,
+            "portabilita": 5,
+            "qualita_immagine": 2,
+            "facilita_uso": 5,
+            "velocita_diagnosi": 4,
+            "ai_integrata": 3,
+            "certificazioni": 3,
+            "setup_rapido": 5
+          },
+          "notes": "Ultra-portatile ma qualità limitata, no 3D volumetrico",
+          "visible": true
+        },
+        {
+          "id": "comp_005",
+          "name": "Eco 3D",
+          "type": "portatile",
+          "isOwn": true,
+          "attributes": {
+            "prezzo": 4,
+            "portabilita": 5,
+            "qualita_immagine": 4,
+            "facilita_uso": 5,
+            "velocita_diagnosi": 5,
+            "ai_integrata": 5,
+            "certificazioni": 3,
+            "setup_rapido": 5
+          },
+          "notes": "Sweet spot: qualità premium + portabilità + AI",
+          "visible": true
+        }
+      ],
+      "attributeDefinitions": {
+        "prezzo": {
+          "label": "Prezzo Accessibile",
+          "description": "5=molto economico, 1=molto costoso",
+          "reversed": false
+        },
+        "portabilita": {
+          "label": "Portabilità",
+          "description": "5=ultra-portatile, 0=fisso",
+          "reversed": false
+        },
+        "qualita_immagine": {
+          "label": "Qualità Immagine",
+          "description": "5=eccellente, 1=base",
+          "reversed": false
+        },
+        "facilita_uso": {
+          "label": "Facilità d'Uso",
+          "description": "5=molto intuitivo, 1=complesso",
+          "reversed": false
+        },
+        "velocita_diagnosi": {
+          "label": "Velocità Diagnosi",
+          "description": "5=molto veloce, 1=lento",
+          "reversed": false
+        },
+        "ai_integrata": {
+          "label": "AI Integrata",
+          "description": "5=AI avanzata, 0=nessuna AI",
+          "reversed": false
+        },
+        "certificazioni": {
+          "label": "Certificazioni",
+          "description": "5=complete, 1=minime",
+          "reversed": false
+        },
+        "setup_rapido": {
+          "label": "Setup Rapido",
+          "description": "5=immediato, 1=lungo",
+          "reversed": false
+        }
+      }
+    },
+    
+    "messaging": {
+      "elevatorPitch": {
+        "version": "1.3",
+        "lastUpdated": "2025-10-16",
+        "tone": "professional",
+        "targetAudience": "investors",
+        "content": "Eco 3D sviluppa il primo ecografo 3D portatile con AI integrata che porta imaging volumetrico avanzato dalla sala operatoria all'ambulatorio, riducendo i tempi diagnostici del 40% e i costi del 60%. Con un prezzo di €40K vs €150K+ dei carrellati, democratizziamo l'accesso all'imaging 3D per 50.000+ strutture sanitarie in Europa.",
+        "wordCount": 58,
+        "editable": true
+      },
+      
+      "valueStatements": [
+        {
+          "id": "vs_001",
+          "audience": "clinici",
+          "headline": "Diagnosi 3D ovunque, in 15 minuti",
+          "subheadline": "Imaging volumetrico di qualità ospedaliera, ora in ambulatorio",
+          "body": "Eco 3D combina la qualità diagnostica degli ecografi carrellati con la portabilità dei dispositivi palmari. La nostra tecnologia proprietaria permette acquisizione 3D real-time con AI per segmentazione automatica, riducendo il tempo diagnosi del 40% e eliminando l'87% dei referral a centri specializzati.",
+          "cta": "Richiedi una demo clinica gratuita",
+          "tone": "technical",
+          "editable": true,
+          "visible": true
+        },
+        {
+          "id": "vs_002",
+          "audience": "strutture_sanitarie",
+          "headline": "ROI in 12-18 mesi con imaging 3D premium",
+          "subheadline": "€40K investimento, €4K+ ricavi mensili aggiuntivi",
+          "body": "Per una clinica con 5 ginecologi e 200 pazienti/mese, Eco 3D genera €4.000 ricavi aggiuntivi mensili da esami 3D premium (€80/esame × 25% penetrazione). Con costi operativi minimali, il payback è di soli 14 mesi vs mai per carrellati da €150K+.",
+          "cta": "Calcola il tuo ROI personalizzato",
+          "tone": "persuasive",
+          "editable": true,
+          "visible": true
+        }
+      ],
+      
+      "narrativeFlow": {
+        "hook": "Ogni anno in Italia, oltre 50.000 gravidanze richiedono imaging 3D avanzato, ma solo il 30% ha accesso rapido a questa tecnologia a causa dei costi proibitivi (€150K+) e della concentrazione in pochi centri specializzati.",
+        "problem": "Gli ecografi 3D tradizionali sono carrellati, costosi, ingombranti e richiedono operatori altamente specializzati. Questo crea ritardi diagnostici (14-28 giorni per referral), aumenta l'ansia delle pazienti, e limita l'accesso a strutture di terzo livello. Le alternative palmari economiche non offrono qualità 3D sufficiente per diagnosi complesse.",
+        "solution": "Eco 3D ha sviluppato il primo ecografo 3D portatile (<5kg) con AI integrata che offre qualità ospedaliera a €40K, portando l'imaging volumetrico direttamente in ambulatorio. Setup in <2 minuti, diagnosi in 15 minuti, nessun referral necessario.",
+        "how": "La nostra tecnologia proprietaria combina: (1) Sonda phased array 64 canali per acquisizione volumetrica real-time, (2) Algoritmi AI di segmentazione automatica (accuratezza 92%), (3) Design portatile con batteria 4h, (4) Interfaccia touch intuitiva che riduce la curva di apprendimento da mesi a giorni.",
+        "proof": "5 piloti clinici completati con successo: (1) Riduzione referral 87%, (2) Tempo diagnosi -40%, (3) NPS pazienti +45 punti, (4) Payback medio 14 mesi per cliniche private. Certificazione MDR classe IIb in corso, submission Q1 2026, CE marking atteso Q3 2026.",
+        "vision": "Entro il 2027, vogliamo portare imaging 3D accessibile in 500+ strutture sanitarie italiane, democratizzando l'accesso a tecnologia diagnostica avanzata. Espansione Europa 2028-2030 con target 5.000 dispositivi installati. Roadmap futura: cardiologia, vascolare, muscolo-scheletrico.",
+        "editable": true
+      },
+      
+      "templates": {
+        "medical_device_b2b": {
+          "name": "Medical Device B2B Standard",
+          "description": "Template per dispositivi medicali B2B con focus su ROI e evidenze cliniche"
+        },
+        "saas_platform": {
+          "name": "SaaS Platform",
+          "description": "Template per piattaforme software con modello ricorrente"
+        }
+      }
+    },
+    
+    "roiCalculator": {
+      "enabled": true,
+      "targetCustomer": "Clinica privata 5 ginecologi",
+      "devicePrice": 40000,
+      "assumptions": {
+        "pazientiMese": 200,
+        "prezzoEsame3D": 80,
+        "penetrazione3D": 0.25,
+        "costoReferral": 150,
+        "tempoRisparmiato": 10,
+        "tassoOrario": 60
+      },
+      "results": {
+        "ricaviAggiuntivi": 4000,
+        "costiRisparmiati": 3750,
+        "beneficioMensile": 7750,
+        "beneficioAnnuale": 93000,
+        "paybackPeriod": 5.2,
+        "roi1anno": 2.3,
+        "roi3anni": 6.9
+      }
+    },
+    
+    "uiConfiguration": {
+      "layout": "canvas",
+      "visibleComponents": {
+        "customerProfile": true,
+        "valueMap": true,
+        "competitorAnalysis": true,
+        "messaging": true,
+        "roiCalculator": true,
+        "jobsToBeDone": false,
+        "b2bMessagingMatrix": false
+      },
+      "componentOrder": [
+        "elevatorPitch",
+        "customerProfile",
+        "valueMap",
+        "competitorAnalysis",
+        "messaging",
+        "roiCalculator"
+      ],
+      "theme": "strategyzer",
+      "autoSave": true,
+      "autoSaveInterval": 2000
+    }
+  }
+}

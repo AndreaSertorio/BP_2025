@@ -1,0 +1,3152 @@
+{
+  "metadata": {
+    "lastUpdate": "2025-10-20T20:46:31.778067",
+    "version": "3.0.0",
+    "totalCompetitors": 32,
+    "categories": [
+      "direct",
+      "indirect",
+      "substitute",
+      "emerging"
+    ],
+    "note": "Dataset ARRICCHITO con innovation, customerReferences, SWOT dettagliati. ECO 3D RIMOSSO."
+  },
+  "competitors": [
+    {
+      "id": "comp_001",
+      "name": "CN 115040157 A – multi-probe ToF scanning",
+      "shortName": "Tech/Patent #1",
+      "tier": "tier3",
+      "type": "indirect",
+      "status": "active",
+      "priority": "medium",
+      "threatLevel": "low",
+      "monitoringPriority": 8,
+      "companyInfo": {
+        "founded": null,
+        "headquarters": "N/A",
+        "employees": null,
+        "revenue": null,
+        "funding": {},
+        "website": "https://www.tech/patent#1.com",
+        "logo": "🔬"
+      },
+      "products": [
+        {
+          "name": "CN 115040157 A – multi-probe ToF scanning",
+          "category": "Medical Imaging / Ultrasound",
+          "priceRange": "€30,000 - €80,000",
+          "priceMin": 30000,
+          "priceMax": 80000,
+          "features": {
+            "imaging3D": false,
+            "imaging4D": false,
+            "aiGuided": false,
+            "portable": false,
+            "wireless": false,
+            "multiProbe": false,
+            "automation": "manual"
+          },
+          "targetMarket": [
+            "Hospitals",
+            "Clinics"
+          ],
+          "strengths": [
+            "Più sonde acquisiscono indipendentemente segnali digitali di eco e li caricano in tempo reale sull’host- L’host elabora in sincrono segnali e informazioni di orientamento per ricostruire immagini 3D fuse senza spostare le sonde"
+          ],
+          "weaknesses": [
+            "- Architettura limitata a due ruoli (“posizionamento” vs “monitoraggio”), basata su ritardi Time-of-Flight per calcolo dell’orientamento relativo- Sup"
+          ],
+          "certifications": []
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 0,
+        "region": "Regional",
+        "segments": [
+          "Medical Imaging"
+        ],
+        "customerBase": 0,
+        "growthRate": 10
+      },
+      "swotAnalysis": {
+        "strengths": [
+          "Più sonde acquisiscono indipendentemente segnali digitali di eco e li caricano in tempo reale sull’host- L’host elabora in sincrono segnali e informazioni di orientamento per ricostruire immagini 3D fuse senza spostare le sonde"
+        ],
+        "weaknesses": [
+          "- Architettura limitata a due ruoli (“posizionamento” vs “monitoraggio”), basata su ritardi Time-of-Flight per calcolo dell’orientamento relativo- Sup"
+        ],
+        "opportunities": [
+          "AI integration",
+          "Point-of-care market expansion"
+        ],
+        "threats": [
+          "Disruptive new entrants",
+          "Regulatory changes MDR"
+        ]
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "– Supporto nativo di un numero arbitrario di sonde (convex, lineari, phased-array, micro-convex) senza distinzione fissa di ruoli– Imaging volumetrico 3D/4D real-time (>10 vol/s) con AI per super-riso"
+        ],
+        "theirStrengths": [
+          "Più sonde acquisiscono indipendentemente segnali digitali di eco e li caricano in tempo reale sull’host- L’host elabora in sincrono segnali e informazioni di orientamento per ricostruire immagini 3D fuse senza spostare le sonde"
+        ],
+        "theirWeaknesses": [
+          "- Architettura limitata a due ruoli (“posizionamento” vs “monitoraggio”), basata su ritardi Time-of-Flight per calcolo dell’orientamento relativo- Sup"
+        ],
+        "competitiveResponse": "– Supporto nativo di un numero arbitrario di sonde (convex, lineari, phased-array, micro-convex) senza distinzione fissa di ruoli– Imaging volumetrico 3D/4D real-time (>10 vol/s) con AI per super-riso"
+      },
+      "innovation": {
+        "patents": 0,
+        "rdInvestment": 0,
+        "recentLaunches": []
+      },
+      "customerReferences": {
+        "testimonials": [],
+        "casestudies": 0,
+        "clinicalStudies": 0
+      },
+      "lastUpdated": "2025-10-20T20:46:31.777575",
+      "notes": "Source: Competitor Eco3D.csv row 1"
+    },
+    {
+      "id": "comp_002",
+      "name": "US 6503199 B1 – free-hand 3D meccanico",
+      "shortName": "Tech/Patent #2",
+      "tier": "tier3",
+      "type": "indirect",
+      "status": "active",
+      "priority": "medium",
+      "threatLevel": "low",
+      "monitoringPriority": 8,
+      "companyInfo": {
+        "founded": null,
+        "headquarters": "N/A",
+        "employees": null,
+        "revenue": null,
+        "funding": {},
+        "website": "https://www.tech/patent#2.com",
+        "logo": "🔬"
+      },
+      "products": [
+        {
+          "name": "US 6503199 B1 – free-hand 3D meccanico",
+          "category": "Medical Imaging / Ultrasound",
+          "priceRange": "€30,000 - €80,000",
+          "priceMin": 30000,
+          "priceMax": 80000,
+          "features": {
+            "imaging3D": true,
+            "imaging4D": false,
+            "aiGuided": false,
+            "portable": false,
+            "wireless": false,
+            "multiProbe": false,
+            "automation": "manual"
+          },
+          "targetMarket": [
+            "Hospitals",
+            "Clinics"
+          ],
+          "strengths": [
+            "Singola sonda 2D su meccanismo rotante per scansioni radiali<br/>- Pattern di emissione non uniforme per campionamento volumetrico omogeneo"
+          ],
+          "weaknesses": [
+            "- Dipendenza da parti meccaniche o manuali, con variabilità di velocità, allineamento e risoluzione<br/>- Stitching soggetto a artefatti sui bordi del"
+          ],
+          "certifications": []
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 0,
+        "region": "Regional",
+        "segments": [
+          "Medical Imaging"
+        ],
+        "customerBase": 0,
+        "growthRate": 10
+      },
+      "swotAnalysis": {
+        "strengths": [
+          "Singola sonda 2D su meccanismo rotante per scansioni radiali<br/>- Pattern di emissione non uniforme per campionamento volumetrico omogeneo"
+        ],
+        "weaknesses": [
+          "- Dipendenza da parti meccaniche o manuali, con variabilità di velocità, allineamento e risoluzione<br/>- Stitching soggetto a artefatti sui bordi del"
+        ],
+        "opportunities": [
+          "AI integration",
+          "Point-of-care market expansion"
+        ],
+        "threats": [
+          "Disruptive new entrants",
+          "Regulatory changes MDR"
+        ]
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "– Movimenti meccanici robotizzati, altamente precisi e ripetibili<br/>– Array multitransduttori per acquisire il volume in un unico istante<br/>– Near real-time a 3–5 volumi/s, garantendo scorrimento "
+        ],
+        "theirStrengths": [
+          "Singola sonda 2D su meccanismo rotante per scansioni radiali<br/>- Pattern di emissione non uniforme per campionamento volumetrico omogeneo"
+        ],
+        "theirWeaknesses": [
+          "- Dipendenza da parti meccaniche o manuali, con variabilità di velocità, allineamento e risoluzione<br/>- Stitching soggetto a artefatti sui bordi del"
+        ],
+        "competitiveResponse": "– Movimenti meccanici robotizzati, altamente precisi e ripetibili<br/>– Array multitransduttori per acquisire il volume in un unico istante<br/>– Near real-time a 3–5 volumi/s, garantendo scorrimento "
+      },
+      "innovation": {
+        "patents": 0,
+        "rdInvestment": 0,
+        "recentLaunches": []
+      },
+      "customerReferences": {
+        "testimonials": [],
+        "casestudies": 0,
+        "clinicalStudies": 0
+      },
+      "lastUpdated": "2025-10-20T20:46:31.777646",
+      "notes": "Source: Competitor Eco3D.csv row 2"
+    },
+    {
+      "id": "comp_003",
+      "name": "US 10401493 B2 – tracking 3D/2D",
+      "shortName": "Tech/Patent #3",
+      "tier": "tier3",
+      "type": "indirect",
+      "status": "active",
+      "priority": "medium",
+      "threatLevel": "low",
+      "monitoringPriority": 8,
+      "companyInfo": {
+        "founded": null,
+        "headquarters": "N/A",
+        "employees": null,
+        "revenue": null,
+        "funding": {},
+        "website": "https://www.tech/patent#3.com",
+        "logo": "🔬"
+      },
+      "products": [
+        {
+          "name": "US 10401493 B2 – tracking 3D/2D",
+          "category": "Medical Imaging / Ultrasound",
+          "priceRange": "€30,000 - €80,000",
+          "priceMin": 30000,
+          "priceMax": 80000,
+          "features": {
+            "imaging3D": true,
+            "imaging4D": false,
+            "aiGuided": false,
+            "portable": false,
+            "wireless": false,
+            "multiProbe": false,
+            "automation": "manual"
+          },
+          "targetMarket": [
+            "Hospitals",
+            "Clinics"
+          ],
+          "strengths": [
+            "Sonda 2D con sensori di tracking ottici/eletromagnetici e IMU per mappatura spaziale degli sweep"
+          ],
+          "weaknesses": [
+            "Supporta solo un trasduttore; dipende da sensori esterni e post-processing, non real-time volumetrico"
+          ],
+          "certifications": []
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 0,
+        "region": "Regional",
+        "segments": [
+          "Medical Imaging"
+        ],
+        "customerBase": 0,
+        "growthRate": 10
+      },
+      "swotAnalysis": {
+        "strengths": [
+          "Sonda 2D con sensori di tracking ottici/eletromagnetici e IMU per mappatura spaziale degli sweep"
+        ],
+        "weaknesses": [
+          "Supporta solo un trasduttore; dipende da sensori esterni e post-processing, non real-time volumetrico"
+        ],
+        "opportunities": [
+          "AI integration",
+          "Point-of-care market expansion"
+        ],
+        "threats": [
+          "Disruptive new entrants",
+          "Regulatory changes MDR"
+        ]
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "Integrazione ToF+IMU direttamente nelle sonde, sincronizzazione multi-sonda e imaging near real-time a 3–5 volumi/s senza hardware esterno"
+        ],
+        "theirStrengths": [
+          "Sonda 2D con sensori di tracking ottici/eletromagnetici e IMU per mappatura spaziale degli sweep"
+        ],
+        "theirWeaknesses": [
+          "Supporta solo un trasduttore; dipende da sensori esterni e post-processing, non real-time volumetrico"
+        ],
+        "competitiveResponse": "Integrazione ToF+IMU direttamente nelle sonde, sincronizzazione multi-sonda e imaging near real-time a 3–5 volumi/s senza hardware esterno"
+      },
+      "innovation": {
+        "patents": 0,
+        "rdInvestment": 0,
+        "recentLaunches": []
+      },
+      "customerReferences": {
+        "testimonials": [],
+        "casestudies": 0,
+        "clinicalStudies": 0
+      },
+      "lastUpdated": "2025-10-20T20:46:31.777663",
+      "notes": "Source: Competitor Eco3D.csv row 3"
+    },
+    {
+      "id": "comp_004",
+      "name": "US 2024285256 A1 – Multi-probe ultrasound scanning device and method",
+      "shortName": "Tech/Patent #4",
+      "tier": "tier3",
+      "type": "indirect",
+      "status": "active",
+      "priority": "medium",
+      "threatLevel": "low",
+      "monitoringPriority": 8,
+      "companyInfo": {
+        "founded": null,
+        "headquarters": "N/A",
+        "employees": null,
+        "revenue": null,
+        "funding": {},
+        "website": "https://www.tech/patent#4.com",
+        "logo": "🔬"
+      },
+      "products": [
+        {
+          "name": "US 2024285256 A1 – Multi-probe ultrasound scanning device and method",
+          "category": "Medical Imaging / Ultrasound",
+          "priceRange": "€30,000 - €80,000",
+          "priceMin": 30000,
+          "priceMax": 80000,
+          "features": {
+            "imaging3D": false,
+            "imaging4D": false,
+            "aiGuided": false,
+            "portable": false,
+            "wireless": false,
+            "multiProbe": false,
+            "automation": "manual"
+          },
+          "targetMarket": [
+            "Hospitals",
+            "Clinics"
+          ],
+          "strengths": [
+            "• Acquisizione indipendente di più trasduttori con invio real-time dei segnali echo• Orientamento relativo calcolato via Time-of-Flight"
+          ],
+          "weaknesses": [
+            "• Richiede set fisso di sonde e supporti dedicati con calibrazione manuale iniziale• Elaborazione 3D centralizzata con latenza (~1–3 vol/s) e senza al"
+          ],
+          "certifications": []
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 0,
+        "region": "Regional",
+        "segments": [
+          "Medical Imaging"
+        ],
+        "customerBase": 0,
+        "growthRate": 10
+      },
+      "swotAnalysis": {
+        "strengths": [
+          "• Acquisizione indipendente di più trasduttori con invio real-time dei segnali echo• Orientamento relativo calcolato via Time-of-Flight"
+        ],
+        "weaknesses": [
+          "• Richiede set fisso di sonde e supporti dedicati con calibrazione manuale iniziale• Elaborazione 3D centralizzata con latenza (~1–3 vol/s) e senza al"
+        ],
+        "opportunities": [
+          "AI integration",
+          "Point-of-care market expansion"
+        ],
+        "threats": [
+          "Disruptive new entrants",
+          "Regulatory changes MDR"
+        ]
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "• Auto-calibrazione continua: ToF + IMU integrati in ciascuna sonda, eliminando moduli esterni di posizionamento• Elaborazione distribuita: preprocessamento parziale on-board per ridurre latenza e gar"
+        ],
+        "theirStrengths": [
+          "• Acquisizione indipendente di più trasduttori con invio real-time dei segnali echo• Orientamento relativo calcolato via Time-of-Flight"
+        ],
+        "theirWeaknesses": [
+          "• Richiede set fisso di sonde e supporti dedicati con calibrazione manuale iniziale• Elaborazione 3D centralizzata con latenza (~1–3 vol/s) e senza al"
+        ],
+        "competitiveResponse": "• Auto-calibrazione continua: ToF + IMU integrati in ciascuna sonda, eliminando moduli esterni di posizionamento• Elaborazione distribuita: preprocessamento parziale on-board per ridurre latenza e gar"
+      },
+      "innovation": {
+        "patents": 0,
+        "rdInvestment": 0,
+        "recentLaunches": []
+      },
+      "customerReferences": {
+        "testimonials": [],
+        "casestudies": 0,
+        "clinicalStudies": 0
+      },
+      "lastUpdated": "2025-10-20T20:46:31.777686",
+      "notes": "Source: Competitor Eco3D.csv row 4"
+    },
+    {
+      "id": "comp_005",
+      "name": "US 2014/0235962 A1 – multi-modal volumetric breast imager",
+      "shortName": "GE Healthcare",
+      "tier": "tier1",
+      "type": "indirect",
+      "status": "active",
+      "priority": "medium",
+      "threatLevel": "low",
+      "monitoringPriority": 8,
+      "companyInfo": {
+        "founded": 1892,
+        "headquarters": "Global",
+        "employees": 52000,
+        "revenue": 19800000000,
+        "funding": {},
+        "website": "https://www.gehealthcare.com",
+        "logo": "🏥"
+      },
+      "products": [
+        {
+          "name": "US 2014/0235962 A1 – multi-modal volumetric breast imager",
+          "category": "Medical Imaging / Ultrasound",
+          "priceRange": "€60,000 - €150,000",
+          "priceMin": 60000,
+          "priceMax": 150000,
+          "features": {
+            "imaging3D": false,
+            "imaging4D": false,
+            "aiGuided": false,
+            "portable": false,
+            "wireless": false,
+            "multiProbe": false,
+            "automation": "manual"
+          },
+          "targetMarket": [
+            "Hospitals",
+            "Clinics"
+          ],
+          "strengths": [
+            "• Cup a vuoto con inner cup perforato e outer cup rigido per immobilizzazione e accoppiamento acustico• Array di trasduttori su steli a molla con encoder lineari, multi-angolo 3D senza movimento esterno"
+          ],
+          "weaknesses": [
+            "• Limitato al singolo distretto mammario, ingombrante e non portatile• Ricostruzione multimodale offline, non ottimizzata per visualizzazione real-tim"
+          ],
+          "certifications": []
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 25,
+        "region": "Global",
+        "segments": [
+          "Medical Imaging"
+        ],
+        "customerBase": 10000,
+        "growthRate": 10
+      },
+      "swotAnalysis": {
+        "strengths": [
+          "• Cup a vuoto con inner cup perforato e outer cup rigido per immobilizzazione e accoppiamento acustico• Array di trasduttori su steli a molla con encoder lineari, multi-angolo 3D senza movimento esterno"
+        ],
+        "weaknesses": [
+          "• Limitato al singolo distretto mammario, ingombrante e non portatile• Ricostruzione multimodale offline, non ottimizzata per visualizzazione real-tim"
+        ],
+        "opportunities": [
+          "AI integration",
+          "Point-of-care market expansion"
+        ],
+        "threats": [
+          "Disruptive new entrants",
+          "Regulatory changes MDR"
+        ]
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "– Design portatile e handheld che applica il vuoto localmente senza cup ingombrante– Multi-regione anatomica anziché solo mammella– Imaging near real-time a 3–5 volumi/s con AI per super-risoluzione e"
+        ],
+        "theirStrengths": [
+          "• Cup a vuoto con inner cup perforato e outer cup rigido per immobilizzazione e accoppiamento acustico• Array di trasduttori su steli a molla con encoder lineari, multi-angolo 3D senza movimento esterno"
+        ],
+        "theirWeaknesses": [
+          "• Limitato al singolo distretto mammario, ingombrante e non portatile• Ricostruzione multimodale offline, non ottimizzata per visualizzazione real-tim"
+        ],
+        "competitiveResponse": "– Design portatile e handheld che applica il vuoto localmente senza cup ingombrante– Multi-regione anatomica anziché solo mammella– Imaging near real-time a 3–5 volumi/s con AI per super-risoluzione e"
+      },
+      "innovation": {
+        "patents": 100,
+        "rdInvestment": 1980000000.0,
+        "recentLaunches": []
+      },
+      "customerReferences": {
+        "testimonials": [],
+        "casestudies": 50,
+        "clinicalStudies": 200
+      },
+      "lastUpdated": "2025-10-20T20:46:31.777704",
+      "notes": "Source: Competitor Eco3D.csv row 5"
+    },
+    {
+      "id": "comp_006",
+      "name": "CN 105147326 A – sistema di riscaldamento integrato per ecografi multisonda",
+      "shortName": "Tech/Patent #6",
+      "tier": "tier3",
+      "type": "indirect",
+      "status": "active",
+      "priority": "medium",
+      "threatLevel": "low",
+      "monitoringPriority": 8,
+      "companyInfo": {
+        "founded": null,
+        "headquarters": "N/A",
+        "employees": null,
+        "revenue": null,
+        "funding": {},
+        "website": "https://www.tech/patent#6.com",
+        "logo": "🔬"
+      },
+      "products": [
+        {
+          "name": "CN 105147326 A – sistema di riscaldamento integrato per ecografi multisonda",
+          "category": "Medical Imaging / Ultrasound",
+          "priceRange": "€30,000 - €80,000",
+          "priceMin": 30000,
+          "priceMax": 80000,
+          "features": {
+            "imaging3D": false,
+            "imaging4D": false,
+            "aiGuided": false,
+            "portable": false,
+            "wireless": false,
+            "multiProbe": true,
+            "automation": "manual"
+          },
+          "targetMarket": [
+            "Hospitals",
+            "Clinics"
+          ],
+          "strengths": [
+            "Carrello con guide orizzontali e tre alloggi probe- Scatola di mantenimento termico con distribuzione aria calda a “T”- Valvola manuale e ruote per mobilità"
+          ],
+          "weaknesses": [
+            "- Nessuna funzione di imaging: non prevede acquisizione né ricostruzione volumetrica- Ingombrante e non portatile, focalizzato solo sul comfort termic"
+          ],
+          "certifications": []
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 0,
+        "region": "Regional",
+        "segments": [
+          "Medical Imaging"
+        ],
+        "customerBase": 0,
+        "growthRate": 10
+      },
+      "swotAnalysis": {
+        "strengths": [
+          "Carrello con guide orizzontali e tre alloggi probe- Scatola di mantenimento termico con distribuzione aria calda a “T”- Valvola manuale e ruote per mobilità"
+        ],
+        "weaknesses": [
+          "- Nessuna funzione di imaging: non prevede acquisizione né ricostruzione volumetrica- Ingombrante e non portatile, focalizzato solo sul comfort termic"
+        ],
+        "opportunities": [
+          "AI integration",
+          "Point-of-care market expansion"
+        ],
+        "threats": [
+          "Disruptive new entrants",
+          "Regulatory changes MDR"
+        ]
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "– In Eco 3D il riscaldamento è integrato nei manicotti autogel, eliminando carrelli ingombranti– Supporta imaging volumetrico 3D/4D near real-time (3–5 volumi/s) multi-sonda con AI di super-risoluzion"
+        ],
+        "theirStrengths": [
+          "Carrello con guide orizzontali e tre alloggi probe- Scatola di mantenimento termico con distribuzione aria calda a “T”- Valvola manuale e ruote per mobilità"
+        ],
+        "theirWeaknesses": [
+          "- Nessuna funzione di imaging: non prevede acquisizione né ricostruzione volumetrica- Ingombrante e non portatile, focalizzato solo sul comfort termic"
+        ],
+        "competitiveResponse": "– In Eco 3D il riscaldamento è integrato nei manicotti autogel, eliminando carrelli ingombranti– Supporta imaging volumetrico 3D/4D near real-time (3–5 volumi/s) multi-sonda con AI di super-risoluzion"
+      },
+      "innovation": {
+        "patents": 0,
+        "rdInvestment": 0,
+        "recentLaunches": []
+      },
+      "customerReferences": {
+        "testimonials": [],
+        "casestudies": 0,
+        "clinicalStudies": 0
+      },
+      "lastUpdated": "2025-10-20T20:46:31.777727",
+      "notes": "Source: Competitor Eco3D.csv row 6"
+    },
+    {
+      "id": "comp_007",
+      "name": "CN 112206003 A – cascaded multi-probe socket",
+      "shortName": "Tech/Patent #7",
+      "tier": "tier3",
+      "type": "indirect",
+      "status": "active",
+      "priority": "medium",
+      "threatLevel": "low",
+      "monitoringPriority": 8,
+      "companyInfo": {
+        "founded": null,
+        "headquarters": "N/A",
+        "employees": null,
+        "revenue": null,
+        "funding": {},
+        "website": "https://www.tech/patent#7.com",
+        "logo": "🔬"
+      },
+      "products": [
+        {
+          "name": "CN 112206003 A – cascaded multi-probe socket",
+          "category": "Medical Imaging / Ultrasound",
+          "priceRange": "€30,000 - €80,000",
+          "priceMin": 30000,
+          "priceMax": 80000,
+          "features": {
+            "imaging3D": false,
+            "imaging4D": false,
+            "aiGuided": false,
+            "portable": false,
+            "wireless": false,
+            "multiProbe": false,
+            "automation": "manual"
+          },
+          "targetMarket": [
+            "Hospitals",
+            "Clinics"
+          ],
+          "strengths": [
+            "N interruttori a due stati in serie per instradare M prese sonde- Pilotaggio digitale che abilita uno switch per volta- Architettura modulare che semplifica il cablaggio"
+          ],
+          "weaknesses": [
+            "- Solo gestione elettrica dei canali, nessuna funzione di imaging o elaborazione ultrasonica- Latenza di commutazione, non supporta operatività simult"
+          ],
+          "certifications": []
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 0,
+        "region": "Regional",
+        "segments": [
+          "Medical Imaging"
+        ],
+        "customerBase": 0,
+        "growthRate": 10
+      },
+      "swotAnalysis": {
+        "strengths": [
+          "N interruttori a due stati in serie per instradare M prese sonde- Pilotaggio digitale che abilita uno switch per volta- Architettura modulare che semplifica il cablaggio"
+        ],
+        "weaknesses": [
+          "- Solo gestione elettrica dei canali, nessuna funzione di imaging o elaborazione ultrasonica- Latenza di commutazione, non supporta operatività simult"
+        ],
+        "opportunities": [
+          "AI integration",
+          "Point-of-care market expansion"
+        ],
+        "threats": [
+          "Disruptive new entrants",
+          "Regulatory changes MDR"
+        ]
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "– Eco 3D consente l’acquisizione simultanea di tutte le sonde tramite front-end multi-canale dedicato, senza circuiti di multiplexing– Supporta imaging volumetrico 3D/4D near real-time (3–5 vol/s) mul"
+        ],
+        "theirStrengths": [
+          "N interruttori a due stati in serie per instradare M prese sonde- Pilotaggio digitale che abilita uno switch per volta- Architettura modulare che semplifica il cablaggio"
+        ],
+        "theirWeaknesses": [
+          "- Solo gestione elettrica dei canali, nessuna funzione di imaging o elaborazione ultrasonica- Latenza di commutazione, non supporta operatività simult"
+        ],
+        "competitiveResponse": "– Eco 3D consente l’acquisizione simultanea di tutte le sonde tramite front-end multi-canale dedicato, senza circuiti di multiplexing– Supporta imaging volumetrico 3D/4D near real-time (3–5 vol/s) mul"
+      },
+      "innovation": {
+        "patents": 0,
+        "rdInvestment": 0,
+        "recentLaunches": []
+      },
+      "customerReferences": {
+        "testimonials": [],
+        "casestudies": 0,
+        "clinicalStudies": 0
+      },
+      "lastUpdated": "2025-10-20T20:46:31.777744",
+      "notes": "Source: Competitor Eco3D.csv row 7"
+    },
+    {
+      "id": "comp_008",
+      "name": "GE Voluson / Venue / Vscan Air + Caption AI",
+      "shortName": "GE Healthcare",
+      "tier": "tier1",
+      "type": "direct",
+      "status": "active",
+      "priority": "critical",
+      "threatLevel": "high",
+      "monitoringPriority": 1,
+      "companyInfo": {
+        "founded": 1892,
+        "headquarters": "Global",
+        "employees": 52000,
+        "revenue": 19800000000,
+        "funding": {},
+        "website": "https://www.gehealthcare.com",
+        "logo": "🏥"
+      },
+      "products": [
+        {
+          "name": "GE Voluson / Venue / Vscan Air + Caption AI",
+          "category": "Medical Imaging / Ultrasound",
+          "priceRange": "€100,000 - €180,000",
+          "priceMin": 100000,
+          "priceMax": 180000,
+          "features": {
+            "imaging3D": false,
+            "imaging4D": false,
+            "aiGuided": true,
+            "portable": false,
+            "wireless": false,
+            "multiProbe": false,
+            "automation": "manual"
+          },
+          "targetMarket": [
+            "Hospitals",
+            "Clinics"
+          ],
+          "strengths": [
+            "4D rendering ostetrico, ABUS seno, guida AI in tempo reale"
+          ],
+          "weaknesses": [
+            "Scansione ancora manuale; automazione solo verticale; sistemi costosi e ingombranti"
+          ],
+          "certifications": []
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 25,
+        "region": "Global",
+        "segments": [
+          "Medical Imaging"
+        ],
+        "customerBase": 10000,
+        "growthRate": 10
+      },
+      "swotAnalysis": {
+        "strengths": [
+          "4D rendering ostetrico, ABUS seno, guida AI in tempo reale"
+        ],
+        "weaknesses": [
+          "Scansione ancora manuale; automazione solo verticale; sistemi costosi e ingombranti"
+        ],
+        "opportunities": [
+          "AI integration",
+          "Point-of-care market expansion"
+        ],
+        "threats": [
+          "Disruptive new entrants",
+          "Regulatory changes MDR"
+        ]
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "• Scansione multi-sonda automatica su più distretti• Hardware più compatto e costo per esame ridotto"
+        ],
+        "theirStrengths": [
+          "4D rendering ostetrico, ABUS seno, guida AI in tempo reale"
+        ],
+        "theirWeaknesses": [
+          "Scansione ancora manuale; automazione solo verticale; sistemi costosi e ingombranti"
+        ],
+        "competitiveResponse": "• Scansione multi-sonda automatica su più distretti• Hardware più compatto e costo per esame ridotto"
+      },
+      "innovation": {
+        "patents": 100,
+        "rdInvestment": 1980000000.0,
+        "recentLaunches": []
+      },
+      "customerReferences": {
+        "testimonials": [],
+        "casestudies": 50,
+        "clinicalStudies": 200
+      },
+      "lastUpdated": "2025-10-20T20:46:31.777763",
+      "notes": "Source: Competitor Eco3D.csv row 8"
+    },
+    {
+      "id": "comp_009",
+      "name": "Philips EPIQ / Affiniti / xMATRIX",
+      "shortName": "Philips Healthcare",
+      "tier": "tier1",
+      "type": "direct",
+      "status": "active",
+      "priority": "critical",
+      "threatLevel": "high",
+      "monitoringPriority": 1,
+      "companyInfo": {
+        "founded": 1891,
+        "headquarters": "Global",
+        "employees": 77000,
+        "revenue": 17800000000,
+        "funding": {},
+        "website": "https://www.philipshealthcare.com",
+        "logo": "💙"
+      },
+      "products": [
+        {
+          "name": "Philips EPIQ / Affiniti / xMATRIX",
+          "category": "Medical Imaging / Ultrasound",
+          "priceRange": "€120,000 - €200,000",
+          "priceMin": 120000,
+          "priceMax": 200000,
+          "features": {
+            "imaging3D": false,
+            "imaging4D": false,
+            "aiGuided": false,
+            "portable": false,
+            "wireless": false,
+            "multiProbe": false,
+            "automation": "manual"
+          },
+          "targetMarket": [
+            "Hospitals",
+            "Clinics"
+          ],
+          "strengths": [
+            "Live 3D Echo & TEE, fusion CT/MR, AI cardio-quant"
+          ],
+          "weaknesses": [
+            "Nessuna robotica; forte dipendenza dall’operatore esperto"
+          ],
+          "certifications": []
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 22,
+        "region": "Global",
+        "segments": [
+          "Medical Imaging"
+        ],
+        "customerBase": 10000,
+        "growthRate": 10
+      },
+      "swotAnalysis": {
+        "strengths": [
+          "Live 3D Echo & TEE, fusion CT/MR, AI cardio-quant"
+        ],
+        "weaknesses": [
+          "Nessuna robotica; forte dipendenza dall’operatore esperto"
+        ],
+        "opportunities": [
+          "AI integration",
+          "Point-of-care market expansion"
+        ],
+        "threats": [
+          "Disruptive new entrants",
+          "Regulatory changes MDR"
+        ]
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "• Eco 3D general-purpose, non solo cardiologia• Movimenti robotizzati con posizionamento auto-guidato"
+        ],
+        "theirStrengths": [
+          "Live 3D Echo & TEE, fusion CT/MR, AI cardio-quant"
+        ],
+        "theirWeaknesses": [
+          "Nessuna robotica; forte dipendenza dall’operatore esperto"
+        ],
+        "competitiveResponse": "• Eco 3D general-purpose, non solo cardiologia• Movimenti robotizzati con posizionamento auto-guidato"
+      },
+      "innovation": {
+        "patents": 100,
+        "rdInvestment": 1780000000.0,
+        "recentLaunches": []
+      },
+      "customerReferences": {
+        "testimonials": [],
+        "casestudies": 50,
+        "clinicalStudies": 200
+      },
+      "lastUpdated": "2025-10-20T20:46:31.777774",
+      "notes": "Source: Competitor Eco3D.csv row 9"
+    },
+    {
+      "id": "comp_010",
+      "name": "Siemens Acuson S2000 ABVS",
+      "shortName": "Siemens Healthineers",
+      "tier": "tier1",
+      "type": "direct",
+      "status": "active",
+      "priority": "critical",
+      "threatLevel": "high",
+      "monitoringPriority": 1,
+      "companyInfo": {
+        "founded": 1847,
+        "headquarters": "Global",
+        "employees": 66000,
+        "revenue": 21100000000,
+        "funding": {},
+        "website": "https://www.siemenshealthineers.com",
+        "logo": "⚙️"
+      },
+      "products": [
+        {
+          "name": "Siemens Acuson S2000 ABVS",
+          "category": "Medical Imaging / Ultrasound",
+          "priceRange": "€80,000 - €140,000",
+          "priceMin": 80000,
+          "priceMax": 140000,
+          "features": {
+            "imaging3D": false,
+            "imaging4D": false,
+            "aiGuided": false,
+            "portable": false,
+            "wireless": false,
+            "multiProbe": false,
+            "automation": "manual"
+          },
+          "targetMarket": [
+            "Hospitals",
+            "Clinics"
+          ],
+          "strengths": [
+            "ABVS seno 3D completamente automatico"
+          ],
+          "weaknesses": [
+            "Automazione confinata al seno; no multi-distretto"
+          ],
+          "certifications": []
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 18,
+        "region": "Global",
+        "segments": [
+          "Medical Imaging"
+        ],
+        "customerBase": 10000,
+        "growthRate": 10
+      },
+      "swotAnalysis": {
+        "strengths": [
+          "ABVS seno 3D completamente automatico"
+        ],
+        "weaknesses": [
+          "Automazione confinata al seno; no multi-distretto"
+        ],
+        "opportunities": [
+          "AI integration",
+          "Point-of-care market expansion"
+        ],
+        "threats": [
+          "Disruptive new entrants",
+          "Regulatory changes MDR"
+        ]
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "• Stessa filosofia “hands-free” per tutto il corpo• AI di fusione multi-angolo nativa"
+        ],
+        "theirStrengths": [
+          "ABVS seno 3D completamente automatico"
+        ],
+        "theirWeaknesses": [
+          "Automazione confinata al seno; no multi-distretto"
+        ],
+        "competitiveResponse": "• Stessa filosofia “hands-free” per tutto il corpo• AI di fusione multi-angolo nativa"
+      },
+      "innovation": {
+        "patents": 100,
+        "rdInvestment": 2110000000.0,
+        "recentLaunches": []
+      },
+      "customerReferences": {
+        "testimonials": [],
+        "casestudies": 50,
+        "clinicalStudies": 200
+      },
+      "lastUpdated": "2025-10-20T20:46:31.777784",
+      "notes": "Source: Competitor Eco3D.csv row 10"
+    },
+    {
+      "id": "comp_011",
+      "name": "Canon Aplio i-series",
+      "shortName": "Canon Medical",
+      "tier": "tier1",
+      "type": "direct",
+      "status": "active",
+      "priority": "critical",
+      "threatLevel": "high",
+      "monitoringPriority": 1,
+      "companyInfo": {
+        "founded": 1930,
+        "headquarters": "Global",
+        "employees": 15000,
+        "revenue": 4000000000,
+        "funding": {},
+        "website": "https://www.canonmedical.com",
+        "logo": "📷"
+      },
+      "products": [
+        {
+          "name": "Canon Aplio i-series",
+          "category": "Medical Imaging / Ultrasound",
+          "priceRange": "€60,000 - €150,000",
+          "priceMin": 60000,
+          "priceMax": 150000,
+          "features": {
+            "imaging3D": false,
+            "imaging4D": false,
+            "aiGuided": false,
+            "portable": false,
+            "wireless": false,
+            "multiProbe": false,
+            "automation": "manual"
+          },
+          "targetMarket": [
+            "Hospitals",
+            "Clinics"
+          ],
+          "strengths": [
+            "Fly-through 3D endoluminale, micro-flow imaging, AI enhancement"
+          ],
+          "weaknesses": [
+            "3D manuale; assente robotica/multi-probe"
+          ],
+          "certifications": []
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 0,
+        "region": "Global",
+        "segments": [
+          "Medical Imaging"
+        ],
+        "customerBase": 10000,
+        "growthRate": 10
+      },
+      "swotAnalysis": {
+        "strengths": [
+          "Fly-through 3D endoluminale, micro-flow imaging, AI enhancement"
+        ],
+        "weaknesses": [
+          "3D manuale; assente robotica/multi-probe"
+        ],
+        "opportunities": [
+          "AI integration",
+          "Point-of-care market expansion"
+        ],
+        "threats": [
+          "Disruptive new entrants",
+          "Regulatory changes MDR"
+        ]
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "• Acquisizione volumetrica automatica multi-probe• Copertura angolare più ampia senza manoeuvre manuali"
+        ],
+        "theirStrengths": [
+          "Fly-through 3D endoluminale, micro-flow imaging, AI enhancement"
+        ],
+        "theirWeaknesses": [
+          "3D manuale; assente robotica/multi-probe"
+        ],
+        "competitiveResponse": "• Acquisizione volumetrica automatica multi-probe• Copertura angolare più ampia senza manoeuvre manuali"
+      },
+      "innovation": {
+        "patents": 100,
+        "rdInvestment": 400000000.0,
+        "recentLaunches": []
+      },
+      "customerReferences": {
+        "testimonials": [],
+        "casestudies": 50,
+        "clinicalStudies": 200
+      },
+      "lastUpdated": "2025-10-20T20:46:31.777793",
+      "notes": "Source: Competitor Eco3D.csv row 11"
+    },
+    {
+      "id": "comp_012",
+      "name": "Fujifilm SonoSite (portatili) + Sofia ABUS",
+      "shortName": "Fujifilm Healthcare",
+      "tier": "tier1",
+      "type": "direct",
+      "status": "active",
+      "priority": "critical",
+      "threatLevel": "high",
+      "monitoringPriority": 1,
+      "companyInfo": {
+        "founded": 1934,
+        "headquarters": "Global",
+        "employees": 8000,
+        "revenue": 3500000000,
+        "funding": {},
+        "website": "https://www.fujifilmhealthcare.com",
+        "logo": "🎞️"
+      },
+      "products": [
+        {
+          "name": "Fujifilm SonoSite (portatili) + Sofia ABUS",
+          "category": "Medical Imaging / Ultrasound",
+          "priceRange": "€60,000 - €150,000",
+          "priceMin": 60000,
+          "priceMax": 150000,
+          "features": {
+            "imaging3D": false,
+            "imaging4D": false,
+            "aiGuided": false,
+            "portable": false,
+            "wireless": false,
+            "multiProbe": false,
+            "automation": "manual"
+          },
+          "targetMarket": [
+            "Hospitals",
+            "Clinics"
+          ],
+          "strengths": [
+            "Portatilità rugged, elastografia, ABUS seno"
+          ],
+          "weaknesses": [
+            "Portatili solo 2D; automazione dedicata e singolo distretto"
+          ],
+          "certifications": []
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 0,
+        "region": "Global",
+        "segments": [
+          "Medical Imaging"
+        ],
+        "customerBase": 10000,
+        "growthRate": 10
+      },
+      "swotAnalysis": {
+        "strengths": [
+          "Portatilità rugged, elastografia, ABUS seno"
+        ],
+        "weaknesses": [
+          "Portatili solo 2D; automazione dedicata e singolo distretto"
+        ],
+        "opportunities": [
+          "AI integration",
+          "Point-of-care market expansion"
+        ],
+        "threats": [
+          "Disruptive new entrants",
+          "Regulatory changes MDR"
+        ]
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "• Eco 3D unisce vera volumetria e portabilità• Un unico device per 2D e 3-5 vol/s 3D/4D"
+        ],
+        "theirStrengths": [
+          "Portatilità rugged, elastografia, ABUS seno"
+        ],
+        "theirWeaknesses": [
+          "Portatili solo 2D; automazione dedicata e singolo distretto"
+        ],
+        "competitiveResponse": "• Eco 3D unisce vera volumetria e portabilità• Un unico device per 2D e 3-5 vol/s 3D/4D"
+      },
+      "innovation": {
+        "patents": 100,
+        "rdInvestment": 350000000.0,
+        "recentLaunches": []
+      },
+      "customerReferences": {
+        "testimonials": [],
+        "casestudies": 50,
+        "clinicalStudies": 200
+      },
+      "lastUpdated": "2025-10-20T20:46:31.777804",
+      "notes": "Source: Competitor Eco3D.csv row 12"
+    },
+    {
+      "id": "comp_013",
+      "name": "Mindray Resona 7 / pMUT roadmap",
+      "shortName": "Mindray Medical",
+      "tier": "tier1",
+      "type": "emerging",
+      "status": "monitoring",
+      "priority": "critical",
+      "threatLevel": "high",
+      "monitoringPriority": 2,
+      "companyInfo": {
+        "founded": 1991,
+        "headquarters": "Global",
+        "employees": 12000,
+        "revenue": 2800000000,
+        "funding": {},
+        "website": "https://www.mindraymedical.com",
+        "logo": "🇨🇳"
+      },
+      "products": [
+        {
+          "name": "Mindray Resona 7 / pMUT roadmap",
+          "category": "Medical Imaging / Ultrasound",
+          "priceRange": "€5,000 - €10,000",
+          "priceMin": 5000,
+          "priceMax": 10000,
+          "features": {
+            "imaging3D": false,
+            "imaging4D": false,
+            "aiGuided": false,
+            "portable": false,
+            "wireless": false,
+            "multiProbe": false,
+            "automation": "manual"
+          },
+          "targetMarket": [
+            "Hospitals",
+            "Clinics"
+          ],
+          "strengths": [
+            "3D/4D low-cost, AI auto-misure, Zone imaging"
+          ],
+          "weaknesses": [
+            "Scansione manuale; nessuna multi-sonda; percezione “follower”"
+          ],
+          "certifications": []
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 0,
+        "region": "Global",
+        "segments": [
+          "Medical Imaging"
+        ],
+        "customerBase": 10000,
+        "growthRate": 10
+      },
+      "swotAnalysis": {
+        "strengths": [
+          "3D/4D low-cost, AI auto-misure, Zone imaging"
+        ],
+        "weaknesses": [
+          "Scansione manuale; nessuna multi-sonda; percezione “follower”"
+        ],
+        "opportunities": [
+          "AI integration",
+          "Point-of-care market expansion"
+        ],
+        "threats": [
+          "Disruptive new entrants",
+          "Regulatory changes MDR"
+        ]
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "• Funzione esclusiva di scansione autonoma multi-sonda• Vantaggio brevettuale combinato HW/SW"
+        ],
+        "theirStrengths": [
+          "3D/4D low-cost, AI auto-misure, Zone imaging"
+        ],
+        "theirWeaknesses": [
+          "Scansione manuale; nessuna multi-sonda; percezione “follower”"
+        ],
+        "competitiveResponse": "• Funzione esclusiva di scansione autonoma multi-sonda• Vantaggio brevettuale combinato HW/SW"
+      },
+      "innovation": {
+        "patents": 100,
+        "rdInvestment": 280000000.0,
+        "recentLaunches": []
+      },
+      "customerReferences": {
+        "testimonials": [],
+        "casestudies": 50,
+        "clinicalStudies": 200
+      },
+      "lastUpdated": "2025-10-20T20:46:31.777813",
+      "notes": "Source: Competitor Eco3D.csv row 13"
+    },
+    {
+      "id": "comp_014",
+      "name": "Samsung HERA / RS85 (CrystalLive 4D)",
+      "shortName": "Samsung Medison",
+      "tier": "tier1",
+      "type": "direct",
+      "status": "active",
+      "priority": "critical",
+      "threatLevel": "high",
+      "monitoringPriority": 1,
+      "companyInfo": {
+        "founded": 1985,
+        "headquarters": "Global",
+        "employees": 1500,
+        "revenue": 800000000,
+        "funding": {},
+        "website": "https://www.samsungmedison.com",
+        "logo": "📱"
+      },
+      "products": [
+        {
+          "name": "Samsung HERA / RS85 (CrystalLive 4D)",
+          "category": "Medical Imaging / Ultrasound",
+          "priceRange": "€60,000 - €150,000",
+          "priceMin": 60000,
+          "priceMax": 150000,
+          "features": {
+            "imaging3D": true,
+            "imaging4D": true,
+            "aiGuided": false,
+            "portable": false,
+            "wireless": false,
+            "multiProbe": false,
+            "automation": "manual"
+          },
+          "targetMarket": [
+            "Hospitals",
+            "Clinics"
+          ],
+          "strengths": [
+            "Rendering fotorealistico Realistic Vue, AI S-Detect"
+          ],
+          "weaknesses": [
+            "Focalizzato su women’s health; zero robotica"
+          ],
+          "certifications": []
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 0,
+        "region": "Global",
+        "segments": [
+          "Medical Imaging"
+        ],
+        "customerBase": 10000,
+        "growthRate": 10
+      },
+      "swotAnalysis": {
+        "strengths": [
+          "Rendering fotorealistico Realistic Vue, AI S-Detect"
+        ],
+        "weaknesses": [
+          "Focalizzato su women’s health; zero robotica"
+        ],
+        "opportunities": [
+          "AI integration",
+          "Point-of-care market expansion"
+        ],
+        "threats": [
+          "Disruptive new entrants",
+          "Regulatory changes MDR"
+        ]
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "• Eco 3D ≠ solo ostetricia: multi-organo• Automazione → minore variabilità operatore"
+        ],
+        "theirStrengths": [
+          "Rendering fotorealistico Realistic Vue, AI S-Detect"
+        ],
+        "theirWeaknesses": [
+          "Focalizzato su women’s health; zero robotica"
+        ],
+        "competitiveResponse": "• Eco 3D ≠ solo ostetricia: multi-organo• Automazione → minore variabilità operatore"
+      },
+      "innovation": {
+        "patents": 100,
+        "rdInvestment": 80000000.0,
+        "recentLaunches": []
+      },
+      "customerReferences": {
+        "testimonials": [],
+        "casestudies": 50,
+        "clinicalStudies": 200
+      },
+      "lastUpdated": "2025-10-20T20:46:31.777824",
+      "notes": "Source: Competitor Eco3D.csv row 14"
+    },
+    {
+      "id": "comp_015",
+      "name": "Esaote MyLab Omega / Alpha 3D",
+      "shortName": "Esaote",
+      "tier": "tier1",
+      "type": "direct",
+      "status": "active",
+      "priority": "critical",
+      "threatLevel": "high",
+      "monitoringPriority": 1,
+      "companyInfo": {
+        "founded": 1982,
+        "headquarters": "Global",
+        "employees": 1200,
+        "revenue": 300000000,
+        "funding": {},
+        "website": "https://www.esaote.com",
+        "logo": "🇮🇹"
+      },
+      "products": [
+        {
+          "name": "Esaote MyLab Omega / Alpha 3D",
+          "category": "Medical Imaging / Ultrasound",
+          "priceRange": "€60,000 - €150,000",
+          "priceMin": 60000,
+          "priceMax": 150000,
+          "features": {
+            "imaging3D": true,
+            "imaging4D": false,
+            "aiGuided": false,
+            "portable": false,
+            "wireless": false,
+            "multiProbe": false,
+            "automation": "manual"
+          },
+          "targetMarket": [
+            "Hospitals",
+            "Clinics"
+          ],
+          "strengths": [
+            "3D statico MSK & cardio, AI misure niche"
+          ],
+          "weaknesses": [
+            "Mid-range, R&D limitata, input manuale"
+          ],
+          "certifications": []
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 0,
+        "region": "Global",
+        "segments": [
+          "Medical Imaging"
+        ],
+        "customerBase": 10000,
+        "growthRate": 10
+      },
+      "swotAnalysis": {
+        "strengths": [
+          "3D statico MSK & cardio, AI misure niche"
+        ],
+        "weaknesses": [
+          "Mid-range, R&D limitata, input manuale"
+        ],
+        "opportunities": [
+          "AI integration",
+          "Point-of-care market expansion"
+        ],
+        "threats": [
+          "Disruptive new entrants",
+          "Regulatory changes MDR"
+        ]
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "• Eco 3D mira all’high-end volumetrico automatico• Standardizzazione esame multi-organo"
+        ],
+        "theirStrengths": [
+          "3D statico MSK & cardio, AI misure niche"
+        ],
+        "theirWeaknesses": [
+          "Mid-range, R&D limitata, input manuale"
+        ],
+        "competitiveResponse": "• Eco 3D mira all’high-end volumetrico automatico• Standardizzazione esame multi-organo"
+      },
+      "innovation": {
+        "patents": 100,
+        "rdInvestment": 30000000.0,
+        "recentLaunches": []
+      },
+      "customerReferences": {
+        "testimonials": [],
+        "casestudies": 50,
+        "clinicalStudies": 200
+      },
+      "lastUpdated": "2025-10-20T20:46:31.777835",
+      "notes": "Source: Competitor Eco3D.csv row 15"
+    },
+    {
+      "id": "comp_016",
+      "name": "GE Invenia ABUS",
+      "shortName": "GE Healthcare",
+      "tier": "tier1",
+      "type": "direct",
+      "status": "active",
+      "priority": "critical",
+      "threatLevel": "high",
+      "monitoringPriority": 1,
+      "companyInfo": {
+        "founded": 1892,
+        "headquarters": "Global",
+        "employees": 52000,
+        "revenue": 19800000000,
+        "funding": {},
+        "website": "https://www.gehealthcare.com",
+        "logo": "🏥"
+      },
+      "products": [
+        {
+          "name": "GE Invenia ABUS",
+          "category": "Medical Imaging / Ultrasound",
+          "priceRange": "€60,000 - €150,000",
+          "priceMin": 60000,
+          "priceMax": 150000,
+          "features": {
+            "imaging3D": false,
+            "imaging4D": false,
+            "aiGuided": false,
+            "portable": false,
+            "wireless": false,
+            "multiProbe": false,
+            "automation": "manual"
+          },
+          "targetMarket": [
+            "Hospitals",
+            "Clinics"
+          ],
+          "strengths": [
+            "Scansione automatica volumetrica del seno con piani coronali"
+          ],
+          "weaknesses": [
+            "Solo imaging seno; esame > 15 min"
+          ],
+          "certifications": []
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 25,
+        "region": "Global",
+        "segments": [
+          "Medical Imaging"
+        ],
+        "customerBase": 10000,
+        "growthRate": 10
+      },
+      "swotAnalysis": {
+        "strengths": [
+          "Scansione automatica volumetrica del seno con piani coronali"
+        ],
+        "weaknesses": [
+          "Solo imaging seno; esame > 15 min"
+        ],
+        "opportunities": [
+          "AI integration",
+          "Point-of-care market expansion"
+        ],
+        "threats": [
+          "Disruptive new entrants",
+          "Regulatory changes MDR"
+        ]
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "• Multi-distretto: applicazione per tutto il corpo• Esame rapido (< 5 min) con ricostruzione near real-time"
+        ],
+        "theirStrengths": [
+          "Scansione automatica volumetrica del seno con piani coronali"
+        ],
+        "theirWeaknesses": [
+          "Solo imaging seno; esame > 15 min"
+        ],
+        "competitiveResponse": "• Multi-distretto: applicazione per tutto il corpo• Esame rapido (< 5 min) con ricostruzione near real-time"
+      },
+      "innovation": {
+        "patents": 100,
+        "rdInvestment": 1980000000.0,
+        "recentLaunches": []
+      },
+      "customerReferences": {
+        "testimonials": [],
+        "casestudies": 50,
+        "clinicalStudies": 200
+      },
+      "lastUpdated": "2025-10-20T20:46:31.777843",
+      "notes": "Source: Competitor Eco3D.csv row 16"
+    },
+    {
+      "id": "comp_017",
+      "name": "Siemens Acuson S2000 ABVS",
+      "shortName": "Siemens Healthineers",
+      "tier": "tier1",
+      "type": "direct",
+      "status": "active",
+      "priority": "critical",
+      "threatLevel": "high",
+      "monitoringPriority": 1,
+      "companyInfo": {
+        "founded": 1847,
+        "headquarters": "Global",
+        "employees": 66000,
+        "revenue": 21100000000,
+        "funding": {},
+        "website": "https://www.siemenshealthineers.com",
+        "logo": "⚙️"
+      },
+      "products": [
+        {
+          "name": "Siemens Acuson S2000 ABVS",
+          "category": "Medical Imaging / Ultrasound",
+          "priceRange": "€80,000 - €140,000",
+          "priceMin": 80000,
+          "priceMax": 140000,
+          "features": {
+            "imaging3D": false,
+            "imaging4D": false,
+            "aiGuided": false,
+            "portable": false,
+            "wireless": false,
+            "multiProbe": false,
+            "automation": "manual"
+          },
+          "targetMarket": [
+            "Hospitals",
+            "Clinics"
+          ],
+          "strengths": [
+            "Sistema ABVS completamente automatico per imaging volumetrico mammario"
+          ],
+          "weaknesses": [
+            "Limitato al seno; non estensibile ad altri distretti"
+          ],
+          "certifications": []
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 18,
+        "region": "Global",
+        "segments": [
+          "Medical Imaging"
+        ],
+        "customerBase": 10000,
+        "growthRate": 10
+      },
+      "swotAnalysis": {
+        "strengths": [
+          "Sistema ABVS completamente automatico per imaging volumetrico mammario"
+        ],
+        "weaknesses": [
+          "Limitato al seno; non estensibile ad altri distretti"
+        ],
+        "opportunities": [
+          "AI integration",
+          "Point-of-care market expansion"
+        ],
+        "threats": [
+          "Disruptive new entrants",
+          "Regulatory changes MDR"
+        ]
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "• “Hands-free” esteso a qualsiasi organo• Fusione multi-angolo e AI nativa"
+        ],
+        "theirStrengths": [
+          "Sistema ABVS completamente automatico per imaging volumetrico mammario"
+        ],
+        "theirWeaknesses": [
+          "Limitato al seno; non estensibile ad altri distretti"
+        ],
+        "competitiveResponse": "• “Hands-free” esteso a qualsiasi organo• Fusione multi-angolo e AI nativa"
+      },
+      "innovation": {
+        "patents": 100,
+        "rdInvestment": 2110000000.0,
+        "recentLaunches": []
+      },
+      "customerReferences": {
+        "testimonials": [],
+        "casestudies": 50,
+        "clinicalStudies": 200
+      },
+      "lastUpdated": "2025-10-20T20:46:31.777851",
+      "notes": "Source: Competitor Eco3D.csv row 17"
+    },
+    {
+      "id": "comp_018",
+      "name": "Delphinus SoftVue (anello 360°)",
+      "shortName": "Delphinus Medical",
+      "tier": "tier2",
+      "type": "indirect",
+      "status": "active",
+      "priority": "high",
+      "threatLevel": "medium",
+      "monitoringPriority": 6,
+      "companyInfo": {
+        "founded": 2005,
+        "headquarters": "N/A",
+        "employees": 50,
+        "revenue": null,
+        "funding": 40000000,
+        "website": "https://www.delphinusmedical.com",
+        "logo": "🐬"
+      },
+      "products": [
+        {
+          "name": "Delphinus SoftVue (anello 360°)",
+          "category": "Medical Imaging / Ultrasound",
+          "priceRange": "€20,000 - €60,000",
+          "priceMin": 20000,
+          "priceMax": 60000,
+          "features": {
+            "imaging3D": false,
+            "imaging4D": false,
+            "aiGuided": false,
+            "portable": false,
+            "wireless": false,
+            "multiProbe": false,
+            "automation": "manual"
+          },
+          "targetMarket": [
+            "Hospitals",
+            "Clinics"
+          ],
+          "strengths": [
+            "Tomografia ultrasonica a trasmissione+riflessione con array anulare 360°"
+          ],
+          "weaknesses": [
+            "Solo seno; macchina ingombrante e non portatile"
+          ],
+          "certifications": []
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 0,
+        "region": "Europe",
+        "segments": [
+          "Medical Imaging"
+        ],
+        "customerBase": 1000,
+        "growthRate": 20
+      },
+      "swotAnalysis": {
+        "strengths": [
+          "Tomografia ultrasonica a trasmissione+riflessione con array anulare 360°"
+        ],
+        "weaknesses": [
+          "Solo seno; macchina ingombrante e non portatile"
+        ],
+        "opportunities": [
+          "AI integration",
+          "Point-of-care market expansion"
+        ],
+        "threats": [
+          "Disruptive new entrants",
+          "Regulatory changes MDR"
+        ]
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "• Design compatto, handheld senza anello 360°• Multi-sonda sincronizzata per imaging volumetrico completo"
+        ],
+        "theirStrengths": [
+          "Tomografia ultrasonica a trasmissione+riflessione con array anulare 360°"
+        ],
+        "theirWeaknesses": [
+          "Solo seno; macchina ingombrante e non portatile"
+        ],
+        "competitiveResponse": "• Design compatto, handheld senza anello 360°• Multi-sonda sincronizzata per imaging volumetrico completo"
+      },
+      "innovation": {
+        "patents": 20,
+        "rdInvestment": 0,
+        "recentLaunches": []
+      },
+      "customerReferences": {
+        "testimonials": [],
+        "casestudies": 5,
+        "clinicalStudies": 10
+      },
+      "lastUpdated": "2025-10-20T20:46:31.777867",
+      "notes": "Source: Competitor Eco3D.csv row 18"
+    },
+    {
+      "id": "comp_019",
+      "name": "QT Imaging QTscan",
+      "shortName": "Tech/Patent #19",
+      "tier": "tier3",
+      "type": "direct",
+      "status": "active",
+      "priority": "medium",
+      "threatLevel": "low",
+      "monitoringPriority": 8,
+      "companyInfo": {
+        "founded": null,
+        "headquarters": "N/A",
+        "employees": null,
+        "revenue": null,
+        "funding": {},
+        "website": "https://www.tech/patent#19.com",
+        "logo": "🔬"
+      },
+      "products": [
+        {
+          "name": "QT Imaging QTscan",
+          "category": "Medical Imaging / Ultrasound",
+          "priceRange": "€30,000 - €80,000",
+          "priceMin": 30000,
+          "priceMax": 80000,
+          "features": {
+            "imaging3D": false,
+            "imaging4D": false,
+            "aiGuided": false,
+            "portable": false,
+            "wireless": false,
+            "multiProbe": false,
+            "automation": "manual"
+          },
+          "targetMarket": [
+            "Hospitals",
+            "Clinics"
+          ],
+          "strengths": [
+            "Quantitative transmission imaging per valutazione dei tessuti della mammella"
+          ],
+          "weaknesses": [
+            "Limitato al seno; nessuna ricostruzione 3D/4D real-time"
+          ],
+          "certifications": []
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 0,
+        "region": "Regional",
+        "segments": [
+          "Medical Imaging"
+        ],
+        "customerBase": 0,
+        "growthRate": 10
+      },
+      "swotAnalysis": {
+        "strengths": [
+          "Quantitative transmission imaging per valutazione dei tessuti della mammella"
+        ],
+        "weaknesses": [
+          "Limitato al seno; nessuna ricostruzione 3D/4D real-time"
+        ],
+        "opportunities": [
+          "AI integration",
+          "Point-of-care market expansion"
+        ],
+        "threats": [
+          "Disruptive new entrants",
+          "Regulatory changes MDR"
+        ]
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "• Integrazione quantitative + 3–5 vol/s 3D/4D multi-sonda• AI per analisi quantitativa avanzata"
+        ],
+        "theirStrengths": [
+          "Quantitative transmission imaging per valutazione dei tessuti della mammella"
+        ],
+        "theirWeaknesses": [
+          "Limitato al seno; nessuna ricostruzione 3D/4D real-time"
+        ],
+        "competitiveResponse": "• Integrazione quantitative + 3–5 vol/s 3D/4D multi-sonda• AI per analisi quantitativa avanzata"
+      },
+      "innovation": {
+        "patents": 0,
+        "rdInvestment": 0,
+        "recentLaunches": []
+      },
+      "customerReferences": {
+        "testimonials": [],
+        "casestudies": 0,
+        "clinicalStudies": 0
+      },
+      "lastUpdated": "2025-10-20T20:46:31.777878",
+      "notes": "Source: Competitor Eco3D.csv row 19"
+    },
+    {
+      "id": "comp_020",
+      "name": "ROPCA ARTHUR (robot mano artrite)",
+      "shortName": "Tech/Patent #20",
+      "tier": "tier3",
+      "type": "emerging",
+      "status": "monitoring",
+      "priority": "high",
+      "threatLevel": "medium",
+      "monitoringPriority": 5,
+      "companyInfo": {
+        "founded": null,
+        "headquarters": "N/A",
+        "employees": null,
+        "revenue": null,
+        "funding": {},
+        "website": "https://www.tech/patent#20.com",
+        "logo": "🔬"
+      },
+      "products": [
+        {
+          "name": "ROPCA ARTHUR (robot mano artrite)",
+          "category": "Medical Imaging / Ultrasound",
+          "priceRange": "€30,000 - €80,000",
+          "priceMin": 30000,
+          "priceMax": 80000,
+          "features": {
+            "imaging3D": false,
+            "imaging4D": false,
+            "aiGuided": false,
+            "portable": false,
+            "wireless": false,
+            "multiProbe": false,
+            "automation": "manual"
+          },
+          "targetMarket": [
+            "Hospitals",
+            "Clinics"
+          ],
+          "strengths": [
+            "Robot autonomo per scansione ecografica della mano"
+          ],
+          "weaknesses": [
+            "Solo distretto mano; imaging 3D volumetrico non previsto"
+          ],
+          "certifications": []
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 0,
+        "region": "Regional",
+        "segments": [
+          "Medical Imaging"
+        ],
+        "customerBase": 0,
+        "growthRate": 10
+      },
+      "swotAnalysis": {
+        "strengths": [
+          "Robot autonomo per scansione ecografica della mano"
+        ],
+        "weaknesses": [
+          "Solo distretto mano; imaging 3D volumetrico non previsto"
+        ],
+        "opportunities": [
+          "AI integration",
+          "Point-of-care market expansion"
+        ],
+        "threats": [
+          "Disruptive new entrants",
+          "Regulatory changes MDR"
+        ]
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "• Robotica per qualsiasi distretto anatomico• Volumetria multi-sonda real-time con sincronizzazione ToF/IMU"
+        ],
+        "theirStrengths": [
+          "Robot autonomo per scansione ecografica della mano"
+        ],
+        "theirWeaknesses": [
+          "Solo distretto mano; imaging 3D volumetrico non previsto"
+        ],
+        "competitiveResponse": "• Robotica per qualsiasi distretto anatomico• Volumetria multi-sonda real-time con sincronizzazione ToF/IMU"
+      },
+      "innovation": {
+        "patents": 0,
+        "rdInvestment": 0,
+        "recentLaunches": []
+      },
+      "customerReferences": {
+        "testimonials": [],
+        "casestudies": 0,
+        "clinicalStudies": 0
+      },
+      "lastUpdated": "2025-10-20T20:46:31.777889",
+      "notes": "Source: Competitor Eco3D.csv row 20"
+    },
+    {
+      "id": "comp_021",
+      "name": "AdEchoTech MELODY (tele-eco)",
+      "shortName": "Tech/Patent #21",
+      "tier": "tier3",
+      "type": "emerging",
+      "status": "monitoring",
+      "priority": "high",
+      "threatLevel": "medium",
+      "monitoringPriority": 5,
+      "companyInfo": {
+        "founded": null,
+        "headquarters": "N/A",
+        "employees": null,
+        "revenue": null,
+        "funding": {},
+        "website": "https://www.tech/patent#21.com",
+        "logo": "🔬"
+      },
+      "products": [
+        {
+          "name": "AdEchoTech MELODY (tele-eco)",
+          "category": "Medical Imaging / Ultrasound",
+          "priceRange": "€30,000 - €80,000",
+          "priceMin": 30000,
+          "priceMax": 80000,
+          "features": {
+            "imaging3D": false,
+            "imaging4D": false,
+            "aiGuided": false,
+            "portable": false,
+            "wireless": false,
+            "multiProbe": false,
+            "automation": "manual"
+          },
+          "targetMarket": [
+            "Hospitals",
+            "Clinics"
+          ],
+          "strengths": [
+            "Braccio tele-operato per ecografia a distanza"
+          ],
+          "weaknesses": [
+            "Non autonomo: dipende da operatore remoto, nessuna fusione multi-sonda"
+          ],
+          "certifications": []
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 0,
+        "region": "Regional",
+        "segments": [
+          "Medical Imaging"
+        ],
+        "customerBase": 0,
+        "growthRate": 10
+      },
+      "swotAnalysis": {
+        "strengths": [
+          "Braccio tele-operato per ecografia a distanza"
+        ],
+        "weaknesses": [
+          "Non autonomo: dipende da operatore remoto, nessuna fusione multi-sonda"
+        ],
+        "opportunities": [
+          "AI integration",
+          "Point-of-care market expansion"
+        ],
+        "threats": [
+          "Disruptive new entrants",
+          "Regulatory changes MDR"
+        ]
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "• Ecografia autonoma senza operatore remoto• Fusione multi-sonda e AI-guidata per ricostruzione 3D/4D"
+        ],
+        "theirStrengths": [
+          "Braccio tele-operato per ecografia a distanza"
+        ],
+        "theirWeaknesses": [
+          "Non autonomo: dipende da operatore remoto, nessuna fusione multi-sonda"
+        ],
+        "competitiveResponse": "• Ecografia autonoma senza operatore remoto• Fusione multi-sonda e AI-guidata per ricostruzione 3D/4D"
+      },
+      "innovation": {
+        "patents": 0,
+        "rdInvestment": 0,
+        "recentLaunches": []
+      },
+      "customerReferences": {
+        "testimonials": [],
+        "casestudies": 0,
+        "clinicalStudies": 0
+      },
+      "lastUpdated": "2025-10-20T20:46:31.777899",
+      "notes": "Source: Competitor Eco3D.csv row 21"
+    },
+    {
+      "id": "comp_022",
+      "name": "Butterfly iQ",
+      "shortName": "Butterfly Network",
+      "tier": "tier2",
+      "type": "direct",
+      "status": "active",
+      "priority": "high",
+      "threatLevel": "medium",
+      "monitoringPriority": 4,
+      "companyInfo": {
+        "founded": 2011,
+        "headquarters": "N/A",
+        "employees": 400,
+        "revenue": null,
+        "funding": 350000000,
+        "website": "https://www.butterflynetwork.com",
+        "logo": "🦋"
+      },
+      "products": [
+        {
+          "name": "Butterfly iQ",
+          "category": "Medical Imaging / Ultrasound",
+          "priceRange": "€2,000 - €3,000",
+          "priceMin": 2000,
+          "priceMax": 3000,
+          "features": {
+            "imaging3D": false,
+            "imaging4D": false,
+            "aiGuided": false,
+            "portable": false,
+            "wireless": false,
+            "multiProbe": false,
+            "automation": "manual"
+          },
+          "targetMarket": [
+            "Hospitals",
+            "Clinics"
+          ],
+          "strengths": [
+            "Sonda palmare CMOS-on-chip (CMUT) a basso costo, integrazione smartphone/tablet per display e controllo"
+          ],
+          "weaknesses": [
+            "Imaging 2D mono-sonda, nessuna vera ricostruzione 3D"
+          ],
+          "certifications": []
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 0,
+        "region": "Europe",
+        "segments": [
+          "Medical Imaging"
+        ],
+        "customerBase": 1000,
+        "growthRate": 45
+      },
+      "swotAnalysis": {
+        "strengths": [
+          "Sonda palmare CMOS-on-chip (CMUT) a basso costo, integrazione smartphone/tablet per display e controllo"
+        ],
+        "weaknesses": [
+          "Imaging 2D mono-sonda, nessuna vera ricostruzione 3D"
+        ],
+        "opportunities": [
+          "AI integration",
+          "Point-of-care market expansion"
+        ],
+        "threats": [
+          "Disruptive new entrants",
+          "Regulatory changes MDR"
+        ]
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "• Architettura multi-patch: più sonde CMUT sincronizzate per vero volume 3–5 vol/s• Fusione AI nativa per super-risoluzione e riduzione artefatti"
+        ],
+        "theirStrengths": [
+          "Sonda palmare CMOS-on-chip (CMUT) a basso costo, integrazione smartphone/tablet per display e controllo"
+        ],
+        "theirWeaknesses": [
+          "Imaging 2D mono-sonda, nessuna vera ricostruzione 3D"
+        ],
+        "competitiveResponse": "• Architettura multi-patch: più sonde CMUT sincronizzate per vero volume 3–5 vol/s• Fusione AI nativa per super-risoluzione e riduzione artefatti"
+      },
+      "innovation": {
+        "patents": 20,
+        "rdInvestment": 0,
+        "recentLaunches": []
+      },
+      "customerReferences": {
+        "testimonials": [],
+        "casestudies": 5,
+        "clinicalStudies": 10
+      },
+      "lastUpdated": "2025-10-20T20:46:31.777936",
+      "notes": "Source: Competitor Eco3D.csv row 22"
+    },
+    {
+      "id": "comp_023",
+      "name": "Clarius (wireless)",
+      "shortName": "Clarius Mobile Health",
+      "tier": "tier2",
+      "type": "indirect",
+      "status": "active",
+      "priority": "high",
+      "threatLevel": "medium",
+      "monitoringPriority": 6,
+      "companyInfo": {
+        "founded": 2014,
+        "headquarters": "N/A",
+        "employees": 150,
+        "revenue": null,
+        "funding": 80000000,
+        "website": "https://www.clariusmobilehealth.com",
+        "logo": "📡"
+      },
+      "products": [
+        {
+          "name": "Clarius (wireless)",
+          "category": "Medical Imaging / Ultrasound",
+          "priceRange": "€5,000 - €8,000",
+          "priceMin": 5000,
+          "priceMax": 8000,
+          "features": {
+            "imaging3D": false,
+            "imaging4D": false,
+            "aiGuided": false,
+            "portable": false,
+            "wireless": true,
+            "multiProbe": false,
+            "automation": "manual"
+          },
+          "targetMarket": [
+            "Hospitals",
+            "Clinics"
+          ],
+          "strengths": [
+            "Sonda wireless portatile “carrellata” con qualità simile ai sistemi su carrello, streaming diretto via Wi-Fi"
+          ],
+          "weaknesses": [
+            "Limitato a 2D, no scansione automatica né 3D"
+          ],
+          "certifications": []
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 0,
+        "region": "Europe",
+        "segments": [
+          "Medical Imaging"
+        ],
+        "customerBase": 1000,
+        "growthRate": 20
+      },
+      "swotAnalysis": {
+        "strengths": [
+          "Sonda wireless portatile “carrellata” con qualità simile ai sistemi su carrello, streaming diretto via Wi-Fi"
+        ],
+        "weaknesses": [
+          "Limitato a 2D, no scansione automatica né 3D"
+        ],
+        "opportunities": [
+          "AI integration",
+          "Point-of-care market expansion"
+        ],
+        "threats": [
+          "Disruptive new entrants",
+          "Regulatory changes MDR"
+        ]
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "• Sistema cordless multi-sonda con sincronizzazione automatica• Scansione volumetrica 3D/4D near real-time senza operatore manuale"
+        ],
+        "theirStrengths": [
+          "Sonda wireless portatile “carrellata” con qualità simile ai sistemi su carrello, streaming diretto via Wi-Fi"
+        ],
+        "theirWeaknesses": [
+          "Limitato a 2D, no scansione automatica né 3D"
+        ],
+        "competitiveResponse": "• Sistema cordless multi-sonda con sincronizzazione automatica• Scansione volumetrica 3D/4D near real-time senza operatore manuale"
+      },
+      "innovation": {
+        "patents": 20,
+        "rdInvestment": 0,
+        "recentLaunches": []
+      },
+      "customerReferences": {
+        "testimonials": [],
+        "casestudies": 5,
+        "clinicalStudies": 10
+      },
+      "lastUpdated": "2025-10-20T20:46:31.777948",
+      "notes": "Source: Competitor Eco3D.csv row 23"
+    },
+    {
+      "id": "comp_024",
+      "name": "Exo Iris (pMUT)",
+      "shortName": "Exo Imaging",
+      "tier": "tier2",
+      "type": "emerging",
+      "status": "monitoring",
+      "priority": "critical",
+      "threatLevel": "high",
+      "monitoringPriority": 2,
+      "companyInfo": {
+        "founded": 2015,
+        "headquarters": "N/A",
+        "employees": 80,
+        "revenue": null,
+        "funding": 125000000,
+        "website": "https://www.exoimaging.com",
+        "logo": "🔬"
+      },
+      "products": [
+        {
+          "name": "Exo Iris (pMUT)",
+          "category": "Medical Imaging / Ultrasound",
+          "priceRange": "€5,000 - €10,000",
+          "priceMin": 5000,
+          "priceMax": 10000,
+          "features": {
+            "imaging3D": false,
+            "imaging4D": false,
+            "aiGuided": false,
+            "portable": false,
+            "wireless": false,
+            "multiProbe": false,
+            "automation": "manual"
+          },
+          "targetMarket": [
+            "Hospitals",
+            "Clinics"
+          ],
+          "strengths": [
+            "Prototipo palmare pMUT su silicio con promessa di 3D+AI in un form factor tascabile"
+          ],
+          "weaknesses": [
+            "Ancora non sul mercato, 3D e AI non convalidate clinicamente"
+          ],
+          "certifications": []
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 0,
+        "region": "Europe",
+        "segments": [
+          "Medical Imaging"
+        ],
+        "customerBase": 1000,
+        "growthRate": 20
+      },
+      "swotAnalysis": {
+        "strengths": [
+          "Prototipo palmare pMUT su silicio con promessa di 3D+AI in un form factor tascabile"
+        ],
+        "weaknesses": [
+          "Ancora non sul mercato, 3D e AI non convalidate clinicamente"
+        ],
+        "opportunities": [
+          "AI integration",
+          "Point-of-care market expansion"
+        ],
+        "threats": [
+          "Disruptive new entrants",
+          "Regulatory changes MDR"
+        ]
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "• PMUT multi-array con calibrazione ToF integrata per multi-angolo• Ricostruzione volumetrica reale e AI-driven in un dispositivo compatto"
+        ],
+        "theirStrengths": [
+          "Prototipo palmare pMUT su silicio con promessa di 3D+AI in un form factor tascabile"
+        ],
+        "theirWeaknesses": [
+          "Ancora non sul mercato, 3D e AI non convalidate clinicamente"
+        ],
+        "competitiveResponse": "• PMUT multi-array con calibrazione ToF integrata per multi-angolo• Ricostruzione volumetrica reale e AI-driven in un dispositivo compatto"
+      },
+      "innovation": {
+        "patents": 20,
+        "rdInvestment": 0,
+        "recentLaunches": []
+      },
+      "customerReferences": {
+        "testimonials": [],
+        "casestudies": 5,
+        "clinicalStudies": 10
+      },
+      "lastUpdated": "2025-10-20T20:46:31.777959",
+      "notes": "Source: Competitor Eco3D.csv row 24"
+    },
+    {
+      "id": "comp_025",
+      "name": "EchoNous Kosmos",
+      "shortName": "EchoNous",
+      "tier": "tier2",
+      "type": "indirect",
+      "status": "active",
+      "priority": "high",
+      "threatLevel": "medium",
+      "monitoringPriority": 6,
+      "companyInfo": {
+        "founded": 2012,
+        "headquarters": "N/A",
+        "employees": 60,
+        "revenue": null,
+        "funding": 50000000,
+        "website": "https://www.echonous.com",
+        "logo": "🎯"
+      },
+      "products": [
+        {
+          "name": "EchoNous Kosmos",
+          "category": "Medical Imaging / Ultrasound",
+          "priceRange": "€20,000 - €60,000",
+          "priceMin": 20000,
+          "priceMax": 60000,
+          "features": {
+            "imaging3D": false,
+            "imaging4D": false,
+            "aiGuided": false,
+            "portable": false,
+            "wireless": false,
+            "multiProbe": false,
+            "automation": "manual"
+          },
+          "targetMarket": [
+            "Hospitals",
+            "Clinics"
+          ],
+          "strengths": [
+            "Point-of-care AI-guided per applicazioni cardio, sonda 2D + algoritmi di guida in tempo reale"
+          ],
+          "weaknesses": [
+            "Solo 2D con guida, nessuna multi-sonda né 3D reale"
+          ],
+          "certifications": []
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 0,
+        "region": "Europe",
+        "segments": [
+          "Medical Imaging"
+        ],
+        "customerBase": 1000,
+        "growthRate": 20
+      },
+      "swotAnalysis": {
+        "strengths": [
+          "Point-of-care AI-guided per applicazioni cardio, sonda 2D + algoritmi di guida in tempo reale"
+        ],
+        "weaknesses": [
+          "Solo 2D con guida, nessuna multi-sonda né 3D reale"
+        ],
+        "opportunities": [
+          "AI integration",
+          "Point-of-care market expansion"
+        ],
+        "threats": [
+          "Disruptive new entrants",
+          "Regulatory changes MDR"
+        ]
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "• Estensione AI-guidance su multi-sonda per ricostruzione volumetrica 3D/4D• Automazione dei movimenti e posizionamento robotico delle sonde"
+        ],
+        "theirStrengths": [
+          "Point-of-care AI-guided per applicazioni cardio, sonda 2D + algoritmi di guida in tempo reale"
+        ],
+        "theirWeaknesses": [
+          "Solo 2D con guida, nessuna multi-sonda né 3D reale"
+        ],
+        "competitiveResponse": "• Estensione AI-guidance su multi-sonda per ricostruzione volumetrica 3D/4D• Automazione dei movimenti e posizionamento robotico delle sonde"
+      },
+      "innovation": {
+        "patents": 20,
+        "rdInvestment": 0,
+        "recentLaunches": []
+      },
+      "customerReferences": {
+        "testimonials": [],
+        "casestudies": 5,
+        "clinicalStudies": 10
+      },
+      "lastUpdated": "2025-10-20T20:46:31.777969",
+      "notes": "Source: Competitor Eco3D.csv row 25"
+    },
+    {
+      "id": "comp_026",
+      "name": "GE + NVIDIA (annuncio 2025)",
+      "shortName": "GE Healthcare",
+      "tier": "tier1",
+      "type": "direct",
+      "status": "active",
+      "priority": "critical",
+      "threatLevel": "high",
+      "monitoringPriority": 1,
+      "companyInfo": {
+        "founded": 1892,
+        "headquarters": "Global",
+        "employees": 52000,
+        "revenue": 19800000000,
+        "funding": {},
+        "website": "https://www.gehealthcare.com",
+        "logo": "🏥"
+      },
+      "products": [
+        {
+          "name": "GE + NVIDIA (annuncio 2025)",
+          "category": "Medical Imaging / Ultrasound",
+          "priceRange": "€60,000 - €150,000",
+          "priceMin": 60000,
+          "priceMax": 150000,
+          "features": {
+            "imaging3D": false,
+            "imaging4D": false,
+            "aiGuided": false,
+            "portable": false,
+            "wireless": false,
+            "multiProbe": false,
+            "automation": "manual"
+          },
+          "targetMarket": [
+            "Hospitals",
+            "Clinics"
+          ],
+          "strengths": [
+            "Prototipo di automazione “eco/X-ray”: integrazione robotica per flussi di lavoro eco + radiologia in sala ibrida"
+          ],
+          "weaknesses": [
+            "R&D, demo su eco + RX; non è un sistema ecografico autonomo 3D"
+          ],
+          "certifications": []
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 25,
+        "region": "Global",
+        "segments": [
+          "Medical Imaging"
+        ],
+        "customerBase": 10000,
+        "growthRate": 10
+      },
+      "swotAnalysis": {
+        "strengths": [
+          "Prototipo di automazione “eco/X-ray”: integrazione robotica per flussi di lavoro eco + radiologia in sala ibrida"
+        ],
+        "weaknesses": [
+          "R&D, demo su eco + RX; non è un sistema ecografico autonomo 3D"
+        ],
+        "opportunities": [
+          "AI integration",
+          "Point-of-care market expansion"
+        ],
+        "threats": [
+          "Disruptive new entrants",
+          "Regulatory changes MDR"
+        ]
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "• Estende l’automazione a un sistema multi-sonda ultrasound 3D/4D• Imaging volumetrico near real-time senza dipendenza da radiologia"
+        ],
+        "theirStrengths": [
+          "Prototipo di automazione “eco/X-ray”: integrazione robotica per flussi di lavoro eco + radiologia in sala ibrida"
+        ],
+        "theirWeaknesses": [
+          "R&D, demo su eco + RX; non è un sistema ecografico autonomo 3D"
+        ],
+        "competitiveResponse": "• Estende l’automazione a un sistema multi-sonda ultrasound 3D/4D• Imaging volumetrico near real-time senza dipendenza da radiologia"
+      },
+      "innovation": {
+        "patents": 100,
+        "rdInvestment": 1980000000.0,
+        "recentLaunches": []
+      },
+      "customerReferences": {
+        "testimonials": [],
+        "casestudies": 50,
+        "clinicalStudies": 200
+      },
+      "lastUpdated": "2025-10-20T20:46:31.777978",
+      "notes": "Source: Competitor Eco3D.csv row 26"
+    },
+    {
+      "id": "comp_027",
+      "name": "MGIUS-R3 (MGI Tech)",
+      "shortName": "Tech/Patent #27",
+      "tier": "tier3",
+      "type": "direct",
+      "status": "active",
+      "priority": "medium",
+      "threatLevel": "low",
+      "monitoringPriority": 8,
+      "companyInfo": {
+        "founded": null,
+        "headquarters": "N/A",
+        "employees": null,
+        "revenue": null,
+        "funding": {},
+        "website": "https://www.tech/patent#27.com",
+        "logo": "🔬"
+      },
+      "products": [
+        {
+          "name": "MGIUS-R3 (MGI Tech)",
+          "category": "Medical Imaging / Ultrasound",
+          "priceRange": "€30,000 - €80,000",
+          "priceMin": 30000,
+          "priceMax": 80000,
+          "features": {
+            "imaging3D": false,
+            "imaging4D": false,
+            "aiGuided": false,
+            "portable": false,
+            "wireless": false,
+            "multiProbe": false,
+            "automation": "manual"
+          },
+          "targetMarket": [
+            "Hospitals",
+            "Clinics"
+          ],
+          "strengths": [
+            "Robot mobile per tele-ecografia rurale in Cina, primissima adozione commerciale"
+          ],
+          "weaknesses": [
+            "Dipende da operatore remoto; solo imaging 2D; zero volumetria"
+          ],
+          "certifications": []
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 0,
+        "region": "Regional",
+        "segments": [
+          "Medical Imaging"
+        ],
+        "customerBase": 0,
+        "growthRate": 10
+      },
+      "swotAnalysis": {
+        "strengths": [
+          "Robot mobile per tele-ecografia rurale in Cina, primissima adozione commerciale"
+        ],
+        "weaknesses": [
+          "Dipende da operatore remoto; solo imaging 2D; zero volumetria"
+        ],
+        "opportunities": [
+          "AI integration",
+          "Point-of-care market expansion"
+        ],
+        "threats": [
+          "Disruptive new entrants",
+          "Regulatory changes MDR"
+        ]
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "• Ecografia autonoma multi-sonda senza operatore remoto• Volumetria 3–5 vol/s con AI di fusione e super-risoluzione"
+        ],
+        "theirStrengths": [
+          "Robot mobile per tele-ecografia rurale in Cina, primissima adozione commerciale"
+        ],
+        "theirWeaknesses": [
+          "Dipende da operatore remoto; solo imaging 2D; zero volumetria"
+        ],
+        "competitiveResponse": "• Ecografia autonoma multi-sonda senza operatore remoto• Volumetria 3–5 vol/s con AI di fusione e super-risoluzione"
+      },
+      "innovation": {
+        "patents": 0,
+        "rdInvestment": 0,
+        "recentLaunches": []
+      },
+      "customerReferences": {
+        "testimonials": [],
+        "casestudies": 0,
+        "clinicalStudies": 0
+      },
+      "lastUpdated": "2025-10-20T20:46:31.777988",
+      "notes": "Source: Competitor Eco3D.csv row 27"
+    },
+    {
+      "id": "comp_028",
+      "name": "Bracci custom in ricerca (NASA, Canada)",
+      "shortName": "Tech/Patent #28",
+      "tier": "tier3",
+      "type": "direct",
+      "status": "active",
+      "priority": "medium",
+      "threatLevel": "low",
+      "monitoringPriority": 8,
+      "companyInfo": {
+        "founded": null,
+        "headquarters": "N/A",
+        "employees": null,
+        "revenue": null,
+        "funding": {},
+        "website": "https://www.tech/patent#28.com",
+        "logo": "🔬"
+      },
+      "products": [
+        {
+          "name": "Bracci custom in ricerca (NASA, Canada)",
+          "category": "Medical Imaging / Ultrasound",
+          "priceRange": "€30,000 - €80,000",
+          "priceMin": 30000,
+          "priceMax": 80000,
+          "features": {
+            "imaging3D": false,
+            "imaging4D": false,
+            "aiGuided": false,
+            "portable": false,
+            "wireless": false,
+            "multiProbe": false,
+            "automation": "manual"
+          },
+          "targetMarket": [
+            "Hospitals",
+            "Clinics"
+          ],
+          "strengths": [
+            "Prototipi di bracci robotici per ecografia in ambienti estremi (es. spazio, remoto), stadio R&D"
+          ],
+          "weaknesses": [
+            "Soluzioni sperimentali, non convalidate clinicamente; hardware ingombrante"
+          ],
+          "certifications": []
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 0,
+        "region": "Regional",
+        "segments": [
+          "Medical Imaging"
+        ],
+        "customerBase": 0,
+        "growthRate": 10
+      },
+      "swotAnalysis": {
+        "strengths": [
+          "Prototipi di bracci robotici per ecografia in ambienti estremi (es. spazio, remoto), stadio R&D"
+        ],
+        "weaknesses": [
+          "Soluzioni sperimentali, non convalidate clinicamente; hardware ingombrante"
+        ],
+        "opportunities": [
+          "AI integration",
+          "Point-of-care market expansion"
+        ],
+        "threats": [
+          "Disruptive new entrants",
+          "Regulatory changes MDR"
+        ]
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "• Design compatto e modulare per sonde multiple• Sincronizzazione ToF/IMU e AI-fusion per volume 3D continuo, anche in spazi ristretti"
+        ],
+        "theirStrengths": [
+          "Prototipi di bracci robotici per ecografia in ambienti estremi (es. spazio, remoto), stadio R&D"
+        ],
+        "theirWeaknesses": [
+          "Soluzioni sperimentali, non convalidate clinicamente; hardware ingombrante"
+        ],
+        "competitiveResponse": "• Design compatto e modulare per sonde multiple• Sincronizzazione ToF/IMU e AI-fusion per volume 3D continuo, anche in spazi ristretti"
+      },
+      "innovation": {
+        "patents": 0,
+        "rdInvestment": 0,
+        "recentLaunches": []
+      },
+      "customerReferences": {
+        "testimonials": [],
+        "casestudies": 0,
+        "clinicalStudies": 0
+      },
+      "lastUpdated": "2025-10-20T20:46:31.777999",
+      "notes": "Source: Competitor Eco3D.csv row 28"
+    },
+    {
+      "id": "comp_029",
+      "name": "TC low-dose / conteggio fotoni (Siemens Somatom PCD)",
+      "shortName": "Siemens Healthineers",
+      "tier": "tier1",
+      "type": "direct",
+      "status": "active",
+      "priority": "critical",
+      "threatLevel": "high",
+      "monitoringPriority": 1,
+      "companyInfo": {
+        "founded": 1847,
+        "headquarters": "Global",
+        "employees": 66000,
+        "revenue": 21100000000,
+        "funding": {},
+        "website": "https://www.siemenshealthineers.com",
+        "logo": "⚙️"
+      },
+      "products": [
+        {
+          "name": "TC low-dose / conteggio fotoni (Siemens Somatom PCD)",
+          "category": "Medical Imaging / Ultrasound",
+          "priceRange": "€60,000 - €150,000",
+          "priceMin": 60000,
+          "priceMax": 150000,
+          "features": {
+            "imaging3D": false,
+            "imaging4D": false,
+            "aiGuided": false,
+            "portable": false,
+            "wireless": false,
+            "multiProbe": false,
+            "automation": "manual"
+          },
+          "targetMarket": [
+            "Hospitals",
+            "Clinics"
+          ],
+          "strengths": [
+            "Rilevazione diretta dei fotoni con discriminazione energetica; dose di radiazione ↓ 2–3×; risoluzione spaziale sub-mm; imaging spettrale"
+          ],
+          "weaknesses": [
+            "Radiazioni ionizzanti; imaging statico, non real-time; apparecchiatura ingombrante e costosa; scarsa soft-tissue contrast"
+          ],
+          "certifications": []
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 18,
+        "region": "Global",
+        "segments": [
+          "Medical Imaging"
+        ],
+        "customerBase": 10000,
+        "growthRate": 10
+      },
+      "swotAnalysis": {
+        "strengths": [
+          "Rilevazione diretta dei fotoni con discriminazione energetica; dose di radiazione ↓ 2–3×; risoluzione spaziale sub-mm; imaging spettrale"
+        ],
+        "weaknesses": [
+          "Radiazioni ionizzanti; imaging statico, non real-time; apparecchiatura ingombrante e costosa; scarsa soft-tissue contrast"
+        ],
+        "opportunities": [
+          "AI integration",
+          "Point-of-care market expansion"
+        ],
+        "threats": [
+          "Disruptive new entrants",
+          "Regulatory changes MDR"
+        ]
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "• Zero radiazioni, imaging 3–5 vol/s in soft tissue• Discriminazione dei tessuti via AI anziché spettri X-ray"
+        ],
+        "theirStrengths": [
+          "Rilevazione diretta dei fotoni con discriminazione energetica; dose di radiazione ↓ 2–3×; risoluzione spaziale sub-mm; imaging spettrale"
+        ],
+        "theirWeaknesses": [
+          "Radiazioni ionizzanti; imaging statico, non real-time; apparecchiatura ingombrante e costosa; scarsa soft-tissue contrast"
+        ],
+        "competitiveResponse": "• Zero radiazioni, imaging 3–5 vol/s in soft tissue• Discriminazione dei tessuti via AI anziché spettri X-ray"
+      },
+      "innovation": {
+        "patents": 100,
+        "rdInvestment": 2110000000.0,
+        "recentLaunches": []
+      },
+      "customerReferences": {
+        "testimonials": [],
+        "casestudies": 50,
+        "clinicalStudies": 200
+      },
+      "lastUpdated": "2025-10-20T20:46:31.778010",
+      "notes": "Source: Competitor Eco3D.csv row 29"
+    },
+    {
+      "id": "comp_030",
+      "name": "EOS 3D a raggi X (EOS Imaging)",
+      "shortName": "Tech/Patent #30",
+      "tier": "tier3",
+      "type": "substitute",
+      "status": "active",
+      "priority": "medium",
+      "threatLevel": "low",
+      "monitoringPriority": 8,
+      "companyInfo": {
+        "founded": null,
+        "headquarters": "N/A",
+        "employees": null,
+        "revenue": null,
+        "funding": {},
+        "website": "https://www.tech/patent#30.com",
+        "logo": "🔬"
+      },
+      "products": [
+        {
+          "name": "EOS 3D a raggi X (EOS Imaging)",
+          "category": "Medical Imaging / Ultrasound",
+          "priceRange": "€30,000 - €80,000",
+          "priceMin": 30000,
+          "priceMax": 80000,
+          "features": {
+            "imaging3D": true,
+            "imaging4D": false,
+            "aiGuided": false,
+            "portable": false,
+            "wireless": false,
+            "multiProbe": false,
+            "automation": "manual"
+          },
+          "targetMarket": [
+            "Hospitals",
+            "Clinics"
+          ],
+          "strengths": [
+            "Slot-scanning biplanare con lame di raggi X; modelli scheletrici 3D low-dose in carico; due viste ortogonali sincronizzate"
+          ],
+          "weaknesses": [
+            "Solo ossa; statico in posizione eretta; bulk system; nessuna informazione su tessuti molli"
+          ],
+          "certifications": []
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 0,
+        "region": "Regional",
+        "segments": [
+          "Medical Imaging"
+        ],
+        "customerBase": 0,
+        "growthRate": 10
+      },
+      "swotAnalysis": {
+        "strengths": [
+          "Slot-scanning biplanare con lame di raggi X; modelli scheletrici 3D low-dose in carico; due viste ortogonali sincronizzate"
+        ],
+        "weaknesses": [
+          "Solo ossa; statico in posizione eretta; bulk system; nessuna informazione su tessuti molli"
+        ],
+        "opportunities": [
+          "AI integration",
+          "Point-of-care market expansion"
+        ],
+        "threats": [
+          "Disruptive new entrants",
+          "Regulatory changes MDR"
+        ]
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "• Volumetria soft-tissue in real-time 3–5 vol/s senza radiazioni• Copertura multi-angolo con più sonde simultanee"
+        ],
+        "theirStrengths": [
+          "Slot-scanning biplanare con lame di raggi X; modelli scheletrici 3D low-dose in carico; due viste ortogonali sincronizzate"
+        ],
+        "theirWeaknesses": [
+          "Solo ossa; statico in posizione eretta; bulk system; nessuna informazione su tessuti molli"
+        ],
+        "competitiveResponse": "• Volumetria soft-tissue in real-time 3–5 vol/s senza radiazioni• Copertura multi-angolo con più sonde simultanee"
+      },
+      "innovation": {
+        "patents": 0,
+        "rdInvestment": 0,
+        "recentLaunches": []
+      },
+      "customerReferences": {
+        "testimonials": [],
+        "casestudies": 0,
+        "clinicalStudies": 0
+      },
+      "lastUpdated": "2025-10-20T20:46:31.778022",
+      "notes": "Source: Competitor Eco3D.csv row 30"
+    },
+    {
+      "id": "comp_031",
+      "name": "MRI portatile basso campo (Hyperfine Swoop)",
+      "shortName": "Hyperfine",
+      "tier": "tier2",
+      "type": "substitute",
+      "status": "active",
+      "priority": "high",
+      "threatLevel": "medium",
+      "monitoringPriority": 6,
+      "companyInfo": {
+        "founded": 2014,
+        "headquarters": "N/A",
+        "employees": 150,
+        "revenue": null,
+        "funding": 150000000,
+        "website": "https://www.hyperfine.com",
+        "logo": "🧲"
+      },
+      "products": [
+        {
+          "name": "MRI portatile basso campo (Hyperfine Swoop)",
+          "category": "Medical Imaging / Ultrasound",
+          "priceRange": "€50,000 - €100,000",
+          "priceMin": 50000,
+          "priceMax": 100000,
+          "features": {
+            "imaging3D": false,
+            "imaging4D": false,
+            "aiGuided": false,
+            "portable": true,
+            "wireless": false,
+            "multiProbe": false,
+            "automation": "manual"
+          },
+          "targetMarket": [
+            "Hospitals",
+            "Clinics"
+          ],
+          "strengths": [
+            "Magneti permanenti <0,1 T; design mobile bedside; nessuna radiazione; sequenze eco di spin/gradiente ottimizzate per basso campo"
+          ],
+          "weaknesses": [
+            "Bassa SNR e risoluzione; tempi di scansione lunghi (minuti); costo elevato; ingombro di schermature e criogenici"
+          ],
+          "certifications": []
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 0,
+        "region": "Europe",
+        "segments": [
+          "Medical Imaging"
+        ],
+        "customerBase": 1000,
+        "growthRate": 20
+      },
+      "swotAnalysis": {
+        "strengths": [
+          "Magneti permanenti <0,1 T; design mobile bedside; nessuna radiazione; sequenze eco di spin/gradiente ottimizzate per basso campo"
+        ],
+        "weaknesses": [
+          "Bassa SNR e risoluzione; tempi di scansione lunghi (minuti); costo elevato; ingombro di schermature e criogenici"
+        ],
+        "opportunities": [
+          "AI integration",
+          "Point-of-care market expansion"
+        ],
+        "threats": [
+          "Disruptive new entrants",
+          "Regulatory changes MDR"
+        ]
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "• Tempo di acquisizione 1 s/volume vs minuti; real-time near real-time 3–5 vol/s• Zero magneti, zero ingombro di schermature, altissima soft-tissue temporal resolution"
+        ],
+        "theirStrengths": [
+          "Magneti permanenti <0,1 T; design mobile bedside; nessuna radiazione; sequenze eco di spin/gradiente ottimizzate per basso campo"
+        ],
+        "theirWeaknesses": [
+          "Bassa SNR e risoluzione; tempi di scansione lunghi (minuti); costo elevato; ingombro di schermature e criogenici"
+        ],
+        "competitiveResponse": "• Tempo di acquisizione 1 s/volume vs minuti; real-time near real-time 3–5 vol/s• Zero magneti, zero ingombro di schermature, altissima soft-tissue temporal resolution"
+      },
+      "innovation": {
+        "patents": 20,
+        "rdInvestment": 0,
+        "recentLaunches": []
+      },
+      "customerReferences": {
+        "testimonials": [],
+        "casestudies": 5,
+        "clinicalStudies": 10
+      },
+      "lastUpdated": "2025-10-20T20:46:31.778033",
+      "notes": "Source: Competitor Eco3D.csv row 31"
+    },
+    {
+      "id": "comp_032",
+      "name": "Cone Beam CT arti (Planmed / CurveBeam)",
+      "shortName": "Tech/Patent #32",
+      "tier": "tier3",
+      "type": "substitute",
+      "status": "active",
+      "priority": "medium",
+      "threatLevel": "low",
+      "monitoringPriority": 8,
+      "companyInfo": {
+        "founded": null,
+        "headquarters": "N/A",
+        "employees": null,
+        "revenue": null,
+        "funding": {},
+        "website": "https://www.tech/patent#32.com",
+        "logo": "🔬"
+      },
+      "products": [
+        {
+          "name": "Cone Beam CT arti (Planmed / CurveBeam)",
+          "category": "Medical Imaging / Ultrasound",
+          "priceRange": "€30,000 - €80,000",
+          "priceMin": 30000,
+          "priceMax": 80000,
+          "features": {
+            "imaging3D": false,
+            "imaging4D": false,
+            "aiGuided": false,
+            "portable": false,
+            "wireless": false,
+            "multiProbe": false,
+            "automation": "manual"
+          },
+          "targetMarket": [
+            "Hospitals",
+            "Clinics"
+          ],
+          "strengths": [
+            "Fascio conico rotante attorno all’arto; flat-panel detector; voxel 0,2 mm; ricostruzione FDK; eccellenza in imaging osseo in carico"
+          ],
+          "weaknesses": [
+            "Radiazioni ionizzanti; statico, non dinamico; limitato a ossa; non portatile"
+          ],
+          "certifications": []
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 0,
+        "region": "Regional",
+        "segments": [
+          "Medical Imaging"
+        ],
+        "customerBase": 0,
+        "growthRate": 10
+      },
+      "swotAnalysis": {
+        "strengths": [
+          "Fascio conico rotante attorno all’arto; flat-panel detector; voxel 0,2 mm; ricostruzione FDK; eccellenza in imaging osseo in carico"
+        ],
+        "weaknesses": [
+          "Radiazioni ionizzanti; statico, non dinamico; limitato a ossa; non portatile"
+        ],
+        "opportunities": [
+          "AI integration",
+          "Point-of-care market expansion"
+        ],
+        "threats": [
+          "Disruptive new entrants",
+          "Regulatory changes MDR"
+        ]
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "• Multi-sonda US con copertura conica simultanea senza movimenti meccanici• Imaging soft tissue volumetrico real-time e AI-driven per segmentazione dinamica"
+        ],
+        "theirStrengths": [
+          "Fascio conico rotante attorno all’arto; flat-panel detector; voxel 0,2 mm; ricostruzione FDK; eccellenza in imaging osseo in carico"
+        ],
+        "theirWeaknesses": [
+          "Radiazioni ionizzanti; statico, non dinamico; limitato a ossa; non portatile"
+        ],
+        "competitiveResponse": "• Multi-sonda US con copertura conica simultanea senza movimenti meccanici• Imaging soft tissue volumetrico real-time e AI-driven per segmentazione dinamica"
+      },
+      "innovation": {
+        "patents": 0,
+        "rdInvestment": 0,
+        "recentLaunches": []
+      },
+      "customerReferences": {
+        "testimonials": [],
+        "casestudies": 0,
+        "clinicalStudies": 0
+      },
+      "lastUpdated": "2025-10-20T20:46:31.778043",
+      "notes": "Source: Competitor Eco3D.csv row 32"
+    }
+  ]
+}

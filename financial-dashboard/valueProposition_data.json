@@ -1,0 +1,292 @@
+{
+  "segments": [
+    {
+      "id": "segment_clinici",
+      "name": "Medici e Radiologi",
+      "priority": "high",
+      "icon": "👨‍⚕️",
+      "visible": true,
+      "order": 0,
+      "jobs": [
+        {
+          "id": "job_1",
+          "description": "Ottenere immagini diagnostiche 3D rapide e precise per migliorare l'accuratezza della diagnosi",
+          "category": "functional",
+          "importance": 5,
+          "difficulty": 4,
+          "notes": "Job critico - l'accuratezza diagnostica è il principale driver di adozione",
+          "visible": true,
+          "order": 0
+        },
+        {
+          "id": "job_2",
+          "description": "Ridurre i tempi di esame mantenendo alta qualità delle immagini",
+          "category": "functional",
+          "importance": 4,
+          "difficulty": 3,
+          "notes": "Importante per aumentare throughput pazienti",
+          "visible": true,
+          "order": 1
+        },
+        {
+          "id": "job_3",
+          "description": "Utilizzare strumentazione portatile in diverse location (ambulatorio, pronto soccorso, domicilio)",
+          "category": "functional",
+          "importance": 4,
+          "difficulty": 2,
+          "notes": "Flessibilità operativa richiesta",
+          "visible": true,
+          "order": 2
+        },
+        {
+          "id": "job_4",
+          "description": "Migliorare l'esperienza e comfort del paziente durante l'esame",
+          "category": "social",
+          "importance": 3,
+          "difficulty": 2,
+          "notes": "Impatto su soddisfazione paziente e reputation",
+          "visible": true,
+          "order": 3
+        },
+        {
+          "id": "job_5",
+          "description": "Aumentare la fiducia nelle diagnosi e ridurre necessità di esami ripetuti",
+          "category": "emotional",
+          "importance": 5,
+          "difficulty": 4,
+          "notes": "Fiducia clinica è essenziale per adozione",
+          "visible": true,
+          "order": 4
+        }
+      ],
+      "pains": [
+        {
+          "id": "pain_1",
+          "description": "Ecografi tradizionali producono solo immagini 2D, limitando la visualizzazione anatomica completa",
+          "severity": 5,
+          "frequency": 5,
+          "category": "functional",
+          "notes": "Pain principale - visualizzazione limitata porta a diagnosi incerte",
+          "visible": true,
+          "order": 0
+        },
+        {
+          "id": "pain_2",
+          "description": "Strumentazione ingombrante e poco trasportabile, impossibile usare fuori dall'ambulatorio",
+          "severity": 4,
+          "frequency": 4,
+          "category": "functional",
+          "notes": "Limita flessibilità operativa",
+          "visible": true,
+          "order": 1
+        },
+        {
+          "id": "pain_3",
+          "description": "Costi elevati di acquisto e manutenzione degli ecografi tradizionali",
+          "severity": 4,
+          "frequency": 5,
+          "category": "cost",
+          "notes": "Barriera economica per strutture piccole",
+          "visible": true,
+          "order": 2
+        },
+        {
+          "id": "pain_4",
+          "description": "Tempi di esame lunghi riducono il numero di pazienti visitabili al giorno",
+          "severity": 3,
+          "frequency": 4,
+          "category": "functional",
+          "notes": "Impatta throughput e revenue",
+          "visible": true,
+          "order": 3
+        },
+        {
+          "id": "pain_5",
+          "description": "Curva di apprendimento ripida per interpretare correttamente immagini 2D",
+          "severity": 3,
+          "frequency": 3,
+          "category": "experience",
+          "notes": "Richiede training estensivo",
+          "visible": true,
+          "order": 4
+        },
+        {
+          "id": "pain_6",
+          "description": "Necessità di referral a centri specializzati per imaging 3D, con ritardi diagnostici",
+          "severity": 4,
+          "frequency": 4,
+          "category": "functional",
+          "notes": "Ritardi nella care pathway",
+          "visible": true,
+          "order": 5
+        }
+      ],
+      "gains": [
+        {
+          "id": "gain_1",
+          "description": "Visualizzazione 3D completa migliora accuratezza diagnostica e riduce errori",
+          "desirability": 5,
+          "impact": 5,
+          "category": "performance",
+          "notes": "Gain critico - accuratezza è KPI primario",
+          "visible": true,
+          "order": 0
+        },
+        {
+          "id": "gain_2",
+          "description": "Portabilità consente uso in ambulatorio, pronto soccorso, domicilio paziente",
+          "desirability": 4,
+          "impact": 4,
+          "category": "experience",
+          "notes": "Flessibilità operativa strategica",
+          "visible": true,
+          "order": 1
+        },
+        {
+          "id": "gain_3",
+          "description": "Riduzione tempi esame aumenta throughput pazienti e revenue",
+          "desirability": 4,
+          "impact": 4,
+          "category": "time",
+          "notes": "Impatto economico diretto",
+          "visible": true,
+          "order": 2
+        },
+        {
+          "id": "gain_4",
+          "description": "Riduzione costi rispetto a ecografi tradizionali rende accessibile a più strutture",
+          "desirability": 4,
+          "impact": 4,
+          "category": "cost",
+          "notes": "Ampliamento mercato",
+          "visible": true,
+          "order": 3
+        },
+        {
+          "id": "gain_5",
+          "description": "Interfaccia intuitiva e AI assistita facilita interpretazione immagini",
+          "desirability": 3,
+          "impact": 3,
+          "category": "experience",
+          "notes": "Riduce curva apprendimento",
+          "visible": true,
+          "order": 4
+        },
+        {
+          "id": "gain_6",
+          "description": "Eliminazione referral a centri specializzati accelera diagnosi e aumenta retention pazienti",
+          "desirability": 4,
+          "impact": 4,
+          "category": "time",
+          "notes": "Migliora care pathway e revenue",
+          "visible": true,
+          "order": 5
+        }
+      ]
+    },
+    {
+      "id": "segment_strutture",
+      "name": "Strutture Sanitarie",
+      "priority": "high",
+      "icon": "🏥",
+      "visible": true,
+      "order": 1,
+      "jobs": [
+        {
+          "id": "job_s1",
+          "description": "Offrire servizi diagnostici avanzati per attrarre e fidelizzare pazienti",
+          "category": "functional",
+          "importance": 5,
+          "difficulty": 3,
+          "notes": "Differenziazione competitiva",
+          "visible": true,
+          "order": 0
+        },
+        {
+          "id": "job_s2",
+          "description": "Ottimizzare utilizzo spazi e aumentare efficienza operativa",
+          "category": "functional",
+          "importance": 4,
+          "difficulty": 3,
+          "notes": "Impatto su margini operativi",
+          "visible": true,
+          "order": 1
+        },
+        {
+          "id": "job_s3",
+          "description": "Contenere costi di investimento in strumentazione diagnostica",
+          "category": "functional",
+          "importance": 5,
+          "difficulty": 4,
+          "notes": "Budget constraint critico",
+          "visible": true,
+          "order": 2
+        }
+      ],
+      "pains": [
+        {
+          "id": "pain_s1",
+          "description": "Investimenti elevati in ecografi tradizionali con ROI lungo",
+          "severity": 5,
+          "frequency": 5,
+          "category": "cost",
+          "notes": "Barriera principale per adozione",
+          "visible": true,
+          "order": 0
+        },
+        {
+          "id": "pain_s2",
+          "description": "Manutenzione costosa e downtime degli apparecchi riduce disponibilità",
+          "severity": 4,
+          "frequency": 4,
+          "category": "cost",
+          "notes": "TCO elevato",
+          "visible": true,
+          "order": 1
+        },
+        {
+          "id": "pain_s3",
+          "description": "Necessità di spazi dedicati per strumentazione ingombrante",
+          "severity": 3,
+          "frequency": 4,
+          "category": "functional",
+          "notes": "Constraint spaziale",
+          "visible": true,
+          "order": 2
+        }
+      ],
+      "gains": [
+        {
+          "id": "gain_s1",
+          "description": "Riduzione costi iniziali e modello SaaS migliorano cash flow",
+          "desirability": 5,
+          "impact": 5,
+          "category": "cost",
+          "notes": "Value driver principale",
+          "visible": true,
+          "order": 0
+        },
+        {
+          "id": "gain_s2",
+          "description": "Aumento throughput pazienti genera più revenue con stessa struttura",
+          "desirability": 5,
+          "impact": 5,
+          "category": "performance",
+          "notes": "ROI migliorato",
+          "visible": true,
+          "order": 1
+        },
+        {
+          "id": "gain_s3",
+          "description": "Differenziazione competitiva attrae pazienti e aumenta market share",
+          "desirability": 4,
+          "impact": 4,
+          "category": "performance",
+          "notes": "Posizionamento strategico",
+          "visible": true,
+          "order": 2
+        }
+      ]
+    }
+  ]
+}

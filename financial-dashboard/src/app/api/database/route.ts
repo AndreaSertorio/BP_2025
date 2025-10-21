@@ -68,12 +68,27 @@ export async function PATCH(request: Request) {
     // Aggiorna lastUpdate
     database.lastUpdate = new Date().toISOString().split('T')[0];
     
-    // Scrivi il database aggiornato
-    fs.writeFileSync(filePath, JSON.stringify(database, null, 2), 'utf8');
+    // Converti in JSON
+    const jsonString = JSON.stringify(database, null, 2);
+    
+    // 🔒 Validazione: verifica che il JSON sia valido prima di salvare
+    // Questo previene corruzione del database
+    try {
+      JSON.parse(jsonString); // Throw se JSON malformato
+    } catch (parseError) {
+      console.error('❌ JSON generato non valido!', parseError);
+      return NextResponse.json(
+        { error: 'Errore generazione JSON valido' },
+        { status: 500 }
+      );
+    }
+    
+    // Scrivi il database aggiornato (SOLO se JSON valido)
+    fs.writeFileSync(filePath, jsonString, 'utf8');
     
     // Sincronizza con public/data/database.json
     const publicFilePath = path.join(process.cwd(), 'public', 'data', 'database.json');
-    fs.writeFileSync(publicFilePath, JSON.stringify(database, null, 2), 'utf8');
+    fs.writeFileSync(publicFilePath, jsonString, 'utf8');
     
     return NextResponse.json({ 
       success: true, 

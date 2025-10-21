@@ -310,6 +310,7 @@ export class BudgetService {
 
   /**
    * Formatta numero come valuta
+   * I valori nel budget sono in migliaia di euro (K€)
    */
   formatCurrency(value: number): string {
     const currency = this.data.currency;
@@ -318,7 +319,7 @@ export class BudgetService {
     return `${symbol}${value.toLocaleString('it-IT', {
       minimumFractionDigits: 0,
       maximumFractionDigits: 0
-    })}`;
+    })}K`;
   }
 
   /**

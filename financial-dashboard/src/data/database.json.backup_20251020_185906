@@ -1,0 +1,5060 @@
+{
+  "version": "1.0.3",
+  "lastUpdate": "2025-10-20",
+  "description": "Database centralizzato per Eco 3D - Dati reali da Eco_ITA_MASTER.xlsx con % Extra-SSN per prestazione",
+  "mercatoEcografie": {
+    "italia": {
+      "annoRiferimento": 2024,
+      "percentualeExtraSSN": 30,
+      "note": "Percentuale default - ogni prestazione ha la propria percentualeExtraSSN",
+      "prestazioni": [
+        {
+          "codice": "88.71.4",
+          "nome": "DIAGNOSTICA ECOGRAFICA DEL CAPO E DEL COLLO",
+          "U": 6499,
+          "B": 102381,
+          "D": 388559,
+          "P": 562362,
+          "percentualeExtraSSN": 52,
+          "aggredibile": true,
+          "note": "Prestazione target per Eco3D"
+        },
+        {
+          "codice": "88.72.2",
+          "nome": "ECO(COLOR)DOPPLERGRAFIA CARDIACA a riposo",
+          "U": 8956,
+          "B": 157354,
+          "D": 526611,
+          "P": 861169,
+          "percentualeExtraSSN": 50,
+          "aggredibile": false,
+          "note": ""
+        },
+        {
+          "codice": "88.73.5",
+          "nome": "ECO(COLOR)DOPPLERGRAFIA DEI TRONCHI SOVRAAORTICI",
+          "U": 3250,
+          "B": 84434,
+          "D": 641145,
+          "P": 888232,
+          "percentualeExtraSSN": 50,
+          "aggredibile": true,
+          "note": "Prestazione target per Eco3D"
+        },
+        {
+          "codice": "88.77.4",
+          "nome": "ECOCOLORDOPPLER DEGLI ARTI INFERIORI ARTERIOSO E/O VENOSO",
+          "U": 26923,
+          "B": 140805,
+          "D": 338428,
+          "P": 402726,
+          "percentualeExtraSSN": 50,
+          "aggredibile": false,
+          "note": ""
+        },
+        {
+          "codice": "88.77.6",
+          "nome": "ECOCOLORDOPPLER DEGLI ARTI SUPERIORI ARTERIOSO E/O VENOSO",
+          "U": 2844,
+          "B": 11058,
+          "D": 13564,
+          "P": 26214,
+          "percentualeExtraSSN": 50,
+          "aggredibile": false,
+          "note": ""
+        },
+        {
+          "codice": "88.76.3",
+          "nome": "ECOCOLOR DOPPLER DEI GROSSI VASI ADDOMINALI ARTERIOSI O VENOSI",
+          "U": 195,
+          "B": 5168,
+          "D": 23679,
+          "P": 32091,
+          "percentualeExtraSSN": 50,
+          "aggredibile": false,
+          "note": "Prestazione target per Eco3D"
+        },
+        {
+          "codice": "88.78.2",
+          "nome": "ECOGRAFIA GINECOLOGICA con sonda transvaginale o addominale",
+          "U": 2930,
+          "B": 38517,
+          "D": 175348,
+          "P": 260753,
+          "percentualeExtraSSN": 50,
+          "aggredibile": false,
+          "note": ""
+        },
+        {
+          "codice": "88.76.1",
+          "nome": "ECOGRAFIA DELL'ADDOME COMPLETO",
+          "U": 28437,
+          "B": 342268,
+          "D": 774110,
+          "P": 992536,
+          "percentualeExtraSSN": 50,
+          "aggredibile": false,
+          "note": ""
+        },
+        {
+          "codice": "88.75.1",
+          "nome": "ECOGRAFIA DELL'ADDOME INFERIORE",
+          "U": 2779,
+          "B": 37880,
+          "D": 67044,
+          "P": 88376,
+          "percentualeExtraSSN": 50,
+          "aggredibile": false,
+          "note": ""
+        },
+        {
+          "codice": "88.74.1",
+          "nome": "ECOGRAFIA DELL'ADDOME SUPERIORE",
+          "U": 4412,
+          "B": 53055,
+          "D": 113121,
+          "P": 231136,
+          "percentualeExtraSSN": 50,
+          "aggredibile": false,
+          "note": "Prestazione target per Eco3D"
+        },
+        {
+          "codice": "88.73.1",
+          "nome": "ECOGRAFIA BILATERALE DELLA MAMMELLA",
+          "U": 8014,
+          "B": 86827,
+          "D": 193325,
+          "P": 733488,
+          "percentualeExtraSSN": 50,
+          "aggredibile": false,
+          "note": "Prestazione target per Eco3D"
+        },
+        {
+          "codice": "88.73.2",
+          "nome": "ECOGRAFIA MONOLATERALE DELLA MAMMELLA",
+          "U": 760,
+          "B": 9669,
+          "D": 7980,
+          "P": 26614,
+          "percentualeExtraSSN": 50,
+          "aggredibile": false,
+          "note": "Prestazione target per Eco3D"
+        },
+        {
+          "codice": "88.79.3",
+          "nome": "ECOGRAFIA MUSCOLOTENDINEA E OSTEOARTICOLARE",
+          "U": 8044,
+          "B": 164015,
+          "D": 310733,
+          "P": 236922,
+          "percentualeExtraSSN": 50,
+          "aggredibile": false,
+          "note": "Prestazione target per Eco3D"
+        },
+        {
+          "codice": "88.79.6",
+          "nome": "ECOGRAFIA SCROTALE",
+          "U": 1595,
+          "B": 18627,
+          "D": 25201,
+          "P": 28795,
+          "percentualeExtraSSN": 50,
+          "aggredibile": false,
+          "note": ""
+        },
+        {
+          "codice": "88.79.E",
+          "nome": "ECOCOLORDOPPLER SCROTALE",
+          "U": 337,
+          "B": 3322,
+          "D": 7973,
+          "P": 6668,
+          "percentualeExtraSSN": 50,
+          "aggredibile": false,
+          "note": ""
+        }
+      ],
+      "totaliCalcolati": {
+        "note": "Questi valori vengono calcolati automaticamente dalla somma delle prestazioni"
+      }
+    },
+    "moltiplicatoriRegionali": {
+      "usa": {
+        "volumeMultiplier": 9,
+        "valueMultiplier": 8,
+        "volumeRange": "8 – 10",
+        "valueRange": "7 – 9",
+        "italyQuota": "~10–12 %",
+        "note": "Mercato USA - 9x volume Italia"
+      },
+      "europa": {
+        "volumeMultiplier": 7.5,
+        "valueMultiplier": 6.5,
+        "volumeRange": "7 – 8",
+        "valueRange": "6 – 7",
+        "italyQuota": "~12–15 %",
+        "note": "Mercato Europa (esclusa Italia) - 7.5x volume Italia"
+      },
+      "cina": {
+        "volumeMultiplier": 11,
+        "valueMultiplier": 10,
+        "volumeRange": "10 – 12",
+        "valueRange": "9 – 11",
+        "italyQuota": "~8–10 %",
+        "note": "Mercato Cina - 11x volume Italia"
+      },
+      "globale": {
+        "volumeMultiplier": 55,
+        "valueMultiplier": 50,
+        "volumeRange": "50 – 60",
+        "valueRange": "45 – 55",
+        "italyQuota": "~1.5–2 %",
+        "note": "Mercato Globale - 55x volume Italia"
+      }
+    }
+  },
+  "materialiConsumabili": {
+    "note": "Da implementare - dati materiali consumabili",
+    "placeholder": true
+  },
+  "regioniMondiali": {
+    "usa": {
+      "nome": "USA",
+      "flag": "🇺🇸",
+      "moltiplicatoreVolume": 10,
+      "moltiplicatoreValore": 1.8,
+      "quotaItalia": "17%",
+      "note": "Mercato USA - volumi e valori più alti"
+    },
+    "europa": {
+      "nome": "Europa",
+      "flag": "🇪🇺",
+      "moltiplicatoreVolume": 12.5,
+      "moltiplicatoreValore": 1.2,
+      "quotaItalia": "12%",
+      "note": "Europa (escl. Italia) - mercato maturo"
+    },
+    "cina": {
+      "nome": "Cina",
+      "flag": "🇨🇳",
+      "moltiplicatoreVolume": 12,
+      "moltiplicatoreValore": 0.6,
+      "quotaItalia": "4.5%",
+      "note": "Cina - grandi volumi, prezzi più bassi"
+    },
+    "globale": {
+      "nome": "Mondo",
+      "flag": "🌍",
+      "moltiplicatoreVolume": 70,
+      "moltiplicatoreValore": 1,
+      "quotaItalia": "2%",
+      "note": "Mercato globale - stima aggregata"
+    }
+  },
+  "mercatoEcografi": {
+    "tipologie": [
+      {
+        "id": "carrellati",
+        "nome": "Carrellati",
+        "icon": "🏥",
+        "quotaIT": 0.6131,
+        "valoreIT": 207.84,
+        "quotaGlobale": 0.696,
+        "valoreGlobale": 6640,
+        "cagrGlobale": "0.04 (2024-2030)",
+        "note": "Sistemi tradizionali da reparto - Alta risoluzione",
+        "visible": true,
+        "target": false
+      },
+      {
+        "id": "portatili",
+        "nome": "Portatili",
+        "icon": "💼",
+        "quotaIT": 0.3281,
+        "valoreIT": 111.23,
+        "quotaGlobale": 0.295,
+        "valoreGlobale": 2860,
+        "cagrGlobale": "0.045 (2024-2030)",
+        "note": "Dispositivi trasportabili - Flessibilità operativa",
+        "visible": true,
+        "target": false
+      },
+      {
+        "id": "palmari",
+        "nome": "Palmari",
+        "icon": "📱",
+        "quotaIT": 0.0588,
+        "valoreIT": 19.93,
+        "quotaGlobale": 0.03,
+        "valoreGlobale": 300,
+        "cagrGlobale": "0.055 (2024-2030)",
+        "note": "Point-of-care ultrasound - Mercato in rapida crescita",
+        "visible": true,
+        "target": true
+      },
+      {
+        "id": "premium",
+        "nome": "Premium",
+        "icon": "⭐",
+        "quotaIT": 0,
+        "valoreIT": 0,
+        "quotaGlobale": 0.45,
+        "valoreGlobale": 4360,
+        "cagrGlobale": "0.04 (2024-2030)",
+        "note": "Sistemi high-end con AI avanzata",
+        "visible": true,
+        "target": false
+      },
+      {
+        "id": "pocus",
+        "nome": "POCUS",
+        "icon": "🎯",
+        "quotaIT": 0,
+        "valoreIT": 0,
+        "quotaGlobale": 0,
+        "valoreGlobale": 5400,
+        "cagrGlobale": "0.07-0.144 (2024-2030)",
+        "note": "Point-of-Care Ultrasound - Segmento emergente",
+        "visible": true,
+        "target": true
+      }
+    ],
+    "numeroEcografi": [
+      {
+        "mercato": "Italia",
+        "unita2025": 5600,
+        "unita2026": 5838,
+        "unita2027": 6085,
+        "unita2028": 6341,
+        "unita2029": 6607,
+        "unita2030": 6900,
+        "unita2031": 7193,
+        "unita2032": 7496,
+        "unita2033": 7809,
+        "unita2034": 8133,
+        "unita2035": 8467
+      },
+      {
+        "mercato": "Europa",
+        "unita2025": 37000,
+        "unita2026": 39139,
+        "unita2027": 41404,
+        "unita2028": 43801,
+        "unita2029": 46337,
+        "unita2030": 49000,
+        "unita2031": 51820,
+        "unita2032": 54800,
+        "unita2033": 57949,
+        "unita2034": 61275,
+        "unita2035": 64787
+      },
+      {
+        "mercato": "Stati Uniti",
+        "unita2025": 31000,
+        "unita2026": 32695,
+        "unita2027": 34481,
+        "unita2028": 36363,
+        "unita2029": 38347,
+        "unita2030": 40000,
+        "unita2031": 42180,
+        "unita2032": 44478,
+        "unita2033": 46901,
+        "unita2034": 49455,
+        "unita2035": 52148
+      },
+      {
+        "mercato": "Cina",
+        "unita2025": 26000,
+        "unita2026": 27181,
+        "unita2027": 28416,
+        "unita2028": 29708,
+        "unita2029": 31059,
+        "unita2030": 33000,
+        "unita2031": 34473,
+        "unita2032": 36015,
+        "unita2033": 37629,
+        "unita2034": 39318,
+        "unita2035": 41085
+      },
+      {
+        "mercato": "Mondo (globale)",
+        "unita2025": 125000,
+        "unita2026": 131200,
+        "unita2027": 137660,
+        "unita2028": 144392,
+        "unita2029": 151411,
+        "unita2030": 155000,
+        "unita2031": 162680,
+        "unita2032": 170813,
+        "unita2033": 179418,
+        "unita2034": 188519,
+        "unita2035": 198140
+      }
+    ],
+    "valoreMercato": [
+      {
+        "mercato": "Italia",
+        "valore2025": 277.2,
+        "valore2026": 288.6,
+        "valore2027": 300.5,
+        "valore2028": 312.9,
+        "valore2029": 325.8,
+        "valore2030": 339,
+        "valore2031": 352.9,
+        "valore2032": 367.4,
+        "valore2033": 382.5,
+        "valore2034": 398.2,
+        "valore2035": 414.6,
+        "cagr": 4.11
+      },
+      {
+        "mercato": "Europa",
+        "valore2025": 2853,
+        "valore2026": 2987,
+        "valore2027": 3127,
+        "valore2028": 3274,
+        "valore2029": 3428,
+        "valore2030": 3587,
+        "valore2031": 3755,
+        "valore2032": 3931,
+        "valore2033": 4115,
+        "valore2034": 4308,
+        "valore2035": 4510,
+        "cagr": 4.69
+      },
+      {
+        "mercato": "Stati Uniti",
+        "valore2025": 2906,
+        "valore2026": 3043,
+        "valore2027": 3187,
+        "valore2028": 3337,
+        "valore2029": 3495,
+        "valore2030": 3659,
+        "valore2031": 3832,
+        "valore2032": 4013,
+        "valore2033": 4202,
+        "valore2034": 4401,
+        "valore2035": 4609,
+        "cagr": 4.72
+      },
+      {
+        "mercato": "Cina",
+        "valore2025": 1192,
+        "valore2026": 1265,
+        "valore2027": 1343,
+        "valore2028": 1425,
+        "valore2029": 1513,
+        "valore2030": 1606,
+        "valore2031": 1704,
+        "valore2032": 1809,
+        "valore2033": 1920,
+        "valore2034": 2038,
+        "valore2035": 2163,
+        "cagr": 6.14
+      },
+      {
+        "mercato": "Mondo (globale)",
+        "valore2025": 9520,
+        "valore2026": 10129,
+        "valore2027": 10777,
+        "valore2028": 11467,
+        "valore2029": 12201,
+        "valore2030": 12983,
+        "valore2031": 13814,
+        "valore2032": 14698,
+        "valore2033": 15638,
+        "valore2034": 16639,
+        "valore2035": 17704,
+        "cagr": 6.4
+      }
+    ],
+    "proiezioniItalia": [
+      {
+        "anno": 2024,
+        "mordor": 266.54,
+        "research": 300.1,
+        "grandview": 241.6,
+        "cognitive": 255.8,
+        "media": 265.83,
+        "mediana": 248.7
+      },
+      {
+        "anno": 2025,
+        "mordor": 278.58,
+        "research": 315.1,
+        "grandview": 253.12,
+        "cognitive": 261.94,
+        "media": 277.19,
+        "mediana": 261.94
+      },
+      {
+        "anno": 2026,
+        "mordor": 290.53,
+        "research": 330.15,
+        "grandview": 265.19,
+        "cognitive": 268.23,
+        "media": 288.53,
+        "mediana": 268.23
+      },
+      {
+        "anno": 2027,
+        "mordor": 302.99,
+        "research": 345.92,
+        "grandview": 277.83,
+        "cognitive": 274.66,
+        "media": 300.35,
+        "mediana": 277.83
+      },
+      {
+        "anno": 2028,
+        "mordor": 315.99,
+        "research": 362.45,
+        "grandview": 291.08,
+        "cognitive": 281.26,
+        "media": 312.7,
+        "mediana": 291.08
+      },
+      {
+        "anno": 2029,
+        "mordor": 329.54,
+        "research": 379.76,
+        "grandview": 304.96,
+        "cognitive": 288.01,
+        "media": 325.57,
+        "mediana": 304.96
+      },
+      {
+        "anno": 2030,
+        "mordor": 343.68,
+        "research": 397.9,
+        "grandview": 319.5,
+        "cognitive": 294.92,
+        "media": 339,
+        "mediana": 319.5
+      },
+      {
+        "anno": 2031,
+        "mordor": 358.56,
+        "research": 417.08,
+        "grandview": 334.81,
+        "cognitive": 302.02,
+        "media": 353.12,
+        "mediana": 334.81
+      },
+      {
+        "anno": 2032,
+        "mordor": 374.09,
+        "research": 437.17,
+        "grandview": 350.86,
+        "cognitive": 309.29,
+        "media": 367.85,
+        "mediana": 350.86
+      },
+      {
+        "anno": 2033,
+        "mordor": 390.29,
+        "research": 458.24,
+        "grandview": 367.67,
+        "cognitive": 316.74,
+        "media": 383.24,
+        "mediana": 367.67
+      },
+      {
+        "anno": 2034,
+        "mordor": 407.19,
+        "research": 480.33,
+        "grandview": 385.28,
+        "cognitive": 324.37,
+        "media": 399.29,
+        "mediana": 385.28
+      },
+      {
+        "anno": 2035,
+        "mordor": 424.81,
+        "research": 503.49,
+        "grandview": 403.74,
+        "cognitive": 332.19,
+        "media": 416.06,
+        "mediana": 403.74
+      }
+    ],
+    "quoteTipologie": [
+      {
+        "anno": 2025,
+        "carrellati": 62.31,
+        "portatili": 32.56,
+        "palmari": 5.13
+      },
+      {
+        "anno": 2026,
+        "carrellati": 62.11,
+        "portatili": 32.61,
+        "palmari": 5.28
+      },
+      {
+        "anno": 2027,
+        "carrellati": 61.91,
+        "portatili": 32.66,
+        "palmari": 5.42
+      },
+      {
+        "anno": 2028,
+        "carrellati": 61.71,
+        "portatili": 32.71,
+        "palmari": 5.57
+      },
+      {
+        "anno": 2029,
+        "carrellati": 61.51,
+        "portatili": 32.76,
+        "palmari": 5.73
+      },
+      {
+        "anno": 2030,
+        "carrellati": 61.31,
+        "portatili": 32.81,
+        "palmari": 5.88
+      },
+      {
+        "anno": 2031,
+        "carrellati": 61.11,
+        "portatili": 32.86,
+        "palmari": 6.03
+      },
+      {
+        "anno": 2032,
+        "carrellati": 60.91,
+        "portatili": 32.91,
+        "palmari": 6.18
+      },
+      {
+        "anno": 2033,
+        "carrellati": 60.71,
+        "portatili": 32.96,
+        "palmari": 6.33
+      },
+      {
+        "anno": 2034,
+        "carrellati": 60.51,
+        "portatili": 33.01,
+        "palmari": 6.48
+      },
+      {
+        "anno": 2035,
+        "carrellati": 60.31,
+        "portatili": 33.06,
+        "palmari": 6.63
+      }
+    ],
+    "parcoIT": [
+      {
+        "anno": 2025,
+        "basso": 45708,
+        "centrale": 54383,
+        "alto": 63800
+      },
+      {
+        "anno": 2026,
+        "basso": 47890,
+        "centrale": 56415,
+        "alto": 65811
+      },
+      {
+        "anno": 2027,
+        "basso": 50147,
+        "centrale": 58554,
+        "alto": 67950
+      },
+      {
+        "anno": 2028,
+        "basso": 52482,
+        "centrale": 60802,
+        "alto": 70220
+      },
+      {
+        "anno": 2029,
+        "basso": 54901,
+        "centrale": 63164,
+        "alto": 72625
+      },
+      {
+        "anno": 2030,
+        "basso": 57409,
+        "centrale": 65642,
+        "alto": 75167
+      },
+      {
+        "anno": 2031,
+        "basso": 60011,
+        "centrale": 68242,
+        "alto": 77851
+      },
+      {
+        "anno": 2032,
+        "basso": 62711,
+        "centrale": 70966,
+        "alto": 80681
+      },
+      {
+        "anno": 2033,
+        "basso": 65515,
+        "centrale": 73819,
+        "alto": 83661
+      },
+      {
+        "anno": 2034,
+        "basso": 68428,
+        "centrale": 76805,
+        "alto": 86795
+      },
+      {
+        "anno": 2035,
+        "basso": 71455,
+        "centrale": 79931,
+        "alto": 90090
+      }
+    ],
+    "configurazione": {
+      "annoTarget": 2033,
+      "marketShare": 1,
+      "scenarioParco": "basso",
+      "regioniVisibili": [
+        "Italia",
+        "Europa",
+        "Stati Uniti",
+        "Cina"
+      ],
+      "tipologieTarget": [
+        "Palmari"
+      ]
+    }
+  },
+  "metadata": {
+    "createdBy": "Sistema Eco3D - Import da Excel",
+    "createdAt": "2025-10-06T11:47:27.180303",
+    "sourceFile": "Eco_ITA_MASTER.xlsx",
+    "sourceSheet": "ECO_Riepilogo",
+    "sources": {
+      "mercatoEcografie": "Dati reali dal foglio ECO_Riepilogo con % Extra-SSN specifica",
+      "regioniMondiali": "Moltiplicatori regionali basati su popolazione e PIL sanitario",
+      "mercatoEcografi": "Dati da ECO_Proiezioni_Ecografi_2025_2030.xlsx e ECO_Mercato_Ecografi_IT_Riepilogo.xlsx",
+      "materialiConsumabili": "Placeholder - da implementare",
+      "budget": "Dati da Costi_sviluppo.xlsx - Budget aziendale 2025-2028"
+    },
+    "validationRules": {
+      "U_B_D_P": "Tutti i valori devono essere >= 0",
+      "percentualeExtraSSN": "Valore tra 0 e 100 per ogni prestazione",
+      "moltiplicatori": "Valori > 0",
+      "budget": "Valori numerici >= 0 per tutte le voci di costo"
+    }
+  },
+  "budget": {
+    "version": "1.0.0",
+    "lastUpdated": "2025-10-06T22:49:03.010467",
+    "currency": "EUR",
+    "periods": [
+      {
+        "id": "q1_25",
+        "name": "1 Tr 25",
+        "type": "quarter",
+        "year": 2025,
+        "quarter": 1,
+        "column": 0,
+        "isVisible": true
+      },
+      {
+        "id": "q2_25",
+        "name": "2 Tr 25",
+        "type": "quarter",
+        "year": 2025,
+        "quarter": 2,
+        "column": 1,
+        "isVisible": true
+      },
+      {
+        "id": "q3_25",
+        "name": "3 Tr 25",
+        "type": "quarter",
+        "year": 2025,
+        "quarter": 3,
+        "column": 2,
+        "isVisible": true
+      },
+      {
+        "id": "q4_2025",
+        "name": "4 Tr 25",
+        "type": "quarter",
+        "year": 2025,
+        "quarter": 4,
+        "column": 3,
+        "isVisible": true
+      },
+      {
+        "id": "tot_25",
+        "name": "TOT 2025",
+        "type": "year_total",
+        "year": 2025,
+        "quarter": null,
+        "column": 4,
+        "isVisible": true
+      },
+      {
+        "id": "q1_26",
+        "name": "1 Tr 26",
+        "type": "quarter",
+        "year": 26,
+        "quarter": 1,
+        "column": 6,
+        "isVisible": true
+      },
+      {
+        "id": "q2_26",
+        "name": "2 Tr 26",
+        "type": "quarter",
+        "year": 26,
+        "quarter": 2,
+        "column": 7,
+        "isVisible": true
+      },
+      {
+        "id": "q3_26",
+        "name": "3 Tr 26",
+        "type": "quarter",
+        "year": 26,
+        "quarter": 3,
+        "column": 8,
+        "isVisible": true
+      },
+      {
+        "id": "q4_26",
+        "name": "4 Tr 26",
+        "type": "quarter",
+        "year": 26,
+        "quarter": 4,
+        "column": 9,
+        "isVisible": true
+      },
+      {
+        "id": "tot_26",
+        "name": "TOT 26",
+        "type": "year_total",
+        "year": 26,
+        "quarter": null,
+        "column": 10,
+        "isVisible": true
+      },
+      {
+        "id": "q1_27",
+        "name": "1 Tr 27",
+        "type": "quarter",
+        "year": 27,
+        "quarter": 1,
+        "column": 11,
+        "isVisible": true
+      },
+      {
+        "id": "q2_27",
+        "name": "2 Tr 27",
+        "type": "quarter",
+        "year": 27,
+        "quarter": 2,
+        "column": 12,
+        "isVisible": true
+      },
+      {
+        "id": "q3_27",
+        "name": "3 Tr 27",
+        "type": "quarter",
+        "year": 27,
+        "quarter": 3,
+        "column": 13,
+        "isVisible": true
+      },
+      {
+        "id": "q4_27",
+        "name": "4 Tr 27",
+        "type": "quarter",
+        "year": 27,
+        "quarter": 4,
+        "column": 14,
+        "isVisible": true
+      },
+      {
+        "id": "tot_27",
+        "name": "TOT 27",
+        "type": "year_total",
+        "year": 27,
+        "quarter": null,
+        "column": 15,
+        "isVisible": true
+      },
+      {
+        "id": "q1_28",
+        "name": "1 Tr 28",
+        "type": "quarter",
+        "year": 28,
+        "quarter": 1,
+        "column": 16,
+        "isVisible": true
+      },
+      {
+        "id": "q2_28",
+        "name": "2 Tr 28",
+        "type": "quarter",
+        "year": 28,
+        "quarter": 2,
+        "column": 17,
+        "isVisible": true
+      },
+      {
+        "id": "q3_28",
+        "name": "3 Tr 28",
+        "type": "quarter",
+        "year": 28,
+        "quarter": 3,
+        "column": 18,
+        "isVisible": true
+      },
+      {
+        "id": "q4_28",
+        "name": "4 Tr 28",
+        "type": "quarter",
+        "year": 28,
+        "quarter": 4,
+        "column": 19,
+        "isVisible": true
+      },
+      {
+        "id": "tot_28",
+        "name": "TOT 28",
+        "type": "year_total",
+        "year": 28,
+        "quarter": null,
+        "column": 20,
+        "isVisible": true
+      },
+      {
+        "id": "tot_all",
+        "name": "Totale 2026-28",
+        "type": "overall_total",
+        "year": 2026,
+        "quarter": null,
+        "column": 21,
+        "isVisible": true
+      }
+    ],
+    "categories": [
+      {
+        "id": "cat_1",
+        "code": "1",
+        "name": "Realizzazione Prototipo",
+        "description": null,
+        "icon": "🔬",
+        "color": "#3b82f6",
+        "order": 1,
+        "subcategories": [
+          {
+            "id": "subcat_1_1",
+            "code": "1.1",
+            "name": "Materiali e Componenti",
+            "description": null,
+            "parentCategoryId": "cat_1",
+            "order": 0,
+            "items": [
+              {
+                "id": "item_2",
+                "code": "1.1.2",
+                "description": "l’acquisto di macchinari e strumenti di prova",
+                "level": 3,
+                "parentId": "subcat_1_1",
+                "categoryId": "cat_1",
+                "values": {
+                  "tot_all": 30,
+                  "q1_25": 11,
+                  "q2_25": 8,
+                  "q3_25": 8,
+                  "tot_25": 30,
+                  "q4_26": 0
+                },
+                "formula": null,
+                "note": null,
+                "isCategory": false,
+                "isTotal": false,
+                "isEditable": true,
+                "isExpanded": false,
+                "createdAt": "2025-10-06T22:49:03.010022",
+                "lastModified": "2025-10-20T15:35:17.093Z"
+              },
+              {
+                "id": "item_3",
+                "code": "1.1.3",
+                "description": "Primo prototipo",
+                "level": 3,
+                "parentId": "subcat_1_1",
+                "categoryId": "cat_1",
+                "values": {
+                  "tot_all": 20,
+                  "q1_25": 3.67,
+                  "q2_25": 6.67,
+                  "q3_25": 6.67,
+                  "tot_25": 20.01,
+                  "q4_26": 0
+                },
+                "formula": null,
+                "note": null,
+                "isCategory": false,
+                "isTotal": false,
+                "isEditable": true,
+                "isExpanded": false,
+                "createdAt": "2025-10-06T22:49:03.010026",
+                "lastModified": "2025-10-20T15:35:28.971Z"
+              },
+              {
+                "id": "item_4",
+                "code": "1.1.4",
+                "description": "Costituzione Startup ECO3D",
+                "level": 3,
+                "parentId": "subcat_1_1",
+                "categoryId": "cat_1",
+                "values": {
+                  "q1_25": -0.34,
+                  "q2_25": 1.67,
+                  "q3_25": 1.67,
+                  "tot_25": 5.01
+                },
+                "formula": null,
+                "note": null,
+                "isCategory": false,
+                "isTotal": false,
+                "isEditable": true,
+                "isExpanded": false,
+                "createdAt": "2025-10-06T22:49:03.010029",
+                "lastModified": "2025-10-20T15:34:07.600Z"
+              },
+              {
+                "id": "item_5",
+                "code": "1.1.5",
+                "description": "Deposito brevetti",
+                "level": 3,
+                "parentId": "subcat_1_1",
+                "categoryId": "cat_1",
+                "values": {
+                  "tot_all": 5,
+                  "q1_25": 1.67,
+                  "q2_25": 1.67,
+                  "q3_25": 1.67,
+                  "tot_25": 5.01
+                },
+                "formula": null,
+                "note": null,
+                "isCategory": false,
+                "isTotal": false,
+                "isEditable": true,
+                "isExpanded": false,
+                "createdAt": "2025-10-06T22:49:03.010033",
+                "lastModified": "2025-10-06T22:49:03.010034"
+              },
+              {
+                "id": "item_6",
+                "code": null,
+                "description": "Prototipo Beta",
+                "level": 4,
+                "parentId": "subcat_1_1",
+                "categoryId": "cat_1",
+                "values": {
+                  "q4_2025": 5,
+                  "q1_26": 8,
+                  "q2_26": 8,
+                  "tot_26": 16,
+                  "tot_all": 21
+                },
+                "formula": null,
+                "note": null,
+                "isCategory": false,
+                "isTotal": false,
+                "isEditable": true,
+                "isExpanded": false,
+                "createdAt": "2025-10-06T22:49:03.010039",
+                "lastModified": "2025-10-06T22:49:03.010040"
+              }
+            ],
+            "isExpanded": true
+          },
+          {
+            "id": "subcat_1_2",
+            "code": "1.2",
+            "name": "Consulenze e Servizi Tecnici Esterni",
+            "description": null,
+            "parentCategoryId": "cat_1",
+            "order": 1,
+            "items": [
+              {
+                "id": "item_8",
+                "code": null,
+                "description": "outsourcing di parti di progettazione, design industriale, sviluppo software specialistico o algoritmi di intelligenza artificiale",
+                "level": 4,
+                "parentId": "subcat_1_2",
+                "categoryId": "cat_1",
+                "values": {
+                  "q1_26": 12,
+                  "q2_26": 12,
+                  "tot_26": 24,
+                  "tot_all": 24
+                },
+                "formula": "=3*1000/MESE",
+                "note": null,
+                "isCategory": false,
+                "isTotal": false,
+                "isEditable": true,
+                "isExpanded": false,
+                "createdAt": "2025-10-06T22:49:03.010047",
+                "lastModified": "2025-10-06T22:49:03.010048"
+              }
+            ],
+            "isExpanded": true
+          },
+          {
+            "id": "subcat_1_3",
+            "code": "1.3",
+            "name": "Personale R&D",
+            "description": null,
+            "parentCategoryId": "cat_1",
+            "order": 2,
+            "items": [
+              {
+                "id": "item_10",
+                "code": null,
+                "description": "ingegneri, sviluppatori software e ricercatori dedicati al progetto e founder",
+                "level": 4,
+                "parentId": "subcat_1_3",
+                "categoryId": "cat_1",
+                "values": {
+                  "q4_2025": 9,
+                  "q1_26": 27,
+                  "q2_26": 27,
+                  "q3_26": 27,
+                  "q4_26": 27,
+                  "tot_26": 108,
+                  "tot_all": 117
+                },
+                "formula": "=3*3000/MESE",
+                "note": null,
+                "isCategory": false,
+                "isTotal": false,
+                "isEditable": true,
+                "isExpanded": false,
+                "createdAt": "2025-10-06T22:49:03.010056",
+                "lastModified": "2025-10-06T22:49:03.010057"
+              }
+            ],
+            "isExpanded": true
+          },
+          {
+            "id": "subcat_1_4",
+            "code": "1.4",
+            "name": "Test e Validazioni di Laboratorio",
+            "description": null,
+            "parentCategoryId": "cat_1",
+            "order": 3,
+            "items": [
+              {
+                "id": "item_12",
+                "code": null,
+                "description": "prove su phantom ecografici, tarature, sperimentazioni su modelli preclinici per verificare prestazioni e sicurezza del dispositivo",
+                "level": 4,
+                "parentId": "subcat_1_4",
+                "categoryId": "cat_1",
+                "values": {
+                  "q1_26": 12,
+                  "q2_26": 12,
+                  "q3_26": 12,
+                  "q4_26": 12,
+                  "tot_26": 48,
+                  "tot_all": 48
+                },
+                "formula": "=3*1000/MESE",
+                "note": null,
+                "isCategory": false,
+                "isTotal": false,
+                "isEditable": true,
+                "isExpanded": false,
+                "createdAt": "2025-10-06T22:49:03.010065",
+                "lastModified": "2025-10-06T22:49:03.010066"
+              }
+            ],
+            "isExpanded": true
+          },
+          {
+            "id": "subcat_1_5",
+            "code": "1.5",
+            "name": "Contingencies",
+            "description": null,
+            "parentCategoryId": "cat_1",
+            "order": 4,
+            "items": [
+              {
+                "id": "item_14",
+                "code": null,
+                "description": "Totale Prototipo",
+                "level": 4,
+                "parentId": "subcat_1_5",
+                "categoryId": "cat_1",
+                "values": {
+                  "q4_2025": 19,
+                  "q1_26": 64,
+                  "q2_26": 64,
+                  "q3_26": 44,
+                  "q4_26": 44,
+                  "tot_26": 216,
+                  "tot_all": 290,
+                  "q1_25": 20,
+                  "q2_25": 20,
+                  "q3_25": 20,
+                  "tot_25": 79
+                },
+                "formula": null,
+                "note": null,
+                "isCategory": false,
+                "isTotal": true,
+                "isEditable": false,
+                "isExpanded": false,
+                "createdAt": "2025-10-06T22:49:03.010078",
+                "lastModified": "2025-10-06T22:49:03.010079"
+              }
+            ],
+            "isExpanded": true
+          }
+        ],
+        "items": [],
+        "isExpanded": true,
+        "totalRow": {
+          "id": "item_14",
+          "code": null,
+          "description": "Totale Prototipo",
+          "level": 4,
+          "parentId": "subcat_1_5",
+          "categoryId": "cat_1",
+          "values": {
+            "q4_2025": 19,
+            "q1_26": 64,
+            "q2_26": 64,
+            "q3_26": 44,
+            "q4_26": 44,
+            "tot_26": 216,
+            "tot_all": 290,
+            "q1_25": 20,
+            "q2_25": 20,
+            "q3_25": 20,
+            "tot_25": 79
+          },
+          "formula": null,
+          "note": null,
+          "isCategory": false,
+          "isTotal": true,
+          "isEditable": false,
+          "isExpanded": false,
+          "createdAt": "2025-10-06T22:49:03.010078",
+          "lastModified": "2025-10-06T22:49:03.010079"
+        }
+      },
+      {
+        "id": "cat_2",
+        "code": "2",
+        "name": "Percorso Regolatorio e Certificazioni (CE/MDR)",
+        "description": null,
+        "icon": "📋",
+        "color": "#6366f1",
+        "order": 2,
+        "subcategories": [
+          {
+            "id": "subcat_2_1",
+            "code": "2.1",
+            "name": "Consulenza Regolatoria e QA",
+            "description": null,
+            "parentCategoryId": "cat_2",
+            "order": 0,
+            "items": [
+              {
+                "id": "item_17",
+                "code": "2.1.1",
+                "description": "Esperto Regulatory affairs",
+                "level": 3,
+                "parentId": "subcat_2_1",
+                "categoryId": "cat_2",
+                "values": {
+                  "q1_26": 3,
+                  "q2_26": 3,
+                  "q3_26": 3,
+                  "q4_26": 3,
+                  "tot_26": 12,
+                  "tot_all": 12
+                },
+                "formula": "=1*1000/MESE",
+                "note": null,
+                "isCategory": false,
+                "isTotal": false,
+                "isEditable": true,
+                "isExpanded": false,
+                "createdAt": "2025-10-06T22:49:03.010092",
+                "lastModified": "2025-10-06T22:49:03.010093"
+              },
+              {
+                "id": "item_18",
+                "code": "2.1.2",
+                "description": "ISO 13485",
+                "level": 3,
+                "parentId": "subcat_2_1",
+                "categoryId": "cat_2",
+                "values": {
+                  "q1_26": 3,
+                  "q2_26": 3,
+                  "q3_26": 3,
+                  "q4_26": 3,
+                  "tot_26": 12,
+                  "tot_all": 12
+                },
+                "formula": "=1*1000/MESE",
+                "note": null,
+                "isCategory": false,
+                "isTotal": false,
+                "isEditable": true,
+                "isExpanded": false,
+                "createdAt": "2025-10-06T22:49:03.010098",
+                "lastModified": "2025-10-06T22:49:03.010098"
+              }
+            ],
+            "isExpanded": true
+          },
+          {
+            "id": "subcat_2_2",
+            "code": "2.2",
+            "name": "Documentazione Tecnica e Qualità",
+            "description": null,
+            "parentCategoryId": "cat_2",
+            "order": 1,
+            "items": [
+              {
+                "id": "item_20",
+                "code": null,
+                "description": "Technical File completo (specifiche, analisi dei rischi, requisiti essenziali, usabilità, ecc.) e implementazione di procedure QA",
+                "level": 4,
+                "parentId": "subcat_2_2",
+                "categoryId": "cat_2",
+                "values": {
+                  "q1_26": 3,
+                  "q2_26": 3,
+                  "q3_26": 3,
+                  "q4_26": 3,
+                  "tot_26": 12,
+                  "tot_all": 12
+                },
+                "formula": "=1*1000/MESE",
+                "note": null,
+                "isCategory": false,
+                "isTotal": false,
+                "isEditable": true,
+                "isExpanded": false,
+                "createdAt": "2025-10-06T22:49:03.010108",
+                "lastModified": "2025-10-06T22:49:03.010109"
+              }
+            ],
+            "isExpanded": true
+          },
+          {
+            "id": "subcat_2_3",
+            "code": "2.3",
+            "name": "Fee di Organismi Notificati",
+            "description": null,
+            "parentCategoryId": "cat_2",
+            "order": 2,
+            "items": [],
+            "isExpanded": true
+          },
+          {
+            "id": "subcat_2_4",
+            "code": "2.4",
+            "name": "Test di Laboratorio e Certificazioni di Sicurezza:",
+            "description": null,
+            "parentCategoryId": "cat_2",
+            "order": 3,
+            "items": [
+              {
+                "id": "item_23",
+                "code": null,
+                "description": "prove obbligatorie su prototipi per marcatura CE (es. test elettrici EN 60601, compatibilità elettromagnetica, sicurezza meccanica) svolti da laboratori accreditati",
+                "level": 4,
+                "parentId": "subcat_2_4",
+                "categoryId": "cat_2",
+                "values": {
+                  "q3_26": 60,
+                  "q4_26": 60,
+                  "tot_26": 120,
+                  "q1_27": 60,
+                  "q2_27": 60,
+                  "tot_27": 120,
+                  "tot_all": 240
+                },
+                "formula": 30,
+                "note": null,
+                "isCategory": false,
+                "isTotal": false,
+                "isEditable": true,
+                "isExpanded": false,
+                "createdAt": "2025-10-06T22:49:03.010124",
+                "lastModified": "2025-10-06T22:49:03.010125"
+              }
+            ],
+            "isExpanded": true
+          },
+          {
+            "id": "subcat_2_5",
+            "code": "2.5",
+            "name": "Implementazione UDI e Registrazione EUDAMED:",
+            "description": null,
+            "parentCategoryId": "cat_2",
+            "order": 4,
+            "items": [
+              {
+                "id": "item_25",
+                "code": null,
+                "description": "(software per generare/tracciare UDI e aggiornamenti",
+                "level": 4,
+                "parentId": "subcat_2_5",
+                "categoryId": "cat_2",
+                "values": {
+                  "q3_26": 10,
+                  "q4_26": 10,
+                  "tot_26": 20,
+                  "q1_27": 10,
+                  "q2_27": 10,
+                  "tot_27": 20,
+                  "tot_all": 40
+                },
+                "formula": null,
+                "note": null,
+                "isCategory": false,
+                "isTotal": false,
+                "isEditable": true,
+                "isExpanded": false,
+                "createdAt": "2025-10-06T22:49:03.010133",
+                "lastModified": "2025-10-06T22:49:03.010134"
+              }
+            ],
+            "isExpanded": true
+          },
+          {
+            "id": "subcat_2_6",
+            "code": "2.6",
+            "name": "Team e formazione",
+            "description": null,
+            "parentCategoryId": "cat_2",
+            "order": 5,
+            "items": [
+              {
+                "id": "item_27",
+                "code": null,
+                "description": "formazione continua del team sulle normative (workshop, corsi MDR), l’aggiornamento dei documenti tecnici man mano che il prodotto evolve e l mantenimento annuale delle certificazioni",
+                "level": 4,
+                "parentId": "subcat_2_6",
+                "categoryId": "cat_2",
+                "values": {
+                  "q3_26": 3,
+                  "q4_26": 3,
+                  "tot_26": 6,
+                  "q1_27": 3,
+                  "q2_27": 3,
+                  "q3_27": 3,
+                  "q4_27": 3,
+                  "tot_27": 12,
+                  "tot_all": 18
+                },
+                "formula": null,
+                "note": null,
+                "isCategory": false,
+                "isTotal": false,
+                "isEditable": true,
+                "isExpanded": false,
+                "createdAt": "2025-10-06T22:49:03.010143",
+                "lastModified": "2025-10-06T22:49:03.010144"
+              }
+            ],
+            "isExpanded": true
+          },
+          {
+            "id": "subcat_2_7",
+            "code": "2.7",
+            "name": "Contingencies",
+            "description": null,
+            "parentCategoryId": "cat_2",
+            "order": 6,
+            "items": [
+              {
+                "id": "item_29",
+                "code": null,
+                "description": "Totale Regolatorio e Certificazioni",
+                "level": 4,
+                "parentId": "subcat_2_7",
+                "categoryId": "cat_2",
+                "values": {
+                  "q1_26": 9,
+                  "q2_26": 9,
+                  "q3_26": 87,
+                  "q4_26": 87,
+                  "tot_26": 192,
+                  "q1_27": 83,
+                  "q2_27": 83,
+                  "q3_27": 13,
+                  "q4_27": 13,
+                  "tot_27": 192,
+                  "q1_28": 0,
+                  "q2_28": 0,
+                  "q3_28": 0,
+                  "q4_28": 0,
+                  "tot_28": 0,
+                  "tot_all": 384
+                },
+                "formula": null,
+                "note": null,
+                "isCategory": false,
+                "isTotal": true,
+                "isEditable": false,
+                "isExpanded": false,
+                "createdAt": "2025-10-06T22:49:03.010164",
+                "lastModified": "2025-10-06T22:49:03.010165"
+              }
+            ],
+            "isExpanded": true
+          }
+        ],
+        "items": [],
+        "isExpanded": true,
+        "totalRow": {
+          "id": "item_29",
+          "code": null,
+          "description": "Totale Regolatorio e Certificazioni",
+          "level": 4,
+          "parentId": "subcat_2_7",
+          "categoryId": "cat_2",
+          "values": {
+            "q1_26": 9,
+            "q2_26": 9,
+            "q3_26": 87,
+            "q4_26": 87,
+            "tot_26": 192,
+            "q1_27": 83,
+            "q2_27": 83,
+            "q3_27": 13,
+            "q4_27": 13,
+            "tot_27": 192,
+            "q1_28": 0,
+            "q2_28": 0,
+            "q3_28": 0,
+            "q4_28": 0,
+            "tot_28": 0,
+            "tot_all": 384
+          },
+          "formula": null,
+          "note": null,
+          "isCategory": false,
+          "isTotal": true,
+          "isEditable": false,
+          "isExpanded": false,
+          "createdAt": "2025-10-06T22:49:03.010164",
+          "lastModified": "2025-10-06T22:49:03.010165"
+        }
+      },
+      {
+        "id": "cat_3",
+        "code": "3",
+        "name": "Validazione Preclinica e Studi Clinici",
+        "description": null,
+        "icon": "🧪",
+        "color": "#8b5cf6",
+        "order": 3,
+        "subcategories": [
+          {
+            "id": "subcat_3_1",
+            "code": "3.1",
+            "name": "Validazioni Precliniche",
+            "description": null,
+            "parentCategoryId": "cat_3",
+            "order": 0,
+            "items": [
+              {
+                "id": "item_32",
+                "code": null,
+                "description": "test non clinici sul dispositivo",
+                "level": 4,
+                "parentId": "subcat_3_1",
+                "categoryId": "cat_3",
+                "values": {
+                  "q1_28": 10,
+                  "q2_28": 12,
+                  "q3_28": 10,
+                  "q4_28": 10,
+                  "tot_28": 40,
+                  "tot_all": 40
+                },
+                "formula": null,
+                "note": null,
+                "isCategory": false,
+                "isTotal": false,
+                "isEditable": true,
+                "isExpanded": false,
+                "createdAt": "2025-10-06T22:49:03.010178",
+                "lastModified": "2025-10-06T22:41:44.321Z"
+              }
+            ],
+            "isExpanded": true
+          },
+          {
+            "id": "subcat_3_2",
+            "code": "3.2",
+            "name": "Studio Clinico Pilota",
+            "description": null,
+            "parentCategoryId": "cat_3",
+            "order": 1,
+            "items": [
+              {
+                "id": "item_34",
+                "code": null,
+                "description": "trial pilota moncentro, 30-50 pazienti",
+                "level": 4,
+                "parentId": "subcat_3_2",
+                "categoryId": "cat_3",
+                "values": {
+                  "q4_27": 100,
+                  "tot_27": 100,
+                  "q1_28": 100,
+                  "q2_28": 100,
+                  "q3_28": 100,
+                  "q4_28": 100,
+                  "tot_28": 400,
+                  "tot_all": 500
+                },
+                "formula": null,
+                "note": null,
+                "isCategory": false,
+                "isTotal": false,
+                "isEditable": true,
+                "isExpanded": false,
+                "createdAt": "2025-10-06T22:49:03.010190",
+                "lastModified": "2025-10-06T22:49:03.010190"
+              }
+            ],
+            "isExpanded": true
+          },
+          {
+            "id": "subcat_3_3",
+            "code": "3.3",
+            "name": "Studio Clinico Pivotal multicentrico (eventuale)",
+            "description": null,
+            "parentCategoryId": "cat_3",
+            "order": 2,
+            "items": [],
+            "isExpanded": true
+          },
+          {
+            "id": "subcat_3_4",
+            "code": "3.4",
+            "name": "Early marketing (dispotivi pilota)",
+            "description": null,
+            "parentCategoryId": "cat_3",
+            "order": 3,
+            "items": [
+              {
+                "id": "item_37",
+                "code": null,
+                "description": "produzione delle unità pilota aggiuntive e lʼassistenza tecnica presso i centri coinvolti.",
+                "level": 4,
+                "parentId": "subcat_3_4",
+                "categoryId": "cat_3",
+                "values": {
+                  "q1_28": 30,
+                  "q2_28": 30,
+                  "q3_28": 30,
+                  "q4_28": 30,
+                  "tot_28": 120,
+                  "tot_all": 120
+                },
+                "formula": null,
+                "note": null,
+                "isCategory": false,
+                "isTotal": false,
+                "isEditable": true,
+                "isExpanded": false,
+                "createdAt": "2025-10-06T22:49:03.010203",
+                "lastModified": "2025-10-06T22:49:03.010204"
+              }
+            ],
+            "isExpanded": true
+          },
+          {
+            "id": "subcat_3_5",
+            "code": "3.5",
+            "name": "Contingencies",
+            "description": null,
+            "parentCategoryId": "cat_3",
+            "order": 4,
+            "items": [
+              {
+                "id": "item_39",
+                "code": null,
+                "description": "Totale Validazione Preclinica",
+                "level": 4,
+                "parentId": "subcat_3_5",
+                "categoryId": "cat_3",
+                "values": {
+                  "q1_26": 0,
+                  "q2_26": 0,
+                  "q3_26": 0,
+                  "q4_26": 0,
+                  "tot_26": 0,
+                  "q1_27": 0,
+                  "q2_27": 0,
+                  "q3_27": 0,
+                  "q4_27": 100,
+                  "tot_27": 100,
+                  "q1_28": 145,
+                  "q2_28": 145,
+                  "q3_28": 145,
+                  "q4_28": 145,
+                  "tot_28": 580,
+                  "tot_all": 680
+                },
+                "formula": null,
+                "note": null,
+                "isCategory": false,
+                "isTotal": true,
+                "isEditable": false,
+                "isExpanded": false,
+                "createdAt": "2025-10-06T22:49:03.010222",
+                "lastModified": "2025-10-06T22:49:03.010223"
+              }
+            ],
+            "isExpanded": true
+          }
+        ],
+        "items": [],
+        "isExpanded": true,
+        "totalRow": {
+          "id": "item_39",
+          "code": null,
+          "description": "Totale Validazione Preclinica",
+          "level": 4,
+          "parentId": "subcat_3_5",
+          "categoryId": "cat_3",
+          "values": {
+            "q1_26": 0,
+            "q2_26": 0,
+            "q3_26": 0,
+            "q4_26": 0,
+            "tot_26": 0,
+            "q1_27": 0,
+            "q2_27": 0,
+            "q3_27": 0,
+            "q4_27": 100,
+            "tot_27": 100,
+            "q1_28": 145,
+            "q2_28": 145,
+            "q3_28": 145,
+            "q4_28": 145,
+            "tot_28": 580,
+            "tot_all": 680
+          },
+          "formula": null,
+          "note": null,
+          "isCategory": false,
+          "isTotal": true,
+          "isEditable": false,
+          "isExpanded": false,
+          "createdAt": "2025-10-06T22:49:03.010222",
+          "lastModified": "2025-10-06T22:49:03.010223"
+        }
+      },
+      {
+        "id": "cat_4",
+        "code": "4",
+        "name": "Strutturazione del Team e Risorse Umane",
+        "description": null,
+        "icon": "👥",
+        "color": "#ec4899",
+        "order": 4,
+        "subcategories": [
+          {
+            "id": "subcat_4_1",
+            "code": "4.1",
+            "name": "Fondatori",
+            "description": null,
+            "parentCategoryId": "cat_4",
+            "order": 0,
+            "items": [],
+            "isExpanded": true
+          },
+          {
+            "id": "subcat_4_2",
+            "code": "4.2",
+            "name": "Ingegneri biomedici, elettronici, software",
+            "description": null,
+            "parentCategoryId": "cat_4",
+            "order": 1,
+            "items": [],
+            "isExpanded": true
+          },
+          {
+            "id": "subcat_4_3",
+            "code": "4.3",
+            "name": "Reclutamento, formazione e training",
+            "description": null,
+            "parentCategoryId": "cat_4",
+            "order": 2,
+            "items": [
+              {
+                "id": "item_44",
+                "code": null,
+                "description": "Totale Team e Risorse Umane",
+                "level": 4,
+                "parentId": "subcat_4_3",
+                "categoryId": "cat_4",
+                "values": {
+                  "q1_26": 6,
+                  "q2_26": 6,
+                  "q3_26": 6,
+                  "q4_26": 6,
+                  "tot_26": 24,
+                  "q1_27": 36,
+                  "q2_27": 36,
+                  "q3_27": 36,
+                  "q4_27": 36,
+                  "tot_27": 144,
+                  "q1_28": 36,
+                  "q2_28": 36,
+                  "q3_28": 36,
+                  "q4_28": 36,
+                  "tot_28": 144,
+                  "tot_all": 312
+                },
+                "formula": null,
+                "note": null,
+                "isCategory": false,
+                "isTotal": true,
+                "isEditable": false,
+                "isExpanded": false,
+                "createdAt": "2025-10-06T22:49:03.010270",
+                "lastModified": "2025-10-06T22:49:03.010271"
+              }
+            ],
+            "isExpanded": true
+          }
+        ],
+        "items": [],
+        "isExpanded": true,
+        "totalRow": {
+          "id": "item_44",
+          "code": null,
+          "description": "Totale Team e Risorse Umane",
+          "level": 4,
+          "parentId": "subcat_4_3",
+          "categoryId": "cat_4",
+          "values": {
+            "q1_26": 6,
+            "q2_26": 6,
+            "q3_26": 6,
+            "q4_26": 6,
+            "tot_26": 24,
+            "q1_27": 36,
+            "q2_27": 36,
+            "q3_27": 36,
+            "q4_27": 36,
+            "tot_27": 144,
+            "q1_28": 36,
+            "q2_28": 36,
+            "q3_28": 36,
+            "q4_28": 36,
+            "tot_28": 144,
+            "tot_all": 312
+          },
+          "formula": null,
+          "note": null,
+          "isCategory": false,
+          "isTotal": true,
+          "isEditable": false,
+          "isExpanded": false,
+          "createdAt": "2025-10-06T22:49:03.010270",
+          "lastModified": "2025-10-06T22:49:03.010271"
+        }
+      },
+      {
+        "id": "cat_5",
+        "code": "5",
+        "name": "Asset Industriali Minimi e Setup Produttivo",
+        "description": null,
+        "icon": "🏭",
+        "color": "#f59e0b",
+        "order": 5,
+        "subcategories": [
+          {
+            "id": "subcat_5_1",
+            "code": "5.1",
+            "name": "Attrezzature e Infrastrutture di Produzione",
+            "description": null,
+            "parentCategoryId": "cat_5",
+            "order": 0,
+            "items": [],
+            "isExpanded": true
+          },
+          {
+            "id": "subcat_5_2",
+            "code": "5.2",
+            "name": "Progettazione per la Produzione (DfM)",
+            "description": null,
+            "parentCategoryId": "cat_5",
+            "order": 1,
+            "items": [],
+            "isExpanded": true
+          },
+          {
+            "id": "subcat_5_3",
+            "code": "5.3",
+            "name": "Supply Chain e Lotti Pilota",
+            "description": null,
+            "parentCategoryId": "cat_5",
+            "order": 2,
+            "items": [],
+            "isExpanded": true
+          },
+          {
+            "id": "subcat_5_4",
+            "code": "5.4",
+            "name": "manuali d’uso, packaging e etichettature conformi",
+            "description": null,
+            "parentCategoryId": "cat_5",
+            "order": 3,
+            "items": [
+              {
+                "id": "item_58",
+                "code": null,
+                "description": "Totale Setup Produttivo",
+                "level": 4,
+                "parentId": "subcat_5_4",
+                "categoryId": "cat_5",
+                "values": {},
+                "formula": null,
+                "note": null,
+                "isCategory": false,
+                "isTotal": true,
+                "isEditable": false,
+                "isExpanded": false,
+                "createdAt": "2025-10-06T22:49:03.010375",
+                "lastModified": "2025-10-06T22:49:03.010375"
+              }
+            ],
+            "isExpanded": true
+          }
+        ],
+        "items": [],
+        "isExpanded": true,
+        "totalRow": {
+          "id": "item_58",
+          "code": null,
+          "description": "Totale Setup Produttivo",
+          "level": 4,
+          "parentId": "subcat_5_4",
+          "categoryId": "cat_5",
+          "values": {},
+          "formula": null,
+          "note": null,
+          "isCategory": false,
+          "isTotal": true,
+          "isEditable": false,
+          "isExpanded": false,
+          "createdAt": "2025-10-06T22:49:03.010375",
+          "lastModified": "2025-10-06T22:49:03.010375"
+        }
+      },
+      {
+        "id": "cat_8",
+        "code": "8",
+        "name": "Contingiencies",
+        "description": null,
+        "icon": "📊",
+        "color": "#f97316",
+        "order": 8,
+        "subcategories": [],
+        "items": [
+          {
+            "id": "item_52",
+            "code": null,
+            "description": "TOTALE COSTI DI SVILUPPO",
+            "level": 4,
+            "parentId": null,
+            "categoryId": "cat_8",
+            "values": {
+              "q4_2025": 22,
+              "q1_26": 84,
+              "q2_26": 84,
+              "q3_26": 142,
+              "q4_26": 142,
+              "tot_26": 452,
+              "q1_27": 132,
+              "q2_27": 132,
+              "q3_27": 62,
+              "q4_27": 162,
+              "tot_27": 488,
+              "q1_28": 195,
+              "q2_28": 195,
+              "q3_28": 195,
+              "q4_28": 198,
+              "tot_28": 783,
+              "tot_all": 1800,
+              "q1_25": 20,
+              "q2_25": 20,
+              "q3_25": 20,
+              "tot_25": 82
+            },
+            "formula": null,
+            "note": null,
+            "isCategory": false,
+            "isTotal": true,
+            "isEditable": false,
+            "isExpanded": false,
+            "createdAt": "2025-10-06T22:49:03.010356",
+            "lastModified": "2025-10-06T22:49:03.010357"
+          }
+        ],
+        "isExpanded": true,
+        "totalRow": {
+          "id": "item_52",
+          "code": null,
+          "description": "TOTALE COSTI DI SVILUPPO",
+          "level": 4,
+          "parentId": null,
+          "categoryId": "cat_8",
+          "values": {
+            "q4_2025": 22,
+            "q1_26": 84,
+            "q2_26": 84,
+            "q3_26": 142,
+            "q4_26": 142,
+            "tot_26": 452,
+            "q1_27": 132,
+            "q2_27": 132,
+            "q3_27": 62,
+            "q4_27": 162,
+            "tot_27": 488,
+            "q1_28": 195,
+            "q2_28": 195,
+            "q3_28": 195,
+            "q4_28": 198,
+            "tot_28": 783,
+            "tot_all": 1800,
+            "q1_25": 20,
+            "q2_25": 20,
+            "q3_25": 20,
+            "tot_25": 82
+          },
+          "formula": null,
+          "note": null,
+          "isCategory": false,
+          "isTotal": true,
+          "isEditable": false,
+          "isExpanded": false,
+          "createdAt": "2025-10-06T22:49:03.010356",
+          "lastModified": "2025-10-06T22:49:03.010357"
+        }
+      },
+      {
+        "id": "cat_6",
+        "code": "6",
+        "name": "Strategie Commerciali Iniziali e Go-to-Market",
+        "description": null,
+        "icon": "📈",
+        "color": "#10b981",
+        "order": 6,
+        "subcategories": [
+          {
+            "id": "subcat_3_3",
+            "code": "3.3",
+            "name": "Studio Clinico Pivotal multicentrico (eventuale)",
+            "description": null,
+            "parentCategoryId": "cat_6",
+            "order": 0,
+            "items": [],
+            "isExpanded": true
+          }
+        ],
+        "items": [
+          {
+            "id": "item_60",
+            "code": null,
+            "description": "Marketing e Comunicazione",
+            "level": 4,
+            "parentId": null,
+            "categoryId": "cat_6",
+            "values": {},
+            "formula": null,
+            "note": null,
+            "isCategory": false,
+            "isTotal": false,
+            "isEditable": true,
+            "isExpanded": false,
+            "createdAt": "2025-10-06T22:49:03.010382",
+            "lastModified": "2025-10-06T22:49:03.010382"
+          },
+          {
+            "id": "item_61",
+            "code": null,
+            "description": "Business Development & Vendite",
+            "level": 4,
+            "parentId": null,
+            "categoryId": "cat_6",
+            "values": {},
+            "formula": null,
+            "note": null,
+            "isCategory": false,
+            "isTotal": false,
+            "isEditable": true,
+            "isExpanded": false,
+            "createdAt": "2025-10-06T22:49:03.010384",
+            "lastModified": "2025-10-06T22:49:03.010385"
+          },
+          {
+            "id": "item_62",
+            "code": null,
+            "description": "Pilot Customer Programs",
+            "level": 4,
+            "parentId": null,
+            "categoryId": "cat_6",
+            "values": {},
+            "formula": null,
+            "note": null,
+            "isCategory": false,
+            "isTotal": false,
+            "isEditable": true,
+            "isExpanded": false,
+            "createdAt": "2025-10-06T22:49:03.010386",
+            "lastModified": "2025-10-06T22:49:03.010387"
+          },
+          {
+            "id": "item_63",
+            "code": null,
+            "description": "Supporto Clinico e Customer Service",
+            "level": 4,
+            "parentId": null,
+            "categoryId": "cat_6",
+            "values": {},
+            "formula": null,
+            "note": null,
+            "isCategory": false,
+            "isTotal": false,
+            "isEditable": true,
+            "isExpanded": false,
+            "createdAt": "2025-10-06T22:49:03.010444",
+            "lastModified": "2025-10-06T22:49:03.010445"
+          },
+          {
+            "id": "item_64",
+            "code": null,
+            "description": "Totale Go-to-Market",
+            "level": 4,
+            "parentId": null,
+            "categoryId": "cat_6",
+            "values": {},
+            "formula": null,
+            "note": null,
+            "isCategory": false,
+            "isTotal": true,
+            "isEditable": false,
+            "isExpanded": false,
+            "createdAt": "2025-10-06T22:49:03.010447",
+            "lastModified": "2025-10-06T22:49:03.010448"
+          }
+        ],
+        "isExpanded": true,
+        "totalRow": {
+          "id": "item_64",
+          "code": null,
+          "description": "Totale Go-to-Market",
+          "level": 4,
+          "parentId": null,
+          "categoryId": "cat_6",
+          "values": {},
+          "formula": null,
+          "note": null,
+          "isCategory": false,
+          "isTotal": true,
+          "isEditable": false,
+          "isExpanded": false,
+          "createdAt": "2025-10-06T22:49:03.010447",
+          "lastModified": "2025-10-06T22:49:03.010448"
+        }
+      }
+    ],
+    "allItems": [
+      {
+        "id": "item_0",
+        "code": "1",
+        "description": "Realizzazione Prototipo",
+        "level": 1,
+        "parentId": null,
+        "categoryId": "cat_1",
+        "values": {},
+        "formula": null,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.009984",
+        "lastModified": "2025-10-06T22:49:03.010004"
+      },
+      {
+        "id": "item_1",
+        "code": "1.1",
+        "description": "Materiali e Componenti",
+        "level": 2,
+        "parentId": "subcat_1_1",
+        "categoryId": "cat_1",
+        "values": {},
+        "formula": null,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010011",
+        "lastModified": "2025-10-06T22:49:03.010012"
+      },
+      {
+        "id": "item_2",
+        "code": "1.1.2",
+        "description": "l’acquisto di macchinari e strumenti di prova",
+        "level": 3,
+        "parentId": "subcat_1_1",
+        "categoryId": "cat_1",
+        "values": {
+          "tot_all": 30,
+          "q1_25": 11,
+          "q2_25": 8,
+          "q3_25": 8,
+          "tot_25": 30,
+          "q4_26": 0
+        },
+        "formula": null,
+        "note": null,
+        "isCategory": false,
+        "isTotal": false,
+        "isEditable": true,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010022",
+        "lastModified": "2025-10-20T15:35:17.093Z"
+      },
+      {
+        "id": "item_3",
+        "code": "1.1.3",
+        "description": "Primo prototipo",
+        "level": 3,
+        "parentId": "subcat_1_1",
+        "categoryId": "cat_1",
+        "values": {
+          "tot_all": 20,
+          "q1_25": 3.67,
+          "q2_25": 6.67,
+          "q3_25": 6.67,
+          "tot_25": 20.01,
+          "q4_26": 0
+        },
+        "formula": null,
+        "note": null,
+        "isCategory": false,
+        "isTotal": false,
+        "isEditable": true,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010026",
+        "lastModified": "2025-10-20T15:35:28.971Z"
+      },
+      {
+        "id": "item_4",
+        "code": "1.1.4",
+        "description": "Costituzione Startup ECO3D",
+        "level": 3,
+        "parentId": "subcat_1_1",
+        "categoryId": "cat_1",
+        "values": {
+          "q1_25": -0.34,
+          "q2_25": 1.67,
+          "q3_25": 1.67,
+          "tot_25": 5.01
+        },
+        "formula": null,
+        "note": null,
+        "isCategory": false,
+        "isTotal": false,
+        "isEditable": true,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010029",
+        "lastModified": "2025-10-20T15:34:07.600Z"
+      },
+      {
+        "id": "item_5",
+        "code": "1.1.5",
+        "description": "Deposito brevetti",
+        "level": 3,
+        "parentId": "subcat_1_1",
+        "categoryId": "cat_1",
+        "values": {
+          "tot_all": 5,
+          "q1_25": 1.67,
+          "q2_25": 1.67,
+          "q3_25": 1.67,
+          "tot_25": 5.01
+        },
+        "formula": null,
+        "note": null,
+        "isCategory": false,
+        "isTotal": false,
+        "isEditable": true,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010033",
+        "lastModified": "2025-10-06T22:49:03.010034"
+      },
+      {
+        "id": "item_6",
+        "code": null,
+        "description": "Prototipo Beta",
+        "level": 4,
+        "parentId": "subcat_1_1",
+        "categoryId": "cat_1",
+        "values": {
+          "q4_2025": 5,
+          "q1_26": 8,
+          "q2_26": 8,
+          "tot_26": 16,
+          "tot_all": 21
+        },
+        "formula": null,
+        "note": null,
+        "isCategory": false,
+        "isTotal": false,
+        "isEditable": true,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010039",
+        "lastModified": "2025-10-06T22:49:03.010040"
+      },
+      {
+        "id": "item_7",
+        "code": "1.2",
+        "description": "Consulenze e Servizi Tecnici Esterni",
+        "level": 2,
+        "parentId": "subcat_1_2",
+        "categoryId": "cat_1",
+        "values": {},
+        "formula": null,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010042",
+        "lastModified": "2025-10-06T22:49:03.010042"
+      },
+      {
+        "id": "item_8",
+        "code": null,
+        "description": "outsourcing di parti di progettazione, design industriale, sviluppo software specialistico o algoritmi di intelligenza artificiale",
+        "level": 4,
+        "parentId": "subcat_1_2",
+        "categoryId": "cat_1",
+        "values": {
+          "q1_26": 12,
+          "q2_26": 12,
+          "tot_26": 24,
+          "tot_all": 24
+        },
+        "formula": "=3*1000/MESE",
+        "note": null,
+        "isCategory": false,
+        "isTotal": false,
+        "isEditable": true,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010047",
+        "lastModified": "2025-10-06T22:49:03.010048"
+      },
+      {
+        "id": "item_9",
+        "code": "1.3",
+        "description": "Personale R&D",
+        "level": 2,
+        "parentId": "subcat_1_3",
+        "categoryId": "cat_1",
+        "values": {},
+        "formula": null,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010049",
+        "lastModified": "2025-10-06T22:49:03.010050"
+      },
+      {
+        "id": "item_10",
+        "code": null,
+        "description": "ingegneri, sviluppatori software e ricercatori dedicati al progetto e founder",
+        "level": 4,
+        "parentId": "subcat_1_3",
+        "categoryId": "cat_1",
+        "values": {
+          "q4_2025": 9,
+          "q1_26": 27,
+          "q2_26": 27,
+          "q3_26": 27,
+          "q4_26": 27,
+          "tot_26": 108,
+          "tot_all": 117
+        },
+        "formula": "=3*3000/MESE",
+        "note": null,
+        "isCategory": false,
+        "isTotal": false,
+        "isEditable": true,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010056",
+        "lastModified": "2025-10-06T22:49:03.010057"
+      },
+      {
+        "id": "item_11",
+        "code": "1.4",
+        "description": "Test e Validazioni di Laboratorio",
+        "level": 2,
+        "parentId": "subcat_1_4",
+        "categoryId": "cat_1",
+        "values": {},
+        "formula": null,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010059",
+        "lastModified": "2025-10-06T22:49:03.010060"
+      },
+      {
+        "id": "item_12",
+        "code": null,
+        "description": "prove su phantom ecografici, tarature, sperimentazioni su modelli preclinici per verificare prestazioni e sicurezza del dispositivo",
+        "level": 4,
+        "parentId": "subcat_1_4",
+        "categoryId": "cat_1",
+        "values": {
+          "q1_26": 12,
+          "q2_26": 12,
+          "q3_26": 12,
+          "q4_26": 12,
+          "tot_26": 48,
+          "tot_all": 48
+        },
+        "formula": "=3*1000/MESE",
+        "note": null,
+        "isCategory": false,
+        "isTotal": false,
+        "isEditable": true,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010065",
+        "lastModified": "2025-10-06T22:49:03.010066"
+      },
+      {
+        "id": "item_13",
+        "code": "1.5",
+        "description": "Contingencies",
+        "level": 2,
+        "parentId": "subcat_1_5",
+        "categoryId": "cat_1",
+        "values": {
+          "q4_2025": 5,
+          "q1_26": 5,
+          "q2_26": 5,
+          "q3_26": 5,
+          "q4_26": 5,
+          "tot_26": 20,
+          "tot_all": 25
+        },
+        "formula": null,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010071",
+        "lastModified": "2025-10-06T22:49:03.010072"
+      },
+      {
+        "id": "item_14",
+        "code": null,
+        "description": "Totale Prototipo",
+        "level": 4,
+        "parentId": "subcat_1_5",
+        "categoryId": "cat_1",
+        "values": {
+          "q4_2025": 19,
+          "q1_26": 64,
+          "q2_26": 64,
+          "q3_26": 44,
+          "q4_26": 44,
+          "tot_26": 216,
+          "tot_all": 290,
+          "q1_25": 20,
+          "q2_25": 20,
+          "q3_25": 20,
+          "tot_25": 79
+        },
+        "formula": null,
+        "note": null,
+        "isCategory": false,
+        "isTotal": true,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010078",
+        "lastModified": "2025-10-06T22:49:03.010079"
+      },
+      {
+        "id": "item_15",
+        "code": "2",
+        "description": "Percorso Regolatorio e Certificazioni (CE/MDR)",
+        "level": 1,
+        "parentId": null,
+        "categoryId": "cat_2",
+        "values": {},
+        "formula": null,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010081",
+        "lastModified": "2025-10-06T22:49:03.010081"
+      },
+      {
+        "id": "item_16",
+        "code": "2.1",
+        "description": "Consulenza Regolatoria e QA",
+        "level": 2,
+        "parentId": "subcat_2_1",
+        "categoryId": "cat_2",
+        "values": {},
+        "formula": null,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010085",
+        "lastModified": "2025-10-06T22:49:03.010086"
+      },
+      {
+        "id": "item_17",
+        "code": "2.1.1",
+        "description": "Esperto Regulatory affairs",
+        "level": 3,
+        "parentId": "subcat_2_1",
+        "categoryId": "cat_2",
+        "values": {
+          "q1_26": 3,
+          "q2_26": 3,
+          "q3_26": 3,
+          "q4_26": 3,
+          "tot_26": 12,
+          "tot_all": 12
+        },
+        "formula": "=1*1000/MESE",
+        "note": null,
+        "isCategory": false,
+        "isTotal": false,
+        "isEditable": true,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010092",
+        "lastModified": "2025-10-06T22:49:03.010093"
+      },
+      {
+        "id": "item_18",
+        "code": "2.1.2",
+        "description": "ISO 13485",
+        "level": 3,
+        "parentId": "subcat_2_1",
+        "categoryId": "cat_2",
+        "values": {
+          "q1_26": 3,
+          "q2_26": 3,
+          "q3_26": 3,
+          "q4_26": 3,
+          "tot_26": 12,
+          "tot_all": 12
+        },
+        "formula": "=1*1000/MESE",
+        "note": null,
+        "isCategory": false,
+        "isTotal": false,
+        "isEditable": true,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010098",
+        "lastModified": "2025-10-06T22:49:03.010098"
+      },
+      {
+        "id": "item_19",
+        "code": "2.2",
+        "description": "Documentazione Tecnica e Qualità",
+        "level": 2,
+        "parentId": "subcat_2_2",
+        "categoryId": "cat_2",
+        "values": {
+          "tot_all": 0
+        },
+        "formula": null,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010102",
+        "lastModified": "2025-10-06T22:49:03.010103"
+      },
+      {
+        "id": "item_20",
+        "code": null,
+        "description": "Technical File completo (specifiche, analisi dei rischi, requisiti essenziali, usabilità, ecc.) e implementazione di procedure QA",
+        "level": 4,
+        "parentId": "subcat_2_2",
+        "categoryId": "cat_2",
+        "values": {
+          "q1_26": 3,
+          "q2_26": 3,
+          "q3_26": 3,
+          "q4_26": 3,
+          "tot_26": 12,
+          "tot_all": 12
+        },
+        "formula": "=1*1000/MESE",
+        "note": null,
+        "isCategory": false,
+        "isTotal": false,
+        "isEditable": true,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010108",
+        "lastModified": "2025-10-06T22:49:03.010109"
+      },
+      {
+        "id": "item_21",
+        "code": "2.3",
+        "description": "Fee di Organismi Notificati",
+        "level": 2,
+        "parentId": "subcat_2_3",
+        "categoryId": "cat_2",
+        "values": {
+          "q1_27": 5,
+          "q2_27": 5,
+          "q3_27": 5,
+          "q4_27": 5,
+          "tot_27": 20,
+          "tot_all": 20
+        },
+        "formula": 20,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010114",
+        "lastModified": "2025-10-06T22:49:03.010115"
+      },
+      {
+        "id": "item_22",
+        "code": "2.4",
+        "description": "Test di Laboratorio e Certificazioni di Sicurezza:",
+        "level": 2,
+        "parentId": "subcat_2_4",
+        "categoryId": "cat_2",
+        "values": {},
+        "formula": 250,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010117",
+        "lastModified": "2025-10-06T22:49:03.010118"
+      },
+      {
+        "id": "item_23",
+        "code": null,
+        "description": "prove obbligatorie su prototipi per marcatura CE (es. test elettrici EN 60601, compatibilità elettromagnetica, sicurezza meccanica) svolti da laboratori accreditati",
+        "level": 4,
+        "parentId": "subcat_2_4",
+        "categoryId": "cat_2",
+        "values": {
+          "q3_26": 60,
+          "q4_26": 60,
+          "tot_26": 120,
+          "q1_27": 60,
+          "q2_27": 60,
+          "tot_27": 120,
+          "tot_all": 240
+        },
+        "formula": 30,
+        "note": null,
+        "isCategory": false,
+        "isTotal": false,
+        "isEditable": true,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010124",
+        "lastModified": "2025-10-06T22:49:03.010125"
+      },
+      {
+        "id": "item_24",
+        "code": "2.5",
+        "description": "Implementazione UDI e Registrazione EUDAMED:",
+        "level": 2,
+        "parentId": "subcat_2_5",
+        "categoryId": "cat_2",
+        "values": {},
+        "formula": 50,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010126",
+        "lastModified": "2025-10-06T22:49:03.010127"
+      },
+      {
+        "id": "item_25",
+        "code": null,
+        "description": "(software per generare/tracciare UDI e aggiornamenti",
+        "level": 4,
+        "parentId": "subcat_2_5",
+        "categoryId": "cat_2",
+        "values": {
+          "q3_26": 10,
+          "q4_26": 10,
+          "tot_26": 20,
+          "q1_27": 10,
+          "q2_27": 10,
+          "tot_27": 20,
+          "tot_all": 40
+        },
+        "formula": null,
+        "note": null,
+        "isCategory": false,
+        "isTotal": false,
+        "isEditable": true,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010133",
+        "lastModified": "2025-10-06T22:49:03.010134"
+      },
+      {
+        "id": "item_26",
+        "code": "2.6",
+        "description": "Team e formazione",
+        "level": 2,
+        "parentId": "subcat_2_6",
+        "categoryId": "cat_2",
+        "values": {},
+        "formula": null,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010135",
+        "lastModified": "2025-10-06T22:49:03.010136"
+      },
+      {
+        "id": "item_27",
+        "code": null,
+        "description": "formazione continua del team sulle normative (workshop, corsi MDR), l’aggiornamento dei documenti tecnici man mano che il prodotto evolve e l mantenimento annuale delle certificazioni",
+        "level": 4,
+        "parentId": "subcat_2_6",
+        "categoryId": "cat_2",
+        "values": {
+          "q3_26": 3,
+          "q4_26": 3,
+          "tot_26": 6,
+          "q1_27": 3,
+          "q2_27": 3,
+          "q3_27": 3,
+          "q4_27": 3,
+          "tot_27": 12,
+          "tot_all": 18
+        },
+        "formula": null,
+        "note": null,
+        "isCategory": false,
+        "isTotal": false,
+        "isEditable": true,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010143",
+        "lastModified": "2025-10-06T22:49:03.010144"
+      },
+      {
+        "id": "item_28",
+        "code": "2.7",
+        "description": "Contingencies",
+        "level": 2,
+        "parentId": "subcat_2_7",
+        "categoryId": "cat_2",
+        "values": {
+          "q3_26": 5,
+          "q4_26": 5,
+          "tot_26": 10,
+          "q1_27": 5,
+          "q2_27": 5,
+          "q3_27": 5,
+          "q4_27": 5,
+          "tot_27": 20,
+          "tot_all": 30
+        },
+        "formula": null,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010151",
+        "lastModified": "2025-10-06T22:49:03.010151"
+      },
+      {
+        "id": "item_29",
+        "code": null,
+        "description": "Totale Regolatorio e Certificazioni",
+        "level": 4,
+        "parentId": "subcat_2_7",
+        "categoryId": "cat_2",
+        "values": {
+          "q1_26": 9,
+          "q2_26": 9,
+          "q3_26": 87,
+          "q4_26": 87,
+          "tot_26": 192,
+          "q1_27": 83,
+          "q2_27": 83,
+          "q3_27": 13,
+          "q4_27": 13,
+          "tot_27": 192,
+          "q1_28": 0,
+          "q2_28": 0,
+          "q3_28": 0,
+          "q4_28": 0,
+          "tot_28": 0,
+          "tot_all": 384
+        },
+        "formula": null,
+        "note": null,
+        "isCategory": false,
+        "isTotal": true,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010164",
+        "lastModified": "2025-10-06T22:49:03.010165"
+      },
+      {
+        "id": "item_30",
+        "code": "3",
+        "description": "Validazione Preclinica e Studi Clinici",
+        "level": 1,
+        "parentId": null,
+        "categoryId": "cat_3",
+        "values": {},
+        "formula": null,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010167",
+        "lastModified": "2025-10-06T22:49:03.010168"
+      },
+      {
+        "id": "item_31",
+        "code": "3.1",
+        "description": "Validazioni Precliniche",
+        "level": 2,
+        "parentId": "subcat_3_1",
+        "categoryId": "cat_3",
+        "values": {},
+        "formula": null,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010171",
+        "lastModified": "2025-10-06T22:49:03.010172"
+      },
+      {
+        "id": "item_32",
+        "code": null,
+        "description": "test non clinici sul dispositivo",
+        "level": 4,
+        "parentId": "subcat_3_1",
+        "categoryId": "cat_3",
+        "values": {
+          "q1_28": 10,
+          "q2_28": 12,
+          "q3_28": 10,
+          "q4_28": 10,
+          "tot_28": 40,
+          "tot_all": 40
+        },
+        "formula": null,
+        "note": null,
+        "isCategory": false,
+        "isTotal": false,
+        "isEditable": true,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010178",
+        "lastModified": "2025-10-06T22:41:44.321Z"
+      },
+      {
+        "id": "item_33",
+        "code": "3.2",
+        "description": "Studio Clinico Pilota",
+        "level": 2,
+        "parentId": "subcat_3_2",
+        "categoryId": "cat_3",
+        "values": {
+          "tot_all": 0
+        },
+        "formula": null,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010182",
+        "lastModified": "2025-10-06T22:49:03.010182"
+      },
+      {
+        "id": "item_34",
+        "code": null,
+        "description": "trial pilota moncentro, 30-50 pazienti",
+        "level": 4,
+        "parentId": "subcat_3_2",
+        "categoryId": "cat_3",
+        "values": {
+          "q4_27": 100,
+          "tot_27": 100,
+          "q1_28": 100,
+          "q2_28": 100,
+          "q3_28": 100,
+          "q4_28": 100,
+          "tot_28": 400,
+          "tot_all": 500
+        },
+        "formula": null,
+        "note": null,
+        "isCategory": false,
+        "isTotal": false,
+        "isEditable": true,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010190",
+        "lastModified": "2025-10-06T22:49:03.010190"
+      },
+      {
+        "id": "item_35",
+        "code": "3.3",
+        "description": "Studio Clinico Pivotal multicentrico (eventuale)",
+        "level": 2,
+        "parentId": "subcat_3_3",
+        "categoryId": "cat_3",
+        "values": {
+          "tot_all": 0
+        },
+        "formula": null,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010193",
+        "lastModified": "2025-10-06T22:49:03.010194"
+      },
+      {
+        "id": "item_36",
+        "code": "3.4",
+        "description": "Early marketing (dispotivi pilota)",
+        "level": 2,
+        "parentId": "subcat_3_4",
+        "categoryId": "cat_3",
+        "values": {},
+        "formula": null,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010196",
+        "lastModified": "2025-10-06T22:49:03.010197"
+      },
+      {
+        "id": "item_37",
+        "code": null,
+        "description": "produzione delle unità pilota aggiuntive e lʼassistenza tecnica presso i centri coinvolti.",
+        "level": 4,
+        "parentId": "subcat_3_4",
+        "categoryId": "cat_3",
+        "values": {
+          "q1_28": 30,
+          "q2_28": 30,
+          "q3_28": 30,
+          "q4_28": 30,
+          "tot_28": 120,
+          "tot_all": 120
+        },
+        "formula": null,
+        "note": null,
+        "isCategory": false,
+        "isTotal": false,
+        "isEditable": true,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010203",
+        "lastModified": "2025-10-06T22:49:03.010204"
+      },
+      {
+        "id": "item_38",
+        "code": "3.5",
+        "description": "Contingencies",
+        "level": 2,
+        "parentId": "subcat_3_5",
+        "categoryId": "cat_3",
+        "values": {
+          "q1_28": 5,
+          "q2_28": 5,
+          "q3_28": 5,
+          "q4_28": 5,
+          "tot_28": 20,
+          "tot_all": 20
+        },
+        "formula": null,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010209",
+        "lastModified": "2025-10-06T22:49:03.010210"
+      },
+      {
+        "id": "item_39",
+        "code": null,
+        "description": "Totale Validazione Preclinica",
+        "level": 4,
+        "parentId": "subcat_3_5",
+        "categoryId": "cat_3",
+        "values": {
+          "q1_26": 0,
+          "q2_26": 0,
+          "q3_26": 0,
+          "q4_26": 0,
+          "tot_26": 0,
+          "q1_27": 0,
+          "q2_27": 0,
+          "q3_27": 0,
+          "q4_27": 100,
+          "tot_27": 100,
+          "q1_28": 145,
+          "q2_28": 145,
+          "q3_28": 145,
+          "q4_28": 145,
+          "tot_28": 580,
+          "tot_all": 680
+        },
+        "formula": null,
+        "note": null,
+        "isCategory": false,
+        "isTotal": true,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010222",
+        "lastModified": "2025-10-06T22:49:03.010223"
+      },
+      {
+        "id": "item_40",
+        "code": "4",
+        "description": "Strutturazione del Team e Risorse Umane",
+        "level": 1,
+        "parentId": null,
+        "categoryId": "cat_4",
+        "values": {},
+        "formula": null,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010225",
+        "lastModified": "2025-10-06T22:49:03.010226"
+      },
+      {
+        "id": "item_41",
+        "code": "4.1",
+        "description": "Fondatori",
+        "level": 2,
+        "parentId": "subcat_4_1",
+        "categoryId": "cat_4",
+        "values": {
+          "q1_26": 6,
+          "q2_26": 6,
+          "q3_26": 6,
+          "q4_26": 6,
+          "tot_26": 24,
+          "q1_27": 6,
+          "q2_27": 6,
+          "q3_27": 6,
+          "q4_27": 6,
+          "tot_27": 24,
+          "q1_28": 6,
+          "q2_28": 6,
+          "q3_28": 6,
+          "q4_28": 6,
+          "tot_28": 24,
+          "tot_all": 72
+        },
+        "formula": null,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010239",
+        "lastModified": "2025-10-06T22:49:03.010240"
+      },
+      {
+        "id": "item_42",
+        "code": "4.2",
+        "description": "Ingegneri biomedici, elettronici, software",
+        "level": 2,
+        "parentId": "subcat_4_2",
+        "categoryId": "cat_4",
+        "values": {
+          "q1_27": 27,
+          "q2_27": 27,
+          "q3_27": 27,
+          "q4_27": 27,
+          "tot_27": 108,
+          "q1_28": 27,
+          "q2_28": 27,
+          "q3_28": 27,
+          "q4_28": 27,
+          "tot_28": 108,
+          "tot_all": 216
+        },
+        "formula": null,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010249",
+        "lastModified": "2025-10-06T22:49:03.010250"
+      },
+      {
+        "id": "item_43",
+        "code": "4.3",
+        "description": "Reclutamento, formazione e training",
+        "level": 2,
+        "parentId": "subcat_4_3",
+        "categoryId": "cat_4",
+        "values": {
+          "q1_27": 3,
+          "q2_27": 3,
+          "q3_27": 3,
+          "q4_27": 3,
+          "tot_27": 12,
+          "q1_28": 3,
+          "q2_28": 3,
+          "q3_28": 3,
+          "q4_28": 3,
+          "tot_28": 12,
+          "tot_all": 24
+        },
+        "formula": null,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010259",
+        "lastModified": "2025-10-06T22:49:03.010259"
+      },
+      {
+        "id": "item_44",
+        "code": null,
+        "description": "Totale Team e Risorse Umane",
+        "level": 4,
+        "parentId": "subcat_4_3",
+        "categoryId": "cat_4",
+        "values": {
+          "q1_26": 6,
+          "q2_26": 6,
+          "q3_26": 6,
+          "q4_26": 6,
+          "tot_26": 24,
+          "q1_27": 36,
+          "q2_27": 36,
+          "q3_27": 36,
+          "q4_27": 36,
+          "tot_27": 144,
+          "q1_28": 36,
+          "q2_28": 36,
+          "q3_28": 36,
+          "q4_28": 36,
+          "tot_28": 144,
+          "tot_all": 312
+        },
+        "formula": null,
+        "note": null,
+        "isCategory": false,
+        "isTotal": true,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010270",
+        "lastModified": "2025-10-06T22:49:03.010271"
+      },
+      {
+        "id": "item_45",
+        "code": "5",
+        "description": "Overhead",
+        "level": 1,
+        "parentId": null,
+        "categoryId": "cat_5",
+        "values": {},
+        "formula": null,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010273",
+        "lastModified": "2025-10-06T22:49:03.010273"
+      },
+      {
+        "id": "item_46",
+        "code": "5.1",
+        "description": "Laboratorio e ufficio",
+        "level": 2,
+        "parentId": "subcat_5_1",
+        "categoryId": "cat_5",
+        "values": {
+          "q4_2025": 3,
+          "q1_26": 3,
+          "q2_26": 3,
+          "q3_26": 3,
+          "q4_26": 3,
+          "tot_26": 12,
+          "q1_27": 5,
+          "q2_27": 5,
+          "q3_27": 5,
+          "q4_27": 5,
+          "tot_27": 20,
+          "q1_28": 5,
+          "q2_28": 5,
+          "q3_28": 5,
+          "q4_28": 5,
+          "tot_28": 20,
+          "tot_all": 55
+        },
+        "formula": null,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010286",
+        "lastModified": "2025-10-06T22:49:03.010287"
+      },
+      {
+        "id": "item_47",
+        "code": "5.2",
+        "description": "Assicurazioni",
+        "level": 2,
+        "parentId": "subcat_5_2",
+        "categoryId": "cat_5",
+        "values": {
+          "q1_27": 1,
+          "q2_27": 1,
+          "q3_27": 1,
+          "q4_27": 1,
+          "tot_27": 4,
+          "q1_28": 2,
+          "q2_28": 2,
+          "q3_28": 2,
+          "q4_28": 2,
+          "tot_28": 8,
+          "tot_all": 12
+        },
+        "formula": null,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010296",
+        "lastModified": "2025-10-06T22:49:03.010297"
+      },
+      {
+        "id": "item_48",
+        "code": "5.3",
+        "description": "Amministrative e legali",
+        "level": 2,
+        "parentId": "subcat_5_3",
+        "categoryId": "cat_5",
+        "values": {
+          "q1_26": 1,
+          "q2_26": 1,
+          "q3_26": 1,
+          "q4_26": 1,
+          "tot_26": 4,
+          "q1_27": 1,
+          "q2_27": 1,
+          "q3_27": 1,
+          "q4_27": 1,
+          "tot_27": 4,
+          "q1_28": 1,
+          "q2_28": 1,
+          "q3_28": 1,
+          "q4_28": 1,
+          "tot_28": 4,
+          "tot_all": 12
+        },
+        "formula": null,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010308",
+        "lastModified": "2025-10-06T22:49:03.010309"
+      },
+      {
+        "id": "item_49",
+        "code": "5.4",
+        "description": "Viaggi e trasferte",
+        "level": 2,
+        "parentId": "subcat_5_4",
+        "categoryId": "cat_5",
+        "values": {
+          "q1_26": 1,
+          "q2_26": 1,
+          "q3_26": 1,
+          "q4_26": 1,
+          "tot_26": 4,
+          "q1_27": 1,
+          "q2_27": 1,
+          "q3_27": 1,
+          "q4_27": 1,
+          "tot_27": 4,
+          "q1_28": 1,
+          "q2_28": 1,
+          "q3_28": 1,
+          "q4_28": 1,
+          "tot_28": 4,
+          "tot_all": 12
+        },
+        "formula": null,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010319",
+        "lastModified": "2025-10-06T22:49:03.010320"
+      },
+      {
+        "id": "item_50",
+        "code": null,
+        "description": "Totale Overhead",
+        "level": 4,
+        "parentId": "subcat_5_4",
+        "categoryId": "cat_5",
+        "values": {
+          "q4_2025": 3,
+          "q1_26": 5,
+          "q2_26": 5,
+          "q3_26": 5,
+          "q4_26": 5,
+          "tot_26": 20,
+          "q1_27": 8,
+          "q2_27": 8,
+          "q3_27": 8,
+          "q4_27": 8,
+          "tot_27": 32,
+          "q1_28": 9,
+          "q2_28": 9,
+          "q3_28": 9,
+          "q4_28": 9,
+          "tot_28": 36,
+          "tot_all": 91,
+          "q1_25": 0,
+          "q2_25": 0,
+          "q3_25": 0,
+          "tot_25": 3
+        },
+        "formula": null,
+        "note": null,
+        "isCategory": false,
+        "isTotal": true,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010332",
+        "lastModified": "2025-10-06T22:49:03.010332"
+      },
+      {
+        "id": "item_51",
+        "code": "8",
+        "description": "Contingiencies",
+        "level": 1,
+        "parentId": null,
+        "categoryId": "cat_8",
+        "values": {
+          "q1_27": 5,
+          "q2_27": 5,
+          "q3_27": 5,
+          "q4_27": 5,
+          "tot_27": 20,
+          "q1_28": 5,
+          "q2_28": 5,
+          "q3_28": 5,
+          "q4_28": 8,
+          "tot_28": 23,
+          "tot_all": 43
+        },
+        "formula": null,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010341",
+        "lastModified": "2025-10-06T22:49:03.010342"
+      },
+      {
+        "id": "item_52",
+        "code": null,
+        "description": "TOTALE COSTI DI SVILUPPO",
+        "level": 4,
+        "parentId": null,
+        "categoryId": "cat_8",
+        "values": {
+          "q4_2025": 22,
+          "q1_26": 84,
+          "q2_26": 84,
+          "q3_26": 142,
+          "q4_26": 142,
+          "tot_26": 452,
+          "q1_27": 132,
+          "q2_27": 132,
+          "q3_27": 62,
+          "q4_27": 162,
+          "tot_27": 488,
+          "q1_28": 195,
+          "q2_28": 195,
+          "q3_28": 195,
+          "q4_28": 198,
+          "tot_28": 783,
+          "tot_all": 1800,
+          "q1_25": 20,
+          "q2_25": 20,
+          "q3_25": 20,
+          "tot_25": 82
+        },
+        "formula": null,
+        "note": null,
+        "isCategory": false,
+        "isTotal": true,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010356",
+        "lastModified": "2025-10-06T22:49:03.010357"
+      },
+      {
+        "id": "item_53",
+        "code": "5",
+        "description": "Asset Industriali Minimi e Setup Produttivo",
+        "level": 1,
+        "parentId": null,
+        "categoryId": "cat_5",
+        "values": {},
+        "formula": null,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010359",
+        "lastModified": "2025-10-06T22:49:03.010360"
+      },
+      {
+        "id": "item_54",
+        "code": "5.1",
+        "description": "Attrezzature e Infrastrutture di Produzione",
+        "level": 2,
+        "parentId": "subcat_5_1",
+        "categoryId": "cat_5",
+        "values": {},
+        "formula": null,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010364",
+        "lastModified": "2025-10-06T22:49:03.010365"
+      },
+      {
+        "id": "item_55",
+        "code": "5.2",
+        "description": "Progettazione per la Produzione (DfM)",
+        "level": 2,
+        "parentId": "subcat_5_2",
+        "categoryId": "cat_5",
+        "values": {},
+        "formula": null,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010367",
+        "lastModified": "2025-10-06T22:49:03.010368"
+      },
+      {
+        "id": "item_56",
+        "code": "5.3",
+        "description": "Supply Chain e Lotti Pilota",
+        "level": 2,
+        "parentId": "subcat_5_3",
+        "categoryId": "cat_5",
+        "values": {},
+        "formula": null,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010370",
+        "lastModified": "2025-10-06T22:49:03.010370"
+      },
+      {
+        "id": "item_57",
+        "code": "5.4",
+        "description": "manuali d’uso, packaging e etichettature conformi",
+        "level": 2,
+        "parentId": "subcat_5_4",
+        "categoryId": "cat_5",
+        "values": {},
+        "formula": null,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010372",
+        "lastModified": "2025-10-06T22:49:03.010373"
+      },
+      {
+        "id": "item_58",
+        "code": null,
+        "description": "Totale Setup Produttivo",
+        "level": 4,
+        "parentId": "subcat_5_4",
+        "categoryId": "cat_5",
+        "values": {},
+        "formula": null,
+        "note": null,
+        "isCategory": false,
+        "isTotal": true,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010375",
+        "lastModified": "2025-10-06T22:49:03.010375"
+      },
+      {
+        "id": "item_59",
+        "code": "6",
+        "description": "Strategie Commerciali Iniziali e Go-to-Market",
+        "level": 1,
+        "parentId": null,
+        "categoryId": "cat_6",
+        "values": {},
+        "formula": null,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010377",
+        "lastModified": "2025-10-06T22:49:03.010378"
+      },
+      {
+        "id": "item_60",
+        "code": null,
+        "description": "Marketing e Comunicazione",
+        "level": 4,
+        "parentId": null,
+        "categoryId": "cat_6",
+        "values": {},
+        "formula": null,
+        "note": null,
+        "isCategory": false,
+        "isTotal": false,
+        "isEditable": true,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010382",
+        "lastModified": "2025-10-06T22:49:03.010382"
+      },
+      {
+        "id": "item_61",
+        "code": null,
+        "description": "Business Development & Vendite",
+        "level": 4,
+        "parentId": null,
+        "categoryId": "cat_6",
+        "values": {},
+        "formula": null,
+        "note": null,
+        "isCategory": false,
+        "isTotal": false,
+        "isEditable": true,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010384",
+        "lastModified": "2025-10-06T22:49:03.010385"
+      },
+      {
+        "id": "item_62",
+        "code": null,
+        "description": "Pilot Customer Programs",
+        "level": 4,
+        "parentId": null,
+        "categoryId": "cat_6",
+        "values": {},
+        "formula": null,
+        "note": null,
+        "isCategory": false,
+        "isTotal": false,
+        "isEditable": true,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010386",
+        "lastModified": "2025-10-06T22:49:03.010387"
+      },
+      {
+        "id": "item_63",
+        "code": null,
+        "description": "Supporto Clinico e Customer Service",
+        "level": 4,
+        "parentId": null,
+        "categoryId": "cat_6",
+        "values": {},
+        "formula": null,
+        "note": null,
+        "isCategory": false,
+        "isTotal": false,
+        "isEditable": true,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010444",
+        "lastModified": "2025-10-06T22:49:03.010445"
+      },
+      {
+        "id": "item_64",
+        "code": null,
+        "description": "Totale Go-to-Market",
+        "level": 4,
+        "parentId": null,
+        "categoryId": "cat_6",
+        "values": {},
+        "formula": null,
+        "note": null,
+        "isCategory": false,
+        "isTotal": true,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010447",
+        "lastModified": "2025-10-06T22:49:03.010448"
+      },
+      {
+        "id": "item_65",
+        "code": "3.3",
+        "description": "Studio Clinico Pivotal multicentrico (eventuale)",
+        "level": 2,
+        "parentId": "subcat_3_3",
+        "categoryId": "cat_6",
+        "values": {
+          "q1_28": 200,
+          "q2_28": 200,
+          "q3_28": 200,
+          "q4_28": 200,
+          "tot_28": 800,
+          "tot_all": 800
+        },
+        "formula": null,
+        "note": null,
+        "isCategory": true,
+        "isTotal": false,
+        "isEditable": false,
+        "isExpanded": false,
+        "createdAt": "2025-10-06T22:49:03.010455",
+        "lastModified": "2025-10-06T22:49:03.010456"
+      }
+    ],
+    "configuration": {
+      "expandedYears": [
+        2026
+      ],
+      "expandedCategories": [
+        "cat_1",
+        "cat_2",
+        "cat_3",
+        "cat_4",
+        "cat_5",
+        "cat_8",
+        "cat_6"
+      ],
+      "showQuarters": true,
+      "showTotals": true,
+      "showFormulas": false,
+      "yearRange": {
+        "start": 2025,
+        "end": 2028
+      },
+      "editMode": false,
+      "compactView": false,
+      "highlightChanges": true
+    },
+    "metadata": {
+      "source": "Excel import",
+      "originalFile": "Costi_sviluppo.xlsx",
+      "importDate": "2025-10-06T22:49:03.010471",
+      "notes": "Budget iniziale importato da Excel"
+    }
+  },
+  "prezziEcografieRegionalizzati": {
+    "italia": [
+      {
+        "codice": "88.71.4",
+        "descrizione": "Capo e collo",
+        "prezzoPubblico": 36,
+        "prezzoPrivato": 95,
+        "range": "28–250",
+        "devStd": "±35%",
+        "confidenza": "A",
+        "nFonti": 12,
+        "note": "Tariffa SSN uniforme; ampia offerta privata; range Nord 80–150, Sud 60–110"
+      },
+      {
+        "codice": "88.72.2",
+        "descrizione": "Cardiaca (ecocardiogramma)",
+        "prezzoPubblico": 36,
+        "prezzoPrivato": 160,
+        "range": "50–206",
+        "devStd": "±40%",
+        "confidenza": "B",
+        "nFonti": 9,
+        "note": "Prezzi dipendono da Doppler e struttura; Nord più alto"
+      },
+      {
+        "codice": "88.73.5",
+        "descrizione": "TSA (tronchi sovra-aortici)",
+        "prezzoPubblico": 88,
+        "prezzoPrivato": 88,
+        "range": "40–220",
+        "devStd": "±30%",
+        "confidenza": "A",
+        "nFonti": 8,
+        "note": "Alta domanda; liste d’attesa SSN lunghe, forte quota privata"
+      },
+      {
+        "codice": "88.77.4",
+        "descrizione": "Arti inferiori (Doppler)",
+        "prezzoPubblico": 36,
+        "prezzoPrivato": 130,
+        "range": "25–300",
+        "devStd": "±35%",
+        "confidenza": "B",
+        "nFonti": 10,
+        "note": "Range ampio; differenze legate a bilateralità"
+      },
+      {
+        "codice": "88.77.6",
+        "descrizione": "Arti superiori (Doppler)",
+        "prezzoPubblico": 36,
+        "prezzoPrivato": 120,
+        "range": "25–200",
+        "devStd": "±30%",
+        "confidenza": "B",
+        "nFonti": 8,
+        "note": "Minore frequenza, prezzi simili agli arti inferiori"
+      },
+      {
+        "codice": "88.76.3",
+        "descrizione": "Grossi vasi addominali",
+        "prezzoPubblico": 36,
+        "prezzoPrivato": 110,
+        "range": "32–160",
+        "devStd": "±25%",
+        "confidenza": "A",
+        "nFonti": 7,
+        "note": "Tariffe SSN standardizzate; domanda stabile"
+      },
+      {
+        "codice": "88.78.2",
+        "descrizione": "Ecografia ginecologica",
+        "prezzoPubblico": 36,
+        "prezzoPrivato": 100,
+        "range": "50–200",
+        "devStd": "±30%",
+        "confidenza": "A",
+        "nFonti": 12,
+        "note": "Ampia offerta privata, variazioni minime regionali"
+      },
+      {
+        "codice": "88.76.1",
+        "descrizione": "Addome completo",
+        "prezzoPubblico": 36,
+        "prezzoPrivato": 115,
+        "range": "45–255",
+        "devStd": "±35%",
+        "confidenza": "A",
+        "nFonti": 15,
+        "note": "Tra le più richieste; range Nord 90–130, Sud 70–110"
+      },
+      {
+        "codice": "88.75.1",
+        "descrizione": "Addome inferiore",
+        "prezzoPubblico": 36,
+        "prezzoPrivato": 95,
+        "range": "30–220",
+        "devStd": "±30%",
+        "confidenza": "B",
+        "nFonti": 9,
+        "note": "In SSN inclusa in pacchetti multipli"
+      },
+      {
+        "codice": "88.74.1",
+        "descrizione": "Addome superiore",
+        "prezzoPubblico": 36,
+        "prezzoPrivato": 100,
+        "range": "40–220",
+        "devStd": "±30%",
+        "confidenza": "B",
+        "nFonti": 9,
+        "note": "Prezzo stabile, media 100€"
+      },
+      {
+        "codice": "88.73.1",
+        "descrizione": "Mammella bilaterale",
+        "prezzoPubblico": 36,
+        "prezzoPrivato": 105,
+        "range": "36–220",
+        "devStd": "±35%",
+        "confidenza": "A",
+        "nFonti": 10,
+        "note": "Prezzo medio privato ~105€, bilaterale comune"
+      },
+      {
+        "codice": "88.73.2",
+        "descrizione": "Mammella monolaterale",
+        "prezzoPubblico": 36,
+        "prezzoPrivato": 85,
+        "range": "30–150",
+        "devStd": "±30%",
+        "confidenza": "A",
+        "nFonti": 10,
+        "note": "Costo ~30% inferiore al bilaterale"
+      },
+      {
+        "codice": "88.79.3",
+        "descrizione": "Muscoloscheletrica (MSK)",
+        "prezzoPubblico": 36,
+        "prezzoPrivato": 90,
+        "range": "28–130",
+        "devStd": "±35%",
+        "confidenza": "B",
+        "nFonti": 8,
+        "note": "Prezzo medio 90€, più frequente in ambito sportivo"
+      },
+      {
+        "codice": "88.79.6",
+        "descrizione": "Scrotale",
+        "prezzoPubblico": 36,
+        "prezzoPrivato": 95,
+        "range": "35–250",
+        "devStd": "±30%",
+        "confidenza": "A",
+        "nFonti": 10,
+        "note": "Range ampio, media 95€"
+      },
+      {
+        "codice": "88.79.E",
+        "descrizione": "Doppler scrotale",
+        "prezzoPubblico": 73.01,
+        "prezzoPrivato": 73.01,
+        "range": "40–220",
+        "devStd": "±30%",
+        "confidenza": "B",
+        "nFonti": 9,
+        "note": "Prezzo medio 110€, legato alla complessità"
+      }
+    ],
+    "europa": [
+      {
+        "codice": "88.71.4",
+        "descrizione": "Capo e collo",
+        "prezzoPubblico": 25,
+        "prezzoPrivato": 100,
+        "range": "50–300",
+        "devStd": "±30%",
+        "confidenza": "A",
+        "nFonti": 15,
+        "note": "Francia 52–70€, UK 170–340€, media 100€"
+      },
+      {
+        "codice": "88.72.2",
+        "descrizione": "Cardiaca",
+        "prezzoPubblico": 40,
+        "prezzoPrivato": 300,
+        "range": "200–600",
+        "devStd": "±40%",
+        "confidenza": "B",
+        "nFonti": 12,
+        "note": "DE 130–260€, UK 290–580€"
+      },
+      {
+        "codice": "88.73.5",
+        "descrizione": "TSA",
+        "prezzoPubblico": 35,
+        "prezzoPrivato": 250,
+        "range": "150–400",
+        "devStd": "±35%",
+        "confidenza": "A",
+        "nFonti": 10,
+        "note": "UK 230–460€, media 250€"
+      },
+      {
+        "codice": "88.77.4",
+        "descrizione": "Arti inferiori",
+        "prezzoPubblico": 35,
+        "prezzoPrivato": 300,
+        "range": "180–500",
+        "devStd": "±35%",
+        "confidenza": "B",
+        "nFonti": 9,
+        "note": "Prezzi privati alti in UK"
+      },
+      {
+        "codice": "88.77.6",
+        "descrizione": "Arti superiori",
+        "prezzoPubblico": 35,
+        "prezzoPrivato": 250,
+        "range": "150–400",
+        "devStd": "±35%",
+        "confidenza": "B",
+        "nFonti": 8,
+        "note": "Simile agli arti inferiori"
+      },
+      {
+        "codice": "88.76.3",
+        "descrizione": "Grossi vasi addominali",
+        "prezzoPubblico": 25,
+        "prezzoPrivato": 150,
+        "range": "100–300",
+        "devStd": "±25%",
+        "confidenza": "A",
+        "nFonti": 8,
+        "note": "Francia 52–76€, UK 170–340€"
+      },
+      {
+        "codice": "88.78.2",
+        "descrizione": "Ginecologica",
+        "prezzoPubblico": 25,
+        "prezzoPrivato": 200,
+        "range": "150–350",
+        "devStd": "±30%",
+        "confidenza": "A",
+        "nFonti": 12,
+        "note": "Francia 52–70€, media UE 200€"
+      },
+      {
+        "codice": "88.76.1",
+        "descrizione": "Addome completo",
+        "prezzoPubblico": 25,
+        "prezzoPrivato": 200,
+        "range": "150–350",
+        "devStd": "±30%",
+        "confidenza": "A",
+        "nFonti": 14,
+        "note": "Francia 54€, UK 170–340€"
+      },
+      {
+        "codice": "88.75.1",
+        "descrizione": "Addome inferiore",
+        "prezzoPubblico": 25,
+        "prezzoPrivato": 180,
+        "range": "150–300",
+        "devStd": "±30%",
+        "confidenza": "B",
+        "nFonti": 8,
+        "note": "Prezzo medio 180€"
+      },
+      {
+        "codice": "88.74.1",
+        "descrizione": "Addome superiore",
+        "prezzoPubblico": 25,
+        "prezzoPrivato": 200,
+        "range": "150–350",
+        "devStd": "±30%",
+        "confidenza": "B",
+        "nFonti": 8,
+        "note": "Prezzo medio 200€"
+      },
+      {
+        "codice": "88.73.1",
+        "descrizione": "Mammella bilaterale",
+        "prezzoPubblico": 25,
+        "prezzoPrivato": 200,
+        "range": "150–300",
+        "devStd": "±30%",
+        "confidenza": "A",
+        "nFonti": 10,
+        "note": "Francia 41–69€, UK 170–340€"
+      },
+      {
+        "codice": "88.73.2",
+        "descrizione": "Mammella monolaterale",
+        "prezzoPubblico": 25,
+        "prezzoPrivato": 150,
+        "range": "130–250",
+        "devStd": "±25%",
+        "confidenza": "A",
+        "nFonti": 10,
+        "note": "Prezzo ~25% inferiore al bilaterale"
+      },
+      {
+        "codice": "88.79.3",
+        "descrizione": "Muscoloscheletrica",
+        "prezzoPubblico": 25,
+        "prezzoPrivato": 200,
+        "range": "150–350",
+        "devStd": "±30%",
+        "confidenza": "B",
+        "nFonti": 9,
+        "note": "UK 170–340€"
+      },
+      {
+        "codice": "88.79.6",
+        "descrizione": "Scrotale",
+        "prezzoPubblico": 25,
+        "prezzoPrivato": 180,
+        "range": "150–300",
+        "devStd": "±25%",
+        "confidenza": "B",
+        "nFonti": 9,
+        "note": "UK 170–340€, media 180€"
+      },
+      {
+        "codice": "88.79.E",
+        "descrizione": "Doppler scrotale",
+        "prezzoPubblico": 25,
+        "prezzoPrivato": 250,
+        "range": "180–400",
+        "devStd": "±30%",
+        "confidenza": "B",
+        "nFonti": 9,
+        "note": "Prezzo simile al Doppler carotideo"
+      }
+    ],
+    "usa": [
+      {
+        "codice": "88.71.4",
+        "descrizione": "Capo e collo",
+        "prezzoPubblico": 0,
+        "prezzoPrivato": 320,
+        "range": "90–550",
+        "devStd": "±45%",
+        "confidenza": "B",
+        "nFonti": 8,
+        "note": "Prezzo varia per assicurazione e sede"
+      },
+      {
+        "codice": "88.72.2",
+        "descrizione": "Cardiaca",
+        "prezzoPubblico": 0,
+        "prezzoPrivato": 800,
+        "range": "330–1230",
+        "devStd": "±50%",
+        "confidenza": "C",
+        "nFonti": 10,
+        "note": "Ecocardio molto costoso fuori rete"
+      },
+      {
+        "codice": "88.73.5",
+        "descrizione": "TSA",
+        "prezzoPubblico": 0,
+        "prezzoPrivato": 260,
+        "range": "140–380",
+        "devStd": "±40%",
+        "confidenza": "B",
+        "nFonti": 7,
+        "note": "Prezzo medio $300, alta variabilità"
+      },
+      {
+        "codice": "88.77.4",
+        "descrizione": "Arti inferiori",
+        "prezzoPubblico": 0,
+        "prezzoPrivato": 400,
+        "range": "220–660",
+        "devStd": "±40%",
+        "confidenza": "C",
+        "nFonti": 8,
+        "note": "Differenze enormi per tipo e copertura"
+      },
+      {
+        "codice": "88.77.6",
+        "descrizione": "Arti superiori",
+        "prezzoPubblico": 0,
+        "prezzoPrivato": 350,
+        "range": "180–600",
+        "devStd": "±40%",
+        "confidenza": "C",
+        "nFonti": 8,
+        "note": "Simile agli arti inferiori"
+      },
+      {
+        "codice": "88.76.3",
+        "descrizione": "Grossi vasi addominali",
+        "prezzoPubblico": 0,
+        "prezzoPrivato": 370,
+        "range": "180–560",
+        "devStd": "±40%",
+        "confidenza": "B",
+        "nFonti": 8,
+        "note": "Costo medio 370€"
+      },
+      {
+        "codice": "88.78.2",
+        "descrizione": "Ginecologica",
+        "prezzoPubblico": 0,
+        "prezzoPrivato": 200,
+        "range": "90–330",
+        "devStd": "±35%",
+        "confidenza": "B",
+        "nFonti": 9,
+        "note": "Prezzo medio $200"
+      },
+      {
+        "codice": "88.76.1",
+        "descrizione": "Addome completo",
+        "prezzoPubblico": 0,
+        "prezzoPrivato": 320,
+        "range": "110–600",
+        "devStd": "±40%",
+        "confidenza": "B",
+        "nFonti": 10,
+        "note": "Molto diffuso, coperto da assicurazioni"
+      },
+      {
+        "codice": "88.75.1",
+        "descrizione": "Addome inferiore",
+        "prezzoPubblico": 0,
+        "prezzoPrivato": 250,
+        "range": "45–380",
+        "devStd": "±40%",
+        "confidenza": "B",
+        "nFonti": 7,
+        "note": "Prezzo medio $250"
+      },
+      {
+        "codice": "88.74.1",
+        "descrizione": "Addome superiore",
+        "prezzoPubblico": 0,
+        "prezzoPrivato": 300,
+        "range": "110–600",
+        "devStd": "±35%",
+        "confidenza": "B",
+        "nFonti": 8,
+        "note": "Media $330"
+      },
+      {
+        "codice": "88.73.1",
+        "descrizione": "Mammella bilaterale",
+        "prezzoPubblico": 0,
+        "prezzoPrivato": 350,
+        "range": "140–550",
+        "devStd": "±35%",
+        "confidenza": "B",
+        "nFonti": 8,
+        "note": "Prezzi simili eco muscolo"
+      },
+      {
+        "codice": "88.73.2",
+        "descrizione": "Mammella monolaterale",
+        "prezzoPubblico": 0,
+        "prezzoPrivato": 250,
+        "range": "85–450",
+        "devStd": "±35%",
+        "confidenza": "B",
+        "nFonti": 8,
+        "note": "Prezzo inferiore di 25% al bilaterale"
+      },
+      {
+        "codice": "88.79.3",
+        "descrizione": "Muscoloscheletrica",
+        "prezzoPubblico": 0,
+        "prezzoPrivato": 270,
+        "range": "90–380",
+        "devStd": "±40%",
+        "confidenza": "B",
+        "nFonti": 8,
+        "note": "Prezzo medio $270"
+      },
+      {
+        "codice": "88.79.6",
+        "descrizione": "Scrotale",
+        "prezzoPubblico": 0,
+        "prezzoPrivato": 270,
+        "range": "85–450",
+        "devStd": "±35%",
+        "confidenza": "B",
+        "nFonti": 7,
+        "note": "Prezzo medio $270"
+      },
+      {
+        "codice": "88.79.E",
+        "descrizione": "Doppler scrotale",
+        "prezzoPubblico": 0,
+        "prezzoPrivato": 300,
+        "range": "100–500",
+        "devStd": "±40%",
+        "confidenza": "C",
+        "nFonti": 7,
+        "note": "Prezzo medio $300"
+      }
+    ],
+    "cina": [
+      {
+        "codice": "88.71.4",
+        "descrizione": "Capo e collo",
+        "prezzoPubblico": 5,
+        "prezzoPrivato": 25,
+        "range": "10–45",
+        "devStd": "±25%",
+        "confidenza": "B",
+        "nFonti": 6,
+        "note": "Prezzo urbano ~20€, rurale ~10€, costo molto accessibile"
+      },
+      {
+        "codice": "88.72.2",
+        "descrizione": "Cardiaca",
+        "prezzoPubblico": 10,
+        "prezzoPrivato": 40,
+        "range": "20–75",
+        "devStd": "±30%",
+        "confidenza": "B",
+        "nFonti": 6,
+        "note": "Prezzo tipico in cliniche 45–75€, copertura pubblica alta"
+      },
+      {
+        "codice": "88.73.5",
+        "descrizione": "TSA",
+        "prezzoPubblico": 8,
+        "prezzoPrivato": 40,
+        "range": "15–75",
+        "devStd": "±30%",
+        "confidenza": "B",
+        "nFonti": 5,
+        "note": "Ampia variabilità urbana/rurale"
+      },
+      {
+        "codice": "88.77.4",
+        "descrizione": "Arti inferiori (Doppler)",
+        "prezzoPubblico": 8,
+        "prezzoPrivato": 45,
+        "range": "20–75",
+        "devStd": "±30%",
+        "confidenza": "B",
+        "nFonti": 5,
+        "note": "Prezzo medio 45€, cresce nelle metropoli"
+      },
+      {
+        "codice": "88.77.6",
+        "descrizione": "Arti superiori (Doppler)",
+        "prezzoPubblico": 8,
+        "prezzoPrivato": 40,
+        "range": "15–70",
+        "devStd": "±25%",
+        "confidenza": "B",
+        "nFonti": 5,
+        "note": "Range simile agli arti inferiori"
+      },
+      {
+        "codice": "88.76.3",
+        "descrizione": "Grossi vasi addominali",
+        "prezzoPubblico": 8,
+        "prezzoPrivato": 35,
+        "range": "15–65",
+        "devStd": "±25%",
+        "confidenza": "B",
+        "nFonti": 5,
+        "note": "Prezzi bassi, ampia offerta pubblica"
+      },
+      {
+        "codice": "88.78.2",
+        "descrizione": "Ginecologica",
+        "prezzoPubblico": 5,
+        "prezzoPrivato": 30,
+        "range": "13–45",
+        "devStd": "±25%",
+        "confidenza": "A",
+        "nFonti": 7,
+        "note": "Altissima frequenza d’uso, bassa variabilità"
+      },
+      {
+        "codice": "88.76.1",
+        "descrizione": "Addome completo",
+        "prezzoPubblico": 8,
+        "prezzoPrivato": 35,
+        "range": "13–45",
+        "devStd": "±25%",
+        "confidenza": "A",
+        "nFonti": 7,
+        "note": "Esame di base, costo medio 35€"
+      },
+      {
+        "codice": "88.75.1",
+        "descrizione": "Addome inferiore",
+        "prezzoPubblico": 8,
+        "prezzoPrivato": 30,
+        "range": "13–45",
+        "devStd": "±25%",
+        "confidenza": "B",
+        "nFonti": 5,
+        "note": "Prezzo simile all’addome completo"
+      },
+      {
+        "codice": "88.74.1",
+        "descrizione": "Addome superiore",
+        "prezzoPubblico": 8,
+        "prezzoPrivato": 35,
+        "range": "13–45",
+        "devStd": "±25%",
+        "confidenza": "B",
+        "nFonti": 5,
+        "note": "Costo medio urbano ~30–40€"
+      },
+      {
+        "codice": "88.73.1",
+        "descrizione": "Mammella bilaterale",
+        "prezzoPubblico": 8,
+        "prezzoPrivato": 35,
+        "range": "13–45",
+        "devStd": "±25%",
+        "confidenza": "B",
+        "nFonti": 5,
+        "note": "Prezzo medio simile all’addome"
+      },
+      {
+        "codice": "88.73.2",
+        "descrizione": "Mammella monolaterale",
+        "prezzoPubblico": 8,
+        "prezzoPrivato": 25,
+        "range": "10–35",
+        "devStd": "±25%",
+        "confidenza": "B",
+        "nFonti": 5,
+        "note": "Prezzo medio inferiore del 25% al bilaterale"
+      },
+      {
+        "codice": "88.79.3",
+        "descrizione": "Muscoloscheletrica",
+        "prezzoPubblico": 8,
+        "prezzoPrivato": 35,
+        "range": "13–45",
+        "devStd": "±25%",
+        "confidenza": "B",
+        "nFonti": 5,
+        "note": "Esame comune, prezzi contenuti"
+      },
+      {
+        "codice": "88.79.6",
+        "descrizione": "Scrotale",
+        "prezzoPubblico": 8,
+        "prezzoPrivato": 35,
+        "range": "13–45",
+        "devStd": "±25%",
+        "confidenza": "B",
+        "nFonti": 5,
+        "note": "Prezzo tipico ospedaliero 30–40€"
+      },
+      {
+        "codice": "88.79.E",
+        "descrizione": "Doppler scrotale",
+        "prezzoPubblico": 8,
+        "prezzoPrivato": 40,
+        "range": "15–50",
+        "devStd": "±25%",
+        "confidenza": "B",
+        "nFonti": 5,
+        "note": "Leggero sovrapprezzo per uso Doppler"
+      }
+    ]
+  },
+  "configurazioneTamSamSom": {
+    "ecografie": {
+      "priceMode": "regionalizzato",
+      "prezzoMedioProcedura": 90.5,
+      "tipoPrezzo": "medio",
+      "regioneSelezionata": "europa",
+      "volumeMode": "totale",
+      "samPercentage": 50,
+      "somPercentages": {
+        "y1": 0.5,
+        "y3": 1.7,
+        "y5": 5
+      },
+      "valoriCalcolati": {
+        "tam": 303959147,
+        "sam": 151979574,
+        "som1": 759898,
+        "som3": 2096057,
+        "som5": 5730321
+      },
+      "lastUpdate": "2025-10-20T16:54:51.082Z",
+      "regioniSelezionate": {
+        "italia": true,
+        "europa": false,
+        "usa": false,
+        "cina": false
+      },
+      "proiezioni": [
+        {
+          "year": 2025,
+          "tam": 303959147,
+          "sam": 151979574,
+          "som": 759898,
+          "somPercentage": 0.5
+        },
+        {
+          "year": 2026,
+          "tam": 313077921,
+          "sam": 156538961,
+          "som": 1408851,
+          "somPercentage": 0.9
+        },
+        {
+          "year": 2027,
+          "tam": 322470259,
+          "sam": 161235130,
+          "som": 2096057,
+          "somPercentage": 1.3
+        },
+        {
+          "year": 2028,
+          "tam": 332144367,
+          "sam": 166072183,
+          "som": 2823227,
+          "somPercentage": 1.7
+        },
+        {
+          "year": 2029,
+          "tam": 342108698,
+          "sam": 171054349,
+          "som": 5730321,
+          "somPercentage": 3.35
+        },
+        {
+          "year": 2030,
+          "tam": 352371959,
+          "sam": 176185979,
+          "som": 8809299,
+          "somPercentage": 5
+        },
+        {
+          "year": 2031,
+          "tam": 362943118,
+          "sam": 181471559,
+          "som": 10870146,
+          "somPercentage": 5.99
+        },
+        {
+          "year": 2032,
+          "tam": 373831411,
+          "sam": 186915706,
+          "som": 13046716,
+          "somPercentage": 6.98
+        },
+        {
+          "year": 2033,
+          "tam": 385046353,
+          "sam": 192523177,
+          "som": 15344097,
+          "somPercentage": 7.97
+        },
+        {
+          "year": 2034,
+          "tam": 396597744,
+          "sam": 198298872,
+          "som": 17767579,
+          "somPercentage": 8.96
+        },
+        {
+          "year": 2035,
+          "tam": 408495676,
+          "sam": 204247838,
+          "som": 20322660,
+          "somPercentage": 9.95
+        }
+      ]
+    },
+    "ecografi": {
+      "priceMode": "semplice",
+      "prezzoMedioDispositivo": 25000,
+      "prezziMediDispositivi": {
+        "carrellati": 50000,
+        "portatili": 25001,
+        "palmari": 6000
+      },
+      "samPercentage": 50,
+      "somPercentages": {
+        "y1": 1,
+        "y3": 2,
+        "y5": 5
+      },
+      "valoriCalcolati": {
+        "tam": 219550837,
+        "sam": 109775418.5,
+        "som1": 1097754.185,
+        "som3": 2195508.37,
+        "som5": 5488770.925000001
+      },
+      "lastUpdate": "2025-10-20T16:26:31.351Z",
+      "regioniAttive": {
+        "italia": true,
+        "europa": false,
+        "usa": false,
+        "cina": false
+      },
+      "dispositiviUnita": {
+        "tam": 5600,
+        "sam": 2800,
+        "som1": 28,
+        "som2": 42,
+        "som3": 56,
+        "som4": 98,
+        "som5": 140
+      }
+    },
+    "businessPlan": {
+      "sectionProgress": {
+        "executive-summary": 50,
+        "proposta-valore": 90,
+        "mercato": 95,
+        "competizione": 90,
+        "modello-business": 55,
+        "gtm": 60,
+        "regolatorio": 75,
+        "roadmap-prodotto": 50,
+        "operazioni": 10,
+        "team": 10,
+        "rischi": 40,
+        "piano-finanziario": 20
+      },
+      "lastUpdate": "2025-10-10T15:08:24.481Z"
+    }
+  },
+  "revenueModel": {
+    "hardware": {
+      "enabled": true,
+      "description": "Vendita dispositivi ecografici (CapEx cliente). Prezzi ASP letti da configurazioneTamSamSom.ecografi",
+      "unitCost": 10000,
+      "unitCostByType": {
+        "carrellati": 25000,
+        "portatili": 10000,
+        "palmari": 2000
+      },
+      "warrantyPct": 0.03,
+      "cogsMarginByType": {
+        "carrellati": 0.5,
+        "portatili": 0.6,
+        "palmari": 0.65
+      },
+      "note": "ASP letti da configurazioneTamSamSom.ecografi. COGS e margini gestiti qui."
+    },
+    "saas": {
+      "enabled": true,
+      "description": "Abbonamento software SaaS ricorrente",
+      "pricing": {
+        "perDevice": {
+          "enabled": true,
+          "monthlyFee": 500,
+          "annualFee": 5500,
+          "grossMarginPct": 0.85,
+          "activationRate": 0.8,
+          "description": "Pricing per dispositivo - €500/mese o €5,500/anno (8% sconto)"
+        },
+        "perScan": {
+          "enabled": false,
+          "feePerScan": 1.5,
+          "revSharePct": 0.3,
+          "grossMarginPct": 0.7,
+          "description": "Pricing per scansione - €1.50/scan con 30% revenue share"
+        },
+        "tiered": {
+          "enabled": false,
+          "description": "Pricing a scaglioni basato su volume scansioni mensili",
+          "tiers": [
+            {
+              "scansUpTo": 100,
+              "monthlyFee": 300,
+              "description": "Piano Starter - fino a 100 scansioni/mese"
+            },
+            {
+              "scansUpTo": 500,
+              "monthlyFee": 500,
+              "description": "Piano Professional - fino a 500 scansioni/mese"
+            },
+            {
+              "scansUpTo": 9999,
+              "monthlyFee": 800,
+              "description": "Piano Enterprise - scansioni illimitate"
+            }
+          ],
+          "grossMarginPct": 0.85
+        }
+      },
+      "note": "Modello SaaS predefinito: per-device. Altri modelli disponibili per scenari."
+    },
+    "consumables": {
+      "enabled": false,
+      "description": "Consumabili e materiali ricorrenti (gel, accessori)",
+      "items": [
+        {
+          "id": "gel_eco",
+          "name": "Gel ecografico",
+          "revenuePerDevicePerMonth": 50,
+          "grossMarginPct": 0.4,
+          "description": "Gel per ecografie - consumo medio €50/mese per dispositivo"
+        },
+        {
+          "id": "accessories",
+          "name": "Sonde e accessori",
+          "revenuePerDevicePerMonth": 100,
+          "grossMarginPct": 0.5,
+          "description": "Sonde di ricambio e accessori vari"
+        }
+      ],
+      "totalRevenuePerDevicePerMonth": 150,
+      "note": "Consumabili opzionali - da abilitare solo se modello business include vendita materiali"
+    },
+    "services": {
+      "enabled": false,
+      "description": "Servizi professionali one-time o ricorrenti",
+      "items": [
+        {
+          "id": "training",
+          "name": "Training iniziale",
+          "type": "one-time",
+          "revenue": 2000,
+          "attachRate": 0.8,
+          "grossMarginPct": 0.7,
+          "description": "Formazione iniziale operatori - 80% clienti acquista"
+        },
+        {
+          "id": "extended_warranty",
+          "name": "Garanzia estesa",
+          "type": "annual",
+          "annualRevenue": 1500,
+          "attachRate": 0.4,
+          "grossMarginPct": 0.8,
+          "description": "Manutenzione e supporto esteso - 40% attach rate"
+        },
+        {
+          "id": "consulting",
+          "name": "Consulenza clinica",
+          "type": "project",
+          "revenuePerProject": 5000,
+          "projectsPerYear": 2,
+          "grossMarginPct": 0.65,
+          "description": "Consulenza specialistica per ottimizzazione workflow"
+        }
+      ],
+      "note": "Servizi opzionali - da abilitare se parte del business model"
+    },
+    "bundling": {
+      "enabled": false,
+      "description": "Pacchetti bundle hardware + software + servizi",
+      "bundles": [
+        {
+          "id": "starter_bundle",
+          "name": "Pacchetto Starter",
+          "components": {
+            "hardware": "palmari",
+            "saasMonths": 12,
+            "training": true
+          },
+          "price": 15000,
+          "discount": 0.15,
+          "description": "Dispositivo palmare + 1 anno SaaS + training - 15% sconto"
+        },
+        {
+          "id": "professional_bundle",
+          "name": "Pacchetto Professional",
+          "components": {
+            "hardware": "portatili",
+            "saasMonths": 24,
+            "training": true,
+            "extendedWarranty": true
+          },
+          "price": 35000,
+          "discount": 0.2,
+          "description": "Dispositivo portatile + 2 anni SaaS + training + garanzia - 20% sconto"
+        }
+      ],
+      "note": "Bundle pricing per semplificare vendita e aumentare ARPA"
+    },
+    "financing": {
+      "enabled": false,
+      "description": "Opzioni di finanziamento per clienti",
+      "options": [
+        {
+          "type": "leasing",
+          "durationMonths": 36,
+          "interestRate": 0.05,
+          "downPaymentPct": 0.2,
+          "description": "Leasing operativo 36 mesi - 20% anticipo, 5% interesse annuo"
+        },
+        {
+          "type": "rent_to_own",
+          "durationMonths": 24,
+          "monthlyFee": 1200,
+          "ownershipAtEnd": true,
+          "description": "Rent-to-own 24 mesi - proprietà a fine contratto"
+        }
+      ],
+      "note": "Finanziamento opzionale - migliora accessibilità per PMI"
+    },
+    "pricingStrategy": {
+      "defaultModel": "hybrid_hardware_saas",
+      "geographicPricing": {
+        "enabled": true,
+        "regions": {
+          "italia": {
+            "priceMultiplier": 1,
+            "note": "Prezzo base di riferimento"
+          },
+          "europa": {
+            "priceMultiplier": 1.1,
+            "note": "Premium 10% per mercato EU (escl. Italia)"
+          },
+          "usa": {
+            "priceMultiplier": 1.3,
+            "note": "Premium 30% per mercato USA (regolamentazione FDA, supporto)"
+          },
+          "cina": {
+            "priceMultiplier": 0.8,
+            "note": "Discount 20% per penetrazione mercato emergente"
+          }
+        }
+      },
+      "volumeDiscounts": {
+        "enabled": false,
+        "tiers": [
+          {
+            "unitsFrom": 1,
+            "unitsTo": 5,
+            "discount": 0
+          },
+          {
+            "unitsFrom": 6,
+            "unitsTo": 20,
+            "discount": 0.1
+          },
+          {
+            "unitsFrom": 21,
+            "unitsTo": 9999,
+            "discount": 0.15
+          }
+        ],
+        "note": "Sconti volume per grandi ordini (distributori, catene)"
+      }
+    },
+    "metadata": {
+      "version": "1.0.0",
+      "currency": "EUR",
+      "lastUpdate": "2025-01-10T11:00:00.000Z",
+      "createdBy": "system",
+      "validFrom": "2025-01-01",
+      "note": "Schema completo modello di business Eco 3D - Base per proiezioni ricavi e scenari"
+    }
+  },
+  "contoEconomico": {
+    "version": "1.0.0",
+    "lastUpdated": "2025-10-11",
+    "currency": "EUR",
+    "note": "Dati per Conto Economico previsionale - integrati con budget e revenue model",
+    "ricavi": {
+      "note": "I ricavi vengono calcolati dal Revenue Model esistente (revenueModel)",
+      "source": "revenueModel + FinancialCalculator",
+      "lineeBusinessDefault": [
+        {
+          "id": "dispositivi_hw",
+          "nome": "Vendita Dispositivi Hardware",
+          "tipo": "capex",
+          "descrizione": "Vendita una tantum dispositivi ecografici",
+          "active": true
+        },
+        {
+          "id": "saas_subscription",
+          "nome": "Abbonamenti Software SaaS",
+          "tipo": "recurring",
+          "descrizione": "Ricavi ricorrenti da abbonamenti mensili",
+          "active": true
+        },
+        {
+          "id": "servizi_post_vendita",
+          "nome": "Servizi Post-Vendita e Manutenzione",
+          "tipo": "recurring",
+          "descrizione": "Manutenzione, training, supporto tecnico",
+          "active": false
+        }
+      ]
+    },
+    "cogs": {
+      "note": "Costi diretti attribuibili ai ricavi - Cost of Goods Sold",
+      "hardwareCosts": {
+        "costoUnitarioDispositivo": 11000,
+        "note": "Costo produzione per dispositivo (dato da budget prototipo)",
+        "componenti": [
+          {
+            "nome": "Componenti elettronici",
+            "percentuale": 45,
+            "valore": 4950
+          },
+          {
+            "nome": "Sonda ultrasonica",
+            "percentuale": 30,
+            "valore": 3300
+          },
+          {
+            "nome": "Assemblaggio e test",
+            "percentuale": 15,
+            "valore": 1650
+          },
+          {
+            "nome": "Packaging e logistica",
+            "percentuale": 10,
+            "valore": 1100
+          }
+        ],
+        "curvaApprendimento": {
+          "enabled": true,
+          "percentualeRiduzionePerDoppio": 15,
+          "note": "Riduzione costi con economie di scala (learning curve)"
+        }
+      },
+      "saasCosts": {
+        "costoPerUtente": {
+          "cloudInfrastructure": 2,
+          "storage": 1,
+          "bandwidth": 0.5,
+          "totale": 3.5,
+          "note": "Costi mensili cloud per utente attivo (€/mese)"
+        },
+        "commissioniPiattaforma": {
+          "percentuale": 3,
+          "note": "Commissioni payment processor (% sui ricavi)"
+        }
+      },
+      "margineObiettivoPercentuale": {
+        "hardware": 78,
+        "saas": 95,
+        "blended": 85,
+        "note": "Target gross margin % per linea di business"
+      }
+    },
+    "opex": {
+      "note": "I dati OPEX vengono presi dalla sezione budget esistente",
+      "source": "budget.categories",
+      "mapping": {
+        "personale": "cat_4",
+        "rd": "cat_1",
+        "regolatorio": "cat_2",
+        "clinico": "cat_3",
+        "overhead": "cat_5",
+        "marketing": "cat_6"
+      },
+      "categorieAggiuntive": [
+        {
+          "id": "marketing_sales_scale",
+          "nome": "Marketing & Sales (Scaling Phase)",
+          "note": "Costi marketing aggiuntivi fase di scale-up post-lancio",
+          "values": {
+            "2025": 0,
+            "2026": 50,
+            "2027": 100,
+            "2028": 150,
+            "2029": 200
+          }
+        }
+      ],
+      "totaliCalcolatiPerAnno": {
+        "2025": 82,
+        "2026": 452,
+        "2027": 488,
+        "2028": 783,
+        "note": "Totali OPEX calcolati dal budget (in K€)"
+      }
+    },
+    "ammortamenti": {
+      "note": "Ammortamenti asset capitalizzati - quota annuale",
+      "enabled": true,
+      "assets": [
+        {
+          "id": "macchinari_produzione",
+          "nome": "Macchinari e Attrezzature Produzione",
+          "valoreDiAcquisto": 50,
+          "dataAcquisto": "2026-Q1",
+          "anniAmmortamento": 5,
+          "metodologia": "lineare",
+          "quotaAnnuale": 10
+        },
+        {
+          "id": "software_sviluppo",
+          "nome": "Software e Piattaforma Tecnologica",
+          "valoreDiAcquisto": 30,
+          "dataAcquisto": "2025-Q4",
+          "anniAmmortamento": 3,
+          "metodologia": "lineare",
+          "quotaAnnuale": 10
+        },
+        {
+          "id": "brevetti",
+          "nome": "Brevetti e Proprietà Intellettuale",
+          "valoreDiAcquisto": 5,
+          "dataAcquisto": "2025-Q1",
+          "anniAmmortamento": 10,
+          "metodologia": "lineare",
+          "quotaAnnuale": 0.5
+        }
+      ],
+      "totaleAnnualeCalcolato": {
+        "2025": 0.5,
+        "2026": 20.5,
+        "2027": 20.5,
+        "2028": 20.5,
+        "2029": 10,
+        "note": "Totali ammortamenti per anno (in K€)"
+      }
+    },
+    "interessiFinanziari": {
+      "note": "Interessi su debiti e finanziamenti",
+      "enabled": true,
+      "debiti": [
+        {
+          "id": "convertible_note_seed",
+          "tipo": "Convertible Note",
+          "capitale": 200,
+          "tassoInteresse": 5,
+          "dataEmissione": "2025-Q1",
+          "scadenza": "2027-Q1",
+          "interesseAnnuale": 10,
+          "note": "Convertible note da round seed"
+        }
+      ],
+      "totaleAnnualeCalcolato": {
+        "2025": 10,
+        "2026": 10,
+        "2027": 5,
+        "2028": 0,
+        "2029": 0,
+        "note": "Totali interessi per anno (in K€)"
+      }
+    },
+    "tasse": {
+      "note": "Aliquota 28% (24% IRES + ~4% IRAP). Perdite riportabili negli anni successivi",
+      "regime": "IRES + IRAP",
+      "aliquotaEffettiva": 28,
+      "perditeRiportabili": true
+    },
+    "breakEvenAnalysis": {
+      "enabled": true,
+      "metodologia": "units",
+      "assumptions": {
+        "prezzoMedioVendita": 50000,
+        "costoVariabileUnitario": 11000,
+        "costiFissiAnnuali": {
+          "2025": 82,
+          "2026": 452,
+          "2027": 488,
+          "2028": 783,
+          "note": "Costi fissi annuali = OPEX (da budget)"
+        }
+      },
+      "formula": "Q_BEP = Costi_Fissi / (Prezzo_Unitario - Costo_Variabile_Unitario)",
+      "unitaBreakEvenCalcolate": {
+        "2025": 2.1,
+        "2026": 11.6,
+        "2027": 12.5,
+        "2028": 20.1,
+        "note": "Unità necessarie per pareggiare costi fissi"
+      },
+      "note": "Calcolo unità vendute necessarie per raggiungere break-even operativo"
+    },
+    "kpiMetriche": {
+      "grossMarginPercentage": {
+        "formula": "(Ricavi - COGS) / Ricavi * 100",
+        "target": 75,
+        "note": "Margine lordo percentuale - target 75%"
+      },
+      "ebitdaMargin": {
+        "formula": "EBITDA / Ricavi * 100",
+        "target": 30,
+        "note": "Margine EBITDA percentuale - target 30% a regime"
+      },
+      "netMargin": {
+        "formula": "Utile_Netto / Ricavi * 100",
+        "target": 20,
+        "note": "Margine netto percentuale - target 20% a regime"
+      },
+      "breakEvenMonth": {
+        "descrizione": "Mese in cui EBITDA diventa stabilmente positivo",
+        "target": "Q4 2026",
+        "note": "Obiettivo: EBITDA positivo entro fine 2026"
+      }
+    },
+    "scenari": {
+      "note": "Scenari previsionali per sensitivity analysis",
+      "base": {
+        "descrizione": "Scenario base - ipotesi realistiche",
+        "crescitaRicavi": 1.5,
+        "margineLorerdo": 75,
+        "ebitdaY5": 30
+      },
+      "prudente": {
+        "descrizione": "Scenario conservativo - ipotesi cautelative",
+        "crescitaRicavi": 1.2,
+        "margineLorerdo": 70,
+        "ebitdaY5": 20
+      },
+      "ambizioso": {
+        "descrizione": "Scenario ottimistico - massima crescita",
+        "crescitaRicavi": 2,
+        "margineLorerdo": 80,
+        "ebitdaY5": 40
+      }
+    },
+    "metadata": {
+      "createdBy": "Business Planning System",
+      "createdAt": "2025-10-11T15:48:00.000Z",
+      "version": "1.0.0",
+      "lastModified": "2025-10-11T15:48:00.000Z",
+      "note": "Sezione Conto Economico - integrata con budget e revenue model esistenti"
+    }
+  }
+}

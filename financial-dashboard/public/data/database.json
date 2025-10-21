@@ -1,6 +1,6 @@
 {
   "version": "1.0.3",
-  "lastUpdate": "2025-10-11",
+  "lastUpdate": "2025-10-20",
   "description": "Database centralizzato per Eco 3D - Dati reali da Eco_ITA_MASTER.xlsx con % Extra-SSN per prestazione",
   "mercatoEcografie": {
     "italia": {
@@ -973,7 +973,8 @@
                   "q1_25": 11,
                   "q2_25": 8,
                   "q3_25": 8,
-                  "tot_25": 30
+                  "tot_25": 30,
+                  "q4_26": 0
                 },
                 "formula": null,
                 "note": null,
@@ -982,7 +983,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010022",
-                "lastModified": "2025-10-06T22:41:03.338Z"
+                "lastModified": "2025-10-20T15:35:17.093Z"
               },
               {
                 "id": "item_3",
@@ -996,7 +997,8 @@
                   "q1_25": 3.67,
                   "q2_25": 6.67,
                   "q3_25": 6.67,
-                  "tot_25": 20.01
+                  "tot_25": 20.01,
+                  "q4_26": 0
                 },
                 "formula": null,
                 "note": null,
@@ -1005,7 +1007,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010026",
-                "lastModified": "2025-10-06T22:40:56.836Z"
+                "lastModified": "2025-10-20T15:35:28.971Z"
               },
               {
                 "id": "item_4",
@@ -1015,7 +1017,7 @@
                 "parentId": "subcat_1_1",
                 "categoryId": "cat_1",
                 "values": {
-                  "q1_25": -0.33,
+                  "q1_25": -0.34,
                   "q2_25": 1.67,
                   "q3_25": 1.67,
                   "tot_25": 5.01
@@ -1027,7 +1029,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010029",
-                "lastModified": "2025-10-06T22:40:58.888Z"
+                "lastModified": "2025-10-20T15:34:07.600Z"
               },
               {
                 "id": "item_5",
@@ -2235,7 +2237,8 @@
           "q1_25": 11,
           "q2_25": 8,
           "q3_25": 8,
-          "tot_25": 30
+          "tot_25": 30,
+          "q4_26": 0
         },
         "formula": null,
         "note": null,
@@ -2244,7 +2247,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010022",
-        "lastModified": "2025-10-06T22:41:03.338Z"
+        "lastModified": "2025-10-20T15:35:17.093Z"
       },
       {
         "id": "item_3",
@@ -2258,7 +2261,8 @@
           "q1_25": 3.67,
           "q2_25": 6.67,
           "q3_25": 6.67,
-          "tot_25": 20.01
+          "tot_25": 20.01,
+          "q4_26": 0
         },
         "formula": null,
         "note": null,
@@ -2267,7 +2271,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010026",
-        "lastModified": "2025-10-06T22:40:56.836Z"
+        "lastModified": "2025-10-20T15:35:28.971Z"
       },
       {
         "id": "item_4",
@@ -2277,7 +2281,7 @@
         "parentId": "subcat_1_1",
         "categoryId": "cat_1",
         "values": {
-          "q1_25": -0.33,
+          "q1_25": -0.34,
           "q2_25": 1.67,
           "q3_25": 1.67,
           "tot_25": 5.01
@@ -2289,7 +2293,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010029",
-        "lastModified": "2025-10-06T22:40:58.888Z"
+        "lastModified": "2025-10-20T15:34:07.600Z"
       },
       {
         "id": "item_5",

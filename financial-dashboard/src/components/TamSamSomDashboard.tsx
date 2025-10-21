@@ -48,6 +48,7 @@ export function TamSamSomDashboard() {
   // Stati per Procedures
   const [samPercentage, setSamPercentage] = useState(35);
   const [somPercentages, setSomPercentages] = useState({ y1: 0.5, y3: 2, y5: 5 });
+  const [selectedYearProcedures, setSelectedYearProcedures] = useState(2025); // NUOVO: Anno selezionato per Procedures
   
   // Stati per Devices (default allineato a DB)
   const [samPercentageDevices, setSamPercentageDevices] = useState(50);
@@ -130,23 +131,71 @@ export function TamSamSomDashboard() {
     }
   }, [configTamSamSom, configTamSamSomDevices, isInitialized]);
 
+  // Serializza selectedRegions per evitare loop infinito
+  const selectedRegionsJson = useMemo(() => JSON.stringify(selectedRegions), [selectedRegions]);
+
   // Auto-salva configurazione Procedures quando cambiano i parametri (con debounce 1.5s)
   useEffect(() => {
     // Skip se non inizializzato (evita salvataggio durante caricamento iniziale)
     if (!configTamSamSom || !isInitialized) return;
+    if (!mercatoEcografie) return;
     
     const timer = setTimeout(async () => {
-      // Salva SOLO i parametri configurabili (non i valori calcolati che vengono derivati)
+      // Calcola proiezioni inline (per evitare dipendenza circolare)
+      const baseYear = 2025;
+      const growthRate = 0.03;
+      const projections = [];
+      const tamBase = calculateTAMValue();
+      
+      for (let i = 0; i < 11; i++) {
+        const year = baseYear + i;
+        const tamYear = tamBase * Math.pow(1 + growthRate, i);
+        const samYear = tamYear * (samPercentage / 100);
+        
+        let somPercentage = somPercentages.y1;
+        if (i <= 3) {
+          somPercentage = somPercentages.y1 + ((somPercentages.y3 - somPercentages.y1) / 3) * i;
+        } else if (i <= 5) {
+          somPercentage = somPercentages.y3 + ((somPercentages.y5 - somPercentages.y3) / 2) * (i - 3);
+        } else {
+          somPercentage = somPercentages.y5 + (somPercentages.y5 - somPercentages.y3) * 0.3 * (i - 5);
+        }
+        
+        const somYear = samYear * (somPercentage / 100);
+        
+        projections.push({
+          year,
+          tam: Math.round(tamYear),
+          sam: Math.round(samYear),
+          som: Math.round(somYear),
+          somPercentage: Math.round(somPercentage * 100) / 100
+        });
+      }
+      
+      // Valori correnti (anno 2025)
+      const currentYearData = projections[0];
+      
+      // Salva parametri configurabili + valori calcolati + proiezioni
       await updateConfigurazioneTamSamSomEcografie({
         priceMode,
         prezzoMedioProcedura,
-        regioniSelezionate: selectedRegions,
+        regioniSelezionate: JSON.parse(selectedRegionsJson),
         volumeMode,
         samPercentage,
-        somPercentages
+        somPercentages,
+        // NUOVO: Valori calcolati per l'anno corrente
+        valoriCalcolati: {
+          tam: currentYearData.tam,
+          sam: currentYearData.sam,
+          som1: projections[0].som,
+          som3: projections[2]?.som || 0,
+          som5: projections[4]?.som || 0
+        },
+        // NUOVO: Proiezioni 10 anni
+        proiezioni: projections
       } as any);
       
-      console.log('💾 Configurazione TAM/SAM/SOM Procedures salvata automaticamente');
+      console.log('💾 Configurazione TAM/SAM/SOM Procedures salvata automaticamente (con proiezioni)');
     }, 1500);
     
     return () => clearTimeout(timer);
@@ -154,11 +203,12 @@ export function TamSamSomDashboard() {
   }, [
     priceMode, 
     prezzoMedioProcedura, 
-    selectedRegions, 
+    selectedRegionsJson, 
     volumeMode, 
     samPercentage, 
     somPercentages,
-    isInitialized
+    isInitialized,
+    mercatoEcografie
   ]);
 
   // Serializza regioniAttive con useMemo per evitare ricalcolo ad ogni render
@@ -167,15 +217,250 @@ export function TamSamSomDashboard() {
   // Serializza prezziDispositivi con useMemo per evitare loop infinito
   const prezziDispositiviJson = useMemo(() => JSON.stringify(prezziDispositivi), [prezziDispositivi]);
 
-  // 🚀 CALCOLO INIZIALE: Calcola e salva valori al primo mount (SENZA debounce)
+  // 🚀 CALCOLO INIZIALE PROCEDURES: Calcola e salva valori al primo mount (SENZA debounce)
   useEffect(() => {
     // Esegui SOLO dopo inizializzazione
     if (!isInitialized) {
-      console.log('⏳ Aspetto inizializzazione per calcolare valori...');
+      console.log('⏳ [Procedures] Aspetto inizializzazione per calcolare valori...');
+      return;
+    }
+    if (!configTamSamSom) {
+      console.log('⚠️ [Procedures] configTamSamSom non disponibile');
+      return;
+    }
+    
+    // IMPORTANTE: Aspetta che mercatoEcografie sia caricato!
+    if (!mercatoEcografie) {
+      console.log('⏳ [Procedures] Aspetto caricamento mercatoEcografie...');
+      return;
+    }
+    
+    // 🎯 VERIFICA SE I VALORI SONO GIÀ VALIDI NEL DB → SKIP CALCOLO
+    const existingProceduresValues = configTamSamSom.valoriCalcolati;
+    const existingProceduresProjections = (configTamSamSom as any).proiezioni;
+    
+    console.log('💾 [Procedures] Valori esistenti nel DB:', existingProceduresValues);
+    
+    // SE i valori esistono già nel DB E sono validi → SKIP calcolo
+    const hasValidProceduresValues = existingProceduresValues && 
+                          existingProceduresValues.tam > 0 && 
+                          existingProceduresValues.sam > 0 && 
+                          existingProceduresValues.som1 > 0 &&
+                          existingProceduresProjections &&
+                          existingProceduresProjections.length > 0;
+    
+    if (hasValidProceduresValues) {
+      console.log('✅ [Procedures] Valori già validi nel DB - SKIP ricalcolo');
+      return;
+    }
+    
+    // 🔄 Solo se non ci sono valori validi → Calcola
+    console.log('🔄 [Procedures] Calcolo valori al mount (non trovati nel DB)...');
+    
+    // 🎯 USA VALORI DAL DB invece degli state (che potrebbero essere ancora ai default)
+    const dbPriceMode = configTamSamSom.priceMode || 'semplice';
+    const dbVolumeMode = configTamSamSom.volumeMode || 'totale';
+    const dbPrezzoMedio = configTamSamSom.prezzoMedioProcedura || 77.5;
+    const dbSamPercentage = configTamSamSom.samPercentage || 35;
+    const dbSomPercentages = configTamSamSom.somPercentages || { y1: 0.5, y3: 2, y5: 5 };
+    const dbSelectedRegions = (configTamSamSom as any).regioniSelezionate || selectedRegions;
+    console.log('📦 [Procedures] Dati dal DB:', {
+      mercatoEcografie: !!mercatoEcografie,
+      dbPriceMode,
+      dbVolumeMode,
+      dbPrezzoMedio,
+      dbSamPercentage,
+      dbSomPercentages,
+      dbSelectedRegions
+    });
+    console.log('📦 [Procedures] Dati dagli state (potrebbero essere default):', {
+      priceMode,
+      volumeMode,
+      prezzoMedioProcedura,
+      samPercentage,
+      somPercentages
+    });
+    
+    // 🔄 Ricalcola TAM usando i valori dal DB (non calculateTAMValue che usa gli state!)
+    const prestazioni = mercatoEcografie.italia.prestazioni;
+    const aggredibili = prestazioni.filter((p: any) => p.aggredibile);
+    
+    // Helper inline per calcolare volumi (come calculateVolumes ma senza dipendenze da useCallback)
+    const calcVolumes = (prestazione: any, regione: 'italia' | 'europa' | 'usa' | 'cina' = 'italia') => {
+      const colE = (prestazione.U || 0) + (prestazione.B || 0) + (prestazione.D || 0) + (prestazione.P || 0);
+      const percExtraSSN = prestazione.percentualeExtraSSN || 0;
+      
+      const moltiplicatore = regione === 'italia' 
+        ? 1 
+        : (regioniMondiali?.[regione]?.moltiplicatoreVolume || 1);
+      
+      const volumeSSN = Math.round(colE * moltiplicatore);
+      const volumeExtraSSN = Math.round((colE * moltiplicatore) * (percExtraSSN / 100));
+      const volumeTotale = volumeSSN + volumeExtraSSN;
+      
+      return { totale: volumeTotale, ssn: volumeSSN, extraSsn: volumeExtraSSN };
+    };
+    
+    const getVolumeByMode = (proc: any, regione: 'italia' | 'europa' | 'usa' | 'cina' = 'italia') => {
+      const volumes = calcVolumes(proc, regione);
+      switch (dbVolumeMode) {
+        case 'ssn': return volumes.ssn;
+        case 'extraSsn': return volumes.extraSsn;
+        default: return volumes.totale;
+      }
+    };
+    
+    let tamBase = 0;
+    
+    if (dbPriceMode === 'semplice') {
+      const volumeTotale = aggredibili.reduce((sum: number, p: any) => sum + getVolumeByMode(p, 'italia'), 0);
+      tamBase = volumeTotale * dbPrezzoMedio;
+    } else if (dbPriceMode === 'perProcedura' && prezziRegionalizzati) {
+      const prezziItalia = prezziRegionalizzati.italia || [];
+      aggredibili.forEach((proc: any) => {
+        const prezzoInfo = prezziItalia.find((p: any) => p.codice === proc.codice);
+        if (!prezzoInfo) {
+          tamBase += getVolumeByMode(proc, 'italia') * dbPrezzoMedio;
+          return;
+        }
+        
+        const volumes = calcVolumes(proc, 'italia');
+        if (dbVolumeMode === 'totale') {
+          tamBase += volumes.ssn * (prezzoInfo.prezzoPubblico || dbPrezzoMedio);
+          tamBase += volumes.extraSsn * (prezzoInfo.prezzoPrivato || dbPrezzoMedio);
+        } else if (dbVolumeMode === 'ssn') {
+          tamBase += volumes.ssn * (prezzoInfo.prezzoPubblico || dbPrezzoMedio);
+        } else {
+          tamBase += volumes.extraSsn * (prezzoInfo.prezzoPrivato || dbPrezzoMedio);
+        }
+      });
+    } else if (dbPriceMode === 'regionalizzato' && prezziRegionalizzati) {
+      // Calcolo preciso per Regionalizzato con multi-selezione regioni
+      Object.entries(dbSelectedRegions).forEach(([regione, isActive]) => {
+        if (!isActive) return;
+        
+        const regioneKey = regione as 'italia' | 'europa' | 'usa' | 'cina';
+        const prezziRegione = prezziRegionalizzati[regioneKey] || [];
+        
+        aggredibili.forEach((proc: any) => {
+          const prezzoInfo = prezziRegione.find((p: any) => p.codice === proc.codice);
+          if (!prezzoInfo) {
+            tamBase += getVolumeByMode(proc, regioneKey) * dbPrezzoMedio;
+            return;
+          }
+          
+          const volumes = calcVolumes(proc, regioneKey);
+          if (dbVolumeMode === 'totale') {
+            tamBase += volumes.ssn * (prezzoInfo.prezzoPubblico || dbPrezzoMedio);
+            tamBase += volumes.extraSsn * (prezzoInfo.prezzoPrivato || dbPrezzoMedio);
+          } else if (dbVolumeMode === 'ssn') {
+            tamBase += volumes.ssn * (prezzoInfo.prezzoPubblico || dbPrezzoMedio);
+          } else {
+            tamBase += volumes.extraSsn * (prezzoInfo.prezzoPrivato || dbPrezzoMedio);
+          }
+        });
+      });
+    }
+    
+    console.log('📊 [Procedures] TAM Base calcolato con valori DB:', tamBase);
+    
+    if (tamBase === 0) {
+      console.log('⚠️ [Procedures] TAM = 0, skip salvataggio');
+      return;
+    }
+    
+    // Calcola proiezioni usando i valori dal DB
+    const baseYear = 2025;
+    const growthRate = 0.03;
+    const projections = [];
+    
+    for (let i = 0; i < 11; i++) {
+      const year = baseYear + i;
+      const tamYear = tamBase * Math.pow(1 + growthRate, i);
+      const samYear = tamYear * (dbSamPercentage / 100);
+      
+      // 🎯 USA dbSomPercentages invece di somPercentages (state)
+      let somPercentage = dbSomPercentages.y1;
+      if (i <= 3) {
+        somPercentage = dbSomPercentages.y1 + ((dbSomPercentages.y3 - dbSomPercentages.y1) / 3) * i;
+      } else if (i <= 5) {
+        somPercentage = dbSomPercentages.y3 + ((dbSomPercentages.y5 - dbSomPercentages.y3) / 2) * (i - 3);
+      } else {
+        somPercentage = dbSomPercentages.y5 + (dbSomPercentages.y5 - dbSomPercentages.y3) * 0.3 * (i - 5);
+      }
+      
+      const somYear = samYear * (somPercentage / 100);
+      
+      projections.push({
+        year,
+        tam: Math.round(tamYear),
+        sam: Math.round(samYear),
+        som: Math.round(somYear),
+        somPercentage: Math.round(somPercentage * 100) / 100
+      });
+    }
+    
+    // Valori correnti (anno 2025)
+    const currentYearData = projections[0];
+    
+    console.log('📊 [Procedures] Valori calcolati FINALI:', {
+      tam: currentYearData.tam,
+      sam: currentYearData.sam,
+      som1: projections[0].som,
+      som3: projections[2]?.som || 0,
+      som5: projections[4]?.som || 0
+    });
+    
+    // Verifica se valori calcolati esistono già nel DB
+    const existingValues = configTamSamSom.valoriCalcolati;
+    console.log('💾 [Procedures] Valori esistenti nel DB:', existingValues);
+    
+    // Salva se i valori sono diversi o se som1 è zero
+    const needsUpdate = !existingValues || 
+                        existingValues.tam !== currentYearData.tam || 
+                        existingValues.sam !== currentYearData.sam || 
+                        existingValues.som1 !== projections[0].som ||
+                        existingValues.som1 === 0; // Forza update se som1 è zero
+    
+    if (needsUpdate) {
+      console.log('💾 [Procedures] Salvo valori calcolati nel DB...');
+      
+      updateConfigurazioneTamSamSomEcografie({
+        priceMode,
+        prezzoMedioProcedura,
+        regioniSelezionate: JSON.parse(selectedRegionsJson),
+        volumeMode,
+        samPercentage,
+        somPercentages,
+        valoriCalcolati: {
+          tam: currentYearData.tam,
+          sam: currentYearData.sam,
+          som1: projections[0].som,
+          som3: projections[2]?.som || 0,
+          som5: projections[4]?.som || 0
+        },
+        proiezioni: projections
+      } as any);
+      
+      console.log('🚀 [Procedures] Valori calcolati inizializzati al mount');
+    } else {
+      console.log('✅ [Procedures] Valori calcolati già aggiornati nel DB:', existingValues);
+    }
+    
+    // Esegui quando isInitialized E mercatoEcografie sono disponibili
+    // NOTA: usa configTamSamSom invece degli state per avere i valori dal DB
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isInitialized, mercatoEcografie, configTamSamSom, prezziRegionalizzati, regioniMondiali]);
+
+  // 🚀 CALCOLO INIZIALE DEVICES: Calcola e salva valori al primo mount (SENZA debounce)
+  useEffect(() => {
+    // Esegui SOLO dopo inizializzazione
+    if (!isInitialized) {
+      console.log('⏳ [Devices] Aspetto inizializzazione per calcolare valori...');
       return;
     }
     if (!configTamSamSomDevices) {
-      console.log('⚠️ configTamSamSomDevices non disponibile');
+      console.log('⚠️ [Devices] configTamSamSomDevices non disponibile');
       return;
     }
     
@@ -185,7 +470,27 @@ export function TamSamSomDashboard() {
       return;
     }
     
-    console.log('🔄 Calcolo valori TAM/SAM/SOM Devices al mount...');
+    // Verifica se valori calcolati esistono già nel DB
+    const existingValues = configTamSamSomDevices.valoriCalcolati;
+    const existingUnits = configTamSamSomDevices.dispositiviUnita;
+    
+    console.log('💾 Valori esistenti nel DB:', existingValues, existingUnits);
+    
+    // 🎯 SE i valori esistono già nel DB E sono validi → SKIP calcolo
+    const hasValidValues = existingValues && 
+                          existingValues.tam > 0 && 
+                          existingValues.sam > 0 && 
+                          existingValues.som1 > 0 &&
+                          existingUnits &&
+                          existingUnits.tam > 0;
+    
+    if (hasValidValues) {
+      console.log('✅ [Devices] Valori già validi nel DB - SKIP ricalcolo');
+      return;
+    }
+    
+    // 🔄 Solo se non ci sono valori validi → Calcola
+    console.log('🔄 [Devices] Calcolo valori al mount (non trovati nel DB)...');
     console.log('📦 Dati disponibili:', {
       mercatoEcografi: !!mercatoEcografi,
       numeroEcografi: mercatoEcografi?.numeroEcografi?.length || 0,
@@ -194,25 +499,14 @@ export function TamSamSomDashboard() {
       somPercentagesDevices
     });
     
-    // Calcola valori aggiornati DEVICES usando calculateDevicesMetrics() 
-    // che calcola il VALORE DI MERCATO in € (non solo unità)
+    // Calcola valori aggiornati DEVICES
     const metrics = calculateDevicesMetrics();
     const { tam, sam, som1, som3, som5 } = metrics;
     
-    console.log('📊 Valori Devices calcolati FINALI (valore mercato in €):', { tam, sam, som1, som3, som5 });
+    console.log('📊 Valori Devices calcolati:', { tam, sam, som1, som3, som5 });
     
-    // Verifica se valori calcolati esistono già nel DB
-    const existingValues = configTamSamSomDevices.valoriCalcolati;
-    console.log('💾 Valori esistenti nel DB:', existingValues);
-    
-    // Salva se i valori sono diversi o se som1 è zero
-    const needsUpdate = !existingValues || 
-                        existingValues.tam !== tam || 
-                        existingValues.sam !== sam || 
-                        existingValues.som1 !== som1 ||
-                        existingValues.som1 === 0; // Forza update se som1 è zero
-    
-    if (needsUpdate) {
+    // Salva i valori calcolati
+    if (true) {
       // Salva SENZA debounce (immediato)
       console.log('💾 Salvo valori calcolati nel DB...');
       
@@ -586,23 +880,115 @@ export function TamSamSomDashboard() {
     somPercentagesDevices
   ]);
   
-  // Valori Procedures (memoizzati per evitare ricalcoli)
-  const proceduresMetrics = useMemo(() => {
-    const tamProcedures = calculateTAMValue();
-    const samProcedures = tamProcedures * (samPercentage / 100);
-    return {
-      tam: tamProcedures,
-      sam: samProcedures,
-      som1: samProcedures * (somPercentages.y1 / 100),
-      som3: samProcedures * (somPercentages.y3 / 100),
-      som5: samProcedures * (somPercentages.y5 / 100)
-    };
+  // 🆕 Calcola proiezioni Procedures per 11 anni (2025-2035)
+  const calculateProceduresProjections = useCallback(() => {
+    const baseYear = 2025;
+    const growthRate = 0.03; // Crescita annua mercato 3% (assumiamo)
+    const projections = [];
+    
+    // Calcolo TAM base (anno 2025)
+    const tamBase = calculateTAMValue();
+    
+    for (let i = 0; i < 11; i++) {
+      const year = baseYear + i;
+      // TAM cresce del growthRate ogni anno
+      const tamYear = tamBase * Math.pow(1 + growthRate, i);
+      const samYear = tamYear * (samPercentage / 100);
+      
+      // SOM cresce progressivamente nel tempo (interpolazione Y1 → Y3 → Y5)
+      let somPercentage = somPercentages.y1;
+      if (i <= 3) {
+        // Anni 0-3: interpola tra Y1 e Y3
+        somPercentage = somPercentages.y1 + ((somPercentages.y3 - somPercentages.y1) / 3) * i;
+      } else if (i <= 5) {
+        // Anni 4-5: interpola tra Y3 e Y5
+        somPercentage = somPercentages.y3 + ((somPercentages.y5 - somPercentages.y3) / 2) * (i - 3);
+      } else {
+        // Anni 6-9: continua crescita oltre Y5 (assume crescita lineare)
+        somPercentage = somPercentages.y5 + (somPercentages.y5 - somPercentages.y3) * 0.3 * (i - 5);
+      }
+      
+      const somYear = samYear * (somPercentage / 100);
+      
+      projections.push({
+        year,
+        tam: Math.round(tamYear),
+        sam: Math.round(samYear),
+        som: Math.round(somYear),
+        somPercentage: Math.round(somPercentage * 100) / 100
+      });
+    }
+    
+    return projections;
   }, [calculateTAMValue, samPercentage, somPercentages]);
   
+  // Valori Procedures (memoizzati per evitare ricalcoli)
+  // 🎯 USA SEMPRE valoriCalcolati DAL DB - MAI calcolare durante render
+  const proceduresMetrics = useMemo(() => {
+    // 1. USA valoriCalcolati dal DB (fonte unica di verità)
+    const savedValues = (configTamSamSom as any)?.valoriCalcolati;
+    
+    if (savedValues && savedValues.tam !== undefined) {
+      // Usa i valori già calcolati e salvati nel DB
+      return {
+        tam: savedValues.tam || 0,
+        sam: savedValues.sam || 0,
+        som1: savedValues.som1 || 0,
+        som3: savedValues.som3 || 0,
+        som5: savedValues.som5 || 0
+      };
+    }
+    
+    // 2. Se valoriCalcolati non esiste, prova con proiezioni
+    const savedProjections = (configTamSamSom as any)?.proiezioni;
+    if (savedProjections && savedProjections.length > 0) {
+      return {
+        tam: savedProjections[0]?.tam || 0,
+        sam: savedProjections[0]?.sam || 0,
+        som1: savedProjections[0]?.som || 0,
+        som3: savedProjections[2]?.som || 0,
+        som5: savedProjections[4]?.som || 0
+      };
+    }
+    
+    // 3. ULTIMO RESORT: Ritorna zero invece di calcolare (evita state non sincronizzati)
+    console.warn('⚠️ [Procedures] Nessun dato salvato nel DB - mostrando 0');
+    return {
+      tam: 0,
+      sam: 0,
+      som1: 0,
+      som3: 0,
+      som5: 0
+    };
+  }, [configTamSamSom]);
+  
   // Valori Devices (ANCHE QUESTI memoizzati!)
+  // 🎯 USA SEMPRE valoriCalcolati DAL DB - MAI calcolare durante render
   const devicesMetrics = useMemo(() => {
-    return calculateDevicesMetrics();
-  }, [calculateDevicesMetrics]);
+    // 1. USA valoriCalcolati dal DB (fonte unica di verità)
+    const savedValues = (configTamSamSomDevices as any)?.valoriCalcolati;
+    
+    if (savedValues && savedValues.tam !== undefined) {
+      // Usa i valori già calcolati e salvati nel DB
+      return {
+        tam: savedValues.tam || 0,
+        sam: savedValues.sam || 0,
+        som1: savedValues.som1 || 0,
+        som3: savedValues.som3 || 0,
+        som5: savedValues.som5 || 0
+      };
+    }
+    
+    // 2. ULTIMO RESORT: Ritorna zero invece di calcolare (evita state non sincronizzati)
+    console.warn('⚠️ [Devices] Nessun dato salvato nel DB - mostrando 0');
+    return {
+      tam: 0,
+      sam: 0,
+      som1: 0,
+      som3: 0,
+      som5: 0
+    };
+  }, [configTamSamSomDevices]);
   
   // Valori da mostrare nelle card (memoizzati per evitare refresh)
   const currentMetrics = useMemo(() => {
@@ -706,6 +1092,66 @@ export function TamSamSomDashboard() {
             Vista Dispositivi (Devices)
           </Button>
         </div>
+        
+        {/* 🆕 Selettore Anno per Procedures */}
+        {activeView === 'procedures' && (
+          <div className="mt-4 p-4 bg-blue-50 rounded-lg border-2 border-blue-200">
+            <div className="flex items-center justify-between mb-2">
+              <label className="text-sm font-semibold text-blue-900">
+                📅 Anno di Riferimento (Proiezione):
+              </label>
+              <Badge variant="outline" className="text-blue-700 border-blue-400">
+                {selectedYearProcedures}
+              </Badge>
+            </div>
+            <div className="flex gap-2 flex-wrap">
+              {[2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035].map((year) => (
+                <Button
+                  key={year}
+                  variant={selectedYearProcedures === year ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setSelectedYearProcedures(year)}
+                  className={selectedYearProcedures === year ? 'bg-blue-600 text-white' : 'border-blue-300 hover:bg-blue-100'}
+                >
+                  {year}
+                </Button>
+              ))}
+            </div>
+            <p className="text-xs text-blue-700 mt-2">
+              ℹ️ Seleziona l&apos;anno per visualizzare le proiezioni TAM/SAM/SOM basate su crescita 3% annua del mercato
+            </p>
+          </div>
+        )}
+        
+        {/* 🆕 Selettore Anno per Devices (duplicato dal selettore nella tabella) */}
+        {activeView === 'devices' && (
+          <div className="mt-4 p-4 bg-emerald-50 rounded-lg border-2 border-emerald-200">
+            <div className="flex items-center justify-between mb-2">
+              <label className="text-sm font-semibold text-emerald-900">
+                📅 Anno di Riferimento (Proiezione Dispositivi):
+              </label>
+              <Badge variant="outline" className="text-emerald-700 border-emerald-400">
+                {selectedYear}
+              </Badge>
+            </div>
+            <div className="flex gap-2 flex-wrap">
+              {[2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035].map((year) => (
+                <Button
+                  key={year}
+                  variant={selectedYear === year ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setSelectedYear(year)}
+                  className={selectedYear === year ? 'bg-emerald-600 text-white' : 'border-emerald-300 hover:bg-emerald-100'}
+                >
+                  {year}
+                </Button>
+              ))}
+            </div>
+            <p className="text-xs text-emerald-700 mt-2">
+              ℹ️ Stesso anno usato nella tabella &quot;Mercato Dispositivi Ecografi&quot; qui sotto
+            </p>
+          </div>
+        )}
       </Card>
 
       {/* Metriche Principali con Tooltip */}

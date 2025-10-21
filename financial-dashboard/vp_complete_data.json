@@ -1,0 +1,110 @@
+{
+  "segments_data": [
+    {
+      "id": "segment_clinici",
+      "name": "Medici e Radiologi",
+      "priority": "high",
+      "icon": "👨‍⚕️",
+      "visible": true,
+      "order": 0,
+      "jobs": [
+        {"id": "job_1", "description": "Ottenere immagini diagnostiche 3D rapide e precise per migliorare accuratezza diagnosi", "category": "functional", "importance": 5, "difficulty": 4, "notes": "Driver critico adozione", "visible": true, "order": 0},
+        {"id": "job_2", "description": "Ridurre tempi esame mantenendo alta qualità immagini", "category": "functional", "importance": 4, "difficulty": 3, "notes": "Aumenta throughput pazienti", "visible": true, "order": 1},
+        {"id": "job_3", "description": "Utilizzare strumentazione portatile in diverse location", "category": "functional", "importance": 4, "difficulty": 2, "notes": "Flessibilità operativa", "visible": true, "order": 2}
+      ],
+      "pains": [
+        {"id": "pain_1", "description": "Ecografi tradizionali limitati a immagini 2D", "severity": 5, "frequency": 5, "category": "functional", "notes": "Pain principale", "visible": true, "order": 0},
+        {"id": "pain_2", "description": "Strumentazione ingombrante e poco trasportabile", "severity": 4, "frequency": 4, "category": "functional", "notes": "Limita flessibilità", "visible": true, "order": 1},
+        {"id": "pain_3", "description": "Costi elevati acquisto e manutenzione", "severity": 4, "frequency": 5, "category": "cost", "notes": "Barriera economica", "visible": true, "order": 2}
+      ],
+      "gains": [
+        {"id": "gain_1", "description": "Visualizzazione 3D migliora accuratezza diagnostica", "desirability": 5, "impact": 5, "category": "performance", "notes": "Gain critico", "visible": true, "order": 0},
+        {"id": "gain_2", "description": "Portabilità consente uso in ambulatorio, PS, domicilio", "desirability": 4, "impact": 4, "category": "experience", "notes": "Flessibilità strategica", "visible": true, "order": 1},
+        {"id": "gain_3", "description": "Riduzione tempi esame aumenta throughput e revenue", "desirability": 4, "impact": 4, "category": "time", "notes": "Impatto economico", "visible": true, "order": 2}
+      ]
+    },
+    {
+      "id": "segment_strutture",
+      "name": "Strutture Sanitarie",
+      "priority": "high",
+      "icon": "🏥",
+      "visible": true,
+      "order": 1,
+      "jobs": [
+        {"id": "job_s1", "description": "Offrire servizi diagnostici avanzati per attrarre pazienti", "category": "functional", "importance": 5, "difficulty": 3, "notes": "Differenziazione competitiva", "visible": true, "order": 0},
+        {"id": "job_s2", "description": "Ottimizzare spazi e aumentare efficienza operativa", "category": "functional", "importance": 4, "difficulty": 3, "notes": "Impatto su margini", "visible": true, "order": 1}
+      ],
+      "pains": [
+        {"id": "pain_s1", "description": "Investimenti elevati con ROI lungo", "severity": 5, "frequency": 5, "category": "cost", "notes": "Barriera principale", "visible": true, "order": 0},
+        {"id": "pain_s2", "description": "Manutenzione costosa e downtime riducono disponibilità", "severity": 4, "frequency": 4, "category": "cost", "notes": "TCO elevato", "visible": true, "order": 1}
+      ],
+      "gains": [
+        {"id": "gain_s1", "description": "Modello SaaS migliora cash flow", "desirability": 5, "impact": 5, "category": "cost", "notes": "Value driver principale", "visible": true, "order": 0},
+        {"id": "gain_s2", "description": "Aumento throughput genera più revenue", "desirability": 5, "impact": 5, "category": "performance", "notes": "ROI migliorato", "visible": true, "order": 1}
+      ]
+    }
+  ],
+  "products_data": [
+    {
+      "id": "product_eco3d",
+      "name": "Eco 3D - Ecografo Portatile 3D",
+      "type": "hardware",
+      "description": "Dispositivo ecografico portatile con imaging 3D real-time e AI",
+      "icon": "🔬",
+      "visible": true,
+      "order": 0,
+      "features": [
+        {"id": "feature_1", "name": "Imaging 3D Real-Time", "description": "Acquisizione volumetrica in tempo reale", "category": "core", "technicalSpec": "Risoluzione 3D 0.5mm, 15fps", "visible": true, "order": 0},
+        {"id": "feature_2", "name": "Portabilità", "description": "Peso <2kg, batteria 4h", "category": "differentiating", "technicalSpec": "Dimensioni 20x15x8cm, 1.8kg", "visible": true, "order": 1},
+        {"id": "feature_3", "name": "AI Assistita", "description": "Algoritmi AI per segmentazione automatica", "category": "differentiating", "technicalSpec": "Accuratezza >95%", "visible": true, "order": 2},
+        {"id": "feature_4", "name": "Connettività Cloud", "description": "Upload automatico, telemedicina, PACS", "category": "enabling", "technicalSpec": "WiFi, 4G/5G, API DICOM", "visible": true, "order": 3},
+        {"id": "feature_5", "name": "UI Intuitiva", "description": "Touchscreen con workflow guidato", "category": "enabling", "technicalSpec": "Display 10'' touch", "visible": true, "order": 4},
+        {"id": "feature_6", "name": "Certificazione CE MDR", "description": "Dispositivo medico certificato", "category": "core", "technicalSpec": "CE MDR Classe IIa", "visible": true, "order": 5}
+      ]
+    }
+  ],
+  "painRelievers_data": [
+    {"id": "reliever_1", "linkedPainId": "pain_1", "linkedFeatureIds": ["feature_1", "feature_3"], "description": "Imaging 3D elimina limiti 2D, AI assiste interpretazione", "effectiveness": 5, "proof": "+35% accuratezza vs 2D standard", "visible": true, "order": 0},
+    {"id": "reliever_2", "linkedPainId": "pain_2", "linkedFeatureIds": ["feature_2"], "description": "Design portatile <2kg consente uso ovunque", "effectiveness": 5, "proof": "Testato in ambulatori, PS, domicilio", "visible": true, "order": 1},
+    {"id": "reliever_3", "linkedPainId": "pain_3", "linkedFeatureIds": ["feature_2"], "description": "SaaS abbatte costi da €50K a €500/mese", "effectiveness": 5, "proof": "Payback <18 mesi vs 4-5 anni", "visible": true, "order": 2}
+  ],
+  "gainCreators_data": [
+    {"id": "creator_1", "linkedGainId": "gain_1", "linkedFeatureIds": ["feature_1", "feature_3"], "description": "3D + AI portano accuratezza a livello ospedaliero", "magnitude": 5, "proof": "Sensitivity/specificity >95% vs 85%", "visible": true, "order": 0},
+    {"id": "creator_2", "linkedGainId": "gain_2", "linkedFeatureIds": ["feature_2", "feature_4"], "description": "Portabilità e cloud abilitano telemedicina", "magnitude": 5, "proof": "Uso in 15+ scenari diversi", "visible": true, "order": 1},
+    {"id": "creator_3", "linkedGainId": "gain_3", "linkedFeatureIds": ["feature_1", "feature_3", "feature_5"], "description": "Riduzione tempo esame consente +60% pazienti/giorno", "magnitude": 4, "proof": "Da 8-10 a 13-16 pazienti/giorno", "visible": true, "order": 2}
+  ],
+  "competitors_data": [
+    {"id": "comp_eco3d", "name": "Eco 3D", "type": "Nostra Soluzione", "isOwn": true, "visible": true, "notes": "Focus su portabilità, 3D e AI", "attributes": {"portability": 5, "imaging3d": 5, "aiFeatures": 5, "priceValue": 5, "easeOfUse": 4, "connectivity": 5}},
+    {"id": "comp_ge", "name": "GE Vscan", "type": "Incumbent", "isOwn": false, "visible": true, "notes": "Portatile ma solo 2D, senza AI", "attributes": {"portability": 4, "imaging3d": 1, "aiFeatures": 1, "priceValue": 2, "easeOfUse": 3, "connectivity": 2}},
+    {"id": "comp_butterfly", "name": "Butterfly iQ", "type": "Startup", "isOwn": false, "visible": true, "notes": "Portatile con AI ma senza 3D real-time", "attributes": {"portability": 5, "imaging3d": 2, "aiFeatures": 4, "priceValue": 4, "easeOfUse": 5, "connectivity": 4}},
+    {"id": "comp_traditional", "name": "Ecografi Tradizionali", "type": "Incumbent High-End", "isOwn": false, "visible": true, "notes": "3D ottimo ma ingombranti e costosi", "attributes": {"portability": 1, "imaging3d": 4, "aiFeatures": 2, "priceValue": 1, "easeOfUse": 2, "connectivity": 2}}
+  ],
+  "attributeDefinitions_data": {
+    "portability": {"label": "Portabilità", "description": "Facilità trasporto e uso in diverse location"},
+    "imaging3d": {"label": "Imaging 3D", "description": "Qualità e velocità acquisizione volumetrica"},
+    "aiFeatures": {"label": "AI Assistita", "description": "Algoritmi intelligenti per segmentazione"},
+    "priceValue": {"label": "Rapporto Qualità/Prezzo", "description": "Valore economico vs funzionalità"},
+    "easeOfUse": {"label": "Facilità d'Uso", "description": "Interfaccia intuitiva e curva apprendimento"},
+    "connectivity": {"label": "Connettività Cloud", "description": "Integrazione cloud, telemedicina, PACS"}
+  },
+  "elevatorPitch_data": {
+    "content": "Eco 3D è il primo ecografo portatile con imaging volumetrico 3D real-time e intelligenza artificiale assistita. Portiamo la qualità diagnostica degli ecografi ospedalieri da €50.000+ in un dispositivo portatile da meno di 2kg a €500/mese. I medici ottengono immagini 3D in 15 minuti invece di 25, con accuratezza diagnostica superiore del 35% rispetto agli ecografi 2D standard. Eliminiamo la necessità di referral a centri specializzati, accelerando la diagnosi di 5 giorni e aumentando la patient retention del 40%. Perfetto per ambulatori, pronto soccorso e visite domiciliari.",
+    "wordCount": 98
+  },
+  "narrativeFlow_data": {
+    "hook": "Il 70% delle diagnosi mediche si basa su imaging, ma solo il 15% delle strutture sanitarie ha accesso a ecografi 3D.",
+    "problem": "Gli ecografi tradizionali costano €50.000+, sono ingombranti, producono solo immagini 2D limitate e richiedono settimane di training. Risultato: diagnosi meno accurate, referral costosi, perdita di revenue.",
+    "solution": "Eco 3D è il primo ecografo portatile (<2kg) con imaging 3D real-time e AI assistita, a €500/mese invece di €50.000 upfront.",
+    "how": "Tecnologia proprietaria: sensori multi-element, algoritmi di ricostruzione volumetrica real-time, deep learning per segmentazione. Cloud platform PACS integrato. Certificato CE MDR Classe IIa.",
+    "proof": "25 strutture pilota. +35% accuratezza vs 2D. Tempo esame -40%. Patient retention +40%, revenue +€120/paziente. Payback <18 mesi. NPS 72.",
+    "vision": "Democratizzare imaging 3D medico. Da 15% a 80% strutture con accesso a imaging 3D nei prossimi 5 anni."
+  },
+  "positioningStatement_data": {
+    "category": "Dispositivi di imaging diagnostico portatili",
+    "targetCustomer": "Medici, radiologi e strutture sanitarie che necessitano di imaging 3D accessibile",
+    "customerNeed": "Ottenere immagini diagnostiche 3D accurate in modo rapido, portatile ed economicamente sostenibile",
+    "keyBenefit": "Imaging 3D real-time di livello ospedaliero in dispositivo portatile <2kg a €500/mese, con AI assistita",
+    "primaryCompetitor": "Ecografi tradizionali (GE, Philips, Siemens) ed ecografi portatili base (Butterfly iQ, Vscan)",
+    "uniqueDifferentiator": "Unica soluzione che combina imaging volumetrico 3D real-time + AI + portabilità estrema + modello SaaS accessibile"
+  }
+}

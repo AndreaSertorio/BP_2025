@@ -1,0 +1,259 @@
+{
+  "metadata": {
+    "lastUpdate": "2025-10-20T20:00:00.000Z",
+    "version": "2.0.0",
+    "totalCompetitors": 10,
+    "note": "Top 10 competitor critici per Eco 3D"
+  },
+  "competitors": [
+    {
+      "id": "comp_eco3d",
+      "name": "Eco 3D",
+      "shortName": "Eco 3D",
+      "tier": "tier1",
+      "type": "direct",
+      "threatLevel": "low",
+      "monitoringPriority": 10,
+      "companyInfo": {
+        "founded": 2025,
+        "logo": "\ud83d\ude80"
+      },
+      "products": [
+        {
+          "name": "Eco 3D Multi-probe",
+          "priceMin": 40000,
+          "features": {
+            "imaging3D": true,
+            "multiProbe": true,
+            "automation": "full"
+          }
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 0,
+        "region": "Italia"
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "\u20ac40K vs \u20ac100K+ = -60%",
+          "Multi-sonda vs manual",
+          "3-5 vol/s real-time"
+        ],
+        "theirStrengths": [
+          "Brand reputation"
+        ],
+        "theirWeaknesses": [
+          "Legacy systems"
+        ],
+        "competitiveResponse": "Prima soluzione multi-sonda 3D real-time + AI + portabilit\u00e0"
+      },
+      "lastUpdated": "2025-10-20"
+    },
+    {
+      "id": "comp_001",
+      "name": "GE Healthcare Voluson",
+      "shortName": "GE",
+      "tier": "tier1",
+      "type": "direct",
+      "threatLevel": "high",
+      "monitoringPriority": 1,
+      "companyInfo": {
+        "employees": 52000,
+        "revenue": 19800000000,
+        "logo": "\ud83c\udfe5"
+      },
+      "products": [
+        {
+          "name": "Voluson 4D",
+          "priceMin": 100000,
+          "priceMax": 150000
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 25,
+        "customerBase": 10000
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "\u20ac40K vs \u20ac100K+ (-60%)",
+          "Multi-sonda vs manual",
+          "Portable vs cart"
+        ],
+        "theirStrengths": [
+          "Brand reputation",
+          "4D ostetrico best"
+        ],
+        "theirWeaknesses": [
+          "Prezzo proibitivo",
+          "No portabilit\u00e0"
+        ],
+        "competitiveResponse": "GE domina high-end obstetrics. Noi mid-market multi-district."
+      },
+      "lastUpdated": "2025-10-20"
+    },
+    {
+      "id": "comp_002",
+      "name": "Philips EPIQ",
+      "shortName": "Philips",
+      "tier": "tier1",
+      "type": "direct",
+      "threatLevel": "high",
+      "monitoringPriority": 2,
+      "companyInfo": {
+        "employees": 77000,
+        "logo": "\ud83d\udc99"
+      },
+      "products": [
+        {
+          "name": "EPIQ CVx",
+          "priceMin": 120000,
+          "priceMax": 180000
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 22
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "General-purpose vs cardio-only",
+          "\u20ac40K vs \u20ac120K+"
+        ],
+        "theirStrengths": [
+          "Gold standard 3D cardio"
+        ],
+        "theirWeaknesses": [
+          "Solo cardiologia",
+          "Costo alto"
+        ],
+        "competitiveResponse": "Philips domina cardio. Noi tutto il corpo con automazione."
+      },
+      "lastUpdated": "2025-10-20"
+    },
+    {
+      "id": "comp_003",
+      "name": "Siemens ABVS",
+      "shortName": "Siemens",
+      "tier": "tier1",
+      "type": "direct",
+      "threatLevel": "medium",
+      "monitoringPriority": 5,
+      "companyInfo": {
+        "logo": "\u2699\ufe0f"
+      },
+      "products": [
+        {
+          "name": "ABVS",
+          "priceMin": 80000,
+          "priceMax": 120000
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 18
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "Multi-district vs breast-only",
+          "\u20ac40K vs \u20ac80K+"
+        ],
+        "theirStrengths": [
+          "Automazione breast perfetta"
+        ],
+        "theirWeaknesses": [
+          "Solo seno"
+        ],
+        "competitiveResponse": "ABVS specialist. Noi hands-free per tutto il corpo."
+      },
+      "lastUpdated": "2025-10-20"
+    },
+    {
+      "id": "comp_022",
+      "name": "Butterfly iQ+",
+      "shortName": "Butterfly",
+      "tier": "tier2",
+      "type": "direct",
+      "threatLevel": "medium",
+      "monitoringPriority": 4,
+      "companyInfo": {
+        "funding": {
+          "totalRaised": 350000000
+        },
+        "logo": "\ud83e\udd8b"
+      },
+      "products": [
+        {
+          "name": "iQ+",
+          "priceMin": 2000,
+          "priceMax": 3000
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 5,
+        "customerBase": 15000,
+        "growthRate": 45
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "3D/4D vs 2D flat",
+          "Diagnostica avanzata vs screening"
+        ],
+        "theirStrengths": [
+          "Prezzo \u20ac2K",
+          "Facilit\u00e0 uso"
+        ],
+        "theirWeaknesses": [
+          "Solo 2D",
+          "Qualit\u00e0 limitata"
+        ],
+        "competitiveResponse": "Target diverso: Butterfly=primary care, Eco 3D=specialist."
+      },
+      "lastUpdated": "2025-10-20"
+    },
+    {
+      "id": "comp_024",
+      "name": "Exo Iris pMUT",
+      "shortName": "Exo",
+      "tier": "tier3",
+      "type": "emerging",
+      "threatLevel": "high",
+      "monitoringPriority": 2,
+      "companyInfo": {
+        "funding": {
+          "totalRaised": 125000000,
+          "investors": [
+            "Intel",
+            "Samsung",
+            "GE"
+          ]
+        },
+        "logo": "\ud83d\udd2c"
+      },
+      "products": [
+        {
+          "name": "Iris Prototype",
+          "priceMin": 5000,
+          "priceMax": 8000
+        }
+      ],
+      "marketPosition": {
+        "marketShare": 0
+      },
+      "battlecard": {
+        "whyWeWin": [
+          "Commerciale NOW vs Exo TBD",
+          "First-mover advantage"
+        ],
+        "theirStrengths": [
+          "Tecnologia pMUT avanguardia",
+          "Funding M"
+        ],
+        "theirWeaknesses": [
+          "Pre-commercial",
+          "No validazione clinica"
+        ],
+        "competitiveResponse": "Exo promette futuro. Eco 3D deliver oggi."
+      },
+      "lastUpdated": "2025-10-20",
+      "notes": "THREAT ALTA se lanciano. Monitor FDA."
+    }
+  ]
+}

@@ -29,8 +29,7 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  ResponsiveContainer,
-  Cell
+  ResponsiveContainer
 } from 'recharts';
 
 interface BusinessPlanMercatoSectionProps {
@@ -55,6 +54,7 @@ export function BusinessPlanMercatoSection({
     showGeographicTable: true,
     showNewFunnelChart: true,
     showNewGrowthChart: true,
+    showTamGrowthChart: true,
   });
   
   const configProcedures = data?.configurazioneTamSamSom?.ecografie;
@@ -116,6 +116,42 @@ export function BusinessPlanMercatoSection({
     { name: 'SAM', procedures: proceduresData.sam, devices: devicesData.sam },
     { name: 'SOM Y1', procedures: proceduresData.som1, devices: devicesData.som1 },
   ], [proceduresData, devicesData]);
+  
+  // Dati per grafico crescita TAM (10 anni)
+  const tamGrowthData = useMemo(() => {
+    // Usa proiezioni dal DB se disponibili
+    const proceduresProjections = (configProcedures as any)?.proiezioni || [];
+    const devicesProjections = (configDevices as any)?.proiezioni || [];
+    
+    // Se ci sono proiezioni, usale
+    if (proceduresProjections.length > 0) {
+      return proceduresProjections.map((p: any, idx: number) => {
+        const deviceProj = devicesProjections[idx] || { tam: 0 };
+        return {
+          year: p.year,
+          procedures: p.tam || 0,
+          devices: deviceProj.tam || 0,
+          total: (p.tam || 0) + (deviceProj.tam || 0)
+        };
+      });
+    }
+    
+    // Fallback: Calcola crescita stimata (3% annuo)
+    const growthRate = 1.03; // 3% CAGR
+    
+    return Array.from({ length: 10 }, (_, i) => {
+      const year = 2025 + i;
+      const proceduresTam = proceduresData.tam * Math.pow(growthRate, i);
+      const devicesTam = devicesData.tam * Math.pow(growthRate, i);
+      
+      return {
+        year,
+        procedures: Math.round(proceduresTam),
+        devices: Math.round(devicesTam),
+        total: Math.round(proceduresTam + devicesTam)
+      };
+    });
+  }, [configProcedures, configDevices, proceduresData, devicesData]);
   
   // Breakdown geografico TAM/SAM/SOM (stime indicative basate su dati reali)
   const geographicBreakdown = useMemo(() => {
@@ -388,6 +424,19 @@ export function BusinessPlanMercatoSection({
                 </span>
               </label>
               
+              <label className="flex items-center gap-2 cursor-pointer hover:bg-white/50 p-2 rounded">
+                <input
+                  type="checkbox"
+                  checked={visualOptions.showTamGrowthChart}
+                  onChange={(e) => setVisualOptions({...visualOptions, showTamGrowthChart: e.target.checked})}
+                  className="w-4 h-4"
+                />
+                <span className="flex items-center gap-1">
+                  {visualOptions.showTamGrowthChart ? <Eye className="h-3 w-3 text-green-600" /> : <EyeOff className="h-3 w-3 text-gray-400" />}
+                  Grafico Crescita TAM (10 anni)
+                </span>
+              </label>
+              
               {/* Tabelle */}
               <div className="col-span-2 border-b pb-2 mb-2 mt-2">
                 <div className="font-semibold text-gray-700 mb-2">📋 Tabelle</div>
@@ -588,24 +637,85 @@ export function BusinessPlanMercatoSection({
           </p>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Grafico Funnel a Barre Orizzontali */}
-            <div>
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={funnelData} layout="vertical" margin={{ left: 60, right: 20 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                  <XAxis type="number" tickFormatter={(value) => formatCurrency(value)} tick={{ fontSize: 11 }} />
-                  <YAxis dataKey="stage" type="category" tick={{ fontSize: 12, fontWeight: 600 }} />
-                  <Tooltip 
-                    formatter={(value: number) => formatCurrency(value)}
-                    contentStyle={{ backgroundColor: 'white', border: '1px solid #e5e7eb', borderRadius: '8px' }}
-                  />
-                  <Bar dataKey="value" radius={[0, 8, 8, 0]}>
-                    {funnelData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} />
-                    ))}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
+            {/* Tabella Segmentazione: Procedures vs Devices */}
+            <div className="bg-white p-5 rounded-lg border border-gray-200">
+              <h4 className="text-base font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <BarChart3 className="h-4 w-4 text-blue-600" />
+                Segmentazione: Procedures vs Devices
+              </h4>
+              
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b-2 border-gray-200">
+                      <th className="text-left py-2 px-2 text-gray-700 font-semibold text-xs">Metrica</th>
+                      <th className="text-right py-2 px-2 text-blue-700 font-semibold text-xs">Procedures</th>
+                      <th className="text-right py-2 px-2 text-green-700 font-semibold text-xs">Devices</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="border-b border-gray-100 hover:bg-gray-50">
+                      <td className="py-1.5 px-2 font-medium text-xs">TAM</td>
+                      <td className="py-1.5 px-2 text-right font-semibold text-blue-600 text-xs">
+                        {formatCurrency(proceduresData.tam)}
+                      </td>
+                      <td className="py-1.5 px-2 text-right font-semibold text-green-600 text-xs">
+                        {formatCurrency(devicesData.tam)}
+                      </td>
+                    </tr>
+                    <tr className="border-b border-gray-100 hover:bg-gray-50">
+                      <td className="py-1.5 px-2 font-medium text-xs">SAM</td>
+                      <td className="py-1.5 px-2 text-right font-semibold text-blue-600 text-xs">
+                        {formatCurrency(proceduresData.sam)}
+                      </td>
+                      <td className="py-1.5 px-2 text-right font-semibold text-green-600 text-xs">
+                        {formatCurrency(devicesData.sam)}
+                      </td>
+                    </tr>
+                    <tr className="border-b border-gray-100 hover:bg-gray-50">
+                      <td className="py-1.5 px-2 font-medium text-xs">SOM Y1</td>
+                      <td className="py-1.5 px-2 text-right font-semibold text-blue-600 text-xs">
+                        {formatCurrency(proceduresData.som1)}
+                      </td>
+                      <td className="py-1.5 px-2 text-right font-semibold text-green-600 text-xs">
+                        {formatCurrency(devicesData.som1)}
+                      </td>
+                    </tr>
+                    <tr className="border-b border-gray-100 hover:bg-gray-50">
+                      <td className="py-1.5 px-2 font-medium text-xs">SOM Y3</td>
+                      <td className="py-1.5 px-2 text-right font-semibold text-blue-600 text-xs">
+                        {formatCurrency(proceduresData.som3)}
+                      </td>
+                      <td className="py-1.5 px-2 text-right font-semibold text-green-600 text-xs">
+                        {formatCurrency(devicesData.som3)}
+                      </td>
+                    </tr>
+                    <tr className="border-b-2 border-gray-200 hover:bg-gray-50">
+                      <td className="py-1.5 px-2 font-medium text-xs">SOM Y5</td>
+                      <td className="py-1.5 px-2 text-right font-semibold text-blue-600 text-xs">
+                        {formatCurrency(proceduresData.som5)}
+                      </td>
+                      <td className="py-1.5 px-2 text-right font-semibold text-green-600 text-xs">
+                        {formatCurrency(devicesData.som5)}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              
+              {/* Note compatte */}
+              <div className="mt-3 space-y-1.5">
+                <div className="p-2 bg-blue-50 rounded border border-blue-200">
+                  <div className="text-[10px] text-blue-900">
+                    <span className="font-semibold">📊 Procedures:</span> <span className="text-blue-700">Esami ecografici SSN + Privato</span>
+                  </div>
+                </div>
+                <div className="p-2 bg-green-50 rounded border border-green-200">
+                  <div className="text-[10px] text-green-900">
+                    <span className="font-semibold">🏥 Devices:</span> <span className="text-green-700">Ecografi (Carrellati, Portatili, Palmari)</span>
+                  </div>
+                </div>
+              </div>
             </div>
             
             {/* Card riassuntive con percentuali */}
@@ -701,6 +811,132 @@ export function BusinessPlanMercatoSection({
               <div className="text-xl font-bold text-pink-600">{formatCurrency(totals.som5)}</div>
               <div className="text-xs text-green-600 font-semibold mt-1">
                 {totals.som1 > 0 ? `+${((totals.som5 / totals.som1 - 1) * 100).toFixed(0)}% vs Y1` : 'N/A'}
+              </div>
+            </div>
+          </div>
+        </Card>
+      )}
+      
+      {/* Grafico Crescita TAM nel tempo */}
+      {visualOptions.showTamGrowthChart && (
+        <Card className="p-6 bg-gradient-to-br from-teal-50 to-cyan-50 border-2 border-teal-300">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+              <TrendingUp className="h-5 w-5 text-teal-600" />
+              Crescita TAM: Procedures vs Devices (10 anni)
+            </h3>
+            <Badge variant="default" className="bg-teal-600 text-white text-xs">
+              ✨ Nuovo
+            </Badge>
+          </div>
+          <p className="text-sm text-gray-600 mb-6">
+            Proiezione del TAM (Total Addressable Market) combinato nel decennio, evidenziando il contributo di Procedures e Devices
+          </p>
+          
+          <ResponsiveContainer width="100%" height={400}>
+            <LineChart data={tamGrowthData}>
+              <defs>
+                <linearGradient id="gradientProcedures" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
+                  <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.1}/>
+                </linearGradient>
+                <linearGradient id="gradientDevices" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#10b981" stopOpacity={0.3}/>
+                  <stop offset="95%" stopColor="#10b981" stopOpacity={0.1}/>
+                </linearGradient>
+                <linearGradient id="gradientTotal" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#14b8a6" stopOpacity={0.4}/>
+                  <stop offset="95%" stopColor="#14b8a6" stopOpacity={0.1}/>
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <XAxis 
+                dataKey="year" 
+                tick={{ fontSize: 12 }} 
+                label={{ value: 'Anno', position: 'insideBottom', offset: -5, fontSize: 12 }}
+              />
+              <YAxis 
+                tickFormatter={(value) => formatCurrency(value)} 
+                tick={{ fontSize: 11 }}
+                label={{ value: 'TAM (€)', angle: -90, position: 'insideLeft', fontSize: 12 }}
+              />
+              <Tooltip 
+                formatter={(value: number) => formatCurrency(value)}
+                contentStyle={{ backgroundColor: 'white', border: '2px solid #14b8a6', borderRadius: '8px' }}
+                labelStyle={{ fontWeight: 'bold', color: '#14b8a6' }}
+              />
+              <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '20px' }} />
+              
+              {/* Linea Procedures */}
+              <Line 
+                type="monotone" 
+                dataKey="procedures" 
+                stroke="#3b82f6" 
+                strokeWidth={2}
+                dot={{ fill: '#3b82f6', r: 4 }}
+                activeDot={{ r: 6 }}
+                name="Procedures TAM"
+              />
+              
+              {/* Linea Devices */}
+              <Line 
+                type="monotone" 
+                dataKey="devices" 
+                stroke="#10b981" 
+                strokeWidth={2}
+                dot={{ fill: '#10b981', r: 4 }}
+                activeDot={{ r: 6 }}
+                name="Devices TAM"
+              />
+              
+              {/* Linea Totale */}
+              <Line 
+                type="monotone" 
+                dataKey="total" 
+                stroke="#14b8a6" 
+                strokeWidth={3}
+                strokeDasharray="5 5"
+                dot={{ fill: '#14b8a6', r: 5 }}
+                activeDot={{ r: 7 }}
+                name="TAM Totale"
+              />
+            </LineChart>
+          </ResponsiveContainer>
+          
+          {/* Card riassuntive crescita TAM */}
+          <div className="mt-6 grid grid-cols-3 gap-4">
+            <div className="p-4 bg-white rounded-lg border-2 border-blue-300">
+              <div className="text-xs text-gray-600 mb-1 font-semibold">TAM Anno 1 (2025)</div>
+              <div className="text-xl font-bold text-blue-600">{formatCurrency(tamGrowthData[0]?.total || 0)}</div>
+              <div className="text-[10px] text-gray-500 mt-1">
+                Procedures: {formatCurrency(tamGrowthData[0]?.procedures || 0)}
+              </div>
+              <div className="text-[10px] text-gray-500">
+                Devices: {formatCurrency(tamGrowthData[0]?.devices || 0)}
+              </div>
+            </div>
+            <div className="p-4 bg-white rounded-lg border-2 border-teal-300">
+              <div className="text-xs text-gray-600 mb-1 font-semibold">TAM Anno 5 (2029)</div>
+              <div className="text-xl font-bold text-teal-600">{formatCurrency(tamGrowthData[4]?.total || 0)}</div>
+              <div className="text-[10px] text-gray-500 mt-1">
+                Procedures: {formatCurrency(tamGrowthData[4]?.procedures || 0)}
+              </div>
+              <div className="text-[10px] text-gray-500">
+                Devices: {formatCurrency(tamGrowthData[4]?.devices || 0)}
+              </div>
+            </div>
+            <div className="p-4 bg-white rounded-lg border-2 border-cyan-300">
+              <div className="text-xs text-gray-600 mb-1 font-semibold">TAM Anno 10 (2034)</div>
+              <div className="text-xl font-bold text-cyan-600">{formatCurrency(tamGrowthData[9]?.total || 0)}</div>
+              <div className="text-xs text-green-600 font-semibold mt-1">
+                {tamGrowthData[0]?.total > 0 
+                  ? `+${((tamGrowthData[9]?.total / tamGrowthData[0]?.total - 1) * 100).toFixed(0)}% vs Y1` 
+                  : 'N/A'}
+              </div>
+              <div className="text-[10px] text-gray-500 mt-1">
+                CAGR: {tamGrowthData[0]?.total > 0 
+                  ? `${(Math.pow(tamGrowthData[9]?.total / tamGrowthData[0]?.total, 1/9) * 100 - 100).toFixed(1)}%`
+                  : 'N/A'}
               </div>
             </div>
           </div>

@@ -11,6 +11,7 @@ import { Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsT
 import { TrendingUp, DollarSign, Target, Percent, FileText, ChevronLeft, ChevronRight, HelpCircle } from 'lucide-react';
 import { Scenario } from '@/types/financial';
 import { FinancialCalculator } from '@/lib/calculations';
+import PLPreviewCard from './PLPreviewCard';
 
 interface PLData {
   year: number;
@@ -357,6 +358,102 @@ export function IncomeStatementDashboard({ scenario }: IncomeStatementDashboardP
             <p className="text-xs text-muted-foreground">Net Margin: {selectedYearData.netMarginPerc.toFixed(1)}%</p>
           </CardContent>
         </Card>
+      </div>
+
+      {/* ========================================
+          NUOVO: P&L PREVIEW CARDS CON COGS/OPEX
+          ======================================== */}
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-2xl font-bold">P&L Breakdown Visivo</h2>
+            <p className="text-sm text-muted-foreground">
+              Cascata Ricavi → COGS → Gross Margin → OPEX → EBITDA
+            </p>
+          </div>
+          <Badge variant="outline" className="text-xs">
+            🆕 COGS & OPEX Analysis
+          </Badge>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          {/* Anno 1 */}
+          <PLPreviewCard
+            data={{
+              hardwareRevenue: plData[0].ricaviHW * 1000000,
+              hardwareUnits: plData[0].unitaVendute,
+              saasRevenue: plData[0].ricaviSaaS * 1000000,
+              saasUsers: Math.round((plData[0].ricaviSaaS * 1000000) / 6000), // Stima: ARPA ~€6K
+              hardwareUnitCost: costoUnit,
+              opex: {
+                staff: plData[0].opexTot * 1000000 * 0.4,
+                rd: plData[0].opexTot * 1000000 * 0.25,
+                salesMarketing: plData[0].opexTot * 1000000 * 0.25,
+                ga: plData[0].opexTot * 1000000 * 0.1,
+                total: plData[0].opexTot * 1000000
+              },
+              year: 2025,
+              quarter: undefined
+            }}
+            title="P&L Anno 1 (2025)"
+            showBreakdown={true}
+            className="h-full"
+          />
+
+          {/* Anno 3 */}
+          <PLPreviewCard
+            data={{
+              hardwareRevenue: plData[2].ricaviHW * 1000000,
+              hardwareUnits: plData[2].unitaVendute,
+              saasRevenue: plData[2].ricaviSaaS * 1000000,
+              saasUsers: Math.round((plData[2].ricaviSaaS * 1000000) / 6000),
+              hardwareUnitCost: costoUnit,
+              opex: {
+                staff: plData[2].opexTot * 1000000 * 0.4,
+                rd: plData[2].opexTot * 1000000 * 0.25,
+                salesMarketing: plData[2].opexTot * 1000000 * 0.25,
+                ga: plData[2].opexTot * 1000000 * 0.1,
+                total: plData[2].opexTot * 1000000
+              },
+              year: 2027,
+              quarter: undefined
+            }}
+            title="P&L Anno 3 (2027)"
+            showBreakdown={true}
+            className="h-full"
+          />
+
+          {/* Anno 5 */}
+          <PLPreviewCard
+            data={{
+              hardwareRevenue: plData[4].ricaviHW * 1000000,
+              hardwareUnits: plData[4].unitaVendute,
+              saasRevenue: plData[4].ricaviSaaS * 1000000,
+              saasUsers: Math.round((plData[4].ricaviSaaS * 1000000) / 6000),
+              hardwareUnitCost: costoUnit,
+              opex: {
+                staff: plData[4].opexTot * 1000000 * 0.4,
+                rd: plData[4].opexTot * 1000000 * 0.25,
+                salesMarketing: plData[4].opexTot * 1000000 * 0.25,
+                ga: plData[4].opexTot * 1000000 * 0.1,
+                total: plData[4].opexTot * 1000000
+              },
+              year: 2029,
+              quarter: undefined
+            }}
+            title="P&L Anno 5 (2029)"
+            showBreakdown={true}
+            className="h-full"
+          />
+        </div>
+
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-sm">
+          <p className="text-blue-900">
+            <strong>💡 Nota:</strong> Le card mostrano il breakdown dettagliato di COGS (hardware + SaaS) 
+            e OPEX (staff, R&D, sales & marketing, G&A) con calcolo in tempo reale del Gross Margin e EBITDA. 
+            I valori OPEX sono stimati con distribuzione percentuale standard per MedTech startup.
+          </p>
+        </div>
       </div>
 
       <Tabs defaultValue="overview" className="w-full">

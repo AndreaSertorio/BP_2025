@@ -1,0 +1,984 @@
+Guida Operativa_ Costruire un Piano
+Finanziario per una Startup Medtech (Eco 3D)
+Guida Operativa: Costruire un Piano Finanziario per una
+Startup Medtech (Eco 3D)
+Introduzione
+Elaborare un piano finanziario completo è un passo cruciale per tradurre la visione di una startup medtech in numeri
+concreti. Soprattutto nelle fasi pre-seed, seed e Serie A, gli investitori vogliono vedere come l’idea innovativa (Eco 3D
+nel nostro caso) si possa trasformare in un business sostenibile. Un piano finanziario ben costruito include proiezioni
+di fatturato, costi, investimenti e flussi di cassa, e dimostra che il founder ha chiara la strategia di crescita e le
+risorse necessarie[1][2]. In questa guida pratica, pensata per un founder non finanziario ma con dimestichezza con
+Excel, descriveremo passo passo come costruire ogni elemento del piano finanziario, dall’analisi di mercato e
+prodotto fino ai bilanci previsionali. Ci focalizzeremo su:
+Conto economico previsionale (Income Statement)
+Stato patrimoniale previsionale (Balance Sheet)
+Rendiconto finanziario (Cash Flow Statement)
+Fabbisogno di capitale e uso dei fondi (capital needed e allocation)
+Break-even point (punto di pareggio)
+Indicatori di ritorno (ROI, IRR, Payback)
+Metriche ricorrenti (SaaS/recurring metrics: MRR, ARR, LTV, CAC, Burn rate, Runway)
+Per ciascun elemento spiegheremo come costruirlo (con formule ed esempi) e in quale ordine procedere, partendo
+dai dati di mercato/prodotto già analizzati. Inoltre, evidenzieremo le aspettative degli investitori nelle varie fasi (pre-
+seed, seed, Serie A) – ad esempio il break-even atteso, i multipli di rendimento e la runway minima – e concluderemo
+con un focus su errori comuni da evitare, standard di credibilità e risorse utili (template, benchmark, tool) per aiutarti
+a validare le ipotesi e creare scenari multipli.
+In breve: al termine della guida avrai uno schema chiaro e logico per compilare il piano finanziario della tua startup
+medtech, assicurando che i numeri abbiano senso e non siano campati in aria[3] agli occhi degli investitori e del tuo
+team.
+Dal Mercato alle Proiezioni: Assunzioni Iniziali e Sequenza Logica
+Un piano finanziario solido nasce dalle assunzioni di base su mercato e prodotto. Prima di tuffarci nei prospetti
+contabili, è fondamentale impostare i driver che alimentano il modello. Ecco la sequenza corretta per passare dai dati
+di mercato ai bilanci previsionali:
+1. Analisi di Mercato & TAM: Parti dai numeri di mercato disponibili. Ad esempio, se l’analisi di mercato ha
+individuato un TAM (Total Addressable Market) di 300 milioni € annui nel segmento degli ecografi 3D in Italia
+(con crescita del ~7% annuo), chiediti quale quota potresti realisticamente intercettare nei primi anni (SOM,
+Serviceable Obtainable Market). Segmenta il mercato se necessario (per tipologia di cliente, applicazione,
+geografia) e identifica la domanda target su cui basare le vendite iniziali. Assicurati che le ipotesi di penetrazione
+siano prudenti: un errore grave è sovrastimare il mercato potenziale o la velocità di adozione senza dati a
+supporto[4][5]. Usa i benchmark del settore e lo storico di startup simili per tarare le tue stime di crescita.
+38c_Guida Operativa_ Costruire un Piano Finanziario per una Startup Medtech (Eco 3D) 1
+2. Modello di Business & Pricing: Definisci cosa venderai e a che prezzo. È un dispositivo hardware venduto a
+unità? Ha anche un componente software in abbonamento? Ad esempio, Eco 3D potrebbe vendere dispositivi
+ecografici 3D a cliniche a 20.000 € l’uno, con un servizio SaaS di analisi immagini a 500 €/mese. Chiarire le fonti
+di ricavo (vendita una tantum, canoni ricorrenti, servizi aggiuntivi) e il pricing medio è essenziale per stimare i
+ricavi[6]. Poniti domande chiave: “Cosa pagheranno i clienti? Quanto? È un pagamento one-shot o ricorrente?
+Quanti clienti realistici posso acquisire in 6, 12, 24 mesi?”[7]. Queste risposte guidano la struttura del fatturato.
+3. Strategia Go-to-Market & Volume di Vendite: In base al mercato e al pricing, pianifica quanti clienti o unità potrai
+acquisire periodicamente. Puoi combinare approccio top-down (ad es. puntiamo al 1% del mercato italiano il
+primo anno) e bottom-up (es. abbiamo 2 venditori che possono chiudere 5 vendite al mese ciascuno). Sii
+realistico: considera il tempo di vendita (sales cycle) per un prodotto medtech complesso e l’effort di
+acquisizione clienti. Ad esempio, potresti prevedere 10 dispositivi venduti nel primo semestre post-lancio (grazie
+a contatti pilota), poi una crescita accelerata tramite distributori, fino a 100 unità/anno al terzo anno. Se hai un
+modello SaaS, stima gli utenti attivi e il tasso di conversione a pagamento. Non semplificare troppo: specifica i
+canali (fiere mediche, agenti, marketing digitale) e i tassi di conversione attesi, che portano ai volumi di vendita.
+Questo sarà il motore dei ricavi nel conto economico. Un esempio semplice di proiezione potrebbe essere: 100
+utenti paganti entro 6 mesi via outbound + LinkedIn ads → 100 utenti × 500 €/mese = €50.000 MRR (Monthly
+Recurring Revenue) entro il mese 6[8]. Anche se i numeri sono ipotetici, mostra logica strategica nella crescita,
+non magie.
+4. Costi Variabili e Margine Lordo: Per ogni euro di ricavo, quali costi diretti sostieni? Nel caso di un dispositivo,
+calcola il costo unitario di produzione (materie prime, componenti, assemblaggio, eventuali royalty) per definire il
+COGS (Cost of Goods Sold). Se vendi a 20k € e produrre l’eco 3D costa 10k €, il margine lordo per unità è 10k
+(50%). Idem per servizi: se offri un software in cloud, considera i costi dei server, licenze terze parti per utente,
+etc. Determina quindi il Margine Lordo (Gross Margin) iniziale e come evolverà con le economie di scala. Ad es.,
+potresti stimare un margine lordo 60% il primo anno, in crescita a 80% dal terzo anno grazie a volumi maggiori e
+ottimizzazione produttiva[9]. Il margine lordo è cruciale per capire se il modello può diventare redditizio.
+5. Struttura dei Costi Fissi e Operativi: Mappare i costi operativi ricorrenti è il prossimo passo: elenco del team e
+stipendi, sviluppo prodotto (R&D), marketing e vendite, affitto e bollette, costi legali e amministrativi, ecc. Questo
+richiede di tradurre il piano operativo in numeri:
+6. Personale: Elenca i ruoli (founder, ingegneri, commerciale, ecc.), il timing delle assunzioni e il costo annuo lordo
+per ciascuno. Es: CTO a €50k/anno da subito, +2 sviluppatori dal mese 6 (€35k cad.), 1 commerciale dal mese 12,
+ecc. Il personale è quasi sempre la voce di costo maggiore per una startup[10], quindi pianifica le assunzioni in
+linea con la crescita e le milestones.
+7. Marketing & Sales: Stanzia un budget per acquisire clienti. Nessuna crescita è “gratis” – considera spese per
+fiere mediche, pubblicità online, materiali demo, viaggi commerciali. Ad esempio, potresti prevedere €5k al mese
+in marketing all’inizio (campagne social mirate ai medici) e aumentare dopo il product-market fit. Valuta anche il
+CAC (costo di acquisizione per cliente) implicito: es. se spendi €20k in marketing per ottenere 100 clienti, CAC =
+€200 ciascuno. Verifica che sia sostenibile rispetto al ricavo/LTV per cliente.
+8. Operatività Generale: Costi di struttura come ufficio o laboratorio, utenze, software e strumenti (es. servizi cloud,
+licenze CAD, CRM). Anche con un team snello, strumenti e servizi SaaS possono costare qualche centinaio di
+euro al mese[10][11]. Non dimenticare spese legali (brevetti, contratti) e contabili.
+9. CAPEX (Spese in conto capitale): Se devi acquistare attrezzature o infrastrutture (macchinari, stampanti 3D,
+attrezzature di laboratorio), prevedi queste uscite. Le spese in conto capitale non vanno nel conto economico
+immediatamente, ma nel rendiconto finanziario e in bilancio come cespiti (da ammortizzare). Ad esempio, un
+macchinario da €50k comprato nel 2024 può essere ammortizzato in 5 anni con €10k di ammortamenti annui nei
+costi operativi.
+In sintesi, costruisci un budget operativo dettagliato. Un trucco: scomponi i costi per mese o trimestre per i primi 1-2
+anni (dove la crescita è più rapida) e poi per anno. Questo ti aiuterà a calcolare il burn rate (quanto cassa “bruci” al
+mese) e la runway disponibile, elementi che vedremo in dettaglio più avanti[12].
+38c_Guida Operativa_ Costruire un Piano Finanziario per una Startup Medtech (Eco 3D) 2
+1. Proiezioni Finanziarie: Con ricavi e costi mappati, sei pronto a costruire i prospetti previsionali. L’ordine tipico è:
+Conto Economico → Cash Flow → Stato Patrimoniale. Il conto economico previsionale sintetizza ricavi, costi e
+profitti attesi per ogni periodo. Dal conto economico e dalle assunzioni di capitale e investimenti puoi derivare il
+rendiconto finanziario, che traccia i flussi di cassa e il fabbisogno. Infine, lo stato patrimoniale previsionale viene
+completato con la posizione di cassa finale, gli investimenti capitalizzati e le fonti di finanziamento (debito/equity).
+In pratica:
+2. Compila prima il Conto Economico (annuale o trimestrale), partendo dai ricavi e sottraendo via via i costi per
+arrivare all’EBIT e all’utile netto.
+3. Collega poi il Rendiconto Finanziario, per capire come l’utile (o perdita) si traduce in movimenti di cassa.
+Considera investimenti (capex) e finanziamenti: ad esempio, l’apporto di capitale di un round entra come flusso di
+cassa finanziario positivo.
+4. Completa con lo Stato Patrimoniale ad ogni fine anno: porta l’utile cumulato a Patrimonio Netto (utili trattenuti),
+aggiorna la cassa finale, inserisci eventuali crediti vs clienti (se fatturi ma incassi dopo), debiti verso fornitori, il
+valore residuo dei macchinari (al netto degli ammortamenti) e così via. Lo stato patrimoniale serve a verificare che
+tutte le risorse siano contabilizzate e che Attività = Passività + Patrimonio Netto in ogni momento.
+Questo ordine non è rigido – in realtà si lavora in modo iterativo: spesso si ipotizza un certo aumento di capitale per
+coprire il fabbisogno, lo si inserisce nei flussi di cassa, si vede l’effetto su cassa e patrimonio, e si aggiusta di
+conseguenza. Tuttavia, come regola generale, comincia dai ricavi e costi (P&L), perché sono il cuore del modello; poi
+affronta cassa e capitale. Concentrati sul primo triennio in dettaglio (gli investitori early-stage guardano soprattutto 3-
+5 anni). Ricorda che per startup in fase pre-seed/seed può aver senso mostrare previsioni su base mensile o
+trimestrale almeno per i primi 12-24 mesi, perché le dinamiche di cassa nei primi mesi sono critiche e più volatili di
+una grande azienda[13][14].
+Nei capitoli seguenti entreremo nel merito di ogni prospetto e metrica, fornendo formule pratiche, esempi e best
+practice.
+Conto Economico Previsionale (Income Statement)
+Il conto economico previsionale mostra come evolveranno ricavi e costi della startup, indicando se e quando
+l’azienda diventerà profittevole. Ecco come costruirlo passo-passo:
+Ricavi (Fatturato): Inserisci per ogni periodo (mese, trimestre o anno) i ricavi previsti per ciascuna linea di
+business. Se hai diverse fonti di reddito, meglio separarle per chiarezza (ad esempio: Vendita dispositivi,
+Abbonamenti software, Servizi post-vendita, ecc.). Per ogni linea, la formula base è: Ricavo = Prezzo × Quantità venduta.
+Esempio pratico: se prevedi di vendere 50 ecografi nel 2025 a €20.000 l’uno, i ricavi da dispositivi saranno
+€1.000.000. In parallelo, se attivi un modello SaaS, e stimi 100 abbonamenti al software a €500/mese per la parte
+finale dell’anno, il ricavo da abbonamenti 2025 sarà ~€50.000 (100 utenti × €500 × 1 mese medio attivo). Usa le
+assunzioni di volumi elaborate prima, distribuendo le vendite realisticamente: es. poche vendite nei primi mesi
+(test/pilota) e crescita maggiore dopo il lancio. È utile esplicitare gli assunti chiave dietro ai numeri: ad esempio
+“assumiamo di acquisire 5 nuovi clienti al mese con ticket medio €X grazie al canale Y”. Questo aiuta a validare il
+fatturato e mostra che hai pensato a come arrivarci, non hai solo lanciato numeri a caso[15].
+Costi Variabili (COGS) e Margine Lordo: Sottrai dai ricavi i costi direttamente attribuibili a quei ricavi, ovvero il
+costo del venduto. Per un dispositivo, è il costo di produzione per unità × unità vendute. Per un software SaaS,
+possono essere costi cloud per utente, commissioni di terze parti o costo di servizio per transazione. Ad esempio,
+se il costo per produrre un ecografo è €10k, 50 unità vendute implicano COGS = €500.000. Il margine lordo è
+Ricavi - COGS (in questo esempio €500k), e il gross margin percentuale è (Ricavi - Costo del venduto) / Ricavi = 50% . Indica
+quanto ti rimane per coprire i costi operativi dopo aver sostenuto i costi diretti. Startup hardware medtech spesso
+partono con margini lordi più bassi (costi iniziali alti) ma da far crescere col volume; startup software possono
+avere margini lordi molto alti (70-90%) sin dall’inizio. Specifica nel piano come migliorerà il gross margin nel
+tempo (piani di riduzione costi unitari, economie di scala, ottimizzazione risorse). È un segnale importante:
+margini lordi in crescita implicano scalabilità del modello[9].
+38c_Guida Operativa_ Costruire un Piano Finanziario per una Startup Medtech (Eco 3D) 3
+Costi Operativi (OPEX): Sono i costi fissi o semi-fissi per far funzionare l’azienda, indipendenti dal volume
+immediato di vendite. Nel conto economico li separeremo in categorie principali, ad esempio:
+Spese di personale (Staff costs) – stipendi, contributi e benefici del team (sviluppatori, ricercatori, vendite,
+amministrazione...). Di solito questa è la voce più consistente. Puoi mostrare il totale annuo o dettagliare per
+funzione (es. R&D, Sales, G&A). Formula esemplificativa: se hai 5 dipendenti a tempo pieno con stipendio medio
+€40k, il costo personale annuo sarà ~€200k. Ricorda di includere anche i fondatori se prevedi uno stipendio
+(anche minimo) e eventuali collaboratori part-time o consulenti.
+Ricerca e Sviluppo (R&D) – costi per sviluppo prodotto non capitalizzati: es. materiali per prototipi, consulenze
+tecniche, testing, certificazioni. Spesso queste spese sono concentrate prima del lancio del prodotto e poi calano
+(o vengono sostituite da nuovi progetti). Puoi includerle come voce separata se rilevanti (ad es. €50k nel primo
+anno per certificazione medicale CE/FDA).
+Marketing & Vendite – budget per promozione, pubblicità, eventi, viaggi, commissioni a eventuali agenti, e
+formazione commerciale. Se prevedi un CAC specifico, assicurati che il costo marketing totale sia coerente con i
+nuovi clienti acquisiti (CAC = spesa marketing / #nuovi clienti). Esempio: spendi €60k in marketing nel 2025 e
+acquisisci 300 clienti → CAC ~€200, che dovrebbe confrontarsi con il valore del cliente (LTV).
+Generali & Amministrativi (G&A) – spese generali di gestione: affitti, bollette, forniture ufficio, consulenze legali e
+contabili, tasse fisse. Anche se possono sembrare piccole, sommate incidono. Ad es., un ufficio e bollette
+€1k/mese = €12k anno; commercialista e legale €5k anno; altri servizi €3k anno, ecc.
+Ammortamenti (Depreciation) – la quota annuale di ripartizione dei costi di investimento (CAPEX). Se hai
+acquistato beni durevoli (macchinari, hardware, brevetti) e li attivi a bilancio, devi inserire l’ammortamento annuo
+come costo (anche se non è un esborso di cassa corrente). Esempio: macchina per stampare componenti €50k
+ammortizzata in 5 anni → €10k di ammortamenti all’anno per 5 anni. (Nota: in una startup early-stage, molti
+preferiscono semplificare e considerare tutti i costi di sviluppo come spesa immediata, a meno di acquisti asset
+significativi. Per un piano finanziario dettagliato, tuttavia, includere gli ammortamenti dà un quadro più corretto
+dell’utile netto).
+Sommati questi costi operativi, otteniamo il Totale OPEX. Nel conto economico, spesso si calcola il EBITDA (utile ante
+interessi, tasse, deprezzamenti e ammortamenti) = Margine Lordo - OPEX (esclusi ammortamenti). L’EBITDA indica il
+risultato operativo cash prima di voci non monetarie e finanziarie. Poi sottraendo ammortamenti otteniamo l’EBIT (utile
+operativo). Per startup in perdita iniziale, l’EBITDA sarà negativo finché i ricavi non coprono i costi fissi. Puoi
+comunque evidenziare quando l’EBITDA diventa positivo, segnale di miglioramento operativo[16]. Esempio: “EBITDA
+positivo già dal Q4 del secondo anno”[17].
+Interessi, Tasse e Utile Netto: Per completare il conto economico, considera:
+Interessi passivi su eventuali debiti o finanziamenti (es. se hai un prestito bancario di €100k al 5%, prevedi €5k
+annui di interessi). Molte startup pre-seed/seed non hanno debiti significativi (si finanziano in equity), quindi
+potresti non avere costi finanziari oppure solo l’effetto di un convertendo con interessi maturati.
+Tasse (Imposte): Calcolale solo se prevedi utili tassabili (all’inizio potresti avere perdite che generano tasse zero o
+minime). Se hai utili dal terzo anno, applica un’aliquota d’imposta ragionevole (in Italia, IRES+IRAP ~28% sugli
+utili). Nel piano, spesso si indica l’utile ante-imposte e poi l’utile netto dopo imposte. Esempio: EBIT €100k,
+imposte 28% → utile netto ~€72k.
+Utile Netto (Net Income): L’ultima riga del conto economico. È l’indicatore finale di profitto/perdita per il periodo.
+Aspettati numeri negativi nei primi anni (è normale per startup). Ciò che interessa è il trend: ad es. perdite che si
+riducono nel tempo e si trasformano in utile man mano che i ricavi crescono e si raggiunge il pareggio. Nel piano
+da presentare, spesso non si incolla l’intero conto economico dettagliato ma si riassumono questi elementi chiave:
+quanto perdi nei primi anni, quando inizi a guadagnare e quando raggiungi il break-even[18]. Ad esempio:
+“Chiuderemo i primi due anni in perdita (€-100k il primo anno, €-50k il secondo) per via degli investimenti iniziali.
+Nel terzo anno prevediamo un utile netto di €200k, con EBITDA positivo già dal Q4 del secondo anno”[18].
+Questo tipo di sintesi narrativa aiuta l’investitore a capire la traiettoria senza per forza leggere tutte le cifre.
+38c_Guida Operativa_ Costruire un Piano Finanziario per una Startup Medtech (Eco 3D) 4
+Best practice Conto Economico: Assicurati che ogni numero nel conto economico derivi da un’assunzione spiegabile.
+Valida le ipotesi con dati esterni quando possibile: ad esempio, se prevedi di ottenere 1.000 clienti il primo anno,
+verifica che ciò implichi una percentuale di adozione plausibile rispetto al mercato target (se sono l’1% dei medici di
+radiologia, è realistico? Se fosse il 50%, suonerebbe irrealistico senza un piano straordinario). Evita di essere
+eccessivamente ottimista sui ricavi e includi sempre scenari alternativi (ne parleremo dopo) in caso le vendite
+vadano più lente[5][19]. Nel dubbio, meglio sovrastimare un po’ i costi e avere una sorpresa positiva che viceversa.
+Mantieni coerenza interna: se aumenti le vendite, ricorda che potrebbero servire più risorse (es. più venditori o più
+server) quindi leggero aumento anche nei costi – i modelli devono essere logici. Infine, spiega gli acronimi finanziari la
+prima volta che li usi (es. “EBITDA (Margine Operativo Lordo)…”), così anche chi non è finanziario capirà i termini[20].
+Stato Patrimoniale Previsionale (Balance Sheet)
+Lo stato patrimoniale previsionale è il “fotogramma” finanziario della startup a fine periodo: elenca ciò che l’azienda
+possiede (Attività), ciò che deve (Passività) e il patrimonio netto. Spesso è la parte più tecnica per un founder, ma
+cerchiamo di semplificarla. Il bilancio previsionale si costruisce integrando le informazioni del conto economico e del
+cash flow, più alcune assunzioni aggiuntive (capitale circolante, investimenti, finanziamenti). Ecco i passi principali e
+le voci chiave da considerare:
+Attività (Assets):
+Cassa (Cash): è probabilmente l’attività più importante da tracciare per una startup early-stage. La cassa finale di
+ogni anno deriva dal cash flow (cassa iniziale + flussi di cassa netti dell’anno). Nel primo anno, la cassa iniziale
+potrebbe includere il capitale apportato dai founder o da un round pre-seed, poi diminuisce per le spese e
+aumenta se entrano ricavi o nuovi finanziamenti. Ad ogni periodo, calcola Cassa finale = Cassa iniziale + Flusso di cassa netto del
+periodo . Assicurati che la cassa non diventi mai negativa nelle previsioni: se accade, significa che avrai bisogno di
+ulteriore capitale prima di quel momento. (In realtà è proprio questo esercizio che ti dirà di quanto capitale hai
+bisogno, come vedremo nella sezione successiva.)
+Crediti verso clienti (Accounts Receivable): se prevedi di non incassare subito tutti i ricavi (tipico nelle vendite
+B2B, dove si emette fattura e il pagamento avviene a 30-60-90 giorni), devi includere una voce di crediti.
+Esempio: vendi €100k di dispositivi a dicembre 2025 ma incassi a 60 giorni, allora a fine 2025 avrai €100k nei
+crediti (un’attività) e non in cassa. Si può stimare con il DSO (Days Sales Outstanding) o semplicemente
+percentuale dei ricavi non incassati. Nel nostro esempio, potresti assumere crediti pari al 15% del fatturato annuo
+se mediamente ~2 mesi di vendite rimangono da incassare.
+Magazzino (Inventory): per startup hardware, l’inventario può essere significativo. Se produci o compri stock di
+prodotti prima di venderli, a fine periodo avrai un certo capitale immobilizzato in magazzino (componenti, prodotti
+finiti invenduti). Ad esempio, potresti fabbricare 10 dispositivi in più non ancora venduti entro fine anno del valore
+di €80k → inventario = €80k. Il magazzino impegna cassa e va stimato in base al ciclo operativo (se produci
+anticipatamente, se hai resi, pezzi di ricambio, ecc.). In startup early-stage spesso si produce su ordinazione per
+minimizzare scorte, ma è importante da monitorare.
+Immobilizzazioni (Fixed Assets): includi qui gli investimenti in beni durevoli: macchinari, attrezzature,
+eventualmente sviluppo software capitalizzato, brevetti acquistati, ecc. Dal piano CAPEX sai quanti asset
+acquisterai e quando. Nel bilancio, li registri al costo d’acquisto e poi li diminuisci degli ammortamenti accumulati.
+Esempio: compri €50k di attrezzature nel 2024, con ammortamento 5 anni → a fine 2024 l’attivo immobilizzato è
+€50k (costo) - €10k (amm.to) = €40k valore netto. A fine 2025 sarà €50k - €20k amm.ti = €30k, e così via.
+Questo richiede tenere traccia degli ammortamenti (che abbiamo calcolato nel conto economico) anche sullo
+stato patrimoniale.
+Altre attività: eventualmente, anticipi e prepagati (paghi in anticipo servizi per l’anno seguente, es. assicurazioni,
+licenze annuali – dettaglio spesso trascurabile nel pre-seed), crediti per imposte anticipate (se hai perdite fiscali
+portate a nuovo), ecc. Questi dettagli diventano più rilevanti in stadi avanzati; in un modello seed puoi semplificare
+a meno che non siano cifre materiali.
+Passività (Liabilities):
+38c_Guida Operativa_ Costruire un Piano Finanziario per una Startup Medtech (Eco 3D) 5
+Debiti verso fornitori (Accounts Payable): simili ai crediti, ma dal lato opposto. Se non paghi immediatamente i
+fornitori o i salari (es. paghi a 30 giorni), avrai a fine anno dei debiti di corto termine. Esempio: a fine 2025 hai
+€50k di fatture fornitori da pagare il mese dopo → appare un debito verso fornitori di €50k. Puoi stimarlo con un
+DPO (Days Payable Outstanding) o ipotizzando di pagare con un certo ritardo medio (utile per ottimizzare la
+cassa, ma attento a non esagerare: una startup deve anche mantenere buoni rapporti coi fornitori!).
+Debiti finanziari (Loans/Debt): se fai debito (es. prestito bancario, finanziamento agevolato, anticipazioni),
+inserisci l’ammontare residuo. Ad esempio, un mutuo di €100k a 5 anni apparirà tra i debiti e si ridurrà man mano
+che lo rimborsi (i rimborsi riducono cassa e quota capitale debito). Per convertibili, valutane l’inclusione: spesso
+un SAFE o convertendo pre-seed si contabilizza come convertible note (debito convertibile) finché non converte
+in equity. Se hai solo equity raccolta, potresti non avere debiti finanziari in bilancio.
+Altre passività: includi qui eventuali debiti verso il fisco (IVA da versare, tasse non ancora pagate), ratei e risconti
+passivi (ricavi anticipati per cui devi ancora erogare il servizio, ad es. un cliente paga un abbonamento annuale
+anticipato: la parte non “consumata” è un debito per servizio da svolgere, chiamato ricavi differiti). Ad esempio,
+se incassi €12k a dicembre per un abbonamento annuale (12 mesi), a fine anno solo €1k è ricavo di dicembre e i
+restanti €11k sono ricavi anticipati da riportare come passività (li guadagnerai nei mesi successivi). Questa voce è
+fondamentale per modelli SaaS con pagamenti anticipati.
+Patrimonio Netto (Equity):
+Qui troviamo il capitale proprio dell’azienda e gli utili trattenuti:
+Capitale Sociale e Sovrapprezzo: i fondi investiti dai soci/founder. Se i founder hanno messo €50k e poi un
+business angel €200k, il patrimonio netto iniziale sarà €250k (diviso fra quote e sovrapprezzo a seconda di come
+è contabilizzato, ma per il piano possiamo tenerlo unito). Qualsiasi nuovo aumento di capitale (seed, A) andrà ad
+aumentare questa voce nel periodo in cui avviene. Esempio: prevedi un round seed da €500k nel Q1 2025 →
+aggiungi €500k a Patrimonio Netto 2025 (e ovviamente a cassa attiva).
+Utili (perdite) a nuovo: l’utile netto di ogni esercizio, cumulato. In pratica, all’inizio il PN contiene solo il capitale
+versato; dopo il primo anno, PN = capitale + utile netto anno1 (che sarà negativo se in perdita); dopo il secondo
+anno, PN = capitale + utile a nuovo anno1 + utile anno2, ecc. Questa voce spiega come le perdite iniziali erodono il
+capitale investito. Ad esempio, se hai raccolto €500k ma perdi €300k nei primi 2 anni, il patrimonio netto scende a
+€200k (500-300) finché non torni in utile.
+Quando hai compilato tutte queste voci, dovresti verificare che Attività totali = Passività totali + Patrimonio Netto a
+ogni data. Questo garantisce che non hai “perso per strada” risorse o finanziamenti nel modello. Un approccio
+frequente è costruire uno stato patrimoniale per anno (fine 2024, fine 2025, ecc.) collegato ai flussi: ad esempio,
+collegando la cassa finale dal rendiconto, calcolando crediti e debiti come frazioni del fatturato o costi (a seconda dei
+giorni di dilazione), portando a nuovo gli investimenti meno ammortamenti, e incorporando i nuovi capitali raccolti.
+Esempio sintetico: supponiamo che a inizio 2024 la startup abbia €50k di capitale iniziale. Prevedi di raccogliere
+€500k seed a metà 2024. Entro fine 2024, hai speso cassa portandola a, diciamo, €300k. Il bilancio 2024 avrebbe:
+Attività = €300k Cassa + magari €50k attrezzature (al netto ammortamenti) + €20k crediti = €370k. Passività
+ipotizziamo €20k debiti vari. Patrimonio Netto = €50k (iniziale) + €500k (aumento di capitale) - €200k (perdita netta
+2024) = €350k. Totale Passività + PN = €20k + €350k = €370k, che pareggia con Attività. Nel 2025, rifai con nuovi
+numeri.
+Best practice Stato Patrimoniale: se non sei esperto, concentrati sulle 2-3 voci chiave: cassa, crediti, debiti e
+patrimonio. Molte startup early-stage, nella presentazione agli investitori, non mostrano un dettagliato stato
+patrimoniale, ma usano la proiezione di cassa (runway) e l’utile/perdita. Tuttavia, per uso interno, fare questo esercizio
+ti aiuta a capire il capitale circolante (working capital) di cui avrai bisogno. Un errore comune è ignorare questi effetti:
+potresti essere profittevole “sulla carta” ma rimanere senza soldi se, ad esempio, fatturi molto e incassi tardi, mentre
+paghi i fornitori subito[21]. Pianificare il capitale circolante significa prevedere quanta cassa resterà bloccata in crediti
+e magazzino. Inoltre, tenere il bilancio in equilibrio ti costringe a pensare: “se ho questa spesa, chi la finanzia?”
+.
+Mantieni il modello semplice ma logico: magari all’inizio setta crediti e debiti come percentuali fisse dei ricavi/costi
+(es. crediti = 20% di fatturato se incassi a 2-3 mesi, debiti = 10% costi se paghi a 1 mese). Aggiorna queste stime man
+38c_Guida Operativa_ Costruire un Piano Finanziario per una Startup Medtech (Eco 3D) 6
+mano che il modello evolve. E ricorda che ogni finanziamento ricevuto va registrato: equity aumenta il PN, i prestiti
+aumentano i debiti. Far quadrare il bilancio è un ottimo check di coerenza per tutto il piano finanziario.
+Rendiconto Finanziario (Cash Flow)
+Il rendiconto finanziario previsionale traduce il conto economico e le altre attività in termini di flussi di cassa,
+rispondendo alla domanda: come entra ed esce il denaro dalla startup nel tempo?. Per una startup in crescita, spesso
+la cassa esce più velocemente di quanto entri (burn!), e il rendiconto serve a capire quanta cassa serve e quando
+finirà quella disponibile se non arrivano nuovi fondi.
+Ci sono due metodi (indiretto e diretto) per costruire il cash flow, ma per semplicità descriviamo il flusso diretto logico:
+Cash flow da Operazioni (Operating Cash Flow): In parole semplici è Incassi da clienti - Pagamenti a fornitori/dipendenti - Opex in
+contanti - oneri finanziari e tasse pagate . Parti dal fatturato previsto e applica le tempistiche di incasso: ad esempio, se
+prevedi €100k di vendite nel Q4 ma incassi metà subito e metà dopo 60 giorni, nel cash flow di fine anno conti
+€50k incassati e il resto incasserai l’anno dopo. Fai lo stesso per i pagamenti: salari, affitti e marketing li paghi di
+solito nel mese stesso (o mese successivo), i fornitori magari a 30+ giorni. Queste differenze generano variazioni
+di capitale circolante (come visto: crediti, debiti, magazzino) che vanno incluse. Un modo strutturato: prendi
+l’EBITDA (che è utile operativo prima di voci non cash) dal conto economico, aggiungi indietro gli ammortamenti
+(che erano un costo non monetario) e sottrai o aggiungi la variazione netta di capitale circolante (aumento crediti
+e magazzino consuma cassa, aumento debiti libera cassa). Otterrai approssimativamente il cash flow operativo.
+Esempio: EBITDA -€100k (perdita), crediti +€20k, magazzino +€30k, debiti +€10k → cash flow operativo = -100
+-20 -30 +10 = €140k (hai bruciato 140k di cassa nelle operazioni). Questo metodo indiretto è quello formale, ma
+puoi arrivarci anche più intuitivamente: prevedendo mese per mese i flussi di cassa in (clienti, eventuali altri
+incassi) e out (stipendi, fornitori, spese varie, affitti, tasse…) e calcolando il saldo mensile. In Excel puoi fare una
+riga “Cassa” che parte dal cash iniziale e somma entrate e uscite periodiche.
+Cash flow da Investimenti (Investing Cash Flow): Riguarda gli esborsi per investimenti a medio-lungo termine.
+Ad esempio, acquisto di macchinari, sviluppo di brevetti, acquisto di software o licenze pluriennali, ecc. Queste
+sono uscite di cassa quando avvengono. Se nel 2024 acquisti attrezzature per €50k, avrai -€50k di cash flow da
+investimenti nel 2024. Idem, se prevedi di disinvestire qualcosa (vendere un macchinario usato, o ricevere magari
+un grant a fondo perduto destinato a investimenti), vanno considerati. Startup early-stage raramente vendono
+asset, per cui questa sezione di solito mostra solo i CAPEX (capital expenditures) come numeri negativi. Nel
+nostro modello Eco 3D, potresti avere uscite investimento significative nei primi anni (laboratorio, apparecchiature
+test, certificazioni) e meno dopo.
+Cash flow da Finanziamenti (Financing Cash Flow): Qui entrano i finanziamenti ricevuti e le uscite per rimborsi
+o costi di finanziamento. Esempio: round seed da €500k ricevuto nel 2025 → +€500k nel CF finanziario. Se hai
+rimborsi di prestiti, quelli sono uscite (rata capitale). Anche eventuali dividendi (altamente improbabili nelle fasi
+iniziali, dato che si reinveste tutto) sarebbero un cash out. Per molte startup pre-utile, il cash flow finanziario è la
+voce che “tappa” i buchi: l’azienda brucia cassa nelle operazioni e investimenti, e viene rifornita da aumenti di
+capitale o prestiti.
+Somma di Operating + Investing + Financing = Variazione netta di cassa nel periodo. Questa variazione, aggiunta
+alla cassa iniziale, porta alla cassa finale (che poi appare nel bilancio). Un formato tabellare comune è:
+Cassa iniziale periodo: 100k
++ CF Operativo (entrate operative - uscite operative): + CF Investimenti (CAPEX ecc.): -50k
++ CF Finanziario (aumenti di capitale, prestiti): +300k
+-140k
+------------------------------------------------------------
+= Cassa finale periodo: 210k
+38c_Guida Operativa_ Costruire un Piano Finanziario per una Startup Medtech (Eco 3D) 7
+Nel nostro esempio numerico, la startup partiva con 100k, ha bruciato 190k tra operazioni e investimenti, ma ha
+raccolto 300k, finendo con 210k in cassa.
+Fabbisogno di cassa e punto minimo: Analizzando i flussi cumulati nel tempo, individua il picco di cash negativo (o il
+minimo di cassa) – ovvero il punto in cui la cassa è al valore più basso. Questo punto determina quanto capitale serve
+al minimo per non finire a zero. Ad esempio, potresti scoprire che senza finanziamenti la cassa diventerebbe -€400k
+dopo 18 mesi[22]. Quindi hai bisogno di almeno 400k di finanziamento per arrivare al breakeven di cassa (più
+margine). Spesso i modelli riportano una frase tipo: “il punto più basso di cassa netta è -€400k verso fine 2025,
+dopodiché iniziamo a generare flussi positivi”[22]. In pratica, questo numero corrisponde a quanti soldi ti servono in
+totale per non fallire prima di diventare cashflow positivo[23]. Se stai cercando investimenti, questo è un riferimento
+chiave per quantificare la richiesta (arrotondando per eccesso).
+Runway e Burn Rate: Due metriche fondamentali che derivano dal cash flow:
+- Burn Rate = quanti soldi stai spendendo (netti) al mese. Spesso si intende burn rate netto, cioè perdita di cassa
+mensile. Ad esempio, se prevedi di spendere €50k/mese e incassare €10k/mese, il burn netto è €40k/mese. In fase
+pre-ricavi, il burn coincide con le spese mensili. Formula semplificata: Burn Rate = Cassa che esce al mese (escludendo entrate
+da finanziamenti)[24]. Puoi calcolarlo su base trimestrale dividendo i cash out del trimestre per 3. È importante
+mostrarlo perché indica la velocità a cui consumi i fondi[25]. Gli investitori ci guardano per capire se “stai bruciando
+cassa come un marinaio ubriaco” o se sei attento ai costi[25].
+- Runway = quanti mesi puoi andare avanti prima che la cassa finisca. Formula: Runway = Cassa disponibile / Burn rate
+mensile[26]. Esempio: se hai cassa 200k e burn 25k/mese, runway = 8 mesi. È una metrica cruciale: mai presentare un
+piano dove la runway termina prima di raggiungere il prossimo traguardo o senza spiegare cosa succede dopo.
+Tipicamente, per round seed si cerca di avere ~18 mesi di runway con i fondi raccolti[27], per pre-seed anche 12 mesi
+possono bastare[28], per Series A si punta a 18-24 mesi[29]. Se nei tuoi numeri la runway è breve, devi giustificare
+che conti di ottenere un altro round o diventare breakeven prima che i soldi finiscano. Un errore grave è stimare
+obiettivi su 18 mesi avendo cassa solo per 6 mesi: gli investitori se ne accorgerebbero subito[30]. Quindi, se stai
+pianificando obiettivi a 18 mesi, devi chiedere abbastanza fondi per durare un po’ oltre, tipicamente ~18 mesi di
+operatività[30].
+Esempio: supponiamo burn rate iniziale €20k/mese. Con un investimento seed di €500k, la runway sarebbe 25 mesi.
+Se il break-even di cassa (quando inizi a non bruciare più) arriva al mese 20, hai un margine di sicurezza di 5 mesi.
+Questo è un buon segnale da comunicare: mostra che non prevedi di rimanere a secco in breve[12]. Puoi esprimere il
+concetto cosí: “Con questa raccolta avremo 18 mesi di runway, sufficienti per sviluppare la versione 2.0 del prodotto,
+ottenere 50 clienti paganti e raggiungere €1M di ARR. Al mese 18, bruceremo ancora cassa ma saremo vicini al
+break-even operativo, ponendoci nelle condizioni di valutare un Series A su basi solide”. Legare la runway ai
+milestone è ottimo, perché fa capire come i soldi comprano tempo e risultati[31]. Ad esempio: “10 mesi di runway ci
+permetteranno di costruire l’MVP e testare il go-to-market, raggiungendo 500 utenti attivi e le prime revenue per poi
+alzare un seed da €250k”[31]. Questo non è solo un numero da spreadsheet – è strategia, e gli investitori lo
+apprezzano[31][32].
+Best practice Cash Flow: Concentrati sul capire quando spendi e incassi, oltre a quanto. Molti founder pensano solo
+al P&L, ma la cronologia dei flussi può mandare in crisi l’azienda se non considerata. Mantieni un occhio sui mesi
+critici: ad esempio, se paghi tutto subito ma incassi tardi, potresti avere bisogno di più capitale circolante. Pianifica di
+tenere sempre un buffer di cassa: realisticamente, non scendere mai a zero cassa anche nel modello – inserisci un
+minimo di riserva (es. 50k) per imprevisti, altrimenti nella realtà un piccolo scostamento potrebbe farti saltare. Come
+regola generale, chiedi sempre un po’ più soldi di quelli che ti servono strettamente secondo lo scenario base, proprio
+perché gli imprevisti capitano (ritardi sviluppo, contratto importante che slitta, ecc.)[33][34]. Questo lo puoi tradurre
+nel piano come un 10-20% di spese in più o ricavi in meno nel worst case, assicurandoti che con il capitale raccolto
+anche nel pessimistico non finisci i soldi prima di un certo orizzonte[35]. Monitorare attivamente il burn e runway
+mese per mese è fondamentale: se noti trend peggiori del previsto, puoi reagire tagliando costi o accelerando
+raccolta. In sintesi, cash is king: un’azienda può operare in perdita anche per anni, ma non può rimanere senza cassa
+nemmeno un giorno. Fai vedere che hai ben chiaro questo concetto evitando di confondere utili e liquidità[21].
+38c_Guida Operativa_ Costruire un Piano Finanziario per una Startup Medtech (Eco 3D) 8
+Fabbisogno di Capitale e Uso dei Fondi
+Una volta stimati i flussi di cassa, saprai di quanti capitali esterni avrai bisogno e quando. Questa sezione del piano
+finanziario risponde a due domande chiave: “Quanti soldi devo raccogliere?” e “Come li spenderò (e per quanto mi
+bastano)?”
+.
+Calcolo del fabbisogno (capital needed): Come detto, il fabbisogno corrisponde tipicamente al massimo deficit
+cumulato di cassa nel modello, più un margine di sicurezza. In pratica, se senza finanziamenti la cassa andrebbe a -
+€800k al punto peggiore, hai bisogno di almeno €800k. Se stai pianificando round successivi, potresti coprire in parte
+con un round seed e in parte con Serie A, ecc. Per esempio, se sai che con €300k arrivi a 12 mesi ma poi ti
+servirebbero altri €500k per raggiungere break-even, potresti decidere di fare un seed da 300k ora e prevedere un
+Series A da 500k fra un anno. L’importante è avere chiarezza: coprire sempre le spese fino al break-even o fino al
+round successivo con margine[36]. Una regola pratica: includi un margine per imprevisti 10-20% in più rispetto al
+caso base[34]. In un piano presentato, potresti esplicitare: “Abbiamo stimato un fabbisogno di cassa di €400k fino a
+break-even, a cui aggiungiamo un buffer del 20%: stiamo quindi cercando €500k”. Questo mostra prudenza. Inoltre,
+collega la cifra al tempo: ad esempio “€500k ci finanziano ~18 mesi di operatività, fino a metà 2026, quando
+raggiungeremo il pareggio mensile”[37]. Gli investitori vogliono assicurarsi che con quei soldi non tornerai a chiedere
+altre risorse dopo 3 mesi[38].
+Uso dei fondi (use of funds): Una volta definita la somma da raccogliere, dettaglia come verrà impiegata. Suddividi il
+capitale per macro-categorie, legate alle tue priorità. Esempio tipico per un round seed: 50% sviluppo prodotto, 30%
+marketing/vendite, 20% operations[39]. Nel caso di Eco 3D, potrebbe essere:
+- 40% R&D e certificazioni: completamento sviluppo prototipo 3D, validazioni cliniche, iter regolatorio (es. marcare
+CE il dispositivo), assunzione di 2 ingegneri biomedicali.
+- 30% Marketing e Commerciale: partecipazione a fiere medtech, materiali demo presso ospedali, stipendio di 1
+sales manager e 1 tecnico commerciale per 1 anno, campagne di content marketing e lead generation nel settore
+sanitario.
+- 20% Produzione e Scalabilità: acquisto componenti per i primi 20 dispositivi (inventario iniziale), ottimizzazione
+linea produttiva, implementazione infrastruttura cloud per servizio SaaS, supporto tecnico iniziale ai clienti pilota.
+- 10% Generale e imprevisti: copertura costi generali (affitto, amministrazione) e cuscinetto per ritardi/imprevisti.
+Naturalmente, le percentuali variano a seconda del modello di business. Se fosse una startup solo software, magari
+60% prodotto/tech, 30% marketing, 10% altro. L’importante è evidenziare che hai un piano preciso di allocazione, in
+linea con la strategia. Questa sezione spesso viene presentata anche graficamente (es. una torta delle percentuali)
+per dare un colpo d’occhio immediato[39]. Assicurati che l’uso dei fondi copra tutto ciò che serve per raggiungere i
+milestone fino al round successivo: ad esempio, se dici che il 50% va in sviluppo prodotto, dovrebbe essere chiaro
+che con quel budget arrivi a lanciare il prodotto sul mercato; se il 30% marketing serve a generare X clienti, spiegalo.
+Trasparenza e logica sono apprezzate: un investitore leggendo l’uso dei fondi dovrebbe pensare “Sì, ha senso, sta
+investendo nelle aree giuste e non sprecherà i miei soldi”[40]. Evita allocazioni bizzarre (tipo 60% spesi in fiere senza
+prima avere prodotto finito) o voci troppo generiche (“varie ed eventuali” – meglio chiamarlo buffer/imprevisti). Se
+prevedi altre fonti di capitale oltre all’equity (es. bandi, prestiti agevolati, ricavi reinvestiti), menzionalo. Esempio:
+“Valutiamo anche un contributo a fondo perduto di €50k da Regione XYZ (già richiesto)”[41]. Questo comunica che
+stai esplorando tutte le strade per finanziare la crescita, non dipendi solo da quell’aumento di capitale.
+Allineamento con gli investitori per fase: La quantità di capitale da raccogliere e il modo di usarlo devono essere
+coerenti con la fase della startup e con le aspettative degli investitori di quella fase. Approfondiremo a breve le
+differenze fra pre-seed, seed e Serie A, ma ad esempio: un business angel pre-seed si aspetta di finanziare lo
+sviluppo del prototipo e le prime validazioni (non di certo una massiccia espansione internazionale), quindi l’uso fondi
+sarà concentrato su prodotto e primi test sul mercato; in un round Serie A, invece, i VC si aspettano di vedere l’uso
+fondi focalizzato su scaling (espansione commerciale, marketing su larga scala, operations per servire tanti clienti)
+[42][43]. Mostrare che conosci queste sfumature aumenta la credibilità del piano. Indica anche implicitamente che sai
+quanto equity sei disposto a cedere per quella somma (es. seed 500k per il, ipotizziamo, 15-20% della società,
+38c_Guida Operativa_ Costruire un Piano Finanziario per una Startup Medtech (Eco 3D) 9
+coerente col mercato). Non serve entrare nei dettagli di valutazione in questo documento, ma le cifre devono essere
+ragionevoli per quel round.
+In pratica, spiega al finanziatore perché ti servono X euro, per fare Y cose, in Z tempo[44]. Ad esempio: “Cerchiamo
+€500k per completare lo sviluppo dell’eco 3D ed effettuare i test clinici (entro 12 mesi), e per avviare la
+commercializzazione in Italia (altri 6 mesi), raggiungendo 50 installazioni e €1M di ricavi ricorrenti. Questo ci porterà
+al break-even operativo e metterà le basi per una Serie A dedicata all’espansione europea”. Una dichiarazione del
+genere unisce importo, uso e outcome atteso.
+Break-Even Point (Punto di Pareggio)
+Il break-even point indica il punto in cui i ricavi pareggiano i costi, ossia quando l’azienda smette di essere in perdita.
+È una pietra miliare per ogni startup, perché significa sostenibilità: da lì in poi, teoricamente, l’azienda può andare
+avanti con le proprie gambe (senza bisogno di cassa esterna)[45]. Esistono due modi principali di considerare il
+break-even:
+Break-even Economico (Utile = 0): è quando l’utile netto o l’utile operativo (EBIT/EBITDA) diventa positivo. In
+pratica, a livello di conto economico, i ricavi totali eguagliano la somma di costi fissi + variabili. Oltre quel punto,
+l’azienda è profittevole. Spesso si esprime in termini di periodo di tempo: “Raggiungeremo il break-even a livello
+mensile a metà 2026”[46], oppure “nel FY2025 l’EBITDA annuale diventa positivo”. Per calcolarlo, un metodo
+classico (se la struttura costi/ricavi è stabile) è: Break-even (volume) = Costi fissi annui / Margine di contribuzione unitario . Il margine di
+contribuzione unitario è prezzo unitario - costo variabile unitario . Ad esempio, se vendi un dispositivo a €20k con costo
+variabile €10k, margine unitario = €10k. Se i costi fissi (staff, marketing, ecc.) sono €1.000k annui, il break-even in
+unità vendute è 1000k / 10k = 100 unità all’anno (circa). In realtà una startup aumenta i costi fissi gradualmente, quindi il
+punto di pareggio si sposta, ma questa formula dà un’idea. Puoi calcolare anche il break-even in termini di ricavi:
+= Costi fissi / % margine lordo . Es: 1.000k costi fissi / 50% margine = 2.000k € di ricavi annui per pareggio.
+Break-even Finanziario (Cash flow = 0): è quando smetti di bruciare cassa e inizi a generare cassa.
+Concettualmente simile all’utile, ma considera anche investimenti e capitale circolante. Una startup può mostrare
+utile a bilancio ma ancora consumare cassa (es. se deve ancora rimborsare debiti, o investe in scorte). Il break-
+even di cassa è il momento in cui non hai più bisogno di capitali esterni per coprire il fabbisogno[45] – i flussi di
+cassa operativi diventano positivi e coprono le uscite. Per le startup, spesso si guarda al break-even cash
+mensile: il mese in cui per la prima volta incassi più di quanto spendi in quel mese.
+Nella pratica del business plan, evidenziare il break-even serve a far capire in quanto tempo e a quale scala la startup
+potrà essere sostenibile. Gli investitori sanno che all’inizio brucerai cassa, ma vogliono vedere che hai un piano per
+invertire la curva. Come comunicarlo?
+- Indica quando prevedi di raggiungere il pareggio e su quali assunzioni. Esempio: “Prevediamo il pareggio operativo
+mensile a metà 2026, quando avremo ~300 clienti paganti ricorrenti”[46]. Questa frase lega una data a un volume di
+clienti, dando concretezza (300 clienti). Oppure: “Il nostro break-even annuo si raggiunge con circa €2M di fatturato,
+cosa che nel piano avviene nel FY2025”
+.
+- Puoi anche evidenziare il break-even in termini di numero di unità: es. “Con i costi attuali, basta vendere 40
+dispositivi l’anno per coprire le spese”[47]. Questo aiuta l’investitore a valutare se è fattibile. Se dicessi “ci servono
+10.000 unità per pareggiare”, suonerebbe arduo; 40 può sembrare raggiungibile e indice di un modello snello[47].
+- Distingui break-even operativo (EBITDA/EBIT positivo) e break-even netto (utile dopo imposte positivo) se c’è di
+mezzo molta differenza (per via di ammortamenti o interessi). Di solito, break-even si riferisce all’operativo.
+- Fai capire se dopo il break-even intendi reinvestire per crescere (quindi potresti tornare in negativo volutamente) o
+se punti all’autosufficienza. Alcuni investitori apprezzano modelli capaci di autofinanziarsi dopo un certo punto, altri
+accettano che ci saranno altri round per espansione. L’importante è avere consapevolezza della traiettoria.
+Esempio nel contesto SaaS: “Con un costo operativo di €50k/mese e un margine lordo dell’80%, ci basta arrivare a
+€62.5k di ricavi mensili per il break-even (62.5k × 0.8 = 50k). Contiamo di superarli verso il mese 18 con circa 600
+utenti attivi paganti”[48]. Questo comunica sia la soglia di ricavi sia la timeline. In un contesto hardware: “grazie
+38c_Guida Operativa_ Costruire un Piano Finanziario per una Startup Medtech (Eco 3D) 10
+all’alto margine unitario (~50%), ci basta vendere ~100 macchine l’anno per essere in pareggio; secondo il piano
+raggiungeremo questo volume nel terzo anno”
+.
+Importanza per gli investitori: Il break-even è un KPI che molti investitori guardano: indica quanto tempo e denaro
+serviranno prima che l’azienda possa autosostenersi[49]. Ad esempio, investitori pre-seed sanno che il break-even è
+lontano, ma vogliono vedere che magari con il seed lo raggiungerai in X anni; investitori Serie A potrebbero aspettarsi
+che con i soldi del Serie A arrivi a break-even o quantomeno a unit economics positivi. Sottolineare il break-even nel
+piano fa capire che non intendi bruciare cassa per sempre, ma hai un modello che alla scala giusta genera profitti.
+Anche psicologicamente, mostra che hai il controllo dei numeri e sai dove sta la linea di galleggiamento. Nel pitch,
+puoi dire frasi come: “Il break-even mensile è previsto nel Q4 2025, con ~$100k MRR”[50]. Oppure “Siamo una
+startup deep-tech, quindi contiamo di raggiungere il pareggio solo al 4º anno, dopo aver scalato la produzione; i
+margini lo renderanno però molto solido una volta lì”. Se il break-even è molto in là (>5 anni), potresti comunque
+stimare il cash break-even point (quando smetti di consumare nuovi fondi) se diverso.
+Best practice Break-even: Calcola e ricontrolla il break-even con diverse modalità (volume, ricavi, tempo) per
+assicurarti che i tuoi numeri siano consistenti. Puoi inserire una tabellina riassuntiva nel tuo modello che mostri a vari
+livelli di vendite il margine e utile risultante, per vedere dove lo zero viene superato. Usa il break-even anche come
+stress test: es. se nelle vendite reali tarderai 6 mesi a raggiungerlo, hai abbastanza cassa per sopravvivere? Questo
+rientra negli scenari (worst case). Comunica il break-even con sicurezza, ma senza promesse irrealistiche: se dici
+“pareggeremo tra 6 mesi” ma sei ancora in beta senza ricavi, suona poco credibile. Meglio dire “col modello attuale, il
+pareggio operativo richiederà ~€X di ricavi mensili, che nelle nostre proiezioni avviene nel mese Y dell’anno Z”. È
+normale che le startup non siano breakeven subito, gli investitori lo sanno: l’importante è far capire il quando e come
+ci arriverai e che il risultato potenziale vale l’investimento e l’attesa.
+Indicatori di Ritorno: ROI, IRR e Payback
+Oltre ai classici bilanci, un founder dovrebbe calcolare alcuni indicatori di ritorno per valutare e comunicare la
+redditività potenziale dell’investimento (sia per l’azienda sia per chi investe). I principali sono:
+ROI (Return on Investment) – Ritorno sull’investimento. In generale, ROI = (Guadagno ottenuto - Investimento iniziale) / Investimento
+iniziale . Può essere espresso in percentuale o in multiplo. Ad esempio, se investo €1 e ottengo €5, il ROI è 400% o
+5x (a volte si dice “5x return”). Nel contesto startup, spesso si parla di ROI per l’investitore in termini di multiplo
+sul capitale investito. Un esempio nel piano: “Se raggiungeremo il piano quinquennale, un investimento odierno
+potrebbe valere 5-10 volte tanto entro 5 anni”[51]. Questo equivarrebbe a un ROI del 400-900%. Attenzione: non
+è una promessa garantita, ma un’indicazione dell’upside possibile. Per l’azienda stessa, ROI può riferirsi a progetti
+specifici (es. ROI di un progetto di sviluppo, calcolato come NPV ratio), ma solitamente in fase seed si guarda al
+ROI per chi mette i soldi. Calcolarlo richiede ipotizzare una exit o un valore futuro: ad esempio, prevedi che in 5
+anni la startup raggiunga €10M di ricavi annui, e assumendo un multiplo di valutazione (es. 3x ARR) si avrebbe
+una exit da €30M. Se oggi entra un investitore con €300k per il 10% (post-money €3M), quell’investitore a €30M
+di valore avrebbe azioni per €3M, cioè 10x sul suo investimento. Puoi quindi dire ROI ~10x in 5 anni. Un altro
+modo: calcola il valore futuro dell’investimento: ROI = Valore proiettato fra X anni / investimento. E.g., investi
+€50k oggi, proietti che con quel 5% di equity varrà €250k a exit → ROI = 5x[52]. I VC early-stage tipicamente
+cercano startup con potenziale di almeno 10x ritorno, sapendo che molte falliranno. I business angel a volte
+accontentano di 5-10x. L’importante è mostrare che il tuo piano, se realizzato, genererebbe un ROI interessante
+(non che investendo €1M si guadagna solo €1.1M).
+IRR (Internal Rate of Return) – Tasso interno di rendimento. È l’indicatore che esprime il rendimento annualizzato
+composto di un investimento, tenendo conto dei flussi di cassa in entrata e uscita. In parole semplici, risponde: “a
+che tasso annuo sta crescendo il valore dell’investimento?”. Calcolarlo manualmente richiede un po’ di trial-error
+(di solito si usa la funzione IRR di Excel su una serie di cash flow). Ma possiamo spiegare concettualmente: un ROI
+di 5x in 5 anni equivale a circa il 38% IRR annuo; 10x in 5 anni è ~58% IRR. IRR è utile perché considera anche il
+tempo: ottenere 5x in 3 anni (IRR ~71%) è meglio che in 5 anni (38%). Per un founder, menzionare l’IRR atteso può
+sembrare eccessivamente tecnico; più spesso si parla di multipli. Tuttavia, se hai un modello di flussi di cassa,
+potresti calcolare l’IRR del progetto startup nel suo complesso (considerando i flussi di cassa negativi iniziali e poi
+38c_Guida Operativa_ Costruire un Piano Finanziario per una Startup Medtech (Eco 3D) 11
+positivi, magari con un evento di exit al 5° anno). Questo darebbe una misura finanziaria del progetto. Ad esempio:
+investimenti totali €2M nei primi 3 anni, flussi positivi dal 4° anno, exit al 5° anno vendendo l’azienda a €50M 
+IRR per chi ha messo soldi all’inizio ~80-100%. Spesso questi numeri impressionano, ma vanno presi con cautela.
+Un venture capitalist valuterà da sé l’IRR in base alla valutazione d’ingresso e potenziale di uscita. Nel piano,
+potresti includere: “L’IRR potenziale dell’investimento, in caso di exit a 5 anni secondo le nostre proiezioni, supera
+il 50% annuo”, giusto per evidenziare il possibile alto rendimento. In contesti di finanziamenti pubblici o bandi, a
+volte chiedono l’IRR del progetto per valutarne la fattibilità economica.
+Payback Period (Tempo di recupero): È il tempo necessario affinché un investimento sia recuperato dai flussi di
+cassa generati. In altre parole, “quando rientrano i soldi iniziali?”. Ci sono due visioni:
+Payback per l’Investitore: se uno investe oggi, in che anno (tramite exit o dividendi) recupera il capitale investito?
+Per startup spesso coincide con l’exit: se vendi la società al 5° anno, l’investitore recupera e guadagna lì. Se
+considerassimo flussi di dividendi (rari nelle startup early), potresti vedere quando i dividendi cumulati eguagliano
+l’investimento.
+Payback per il Progetto (Self-sustainability): a livello aziendale, è quando il cumulato dei flussi di cassa operativi
+dal lancio diventa positivo. Ossia, includendo anche gli investimenti iniziali, in che anno la startup ha generato
+abbastanza cash da ripagare tutti i soldi spesi fino a quel momento (non considerando i finanziamenti esterni
+come “recupero” perché quelli sono soldi di altri). Questo è simile al break-even cumulativo. Esempio: spendi
+cassa per tre anni (-€1M cumulato), poi inizi a generare +€300k anno, +€500k anno… Il payback potrebbe
+arrivare verso l’anno 5-6, quando la somma dei flussi diventa zero.
+Per comunicare efficacemente, di solito si usa ROI multiplo e payback (tempo) per dare un’idea di ritorno agli
+investitori. Ad esempio: “Prevediamo un’uscita in 5 anni che potrebbe offrire un ritorno di ~8x agli investitori iniziali
+(payback al quinto anno)”. Questo implica ROI +700% in 5 anni, payback 5 anni. Alcuni piani includono anche un
+analisi di sensitività: ad esempio, se l’exit avviene al 4° anno a tot valutazione, IRR è X; al 6° anno a un’altra
+valutazione, IRR Y. Non è obbligatorio, ma dimostra che hai considerato vari scenari di uscita e relativo ritorno. Feeda
+suggeriva persino di menzionare: “un investitore odierno potrebbe vedere multipli di 5-10x sul capitale investito entro
+5 anni, considerando i benchmark di valutazione del settore”[51]. È un modo un po’ da salesman, ma molti lo fanno.
+Se lo fai, mantieni credibilità: meglio una forbice prudente (tipo 5-10x) che sparare “100x” a caso.
+Formule utili:
+- ROI % = (Valore finale - Investimento) / Investimento × 100 . Esempio: investi €100k, rivendi quota a €600k → ROI = (600-100)/100
+= 500%.
+- ROI multiplo = Valore finale / Investimento . Nell’esempio: 600/100 = 6.0x.
+- IRR: non c’è formula chiusa, ma in Excel: =IRR(range_flussi_annuali) . Se un investitore mette -100k al tempo 0 e esce con
++600k al tempo 5, i flussi sono [-100, 0, 0, 0, 0,
++600] per anni 0-5, l’IRR calcolato ~45% annuo. (Puoi citare questo
+come riferimento se opportuno).
+- Payback: conta gli anni finché la somma dei cash flow diventa positiva. Esempio: -100k, poi +20k, +30k, +40k,
++50k, +60k… il cumulato diventa >0 durante il 5° anno, quindi payback ~5 anni.
+Best practice ROI/IRR/Payback: Non confondere l’investitore con troppi indicatori finanziari sofisticati – scegli quelli
+adatti al tuo pubblico. Spesso ROI multiplo è immediato, mentre IRR è più tecnico ma apprezzato da chi mastica
+finanza. Se citi l’IRR, specifica l’orizzonte: “IRR annuo su 5 anni”. Presenta questi numeri come il risultato di ipotesi
+trasparenti: ad esempio, mostra come un certo scenario di exit genererebbe quei ritorni, piuttosto che promettere a
+vuoto. Inoltre, evidenzia come l’aumento di valore è legato a trazione e metriche (non solo a valutazioni arbitrarie):
+“pianifichiamo di raggiungere €5M di ARR in 4 anni; a un multiplo 4x ARR tipico del settore medtech SaaS, l’azienda
+varrebbe ~€20M. Ciò implica ~10x sull’investimento seed, ossia ~58% IRR annuo”. Questo ragionamento collega
+metriche operative a ritorni finanziari, molto efficace per convincere. Infine, sii onesto: se il tuo modello è a più lungo
+termine (deep hardware con exit magari in 7-8 anni), non forzare una promessa a 3-5 anni perché “fa bello” – spiega
+la natura dei tempi e perché comunque il ritorno è attraente. Molti investitori che conoscono il settore apprezzeranno
+la realistica valutazione del timeframe.
+38c_Guida Operativa_ Costruire un Piano Finanziario per una Startup Medtech (Eco 3D) 12
+Metriche Ricorrenti (MRR, ARR, LTV, CAC, Burn Rate, Runway)
+In un modello di business con ricavi ricorrenti (tipicamente SaaS o abbonamenti), ci sono alcune metriche chiave che
+devi saper calcolare e presentare. Anche se la tua startup medtech vendesse hardware, potresti avere componenti di
+ricavo ricorrente (manutenzione, consumabili, software) quindi è utile conoscerle. Inoltre, burn rate e runway si
+applicano a tutti. Vediamole:
+MRR (Monthly Recurring Revenue): È il fatturato mensile ricorrente contrattuale. In parole semplici, la somma di
+tutti i ricavi che si ripetono ogni mese in corso. Se hai 100 clienti abbonati paganti €500/mese, il tuo MRR =
+€50.000. È un indicatore immediato della “taglia” attuale del tuo business ricorrente. Spesso nelle proiezioni si
+mostra la crescita di MRR nel tempo (es. da 0 a €100k/mese in 24 mesi). Attenzione a non includere elementi non
+ricorrenti (setup una tantum, vendita hardware una tantum) nell’MRR. Quelli li puoi contare a parte. L’MRR serve
+per modelli subscription. Puoi anche parlare di ARR equivalentemente.
+ARR (Annual Recurring Revenue): È l’MRR annualizzato (MRR × 12) oppure la somma dei contratti annuali
+ricorrenti. Ad esempio, MRR €50k → ARR = €600k. Spesso si usa ARR per dare un numero tondo annuale
+(soprattutto se vendi contratti annuali). Nelle metriche spesso sentirai “ha raggiunto 1M ARR”. Di nuovo, includi
+solo la parte ricorrente. Se vendi hardware con maintenance annuale, quell maintenance può considerarsi ARR. Se
+vendi solo hardware, MRR/ARR non ha senso (avrai vendite una tantum – in quel caso magari dai il “run-rate” di
+fatturato, ma è diverso). Nel dubbio, presentale solo se attinenti.
+LTV (Lifetime Value): È il valore totale generato da un cliente nell’arco della sua vita come cliente. Spesso inteso
+come ricavo o margine cumulato medio per cliente fino a che non smette di pagare. Per calcolarlo serve
+conoscere la durata media della permanenza di un cliente e il suo contributo annuo/mensile. Un caso semplice:
+se un cliente paga €500/mese e rimane in media 24 mesi, i ricavi totali = €500×24 = €12.000. Ma di solito si
+considera il margine generato, quindi magari si moltiplica per il gross margin. Se il margine lordo è 80%, LTV =
+12k×0.8 = €9.600. Un metodo rapido per stimare LTV in modelli subscription è: LTV = ARPU (ricavo medio per cliente per
+periodo) / tasso di abbandono . Esempio: ARPU €500/mese, churn mensile 5% → durata media = 1/0.05 = 20 mesi, LTV ≈
+€500×20 = €10.000 (questo è ricavo, se vuoi margine applichi il GM%). È utile presentare un LTV multi-year:
+spesso si considera a 3 anni o 5 anni, perché oltre diventa aleatorio. Nell’esempio, a 3 anni (36 mesi) quel cliente
+non sarebbe comunque attivo mediamente (con churn 5% mensile, solo ~20% arrivano a 36 mesi!). Quindi LTV
+effettivo ~€10k come visto. LTV serve a capire quanto “vale” un cliente per te.
+CAC (Customer Acquisition Cost): Il costo medio sostenuto per acquisire un cliente. Formula: CAC = Spese di Sales &
+Marketing di un periodo / Numero di nuovi clienti acquisiti in quel periodo . Se spendi €20k in marketing in un trimestre e porti 100 nuovi
+clienti paganti, CAC = €200. Spesso si includono tutte le spese per acquisire clienti (inclusi stipendi del team
+marketing/vendite proporzionati, se lavorano solo a quello). Dipende dal modello: in B2C puro con marketing
+online, prendi i costi advertising; in B2B con venditori, includi stipendio e spese dei sales rapportati. Il CAC si può
+calcolare per canale (CAC via Google Ads vs via eventi) o in aggregato. Ai fini del piano finanziario, è importante
+perché confrontato con LTV indica se il modello è sostenibile: la famosa regola generale è LTV/CAC > 3 (il valore
+del cliente almeno triplo del costo per ottenerlo)[9]. Nel nostro esempio, LTV €10k vs CAC €200 → LTV/CAC = 50,
+eccellente (forse troppo bello per essere vero – spesso CAC reali sono nell’ordine di centinaia se non migliaia per
+prodotti costosi). Per prodotti enterprise, CAC alti sono normali se LTV molto alto.
+LTV/CAC ratio: Come detto, è un indicatore sintetico di redditività per cliente. Se è <1, stai perdendo soldi su ogni
+cliente (non recuperi nemmeno quanto spendi per prenderlo). Se è intorno a 1-2, è preoccupante (solo col
+passaparola gratuito potresti migliorare, oppure devi aumentare prezzi o durata). Se è >3, considerato buono in
+molti settori, significa che ogni euro speso ne rende almeno 3 sul lungo termine. Molte startup SaaS mirano a
+LTV/CAC di 3-5; valori altissimi (10x+) possono indicare opportunità di investire di più in marketing per crescere
+più in fretta, finché rimani sopra 3. Nel piano, se hai un modello SaaS, conviene mostrare le stime di CAC iniziale e
+LTV, e la ratio. Ad esempio: “Stimiamo un CAC iniziale di ~€200 e un LTV medio a 3 anni di ~€600, con LTV/CAC
+≈ 3, indicando un modello sostenibile e redditizio”[9]. Questo rassicura l’investitore che non stai “comprando
+ricavi” a costo troppo alto.
+38c_Guida Operativa_ Costruire un Piano Finanziario per una Startup Medtech (Eco 3D) 13
+Churn & Retention: Non menzionata esplicitamente nell’elenco, ma se hai MRR devi considerare il tasso di
+abbandono (churn). Es. churn 5% mensile significa perdi 5% dei clienti ogni mese (o mantenimento 95%).
+Inverso di churn dà la lifetime come visto. Se citi LTV, devi giustificare con churn. Es.: “assumiamo churn 5%
+mensile in calo al 3% dopo un anno grazie a maggiore fedeltà”[15]. Questo è tipico: all’inizio churn più alto, poi
+migliora con prodotto maturo e contratti annuali magari.
+Burn Rate & Runway: Già definiti prima, li ripetiamo qui perché fanno parte delle metriche chiave. Burn Rate =
+cassa netta che bruci al mese (se negativo). Runway = mesi prima di finire la cassa. Queste metriche piacciono
+molto negli slide riassuntivi perché danno un’idea immediata di salute finanziaria. Ad esempio un KPI slide
+potrebbe dire: “Burn €50k/mese; Runway 18 mesi (con round seed richiesto)”. In fase pre-seed, con 0 ricavi, è
+facile: burn = spese mensili; in fase seed con alcuni ricavi, burn = spese - ricavi. Si può dire anche “net burn”. Per
+completezza, se un mese avrai cashflow positivo, bruciatura diventa negativa (generi cassa) – a quel punto
+runway è infinita teoricamente perché non finisci i soldi, anzi li aumenti. Quello è break-even cash raggiunto.
+Presentazione delle metriche: Spesso nel piano finanziario (o nel pitch deck corrispondente) si dedica una sezione ai
+KPI chiave. Non tediarli con decine di numeri: scegli quelli rilevanti al tuo modello. Per un medtech hardware con
+componente SaaS, ad esempio: numero di installazioni, MRR, LTV/CAC, gross margin, burn rate & runway. Per un
+puro SaaS: MRR, growth rate mensile (quanto cresce MRR mese su mese), CAC, LTV, LTV/CAC, churn, burn & runway,
+EBITDA margin prospettico, ecc. Per altri modelli: e-commerce guarderà COGS%, rotazione magazzino, etc. Adatta i
+KPI ai tuoi punti di forza[53]: se hai un margin ottimo, enfatizza quello; se hai retention eccellente, cita churn basso;
+se sei ancora pre-ricavi, evidenzia magari users growth o engagement e costi contenuti. L’investitore in early stage si
+aspetta di vedere MRR/ARR (se applicabile) e burn/runway di sicuro. LTV/CAC se hai abbastanza dati per stimarlo
+(inizialmente sarà ipotetico, va bene dichiararlo come ipotesi in base a test o benchmark).
+Esempio di metriche in pratica:
+Supponiamo Eco 3D venda dispositivi ma con canone software: potresti dire: “MRR attuale €0 (prodotto in sviluppo);
+atteso MRR 12° mese €20k. Gross margin 60% iniziale → 80% a regime (2027). CAC stimato €5k per clinica acquisita
+(vendita complessa B2B), ricavo medio per cliente €30k (hardware) + €6k annui di software; payback per cliente <18
+mesi. LTV (5 anni) ≈ €60k, quindi LTV/CAC ~12x, molto alto per margine – questo ci permette di investire
+aggressivamente in crescita. Burn rate iniziale €30k/mese, destinato a salire a €50k con l’espansione commerciale;
+runway 18 mesi con il seed attuale. Break-even operativo previsto al mese 24, con ~50 installazioni attive e €50k
+MRR”. Non tutte queste info vanno in un unico respiro, ma si possono distribuire tra piano e pitch. L’importante è che
+convincono su due fronti: la crescita (MRR, utenti) e l’efficienza (margini, LTV/CAC), oltre alla gestione prudente
+(burn/runway).
+Best practice Metriche: Calcola queste metriche a partire dal tuo modello finanziario, non a caso. Se nel modello hai
+che spendi €200k per ottenere 100 clienti, non dire che il CAC è €500 se invece è €2.000. Meglio aggiustare il
+modello se viene un CAC troppo elevato rispetto a LTV – magari significa che devi prevedere marketing più efficace o
+un prezzo maggiore. Le metriche spesso evidenziano i punti deboli: es. LTV/CAC = 1? Allarme rosso: stai spendendo
+troppo per vendere; devi rivedere strategia o pricing. Usa i benchmark di settore per capire dove dovresti essere: ad
+esempio, se tutte le SaaS sane hanno churn <5% annuo e tu hai 5% mensile, sai che è un problema da risolvere. Nelle
+note del piano, dimostra di conoscere questi riferimenti: “assumiamo un churn 5% mensile che migliora a 3% –
+inizialmente alto ma comune per SaaS in fase iniziale, da ridurre col prodotto maturo”[15]. Ciò fa vedere che sai quali
+leve contano. Non infarcire il documento di acronimi senza spiegarli: definisci ogni metrica la prima volta (LTV =
+lifetime value, ecc.) per non alienare chi legge[54]. E ricordati di personalizzare l’importanza: se il tuo modello non
+ha MRR, non focalizzarti su MRR; magari è più importante evidenziare il gross margin o il tasso di adozione. In
+sostanza, scegli 3-5 metriche chiave e presentale in modo che raccontino la storia finanziaria del tuo business in
+breve.
+Cosa si Aspettano gli Investitori (Pre-Seed, Seed, Serie A)
+Le aspettative degli investitori sul piano finanziario evolvono con le fasi di crescita. Un founder deve saper tarare il
+dettaglio e i messaggi in base al tipo di round a cui mira:
+38c_Guida Operativa_ Costruire un Piano Finanziario per una Startup Medtech (Eco 3D) 14
+Fase Pre-Seed
+Chi sono e cosa cercano: tipicamente angel investor, acceleratori, friends & family. Importi raccolti contenuti (da
+pochi decine di migliaia fino a qualche centinaio di migliaia di €)[55]. In questa fase l’azienda è ancora un’idea o
+prototipo: ricavi zero o quasi, team piccolo, tanta incertezza. Gli investitori pre-seed sanno che le proiezioni
+finanziarie sono ipotesi iniziali, non dati storici.
+Cosa vogliono vedere nel piano:
+- Chiarezza sui costi iniziali e sull’uso della cassa. Anche se non hai ricavi, devi mostrare che sai quanto costa
+arrivare al prossimo step. Ad esempio, “Servono €X per sviluppare l’MVP, fare test con utenti pilota e incorporare la
+società”[56]. Elenca i costi di sviluppo, i costi legali di partenza, marketing iniziale minimo, ecc., evitando di
+sottovalutare voci (prototipi, certificazioni, etc.)[57]. Sottostimare i costi è un errore comune che spaventa: un angel
+preferisce vedere che chiedi un po’ di più ma hai considerato tutto, piuttosto che scoprire poi che ti mancano
+soldi[58].
+- Runway sufficiente: pre-seed spesso mira a 6-12 mesi di autonomia[28], giusto per arrivare a un MVP e validare
+alcuni presupposti. Se presenti un piano dove con il loro investimento finisci i soldi in 4 mesi, è improbabile che
+investano[30]. Quindi mostra che il pre-seed funding coprirà almeno un anno (idealmente) di sviluppo iterativo.
+- Focus su MVP e validazione: la maggior parte dei fondi pre-seed sarà spesa in prodotto e test iniziali[56], quindi il
+piano finanziario dovrebbe riflettere questo (es. 70% R&D/prodotto, 20% test/pilot, 10% spese operative di base). Gli
+investitori vogliono vedere che non userai i soldi per stipendi esorbitanti o spese superflue, ma per creare valore
+(prodotto funzionante, primi utenti)[59][60]. Un piccolo stipendio ai founder è ok (devono pur vivere), ma evidenzia
+che è modesto e che stai bootstrappando il più possibile[61].
+- Metriche surrogate: se non hai revenue, devi puntare su altri indicatori di progresso: es. numero di utenti nella
+waiting list, risultati di una survey di mercato, LOI (lettere di intenti) raccolte, etc. Nel piano finanziario, questo si
+traduce magari in date previste di attivazione utenti o rilascio prototipo. I numeri qui sono piccoli ma servono a
+tracciare un percorso.
+- Break-even e ritorni in secondo piano: a pre-seed nessuno si aspetta che tu abbia un break-even a portata di
+mano. Probabilmente il break-even arriverà solo dopo il seed o Serie A. Comunque puoi includere che in 3-4 anni si
+arriverebbe a pareggio, giusto a dimostrare che c’è un orizzonte di sostenibilità, ma nessuno ti chiederà un break-
+even a 12 mesi (anzi, se lo prevedi potrebbero pensare che non stai investendo abbastanza in crescita). Sul fronte
+ritorni, un angel pre-seed investe perché spera in un grande multiplo, ma sa che è molto rischioso. Puoi comunque
+sottolineare il potenziale: “Se il piano va bene, questo investimento potrebbe rendere >10x in 5 anni” (essendo pre-
+seed di solito entri a valutazioni basse, quindi il potenziale multiplo è alto). È più importante in questa fase far capire
+che il mercato è enorme (TAM) e la visione ambiziosa – così che 10x o più sia plausibile se la startup decolla.
+- Semplicità e flessibilità: gli investitori pre-seed non si aspettano previsioni super dettagliate a 5 anni – sanno che
+cambierà tutto. Mostra di aver fatto 2-3 anni di proiezioni, ma soprattutto enfatizza il breve termine 12-18 mesi: cosa
+farai con questi soldi e quali milestone raggiungerai. Un dettaglio eccessivo su anno 5 con decimali può far sorridere
+un angel. Meglio indicare scenari larghi e l’intenzione di aggiornare il piano man mano che impari dal mercato[62]
+[63]. L’investitore pre-seed vuole vedere che hai un piano d’azione più che un bilancio perfetto.
+Aspettative tipiche pre-seed: Un prototipo funzionante entro la fine della runway, qualche utente/test, metriche di
+utilizzo iniziali; spese concentrate sul necessario; break-even probabilmente non raggiunto in questo round, ma con
+il seed successivo; multipli attesi molto alti (per compensare il rischio), quindi devi far intravedere come l’azienda
+possa valere decine di volte l’investimento iniziale se tutto va bene. In pratica, il tuo piano pre-seed deve vendere la
+visione con credibilità sui costi di realizzazione dei primi passi.
+Fase Seed
+Chi sono: seed funds, angel syndicate, micro-VC, crowdfunding equity, ecc. Importi tipici in Italia/EU vanno da
+~€300k fino a €2-3M[64]. La startup qui dovrebbe avere già un MVP o prototipo, magari primi utenti o primi ricavi
+pilot, e sta cercando fondi per trovare product-market fit e iniziare a scalare il mercato domestico.
+38c_Guida Operativa_ Costruire un Piano Finanziario per una Startup Medtech (Eco 3D) 15
+Cosa vogliono nel piano finanziario:
+- Evidenza di Traction e Obiettivi di Crescita: A livello numerico, ora contano le prime metriche reali: utenti acquisiti,
+crescita mese su mese, eventuali primi ricavi. Nel piano, oltre alle proiezioni future, mostra i risultati ottenuti finora e
+come si proiettano in avanti. Esempio: “Abbiamo 5 clienti paganti e 20 in pipeline; con il seed arriveremo a 100 clienti
+in 18 mesi”. Fornisci tassi di crescita ragionevoli: seed investor amano vedere piani con crescita significativa (es. 10-
+20% mese su mese per servizi SaaS early stage), ma devono essere supportati da una strategia di acquisizione
+credibile (budget marketing coerente, team commerciale previsto).
+- Assunzioni e team building: Con il seed si passa spesso da “founder + pochi” a un piccolo team strutturato[65]. Gli
+investitori si aspettano di vedere in piano l’inserimento delle figure chiave: sviluppatori aggiuntivi, magari un primo
+business development o marketer, customer support se serve. Devono capire che userai i fondi per costruire
+capacità interna oltre che prodotto. Assicurati che i costi del personale riflettano queste assunzioni (non basta dire
+“assumeremo 5 persone”, bisogna metterle a budget con stipendio e timing).
+- Go-to-Market e CAC: Ora è fondamentale avere un’idea dei costi di acquisizione clienti e di quali canali userai. Un
+investitore seed si aspetta che tu abbia testato un po’ il mercato e abbia dei CAC preliminari o ipotesi basate su test.
+Nel piano finanziario, la voce marketing/vendite dovrebbe crescere in modo consistente (spendere per acquisire
+clienti)[66]. Devono però vedere che non stai buttando soldi indiscriminatamente: porta eventuali dati di esperimenti
+di marketing già fatti e il risultato (es. “pilota di Google Ads: 100 lead, 10 conversioni, costo per acquisizione €300,
+che contiamo di ottimizzare al di sotto di €200 con miglioramento funnel”). Se non hai dati reali, usa benchmark di
+settore: es. “in settori analoghi il CAC medio è €150, abbiamo impostato nel piano €200 iniziale calando a €150 grazie
+a referral e scala”. Inoltre, presenta magari LTV/CAC per mostrare che il modello tiene (anche se LTV è stimata).
+- Milestone di Traction legati alla prossima fase: Un seed investor investe per portarti a un Series A o a break-even.
+Quindi il piano deve evidenziare che con quei soldi arriverai a milestone misurabili che giustificheranno un round
+successivo. Tipicamente: fatturato mensile o annuo, numero di clienti, tasso di crescita, proof of unit economics (cioè
+dimostrare che su piccola scala LTV/CAC e margini funzionano, anche se non sei ancora profittevole). Ad esempio, un
+obiettivo seed potrebbe essere “arrivare a €50k MRR e LTV/CAC > 3 in 18 mesi, con churn <5% mensile, pronti per
+Serie A”[67]. Nel piano finanziario, queste milestone dovrebbero emergere: es. vedi l’ ARR raggiunto, i costi di
+marketing e vendite in rapporto ai ricavi che magari migliorano nel tempo (efficienza di acquisizione).
+- Controllo del Burn: Anche se è normale bruciare cassa, i seed investor vogliono assicurarsi che non bruci troppo
+rapidamente e che tu sappia gestire il capitale efficacemente. Frasi come “non assumere solo perché hai raccolto, ma
+solo per sbloccare la crescita” sono spesso consigliate[68]. Quindi nel piano, la crescita dei costi deve essere
+allineata alla crescita dei ricavi, almeno in linea di massima. Un segnale positivo è mostrare efficienza crescente: ad
+esempio, margine EBITDA che migliora anno su anno (anche se rimane negativo), oppure CAC che scende man mano
+che affini il marketing. Al contrario, spendere a pioggia senza miglioramenti visibili sarebbe un red flag. Un seed
+round dovrebbe darti 12–18 mesi di runway[27], come detto; assicurati che con la somma richiesta arrivi almeno a 18
+mesi prima di finire i soldi (meglio 18 che 12, in realtà, per essere tranquilli).
+- Break-even post-Seed: Molti investitori seed non si aspettano che tu raggiunga il break-even con il loro round, ma
+vogliono vedere che potenzialmente potresti, o almeno ti avvicini. Ad esempio, se con il seed arrivi a -€50k/mese di
+EBITDA e necessiterai di una Serie A per continuare, va bene, ma se con il seed potresti raggiungere il cashflow
+positivo, in alcuni casi potrebbe anche essere considerato (dipende dalla strategia – a volte meglio reinvestire e stare
+in perdita per crescere di più). In generale, indica nel piano se prevedi un ulteriore round (Serie A) e quando, oppure
+se in uno scenario (magari quello prudente) potresti arrivare a break-even e rallentare i piani di espansione. Alcuni
+seed investor gradiscono sapere che in caso di emergenza potresti sopravvivere anche senza A, altri puntano
+comunque all’ A per fare il vero scale-up. Comunemente, per startup tech, il break-even è atteso dopo la Serie A, non
+col seed. Quindi non preoccuparti se le tue proiezioni rimangono in rosso, purché le perdite abbiano un senso (cioè
+stai costruendo asset: clienti, IP, brand, che poi genereranno utili). Un occhio particolare va ai unit economics: se
+ogni vendita ha margine positivo e LTV > CAC, allora crescere velocemente aumenta le perdite iniziali ma crea valore
+a lungo termine. Spiegalo chiaramente.
+- Valutazione e multipli: Anche se il business plan di per sé non discute valutazione, i seed investor faranno i loro
+conti. È utile tu sappia il multiplo sul fatturato o MRR implicito che avrai al Series A. Ad esempio, se nel piano arrivi a
+38c_Guida Operativa_ Costruire un Piano Finanziario per una Startup Medtech (Eco 3D) 16
+€1M ARR e prevedi Series A, sai che potresti valere, diciamo, 5x ARR = €5M pre-money (esempio). Quindi un angel
+seed che entra ora a €2M pre-money e vede potenziale €5M in 18 mesi, sa che potrebbe fare ~2-3x sul valore (non
+liquidità, ma on paper) entro il Series A, e poi mira all’exit più grossa più avanti. Perciò, se puoi dire qualcosa tipo: “Al
+Series A puntiamo ad almeno €500k MRR e un multiplo di valutazione ~8-10x ARR, in linea col settore, per una
+valutazione di ~€5M, offrendo un significativo step-up agli investitori seed”, fai capire che conosci i multipli e offri
+opportunità di crescita. (Nota: i numeri sono arbitrari, adattali alla realtà). Anche i multipli di ritorno finali: i seed VC
+cercano comunque 10x sul loro investimento nel lungo termine. Puoi ribadire come l’azienda, se cresce secondo
+piano, potrebbe valere decine di milioni all’exit, dando loro quel multiplo.
+Aspettative tipiche seed: un piano più raffinato del pre-seed, con 3-5 anni di proiezioni e soprattutto 18-24 mesi ben
+dettagliati; KPI chiari (MRR, utenti, CAC, LTV etc. come discussi); unit economics che iniziano a quadrare (anche se
+non c’è profitto netto, almeno vedere margini lordi buoni, LTV>CAC>1, etc.); runway di 18 mesi con quei fondi; break-
+even menzionato magari intorno al 3º-4º anno o con Serie B; e che la somma richiesta porti a traguardi tangibili (non
+“e poi vedremo”). I seed investor investono per innescare la crescita, quindi vogliono vedere ambizione (non un
+pianino troppo conservativo), ma anche controllo (non sprechi e previsioni lunari senza prova).
+Fase Serie A
+Chi sono: fondi di venture capital istituzionali, round più grandi (€5-15M tipicamente, anche se in EU può essere un
+po’ più basso)[69]. L’azienda a questo punto dovrebbe avere un prodotto sul mercato, ricavi in crescita,
+un’organizzazione in espansione. Il Serie A serve per scalare seriamente (espandere geografie, acquisire molti clienti,
+perfezionare il modello di business su larga scala).
+Cosa si aspettano dal piano finanziario:
+- Proiezioni dettagliate e storiche: Ora gli investitori vogliono vedere non solo ipotesi, ma anche trend storici degli
+ultimi 12-18 mesi. Quindi il piano finanziario includerà il consuntivo finora (anche in sintesi) e poi proiezioni future.
+Vorranno capire il cohort di clienti, il churn effettivo, il costo di acquisizione effettivo finora e come cambierà con più
+budget. Il modello finanziario dovrebbe essere robusto: se ne avrai uno in Excel, preparati a condividerlo in due
+diligence.
+- Efficienza e scala: Una parola chiave per Serie A è efficiency[70]. Non basta crescere, devi farlo in modo
+relativamente efficiente. Ciò significa guardare a metriche come: rapporto tra crescita dei ricavi e crescita dei costi
+(idealmente, i ricavi crescono più velocemente), EBITDA margin trending up, Magic Number (una metrica SaaS:
+fatturato nuovo annuo vs spesa marketing), Retention alta. I VC di Series A scrutano LTV, CAC, churn reali. Se
+qualcosa è fuori posto (es. churn 15% mensile = clienti non tengono; o gross margin 30% = troppo basso per SaaS; o
+CAC > LTV), vorranno spiegazioni e piani per migliorarli. Nel piano finanziario, dunque, mostra come col nuovo
+investimento ottimizzerai questi indicatori: es. “con nuovi data scientist assunti, ridurremo il churn dal 5% al 3%
+aumentando la retention” (questo aumenterà LTV nei numeri); oppure “automatizzando il processo X taglieremo il
+costo di servizio per utente, migliorando gross margin al 80%”. Insomma, Serie A = scalare quello che funziona,
+aggiustare quello che non funziona.
+- 24+ mesi di runway e piani di lungo termine: Il Series A di solito dovrebbe portare l’azienda verso la Serie B o alla
+redditività significativa. Quindi fornisci un piano di almeno 24 mesi in avanti ben strutturato[29], e magari uno sguardo
+fino a 3-5 anni per mostrare il quadro completo (spesso i VC vogliono capire dove arrivi in 5 anni, ad es. “azienda da
+50M fatturato e profitable al 202X”). Aspettati che chiedano: “Quanti anni per il break-even e quanti soldi in totale
+serviranno ancora?”. Non promettere per forza che questo sarà l’ultimo round (Serie A raramente è l’ultimo), però
+potresti evidenziare che dopo il Series A potremmo raggiungere cash-flow positivo se scegliessimo di rallentare la
+crescita al posto di fare Series B[35] (mostra opzioni). In generale, il break-even potrebbe essere ancora dopo il
+Series A (es. punti a break-even con Series B), ma alcuni modelli SaaS leggeri riescono anche con A. In medtech
+hardware, serie A potrebbe ancora essere preludio a B, specie se c’è scalata industriale. L’importante è essere onesti
+e avere i conti per mostrarlo: se break-even è solo a serie C, va spiegato perché (es. “costruzione rete vendita globale
+richiede investimenti prolungati”).
+- Valutazioni e Exit: I Series A VCs investono cercando comunque un exit 5-7 anni dopo su un multiplo elevato.
+Quindi il tuo piano quinquennale deve far intravedere una azienda che può valere, ad esempio, 100+ milioni se tutto va
+38c_Guida Operativa_ Costruire un Piano Finanziario per una Startup Medtech (Eco 3D) 17
+bene (per giustificare il loro ingresso a, ad es., 10-20M pre-money ora). Non devi scrivere “usciremo a 100M”, ma puoi
+far capire tramite TAM e curve di crescita che il potenziale c’è. Parlando di ROI: per un Series A, un 5-10x in 5 anni è
+ancora l’obiettivo (magari 5x se entra un fondo “late seed” a valutazione già alta; se invece la valutazione A è ancora
+bassa, vorranno 10x). Puoi includere benchmark di exit nel settore: es. aziende simili vendute a 5x vendite o 20x
+EBITDA, etc. Questi multipli li puoi collegare ai tuoi numeri futuri per indicare opportunità di ritorno[51].
+- Due Diligence ready: A differenza di pre-seed/seed dove molti numeri sono ipotesi, al Series A preparati a
+giustificare ogni numero. Il VC probabilmente farà analizzare il tuo modello finanziario da analisti, confronterà con i
+tuoi KPIs reali mensili, potrebbe chiedere scenario B/C (se vendite 20% meno, cosa succede? – tu dovresti averlo già
+considerato)[71]. Apprezzeranno se fornirai anche scenario pessimistico e ottimistico: “Nel caso pessimistico con
+ricavi 20% inferiori, ritarderemmo di 6 mesi il break-even ma sopravviviamo riducendo spese marketing;
+nell’ottimistico potremmo accelerare assunzioni”[71]. Questo dimostra maturità e controllo. Non aver paura di
+mostrare le perdite iniziali – a Series A le conoscono già e le accettano, vogliono però sapere quando finiscono e
+perché[72].
+Aspettative tipiche Series A: un piano solido, con assunzioni valide e dati storici a supporto; unit economics
+comprovati (anche se non perfetti, almeno trend positivo: es. costi acquisizione scendono con volumi, margini
+salgono, retention buona); scenari e analisi sensibilità considerati; break-even non troppo remoto (se dici
+“diventeremo profittevoli tra 10 anni” storceranno il naso, a meno che tu sia davvero deeptech stile biotech),
+idealmente entro 3-4 anni o con 1-2 round aggiuntivi al massimo; runway 24 mesi con il round A; e una chiara idea di
+come scalare (budget spalmato su vendite/marketing/internazionalizzazione, team scaling, sistemi interni)[73][74]. In
+Serie A di medtech, potrebbero volere vedere anche piani per regulatory approvals internazionali, produzione su
+larga scala, e relative spese. Insomma, visione più “aziendale” e meno “prototipale”. Infine, puntano molto sul team:
+assicurati che il piano finanziario preveda investimenti in people e processi (es. “costruire struttura commerciale in 3
+Paesi, con X account manager, Y clinical specialists, ecc.”) perché a quel livello serve.
+Errori Comuni da Evitare, Credibilità e Risorse Utili
+Costruire un piano finanziario richiede bilanciare ambizione e realismo. Ecco alcuni errori comuni da evitare e consigli
+per mantenere alta la credibilità del tuo piano:
+Sottovalutare i costi iniziali e operativi: Molti founder dimenticano spese importanti (legali, marketing,
+infrastruttura IT, certificazioni) o ne sottostimano l’ammontare[58]. Questo può portare a finire i soldi troppo
+presto. Preparati un elenco completo di costi, anche i meno ovvi: costituzione società, commercialista, software
+SaaS mensili, assicurazioni, formazione, ecc. Meglio includere qualche voce extra (o un buffer) che trovarsi
+scoperti. Ad esempio, considera sempre un 10-20% di budget imprevisti su progetti e spese[33][34].
+Sovrastimare i ricavi e la velocità di adozione: L’ottimismo del founder è prezioso, ma nei numeri può tradursi in
+proiezioni di vendita poco credibili (la classica hockey stick esagerata). Evita di presumere che conquisterai il
+mercato in pochi mesi. Allunga le tempistiche di entrata nel mercato rispetto alla tua migliore speranza[75],
+perché spesso ci vuole più tempo del previsto per farsi conoscere e acquisire clienti. Non dare per scontata una
+rapida penetrazione: conquistare clienti è complesso e lento[76]. Utilizza dati di mercato e comparables: “Startup
+simili hanno impiegato 2 anni per raggiungere 1.000 clienti” – questo può guidarti a moderare le stime[77]. Per
+ogni ipotesi di ricavo, chiediti: chi concretamente paga, come lo trovo, quanto tempo ci mette ad acquistare?. E
+soprattutto, fai come consigliato: sviluppa scenari multipli (best/normal/worst)[78]. Sappiamo che tendiamo a
+sovrastimare entrate, quindi avere un Worst Case ti salva: se anche nel worst case l’azienda sopravvive (magari
+break-even ritardato ma cassa sufficiente)[35], il piano è robusto. Presentando gli scenari, dimostri che non sei
+ingenuo: “Abbiamo considerato un caso pessimistico con vendite 30% inferiori: in tal caso ridurremmo il burn e
+comunque arriveremmo a X clienti, con un break-even spostato di 1 anno”
+.
+Non pianificare il capitale di rischio adeguato: Un errore gravissimo è non raccogliere fondi sufficienti per
+coprire il ciclo necessario. Se il tuo piano richiede altri €1M prima di essere profittevole e non lo espliciti, rischi di
+dover cercare soldi in fretta in condizioni sfavorevoli[79]. Calcola il fabbisogno fino al break-even o al prossimo
+round e dichiaralo chiaramente[36]. Includi come detto un margine di sicurezza. Non c’è peggior messaggio per
+un investitore che scoprire che i soldi che ti dà finiranno molto prima di quanto suggerito. Mostra anche di avere
+38c_Guida Operativa_ Costruire un Piano Finanziario per una Startup Medtech (Eco 3D) 18
+un piano B se i fondi tardano: ad esempio, potresti ridurre costi o cercare un piccolo bridge. Ma idealmente,
+coordina bene round e milestones in modo da arrivare al prossimo round con metriche migliori (o
+all’autosufficienza nel caso ideale). Monitora il conto economico personale: se sei founder a tempo pieno,
+assicurati di avere abbastanza per sostenerti – molti trascurano l’impatto del loro sostentamento sul runway[80].
+Un founder che resta senza soldi personali può mettere a rischio la startup (deve distrarsi per trovarne), quindi
+includi un minimo stipendio o fondo emergenza personale nel calcolo.
+Non avere (o non comunicare) un Business Model chiaro: Può sembrare ovvio, ma alcuni piani finanziari
+mancano di coerenza col modello di business. Ad esempio, ricavi e costi non riflettono la descrizione di come
+l’azienda opera. Assicurati che il piano racconti la storia del business: se dici che farai SaaS + hardware, devi
+vedere revenue di hardware e recurring separati; se punti su canale indiretto, i costi di partner/commissioni
+devono apparire. Un investitore nota subito se c’è disallineamento tra la parte narrativa (pitch) e i numeri. Inoltre,
+se non sei convinto tu del modello (come genererai profitto), nemmeno i numeri quadreranno. Quindi dedica
+tempo a definire bene pricing, costi di erogazione, canali e flussi monetari prima di riempire Excel. Un business
+model che non torna (es. prezzi troppo bassi per coprire costi di acquisizione) va rivisto, non abbellito nei numeri.
+Onestà intellettuale prima di tutto: se scopri tramite il piano che qualcosa non è sostenibile, meglio saperlo ora
+che dopo. Potrai così adattare la strategia (es. alzare prezzi, trovare ricavi aggiuntivi, ridurre costi di servizio,
+ecc.).
+Ignorare il worst case (assenza di piani di emergenza): Abbiamo già toccato il punto, ma ribadiamolo: non
+pianificare imprevisti è pericoloso. Le cose non andranno esattamente come da scenario base, c’è poco da fare.
+Se nel tuo piano ogni variabile deve incastrarsi perfettamente per non fallire, allora è troppo fragile. Prevedi un
+fondo di emergenza aziendale, oltre a quello personale, se possibile[81][82]. Questo fondo può essere quella
+cassa minima residua che non investi subito. Ad esempio, se raccogli 500k, magari pianifichi di spenderne 400k
+su progetti e 100k li tieni come riserva per estendere runway se serve. Non dichiararlo esplicitamente come “100k
+non li spendiamo”, ma nei numeri interni sai che c’è un cuscino. In generale, mostra elasticità: “Se il mercato
+rallenta, possiamo ridurre marketing del 20% e allungare la runway di 3 mesi, arrivando comunque a break-even
+con 6 mesi di ritardo”. Questo rassicura: hai pensato al piano di resilienza.
+Numeri non credibili o incoerenti: Questo è l’errore fatale: presentare proiezioni che non stanno né in cielo né in
+terra, o che non quadrano internamente. Esempi: crescita 10x all’anno per 5 anni senza spiegazione concreta,
+margini del 90% in hardware senza considerare costi, LTV/CAC = 0.5 e comunque spendi di più acquisendo clienti
+senza correggere, totale costi mensili non coerente con dettagli (sommi salari per 5 persone ma poi dichiari 10 nel
+pitch, ecc.). Ogni cifra che presenti può generare una domanda – devi poter giustificare ogni voce. Per testare la
+credibilità, passa in rassegna le principali metriche dal punto di vista di un investitore:
+Quota di mercato: se in 5 anni arrivi a €50M di fatturato, che quota è del mercato? Se supera il 50% del TAM
+iniziale, potrebbe essere troppo ottimista, a meno che il mercato non cresca oltre le stime o tu lo espanda.
+Produttività commerciale: stai assumendo che ogni venditore chiuda 5 grossi contratti al mese, è realistico nel
+tuo settore? Confrontalo con standard del settore.
+Costo del lavoro: non mettere stipendi fuori mercato (troppo bassi per risparmiare sul foglio – gli investitori sanno
+quanto costa un dev in Italia, se metti €20k annui penseranno che non trovi nessuno). Al contrario, non esagerare:
+founder di una seed che si autostipendiano €150k/anno faranno scappare i VC. Allineati a stipendi startup stage
+(ad es. founder spesso €30-40k lordo in seed stage giusto per vivere).
+Margini e costi unitari: se affermi margine lordo 80%, devi avere un’analisi credibile di costi unitari che lo
+giustifichi. Se dici “il nostro dispositivo costa un decimo dei competitor da produrre grazie a X”, aspettati che
+chiedano come e magari di mostrare preventivi o stime di BOM (Bill of Materials).
+Curve troppo lisce: raramente la realtà segue linee rette o lisce crescite perfette. Se il tuo fatturato passa
+magicamente da 0 a 100-200-400-800k negli anni (esatto raddoppio ogni anno), suona artificiale. È meglio
+mettere numeri un po’ “sporchi” e giustificarli con eventi: es. €150k il primo anno (dopo lancio a metà anno), poi
+€500k (primo anno intero di vendita con scaling team), poi €1.2M (espansione estera), etc. Eventualmente,
+38c_Guida Operativa_ Costruire un Piano Finanziario per una Startup Medtech (Eco 3D) 19
+accompagna con un grafico di crescita per dare l’idea – ma i grafici devono riflettere i numeri reali del tuo
+modello, non disegnati a mano.
+Troppa enfasi su forma vs sostanza: Evita di abbellire i numeri con trucchi (come non includere certi costi, o
+considerare come ricavi cose dubbie) per far sembrare il piano migliore. Gli investitori esperti smascherano
+facilmente queste cose. Ad esempio, non includere tra i ricavi i finanziamenti ottenuti (sono cassa ma non
+fatturato!). O non contare come clienti paganti quelli in trial gratuito. Meglio essere trasparenti: mostra perdite
+onestamente, spiega perché servono e quando finiscono[72]. Questo costruisce fiducia. Anche il linguaggio: non
+usare toni trionfalistici (“conquisteremo il mondo in un attimo!”) né insicuri (“forse potremmo pareggiare...”)[83].
+Sii realisticamente ottimista: “prevediamo il pareggio nel Q4 2025 sulla base delle vendite attuali e pipeline
+futura”
+.
+Per quanto riguarda la credibilità, la chiave è: dati, fonti e coerenza. Supporta le tue ipotesi con fonti quando
+possibile: “Tasso di crescita utenti del 15%/mese, in linea con startup simili come XYZ nei primi anni”[15]; “Prezzo di
+vendita secondo feedback di mercato e analisi competitor”; “Costo di produzione stimato da preventivi fornitore”
+.
+Non devi citare ogni cosa, ma far capire che c’è ricerca dietro. Se hai già qualche numero reale (pilot, conversion rate,
+ecc.), usali per tarare il futuro: es. “nel piccolo test, 10% dei trial sono diventati clienti paganti in 1 mese – abbiamo
+usato quel dato come base per forecast, migliorabile col tempo”
+. Coerenza significa che tutti i pezzi del puzzle si
+incastrano: es. se dici di voler puntare su canale distributori, nei costi devi prevedere commissioni ai distributori e nei
+ricavi forse margini più bassi; se evidenzi tecnologia AI avanzata, nel budget R&D avrai spese di computing, data
+scientist, etc. Un piano credibile fa pensare: “questi founder hanno pensato a tutto, sanno quali leve importano e
+hanno piani di riserva”
+.
+Risorse utili
+Per aiutarti nella preparazione e per confrontare il tuo piano con best practice:
+Template e modelli di financial plan: Esistono fogli Excel preimpostati specifici per startup. Ad esempio, Y
+Combinator e altri acceleratori spesso forniscono template di financial model semplici per early-stage. Siti come
+Bplans.com hanno centinaia di esempi di business plan completi (in inglese) per vari settori[84]. Puoi trovarne
+alcuni in italiano su Invitalia (hanno fac-simile di business plan usati per bandi, utile per vedere sezioni richieste)
+[84]. Anche community come Mamacrowd o CrowdFundMe a volte rendono disponibili (agli utenti registrati) i
+pitch deck con numeri di startup che hanno raccolto – sono mini business plan e mostrano come presentano
+metriche e proiezioni[85]. Usali per ispirarti su formato e livello di dettaglio, ma ricorda di personalizzare tutto
+sulla tua realtà (non fare copia-incolla).
+Benchmark di settore: Cerca report di settore o tesi che abbiano dati utili. Ad esempio, per medtech dispositivi
+potresti trovare metriche medie di margine o costi di produzione. Per SaaS, risorse come gli report annuali di
+KeyBanc (KBCM) SaaS Survey o OpenView SaaS Benchmarks offrono medie su LTV/CAC, growth, margini per
+aziende SaaS – ovviamente spesso riferite a stadi più maturi, ma danno un’idea delle direzioni in cui muoversi.
+Anche blog di VC come a16z, Index, Sequoia pubblicano talvolta guide su unit economics e metriche per startup.
+Un esempio local: Startup Observatory (se esiste per il tuo paese) o report di venture capital italiani su
+investimenti medtech possono dare multipli di valutazione medi. Confrontare il tuo piano con benchmark ti aiuta a
+capire se stai ipotizzando margini impossibili o spese troppo basse.
+Tool finanziari e calcolatori: Se non sei un mago di Excel, ci sono strumenti online. Ad esempio, alcuni servizi
+offrono calcolatori di burn rate e runway automatici (ma quelli li fai facilmente anche a mano). Ci sono web app
+come Ptolemay (citato prima) che aiutano a stimare costi e timeline di sviluppo software e generare un mini
+forecast[86]. Oppure Foresight e Budgeto sono piattaforme per creare piani finanziari per startup senza partire
+da zero foglio bianco. Anche software di pianificazione finanziaria come Brixx o LivePlan (a pagamento) possono
+guidarti con sezioni predefinite. Tuttavia, imparare a modellare almeno le basi in Excel/Google Sheets è
+consigliato, perché ti dà flessibilità e controllo. Puoi iniziare da un template e poi personalizzare.
+Community e mentorship: Non sottovalutare l’aiuto di chi l’ha già fatto. Forum come /r/startups su Reddit, gruppi
+Facebook di startup, o network come StartupGeeks in Italia possono essere luoghi dove chiedere se qualcuno
+38c_Guida Operativa_ Costruire un Piano Finanziario per una Startup Medtech (Eco 3D) 20
+condivide esempio di business plan (molti business plan di studenti o startup passate circolano pubblicamente)
+[87]. Guardare un pitch deck famoso (Airbnb, Uber, etc.) aiuta a capire come sintetizzano numeri chiave in poche
+slide[88] – anche se dietro poi c’è il financial model completo. Se hai accesso a un mentor o consulente, fatti dare
+un feedback sul piano: un occhio esterno può vedere incoerenze che tu non noti. Solo stai attento a non
+demandare tutto a un consulente esterno: come detto, nessuno conosce il tuo business meglio di te[89]. Usa
+consulenti per revisione, non per inventare i numeri al posto tuo. Devi tu capire e saper spiegare ogni cifra.
+Documenti integrativi: Oltre al foglio di calcolo, prepara un executive summary dei punti finanziari chiave
+(spesso confluisce nel business plan testuale o nel deck). Ad esempio, 1-2 pagine che spiegano le assunzioni
+maggiori, i risultati attesi (ricavi totali a 3 anni, EBITDA, break-even) e i KPI principali come abbiamo fatto qui.
+Questo aiuta sia te (a chiarirti le idee) sia l’investore che legge (avrà una mappa per interpretare il foglio Excel).
+Inoltre, predisponi un cap table pre e post-money per capire la distribuzione delle quote con i nuovi investimenti,
+perché sicuramente a un certo punto verrà chiesto. Non rientra nel “piano finanziario” strettamente, ma fa parte
+del pacchetto per investitori.
+In conclusione, un piano finanziario vincente è quello che racconta in numeri la storia della tua startup: mostra il
+potenziale di crescita ma anche la strada concreta per arrivarci, con tappe, risorse e tempi delineati. Deve convincere
+che hai tutto sotto controllo, pur navigando nell’incertezza tipica dell’innovazione. Come recita un detto startup: “Tutti
+i piani sono sbagliati, ma la pianificazione è insostituibile”. Il tuo piano probabilmente cambierà, ma il processo di
+costruirlo ti avrà reso un founder più consapevole, e questo gli investitori lo percepiranno. Armato di questa guida, del
+tuo foglio Excel e della conoscenza approfondita del tuo settore (che già hai dalla market analysis svolta), sei pronto a
+mettere nero su bianco un piano finanziario completo, chiaro e credibile. Buon lavoro!

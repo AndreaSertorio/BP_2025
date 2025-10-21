@@ -34,11 +34,34 @@ interface DatabaseType {
   [key: string]: any;
 }
 
+interface MarketingProjection {
+  costPerLead: number;
+  dealsPerRepOverride: number | null;
+  calculated: {
+    reps: number;
+    rampFactor: number;
+    capacity: number;
+    funnelEfficiency: number;
+    leadsNeeded: number;
+    leadsMonthly: number;
+    budgetMarketing: number;
+    budgetMonthly: number;
+    cacEffettivo: number;
+    expectedRevenue: number;
+    marketingPercentage: number;
+    productivityRepYear: number;
+  };
+  lastUpdate: string | null;
+  note?: string;
+}
+
 interface DatabaseContextType {
   database: DatabaseType | null;
   loading: boolean;
   error: string | null;
   updatePrestazioneAggredibile: (codice: string, aggredibile: boolean) => void;
+  updateMarketingPlan: (year: number, projection: MarketingProjection) => void;
+  updateMarketingPlanGlobalSettings: (settings: { costPerLead?: number; devicePrice?: number }) => void;
   saveToBackend: () => Promise<void>;
   refreshDatabase: () => void;
 }
@@ -115,6 +138,108 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
+  // Aggiorna proiezione marketing per un anno specifico
+  const updateMarketingPlan = (year: number, projection: MarketingProjection) => {
+    if (!database) return;
+
+    console.log(`📊 Aggiorno Marketing Plan Anno ${year}:`, {
+      costPerLead: projection.costPerLead,
+      budgetMarketing: projection.calculated.budgetMarketing,
+      leadsNeeded: projection.calculated.leadsNeeded
+    });
+
+    setDatabase(currentDb => {
+      if (!currentDb) return currentDb;
+
+      const updatedDb = { ...currentDb };
+      
+      // Inizializza marketingPlan se non esiste
+      if (!updatedDb.goToMarket.marketingPlan) {
+        updatedDb.goToMarket.marketingPlan = {
+          description: "Proiezioni marketing e sales per anno - calcolate dal Simulatore Impatto Business",
+          globalSettings: {
+            costPerLead: 50,
+            devicePrice: 50000,
+            description: "Parametri globali default per simulatore"
+          },
+          projections: {},
+          lastUpdate: null,
+          note: "Piano marketing persistente - aggiornato automaticamente dal simulatore"
+        };
+      }
+
+      // Aggiorna proiezione per l'anno specifico
+      const yearKey = `y${year}`;
+      updatedDb.goToMarket.marketingPlan.projections[yearKey] = {
+        ...projection,
+        lastUpdate: new Date().toISOString()
+      };
+      
+      // Aggiorna timestamp globale
+      updatedDb.goToMarket.marketingPlan.lastUpdate = new Date().toISOString();
+      updatedDb.goToMarket.lastUpdate = new Date().toISOString();
+
+      // Salva in localStorage
+      try {
+        localStorage.setItem('eco3d_database', JSON.stringify(updatedDb));
+        console.log(`✅ Marketing Plan Anno ${year} salvato`);
+      } catch (err) {
+        console.warn('⚠️ Impossibile salvare in localStorage:', err);
+      }
+
+      return updatedDb;
+    });
+  };
+
+  // Aggiorna impostazioni globali marketing plan
+  const updateMarketingPlanGlobalSettings = (settings: { costPerLead?: number; devicePrice?: number }) => {
+    if (!database) return;
+
+    console.log('⚙️ Aggiorno Global Settings Marketing Plan:', settings);
+
+    setDatabase(currentDb => {
+      if (!currentDb) return currentDb;
+
+      const updatedDb = { ...currentDb };
+      
+      // Inizializza marketingPlan se non esiste
+      if (!updatedDb.goToMarket.marketingPlan) {
+        updatedDb.goToMarket.marketingPlan = {
+          description: "Proiezioni marketing e sales per anno - calcolate dal Simulatore Impatto Business",
+          globalSettings: {
+            costPerLead: 50,
+            devicePrice: 50000,
+            description: "Parametri globali default per simulatore"
+          },
+          projections: {},
+          lastUpdate: null,
+          note: "Piano marketing persistente - aggiornato automaticamente dal simulatore"
+        };
+      }
+
+      // Aggiorna solo i campi forniti
+      if (settings.costPerLead !== undefined) {
+        updatedDb.goToMarket.marketingPlan.globalSettings.costPerLead = settings.costPerLead;
+      }
+      if (settings.devicePrice !== undefined) {
+        updatedDb.goToMarket.marketingPlan.globalSettings.devicePrice = settings.devicePrice;
+      }
+
+      updatedDb.goToMarket.marketingPlan.lastUpdate = new Date().toISOString();
+      updatedDb.goToMarket.lastUpdate = new Date().toISOString();
+
+      // Salva in localStorage
+      try {
+        localStorage.setItem('eco3d_database', JSON.stringify(updatedDb));
+        console.log('✅ Global Settings salvate');
+      } catch (err) {
+        console.warn('⚠️ Impossibile salvare in localStorage:', err);
+      }
+
+      return updatedDb;
+    });
+  };
+
   // Salva modifiche su backend (da implementare)
   const saveToBackend = async () => {
     if (!database) return;
@@ -152,6 +277,8 @@ export function DatabaseProvider({ children }: { children: React.ReactNode }) {
     loading,
     error,
     updatePrestazioneAggredibile,
+    updateMarketingPlan,
+    updateMarketingPlanGlobalSettings,
     saveToBackend,
     refreshDatabase
   };

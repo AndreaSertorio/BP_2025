@@ -8,6 +8,9 @@ const cors = require('cors');
 const fs = require('fs').promises;
 const path = require('path');
 
+// Import routes
+const valuePropositionRoutes = require('./server-routes/valueProposition');
+
 const app = express();
 const PORT = 3001;
 const DB_PATH = path.join(__dirname, 'src', 'data', 'database.json');
@@ -23,21 +26,24 @@ app.use((req, res, next) => {
 });
 
 /**
- * Sanitizza JSON rimuovendo parentesi graffe duplicate alla fine
- * IMPORTANTE: Fix per bug ricorrente che aggiunge }   }  } alla fine del file
+ * Sanitizza JSON rimuovendo SOLO parentesi graffe DUPLICATE alla fine
+ * IMPORTANTE: Fix per bug ricorrente che aggiunge }   }  } DUPLICATE
+ * NON rimuove parentesi valide necessarie per strutture nested
  */
 function sanitizeJSON(jsonString) {
   // Rimuovi spazi/tab alla fine
   let cleaned = jsonString.trimEnd();
   
-  // Trova tutte le parentesi graffe alla fine
-  const match = cleaned.match(/\}[\s\n]*$/);
-  if (match) {
-    // Rimuovi tutte le parentesi graffe finali
-    cleaned = cleaned.replace(/\}[\s\n]*$/, '');
-    // Rimuovi eventuali parentesi duplicate prima dell'ultima
-    cleaned = cleaned.replace(/(\}[\s\n]*)+$/, '');
-    // Aggiungi UNA SOLA parentesi graffa finale
+  // Pattern per trovare sequenze di } ripetute con spazi/newline tra loro
+  // Esempio: }\n  }\n} o }  }  } o }\n}\n}
+  // Cerca almeno 2 } consecutive (duplicate) separate da whitespace
+  const duplicatePattern = /(\}\s*){2,}$/;
+  
+  // Se trova duplicate, rimuovile e lascia solo UNA }
+  if (duplicatePattern.test(cleaned)) {
+    // Rimuovi tutte le } finali duplicate
+    cleaned = cleaned.replace(/(\}\s*)+$/, '');
+    // Aggiungi UNA SOLA } finale
     cleaned = cleaned + '\n}';
   }
   
@@ -50,10 +56,12 @@ function sanitizeJSON(jsonString) {
 async function saveDatabaseSafe(database) {
   try {
     // Converti in JSON
-    const jsonString = JSON.stringify(database, null, 2);
+    let jsonString = JSON.stringify(database, null, 2);
     
-    // NOTA: Rimossa sanitizeJSON perché JSON.stringify produce già JSON valido
-    // La sanitizzazione causava corruzione del JSON nested
+    // NOTA: sanitizeJSON() DISABILITATA temporaneamente perché JSON.stringify() 
+    // produce SEMPRE JSON valido. Le parentesi duplicate vengono da altrove.
+    // Se riappaiono, investigare la fonte invece di correggere a posteriori.
+    // jsonString = sanitizeJSON(jsonString);
     
     // Verifica che sia JSON valido prima di salvare
     JSON.parse(jsonString); // Throw error se invalido
@@ -791,6 +799,243 @@ app.patch('/api/database/revenue-model/saas', async (req, res) => {
 
 /**
  * ============================================================================
+ * GO-TO-MARKET - ENDPOINTS
+ * ============================================================================
+ */
+
+/**
+ * PATCH /api/database/go-to-market
+ * Aggiorna configurazione Go-To-Market Engine
+ */
+app.patch('/api/database/go-to-market', async (req, res) => {
+  try {
+    const updates = req.body;
+    
+    console.log('📥 Ricevuto update Go-To-Market:', JSON.stringify(updates, null, 2));
+    
+    // Leggi database
+    const data = await fs.readFile(DB_PATH, 'utf-8');
+    const database = JSON.parse(data);
+    
+    // Inizializza struttura se non esiste
+    if (!database.goToMarket) {
+      database.goToMarket = {
+        enabled: true,
+        salesCapacity: {},
+        salesCycle: {},
+        conversionFunnel: {},
+        channelMix: {},
+        adoptionCurve: {},
+        scenarios: {}
+      };
+    }
+    
+    // ✅ MERGE CORRETTO - Update scalari, merge nested
+    // NON fare spread di updates perché sovrascrive nested objects!
+    
+    // Update campi scalari (enabled, description, ecc.)
+    const scalarKeys = ['enabled', 'description', 'note'];
+    scalarKeys.forEach(key => {
+      if (key in updates) {
+        database.goToMarket[key] = updates[key];
+      }
+    });
+    
+    // Merge nested objects SOLO se presenti in updates
+    if (updates.salesCapacity) {
+      // 🔧 FIX: Deep merge repsByYear PRIMA, poi escludi dal merge principale
+      const { repsByYear: updatedRepsByYear, ...restSalesCapacity } = updates.salesCapacity;
+      
+      // Merge campi scalari di salesCapacity
+      database.goToMarket.salesCapacity = {
+        ...database.goToMarket.salesCapacity,
+        ...restSalesCapacity
+      };
+      
+      // Deep merge incrementale per repsByYear (se presente)
+      if (updatedRepsByYear) {
+        database.goToMarket.salesCapacity.repsByYear = {
+          ...database.goToMarket.salesCapacity.repsByYear,
+          ...updatedRepsByYear
+        };
+      }
+    }
+    
+    if (updates.salesCycle) {
+      database.goToMarket.salesCycle = {
+        ...database.goToMarket.salesCycle,
+        ...updates.salesCycle
+      };
+      if (updates.salesCycle?.bySegment) {
+        database.goToMarket.salesCycle.bySegment = {
+          ...database.goToMarket.salesCycle.bySegment,
+          ...updates.salesCycle.bySegment
+        };
+      }
+    }
+    
+    if (updates.conversionFunnel) {
+      database.goToMarket.conversionFunnel = {
+        ...database.goToMarket.conversionFunnel,
+        ...updates.conversionFunnel
+      };
+    }
+    
+    if (updates.channelMix) {
+      database.goToMarket.channelMix = {
+        ...database.goToMarket.channelMix,
+        ...updates.channelMix
+      };
+    }
+    
+    if (updates.adoptionCurve) {
+      database.goToMarket.adoptionCurve = {
+        ...database.goToMarket.adoptionCurve,
+        ...updates.adoptionCurve
+      };
+      
+      // Merge region-specific solo se presenti
+      ['italia', 'europa', 'usa', 'cina'].forEach(region => {
+        if (updates.adoptionCurve?.[region]) {
+          database.goToMarket.adoptionCurve[region] = {
+            ...database.goToMarket.adoptionCurve[region],
+            ...updates.adoptionCurve[region]
+          };
+        }
+      });
+    }
+    
+    if (updates.scenarios) {
+      database.goToMarket.scenarios = {
+        ...database.goToMarket.scenarios,
+        ...updates.scenarios
+      };
+    }
+    
+    // Aggiorna metadata
+    database.goToMarket.lastUpdate = new Date().toISOString();
+    
+    // Salva
+    await saveDatabaseSafe(database);
+    
+    console.log('✅ Go-To-Market Engine aggiornato');
+    res.json({ success: true, goToMarket: database.goToMarket });
+  } catch (error) {
+    console.error('❌ Errore aggiornamento Go-To-Market:', error);
+    res.status(500).json({ error: 'Errore aggiornamento Go-To-Market' });
+  }
+});
+
+/**
+ * PATCH /api/database/go-to-market/marketing-plan/:year
+ * Aggiorna proiezione marketing plan per un anno specifico
+ */
+app.patch('/api/database/go-to-market/marketing-plan/:year', async (req, res) => {
+  try {
+    const year = parseInt(req.params.year);
+    const projection = req.body;
+    
+    console.log(`📊 Ricevuto update Marketing Plan Anno ${year}:`, {
+      costPerLead: projection.costPerLead,
+      budgetMarketing: projection.calculated?.budgetMarketing,
+      leadsNeeded: projection.calculated?.leadsNeeded
+    });
+    
+    // Leggi database
+    const data = await fs.readFile(DB_PATH, 'utf-8');
+    const database = JSON.parse(data);
+    
+    // Inizializza struttura se non esiste
+    if (!database.goToMarket) {
+      return res.status(400).json({ error: 'Go-To-Market non configurato' });
+    }
+    
+    if (!database.goToMarket.marketingPlan) {
+      database.goToMarket.marketingPlan = {
+        description: "Proiezioni marketing e sales per anno - calcolate dal Simulatore Impatto Business",
+        globalSettings: {
+          costPerLead: 50,
+          devicePrice: 50000,
+          description: "Parametri globali default per simulatore"
+        },
+        projections: {},
+        lastUpdate: null,
+        note: "Piano marketing persistente - aggiornato automaticamente dal simulatore"
+      };
+    }
+    
+    // Aggiorna proiezione per l'anno specifico
+    const yearKey = `y${year}`;
+    database.goToMarket.marketingPlan.projections[yearKey] = {
+      ...projection,
+      lastUpdate: new Date().toISOString()
+    };
+    
+    // Aggiorna timestamp globale
+    database.goToMarket.marketingPlan.lastUpdate = new Date().toISOString();
+    database.goToMarket.lastUpdate = new Date().toISOString();
+    
+    // Salva
+    await saveDatabaseSafe(database);
+    
+    console.log(`✅ Marketing Plan Anno ${year} salvato`);
+    res.json({ 
+      success: true, 
+      marketingPlan: database.goToMarket.marketingPlan.projections[yearKey]
+    });
+  } catch (error) {
+    console.error('❌ Errore aggiornamento Marketing Plan:', error);
+    res.status(500).json({ error: 'Errore aggiornamento Marketing Plan' });
+  }
+});
+
+/**
+ * PATCH /api/database/go-to-market/calculated
+ * Aggiorna sezione calculated - riconciliazione Top-Down vs Bottom-Up
+ */
+app.patch('/api/database/go-to-market/calculated', async (req, res) => {
+  try {
+    const calculated = req.body;
+    
+    console.log('📊 Ricevuto update GTM Calculated:', {
+      realisticSales: calculated.realisticSales,
+      constrainingFactors: calculated.constrainingFactor
+    });
+    
+    // Leggi database
+    const data = await fs.readFile(DB_PATH, 'utf-8');
+    const database = JSON.parse(data);
+    
+    // Verifica esistenza goToMarket
+    if (!database.goToMarket) {
+      return res.status(400).json({ error: 'Go-To-Market non configurato' });
+    }
+    
+    // Aggiorna sezione calculated
+    database.goToMarket.calculated = {
+      ...calculated,
+      lastUpdate: new Date().toISOString()
+    };
+    
+    // Aggiorna timestamp globale
+    database.goToMarket.lastUpdate = new Date().toISOString();
+    
+    // Salva
+    await saveDatabaseSafe(database);
+    
+    console.log('✅ GTM Calculated aggiornato');
+    res.json({ 
+      success: true, 
+      calculated: database.goToMarket.calculated 
+    });
+  } catch (error) {
+    console.error('❌ Errore aggiornamento GTM Calculated:', error);
+    res.status(500).json({ error: 'Errore aggiornamento GTM Calculated' });
+  }
+});
+
+/**
+ * ============================================================================
  * STATO PATRIMONIALE - ENDPOINTS
  * ============================================================================
  */
@@ -930,10 +1175,224 @@ app.patch('/api/database/stato-patrimoniale/funding-round/:index', async (req, r
   }
 });
 
+// ============================================================================
+// TIMELINE API
+// ============================================================================
+
+/**
+ * GET /api/timeline/tasks
+ * Legge tutti i task della timeline
+ */
+app.get('/api/timeline/tasks', async (req, res) => {
+  try {
+    const data = await fs.readFile(DB_PATH, 'utf-8');
+    const database = JSON.parse(data);
+    
+    if (!database.timeline) {
+      return res.status(404).json({ error: 'Timeline non trovata nel database' });
+    }
+    
+    res.json(database.timeline.tasks || []);
+  } catch (error) {
+    console.error('❌ Errore lettura tasks:', error);
+    res.status(500).json({ error: 'Errore lettura tasks' });
+  }
+});
+
+/**
+ * GET /api/timeline/categories
+ * Legge tutte le categorie della timeline
+ */
+app.get('/api/timeline/categories', async (req, res) => {
+  try {
+    const data = await fs.readFile(DB_PATH, 'utf-8');
+    const database = JSON.parse(data);
+    
+    if (!database.timeline) {
+      return res.status(404).json({ error: 'Timeline non trovata nel database' });
+    }
+    
+    res.json(database.timeline.categories || []);
+  } catch (error) {
+    console.error('❌ Errore lettura categorie:', error);
+    res.status(500).json({ error: 'Errore lettura categorie' });
+  }
+});
+
+/**
+ * POST /api/timeline/task
+ * Crea un nuovo task
+ */
+app.post('/api/timeline/task', async (req, res) => {
+  try {
+    const newTask = req.body;
+    
+    // Leggi database
+    const data = await fs.readFile(DB_PATH, 'utf-8');
+    const database = JSON.parse(data);
+    
+    if (!database.timeline) {
+      return res.status(404).json({ error: 'Timeline non trovata nel database' });
+    }
+    
+    // Genera ID se non fornito
+    if (!newTask.id) {
+      const maxId = database.timeline.tasks.reduce((max, task) => {
+        const taskNum = parseInt(task.id.replace('task_', ''));
+        return taskNum > max ? taskNum : max;
+      }, 0);
+      newTask.id = `task_${String(maxId + 1).padStart(3, '0')}`;
+    }
+    
+    // Aggiungi task
+    database.timeline.tasks.push(newTask);
+    
+    // Aggiorna metadata
+    database.timeline.lastUpdate = new Date().toISOString();
+    
+    // Salva
+    await saveDatabaseSafe(database);
+    
+    console.log('✅ Task creato:', newTask.id);
+    res.json({ success: true, task: newTask });
+  } catch (error) {
+    console.error('❌ Errore creazione task:', error);
+    res.status(500).json({ error: 'Errore creazione task' });
+  }
+});
+
+/**
+ * PATCH /api/timeline/task/:id
+ * Aggiorna un task esistente
+ */
+app.patch('/api/timeline/task/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updates = req.body;
+    
+    // Leggi database
+    const data = await fs.readFile(DB_PATH, 'utf-8');
+    const database = JSON.parse(data);
+    
+    if (!database.timeline) {
+      return res.status(404).json({ error: 'Timeline non trovata nel database' });
+    }
+    
+    // Trova task
+    const taskIndex = database.timeline.tasks.findIndex(t => t.id === id);
+    if (taskIndex === -1) {
+      return res.status(404).json({ error: `Task ${id} non trovato` });
+    }
+    
+    // Aggiorna task
+    database.timeline.tasks[taskIndex] = {
+      ...database.timeline.tasks[taskIndex],
+      ...updates,
+      id // Preserva ID originale
+    };
+    
+    // Aggiorna metadata
+    database.timeline.lastUpdate = new Date().toISOString();
+    
+    // Salva
+    await saveDatabaseSafe(database);
+    
+    console.log(`✅ Task ${id} aggiornato:`, updates);
+    res.json({ success: true, task: database.timeline.tasks[taskIndex] });
+  } catch (error) {
+    console.error('❌ Errore aggiornamento task:', error);
+    res.status(500).json({ error: 'Errore aggiornamento task' });
+  }
+});
+
+/**
+ * DELETE /api/timeline/task/:id
+ * Elimina un task
+ */
+app.delete('/api/timeline/task/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    // Leggi database
+    const data = await fs.readFile(DB_PATH, 'utf-8');
+    const database = JSON.parse(data);
+    
+    if (!database.timeline) {
+      return res.status(404).json({ error: 'Timeline non trovata nel database' });
+    }
+    
+    // Filtra task
+    const initialLength = database.timeline.tasks.length;
+    database.timeline.tasks = database.timeline.tasks.filter(t => t.id !== id);
+    
+    if (database.timeline.tasks.length === initialLength) {
+      return res.status(404).json({ error: `Task ${id} non trovato` });
+    }
+    
+    // Rimuovi dependencies che puntano al task eliminato
+    database.timeline.tasks.forEach(task => {
+      if (task.dependencies && task.dependencies.includes(id)) {
+        task.dependencies = task.dependencies.filter(dep => dep !== id);
+      }
+    });
+    
+    // Aggiorna metadata
+    database.timeline.lastUpdate = new Date().toISOString();
+    
+    // Salva
+    await saveDatabaseSafe(database);
+    
+    console.log(`✅ Task ${id} eliminato`);
+    res.json({ success: true, deletedId: id });
+  } catch (error) {
+    console.error('❌ Errore eliminazione task:', error);
+    res.status(500).json({ error: 'Errore eliminazione task' });
+  }
+});
+
+/**
+ * PATCH /api/timeline/filters
+ * Aggiorna i filtri della timeline
+ */
+app.patch('/api/timeline/filters', async (req, res) => {
+  try {
+    const updates = req.body;
+    
+    // Leggi database
+    const data = await fs.readFile(DB_PATH, 'utf-8');
+    const database = JSON.parse(data);
+    
+    if (!database.timeline) {
+      return res.status(404).json({ error: 'Timeline non trovata nel database' });
+    }
+    
+    // Aggiorna filtri
+    database.timeline.filters = {
+      ...database.timeline.filters,
+      ...updates
+    };
+    
+    // Aggiorna metadata
+    database.timeline.lastUpdate = new Date().toISOString();
+    
+    // Salva
+    await saveDatabaseSafe(database);
+    
+    console.log('✅ Filtri timeline aggiornati:', updates);
+    res.json({ success: true, filters: database.timeline.filters });
+  } catch (error) {
+    console.error('❌ Errore aggiornamento filtri:', error);
+    res.status(500).json({ error: 'Errore aggiornamento filtri' });
+  }
+});
+
 // Health check
 app.get('/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+  res.json({ status: 'ok', timestamp: new Date().toISOString() })
 });
+
+// Mount Value Proposition Routes
+app.use('/api/value-proposition', valuePropositionRoutes);
 
 // Avvia server
 app.listen(PORT, () => {
@@ -966,10 +1425,40 @@ app.listen(PORT, () => {
 ║   PATCH  /api/database/tam-sam-som/ecografi   - Config TAM/SAM║
 ║   PATCH  /api/database/prezzi-regionalizzati/:regione/:cod    ║
 ║                                                                ║
+║   API GO-TO-MARKET:                                            ║
+║   PATCH  /api/database/go-to-market           - Config GTM    ║
+║   PATCH  /api/database/go-to-market/marketing-plan/:year      ║
+║   PATCH  /api/database/go-to-market/calculated - Reconciliation║
+║                                                                ║
 ║   API STATO PATRIMONIALE:                                      ║
 ║   PATCH  /api/database/stato-patrimoniale/working-capital     ║
 ║   PATCH  /api/database/stato-patrimoniale/fixed-assets        ║
 ║   PATCH  /api/database/stato-patrimoniale/funding-round/:idx  ║
+║                                                                ║
+║   API TIMELINE:                                                ║
+║   GET    /api/timeline/tasks            - Leggi tutti i task  ║
+║   GET    /api/timeline/categories       - Leggi categorie     ║
+║   POST   /api/timeline/task             - Crea nuovo task     ║
+║   PATCH  /api/timeline/task/:id         - Aggiorna task       ║
+║   DELETE /api/timeline/task/:id         - Elimina task        ║
+║   PATCH  /api/timeline/filters          - Aggiorna filtri     ║
+║                                                                ║
+║   API VALUE PROPOSITION:                                       ║
+║   PATCH  /api/value-proposition/customer-profile/job/:id      ║
+║   PATCH  /api/value-proposition/customer-profile/pain/:id     ║
+║   PATCH  /api/value-proposition/customer-profile/gain/:id     ║
+║   PATCH  /api/value-proposition/value-map/feature/:id         ║
+║   PATCH  /api/value-proposition/messaging/elevator-pitch      ║
+║   PATCH  /api/value-proposition/messaging/positioning-statement║
+║   POST   /api/value-proposition/messaging/competitive-message ║
+║   PATCH  /api/value-proposition/messaging/competitive-message/:id║
+║   DELETE /api/value-proposition/messaging/competitive-message/:id║
+║   POST   /api/value-proposition/messaging/testimonial         ║
+║   PATCH  /api/value-proposition/messaging/testimonial/:id     ║
+║   DELETE /api/value-proposition/messaging/testimonial/:id     ║
+║   POST   /api/value-proposition/messaging/objection           ║
+║   PATCH  /api/value-proposition/messaging/objection/:id       ║
+║   DELETE /api/value-proposition/messaging/objection/:id       ║
 ║                                                                ║
 ╚════════════════════════════════════════════════════════════════╝
   `);

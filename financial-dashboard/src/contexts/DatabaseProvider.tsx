@@ -7,6 +7,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
+import type { ValueProposition } from '@/types/valueProposition';
 
 // Types
 interface PrestazioneEcografia {
@@ -242,6 +243,103 @@ interface ServicesRevenueModel {
   note: string;
 }
 
+// === GO-TO-MARKET ENGINE INTERFACES ===
+
+interface SalesCapacity {
+  reps?: number;  // Legacy: numero fisso reps (retro-compatibilità)
+  repsByYear?: {  // Nuovo: reps per anno (Y1-Y5)
+    y1: number;
+    y2: number;
+    y3: number;
+    y4: number;
+    y5: number;
+  };
+  dealsPerRepPerQuarter: number;
+  rampUpMonths: number;
+  description: string;
+}
+
+interface SalesCycle {
+  avgMonths: number;
+  bySegment: {
+    pubblico: number;
+    privato: number;
+    research: number;
+  };
+  description: string;
+}
+
+interface ConversionFunnel {
+  lead_to_demo: number;
+  demo_to_pilot: number;
+  pilot_to_deal: number;
+  description: string;
+}
+
+interface ChannelMix {
+  direct: number;
+  distributors: number;
+  oem: number;
+  distributorMargin: number;
+  description: string;
+}
+
+interface AdoptionCurveYear {
+  y1: number;
+  y2: number;
+  y3: number;
+  y4: number;
+  y5: number;
+}
+
+interface AdoptionCurve {
+  italia: AdoptionCurveYear;
+  europa: AdoptionCurveYear;
+  usa: AdoptionCurveYear;
+  cina: AdoptionCurveYear;
+  description: string;
+}
+
+interface GtmScenario {
+  budget: number;
+  reps: number;
+  multiplier: number;
+  description: string;
+}
+
+interface MarketingPlan {
+  description: string;
+  globalSettings: {
+    costPerLead: number;
+    devicePrice: number;
+    description: string;
+  };
+  projections: {
+    [key: string]: MarketingProjection;
+  };
+  lastUpdate: string | null;
+  note: string;
+}
+
+interface GoToMarketModel {
+  enabled: boolean;
+  description: string;
+  salesCapacity: SalesCapacity;
+  salesCycle: SalesCycle;
+  conversionFunnel: ConversionFunnel;
+  channelMix: ChannelMix;
+  adoptionCurve: AdoptionCurve;
+  scenarios: {
+    current: string;
+    basso: GtmScenario;
+    medio: GtmScenario;
+    alto: GtmScenario;
+  };
+  marketingPlan?: MarketingPlan;
+  lastUpdate: string;
+  note: string;
+}
+
 interface BundleComponents {
   hardware: string;
   saasMonths: number;
@@ -335,7 +433,75 @@ interface RevenueModel {
   metadata: RevenueModelMetadata;
 }
 
+// ==================== TIMELINE TYPES ====================
+
+interface TimelineTask {
+  id: string;
+  name: string;
+  start_date: string; // YYYY-MM-DD
+  end_date: string;   // YYYY-MM-DD
+  progress: number;   // 0-100
+  category: string;
+  dependencies?: string[];
+  note?: string;
+  milestone?: boolean;
+  cost?: number;      // Costo in EUR
+}
+
+interface TimelineCategory {
+  id: string;
+  name: string;
+  color: string;
+  description: string;
+  order: number;
+}
+
+interface TimelineFilters {
+  activeCategories: string[];
+  showMilestonesOnly: boolean;
+  dateRange: {
+    start: string;
+    end: string;
+  };
+}
+
+interface Timeline {
+  version: string;
+  lastUpdate: string;
+  description: string;
+  categories: TimelineCategory[];
+  tasks: TimelineTask[];
+  filters: TimelineFilters;
+  metadata: {
+    createdBy: string;
+    createdAt: string;
+    source: string;
+    note: string;
+  };
+}
+
 // =============================================================
+
+interface MarketingProjection {
+  costPerLead: number;
+  dealsPerRepOverride: number | null;
+  calculated: {
+    reps: number;
+    rampFactor: number;
+    capacity: number;
+    funnelEfficiency: number;
+    leadsNeeded: number;
+    leadsMonthly: number;
+    budgetMarketing: number;
+    budgetMonthly: number;
+    cacEffettivo: number;
+    expectedRevenue: number;
+    marketingPercentage: number;
+    productivityRepYear: number;
+  };
+  lastUpdate: string | null;
+  note?: string;
+}
 
 interface Database {
   version: string;
@@ -360,12 +526,13 @@ interface Database {
   configurazioneTamSamSom?: {
     ecografie: ConfigurazioneTamSamSomEcografie;
     ecografi: ConfigurazioneTamSamSomEcografi;
-    businessPlan?: {
-      sectionProgress: Record<string, number>;
-      lastUpdate: string;
-    };
+  };
+  businessPlan?: {
+    sectionProgress: Record<string, number>;
+    lastUpdate: string;
   };
   revenueModel?: RevenueModel;
+  goToMarket?: GoToMarketModel;
   statoPatrimoniale?: {
     workingCapital?: {
       dso?: number;
@@ -397,6 +564,10 @@ interface Database {
   };
   market?: any; // Dati mercato per TAM/SAM/SOM (da definire tipo completo)
   budget?: any; // Dati budget (da definire tipo completo)
+  timeline?: Timeline;
+  valueProposition?: ValueProposition;
+  competitorAnalysis?: any; // Competitor analysis data (import type from competitor.types.ts)
+  teamManagement?: any; // Team management data
   metadata?: Record<string, unknown>;
 }
 
@@ -424,10 +595,22 @@ interface DatabaseContextValue {
   updateRevenueModel: (updates: Partial<RevenueModel>) => Promise<void>;
   updateRevenueModelHardware: (updates: Partial<HardwareRevenueModel>) => Promise<void>;
   updateRevenueModelSaaS: (updates: Partial<SaasRevenueModel>) => Promise<void>;
+  // Global Settings
+  updateGlobalSettings: (updates: any) => Promise<void>;
+  // Go-To-Market
+  updateGoToMarket: (updates: Partial<GoToMarketModel>) => Promise<void>;
+  updateMarketingPlan: (year: number, projection: MarketingProjection) => Promise<void>;
+  updateGtmCalculated: (calculated: any) => Promise<void>;
+  // Timeline
+  createTask: (task: Omit<TimelineTask, 'id'>) => Promise<void>;
+  updateTask: (taskId: string, updates: Partial<TimelineTask>) => Promise<void>;
+  deleteTask: (taskId: string) => Promise<void>;
+  updateTimelineFilters: (filters: Partial<TimelineFilters>) => Promise<void>;
   // Generali
   resetToDefaults: () => Promise<void>;
   exportDatabase: () => string;
   refreshData: () => Promise<void>;
+  refetch: () => Promise<void>;  // Alias di refreshData
 }
 
 const DatabaseContext = createContext<DatabaseContextValue | undefined>(undefined);
@@ -477,6 +660,20 @@ export function DatabaseProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     refreshData();
+  }, [refreshData]);
+
+  // Listen for database-updated events
+  useEffect(() => {
+    const handleDatabaseUpdate = () => {
+      console.log('🔄 Database update event received, refreshing...');
+      refreshData();
+    };
+
+    window.addEventListener('database-updated', handleDatabaseUpdate);
+
+    return () => {
+      window.removeEventListener('database-updated', handleDatabaseUpdate);
+    };
   }, [refreshData]);
 
   // Update generica di una prestazione (tramite API)
@@ -817,9 +1014,8 @@ export function DatabaseProvider({ children }: { children: ReactNode }) {
       setData(prevData => {
         console.log('🔍 State prima update:', { 
           hasData: !!prevData, 
-          hasConfig: !!prevData?.configurazioneTamSamSom,
-          hasBP: !!prevData?.configurazioneTamSamSom?.businessPlan,
-          currentProgress: prevData?.configurazioneTamSamSom?.businessPlan?.sectionProgress?.[sectionId]
+          hasBP: !!prevData?.businessPlan,
+          currentProgress: prevData?.businessPlan?.sectionProgress?.[sectionId]
         });
         
         if (!prevData) {
@@ -828,35 +1024,28 @@ export function DatabaseProvider({ children }: { children: ReactNode }) {
         }
         
         // Inizializza struttura se non esiste
-        const config = prevData.configurazioneTamSamSom || ({} as any);
-        const currentBP = (config as any).businessPlan || {
+        const currentBP = prevData.businessPlan || {
           sectionProgress: {},
           lastUpdate: new Date().toISOString()
         };
         
-        if (!prevData.configurazioneTamSamSom) {
-          console.log('🆕 Inizializzazione configurazioneTamSamSom');
-        }
-        if (!(config as any).businessPlan) {
+        if (!prevData.businessPlan) {
           console.log('🆕 Inizializzazione businessPlan');
         }
         
         const newData = {
           ...prevData,
-          configurazioneTamSamSom: {
-            ...prevData.configurazioneTamSamSom,
-            businessPlan: {
-              sectionProgress: {
-                ...currentBP.sectionProgress,
-                [sectionId]: progress
-              },
-              lastUpdate: new Date().toISOString()
-            }
+          businessPlan: {
+            sectionProgress: {
+              ...currentBP.sectionProgress,
+              [sectionId]: progress
+            },
+            lastUpdate: new Date().toISOString()
           }
         } as Database;
         
         console.log('✅ State dopo update:', { 
-          newProgress: newData.configurazioneTamSamSom?.businessPlan?.sectionProgress?.[sectionId]
+          newProgress: newData.businessPlan?.sectionProgress?.[sectionId]
         });
         
         return newData;
@@ -1029,6 +1218,281 @@ export function DatabaseProvider({ children }: { children: ReactNode }) {
   }, []);
 
   // ============================================================================
+  // GLOBAL SETTINGS
+  // ============================================================================
+
+  // Update Global Settings (SSOT)
+  const updateGlobalSettings = useCallback(async (updates: any) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/database/global-settings`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updates)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log('✅ Global Settings aggiornati:', result.globalSettings);
+      
+      // Refresh data per sincronizzare
+      await refreshData();
+      
+    } catch (error) {
+      console.error('❌ Errore aggiornamento Global Settings:', error);
+      throw error;
+    }
+  }, [refreshData]);
+
+  // ============================================================================
+  // GO-TO-MARKET
+  // ============================================================================
+
+  // Update Go-To-Market model
+  const updateGoToMarket = useCallback(async (updates: Partial<GoToMarketModel>) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/database/go-to-market`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updates)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      await response.json();
+      console.log('✅ Go-To-Market Engine aggiornato');
+      
+      // ⚡ UPDATE OTTIMISTICO - Merge corretto senza sovrascrittura
+      setData(prevData => {
+        if (!prevData) return prevData;
+        
+        // Copia esistente
+        const updatedGoToMarket = { ...prevData.goToMarket } as GoToMarketModel;
+        
+        // Update scalari (enabled, description, ecc.)
+        const scalarKeys = ['enabled', 'description', 'note'] as const;
+        scalarKeys.forEach(key => {
+          if (key in updates && updates[key] !== undefined) {
+            (updatedGoToMarket as any)[key] = updates[key];
+          }
+        });
+        
+        // Merge nested objects SOLO se presenti in updates
+        if (updates.salesCapacity) {
+          // 🔧 FIX: Deep merge repsByYear PRIMA, poi escludi dal merge principale
+          const { repsByYear: updatedRepsByYear, ...restSalesCapacity } = updates.salesCapacity;
+          
+          // Merge campi scalari di salesCapacity
+          updatedGoToMarket.salesCapacity = {
+            ...prevData.goToMarket?.salesCapacity,
+            ...restSalesCapacity
+          };
+          
+          // Deep merge incrementale per repsByYear (se presente)
+          if (updatedRepsByYear) {
+            updatedGoToMarket.salesCapacity.repsByYear = {
+              ...prevData.goToMarket?.salesCapacity?.repsByYear,
+              ...updatedRepsByYear
+            };
+          }
+        }
+        
+        if (updates.conversionFunnel) {
+          updatedGoToMarket.conversionFunnel = {
+            ...prevData.goToMarket?.conversionFunnel,
+            ...updates.conversionFunnel
+          };
+        }
+        
+        if (updates.salesCycle) {
+          updatedGoToMarket.salesCycle = {
+            ...prevData.goToMarket?.salesCycle,
+            ...updates.salesCycle
+          };
+        }
+        
+        if (updates.channelMix) {
+          updatedGoToMarket.channelMix = {
+            ...prevData.goToMarket?.channelMix,
+            ...updates.channelMix
+          };
+        }
+        
+        if (updates.adoptionCurve) {
+          updatedGoToMarket.adoptionCurve = {
+            ...prevData.goToMarket?.adoptionCurve,
+            ...updates.adoptionCurve
+          };
+        }
+        
+        if (updates.scenarios) {
+          updatedGoToMarket.scenarios = {
+            ...prevData.goToMarket?.scenarios,
+            ...updates.scenarios
+          };
+        }
+        
+        // Update timestamp
+        updatedGoToMarket.lastUpdate = new Date().toISOString();
+        
+        return {
+          ...prevData,
+          goToMarket: updatedGoToMarket
+        };
+      });
+    } catch (error) {
+      console.error('❌ Errore aggiornamento Go-To-Market:', error);
+    }
+  }, []);
+
+  // ============================================================================
+  // TIMELINE
+  // ============================================================================
+
+  // Crea nuovo task
+  const createTask = useCallback(async (task: Omit<TimelineTask, 'id'>) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/timeline/task`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(task)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log('✅ Task creato:', result.task.id);
+      
+      // ⚡ UPDATE OTTIMISTICO
+      setData(prevData => {
+        if (!prevData || !prevData.timeline) return prevData;
+        
+        return {
+          ...prevData,
+          timeline: {
+            ...prevData.timeline,
+            tasks: [...prevData.timeline.tasks, result.task],
+            lastUpdate: new Date().toISOString()
+          }
+        };
+      });
+    } catch (error) {
+      console.error('❌ Errore creazione task:', error);
+    }
+  }, []);
+
+  // Aggiorna task esistente
+  const updateTask = useCallback(async (taskId: string, updates: Partial<TimelineTask>) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/timeline/task/${taskId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updates)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      await response.json();
+      console.log(`✅ Task ${taskId} aggiornato`);
+      
+      // ⚡ UPDATE OTTIMISTICO
+      setData(prevData => {
+        if (!prevData || !prevData.timeline) return prevData;
+        
+        return {
+          ...prevData,
+          timeline: {
+            ...prevData.timeline,
+            tasks: prevData.timeline.tasks.map(t => 
+              t.id === taskId ? { ...t, ...updates } : t
+            ),
+            lastUpdate: new Date().toISOString()
+          }
+        };
+      });
+    } catch (error) {
+      console.error(`❌ Errore aggiornamento task ${taskId}:`, error);
+    }
+  }, []);
+
+  // Elimina task
+  const deleteTask = useCallback(async (taskId: string) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/timeline/task/${taskId}`, {
+        method: 'DELETE'
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      await response.json();
+      console.log(`✅ Task ${taskId} eliminato`);
+      
+      // ⚡ UPDATE OTTIMISTICO
+      setData(prevData => {
+        if (!prevData || !prevData.timeline) return prevData;
+        
+        return {
+          ...prevData,
+          timeline: {
+            ...prevData.timeline,
+            tasks: prevData.timeline.tasks.filter(t => t.id !== taskId),
+            lastUpdate: new Date().toISOString()
+          }
+        };
+      });
+    } catch (error) {
+      console.error(`❌ Errore eliminazione task ${taskId}:`, error);
+    }
+  }, []);
+
+  // Aggiorna filtri timeline
+  const updateTimelineFilters = useCallback(async (filters: Partial<TimelineFilters>) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/timeline/filters`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(filters)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      await response.json();
+      console.log('✅ Filtri timeline aggiornati');
+      
+      // ⚡ UPDATE OTTIMISTICO
+      setData(prevData => {
+        if (!prevData || !prevData.timeline) return prevData;
+        
+        return {
+          ...prevData,
+          timeline: {
+            ...prevData.timeline,
+            filters: {
+              ...prevData.timeline.filters,
+              ...filters
+            },
+            lastUpdate: new Date().toISOString()
+          }
+        };
+      });
+    } catch (error) {
+      console.error('❌ Errore aggiornamento filtri:', error);
+    }
+  }, []);
+
+  // ============================================================================
   // GENERALI
   // ============================================================================
 
@@ -1046,6 +1510,116 @@ export function DatabaseProvider({ children }: { children: ReactNode }) {
   const exportDatabase = useCallback(() => {
     return JSON.stringify(data, null, 2);
   }, [data]);
+
+  // ============================================================================
+  // MARKETING PLAN
+  // ============================================================================
+
+  // Aggiorna sezione calculated (riconciliazione Top-Down vs Bottom-Up)
+  const updateGtmCalculated = useCallback(async (calculated: any) => {
+    try {
+      console.log('📊 Aggiorno GTM Calculated:', {
+        realisticSales: calculated.realisticSales,
+        constrainingFactors: calculated.constrainingFactor
+      });
+
+      // Chiamata API al backend
+      const response = await fetch(`${API_BASE_URL}/database/go-to-market/calculated`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(calculated)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      await response.json();
+      console.log('✅ GTM Calculated salvato su database');
+
+      // ⚡ UPDATE OTTIMISTICO - Aggiorna stato locale
+      setData(prevData => {
+        if (!prevData || !prevData.goToMarket) return prevData;
+
+        return {
+          ...prevData,
+          goToMarket: {
+            ...prevData.goToMarket,
+            calculated: {
+              ...calculated,
+              lastUpdate: new Date().toISOString()
+            },
+            lastUpdate: new Date().toISOString()
+          }
+        };
+      });
+    } catch (error) {
+      console.error('❌ Errore aggiornamento GTM Calculated:', error);
+    }
+  }, []);
+
+  // Aggiorna proiezione marketing per un anno specifico
+  const updateMarketingPlan = useCallback(async (year: number, projection: MarketingProjection) => {
+    try {
+      console.log(`📊 Aggiorno Marketing Plan Anno ${year}:`, {
+        costPerLead: projection.costPerLead,
+        budgetMarketing: projection.calculated.budgetMarketing,
+        leadsNeeded: projection.calculated.leadsNeeded
+      });
+
+      // Chiamata API al backend
+      const response = await fetch(`${API_BASE_URL}/database/go-to-market/marketing-plan/${year}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(projection)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      await response.json();
+      console.log(`✅ Marketing Plan Anno ${year} salvato su database`);
+
+      // ⚡ UPDATE OTTIMISTICO - Aggiorna stato locale
+      setData(prevData => {
+        if (!prevData || !prevData.goToMarket) return prevData;
+
+        const updatedData = { ...prevData };
+        const gtm = updatedData.goToMarket!; // Safe dopo il check sopra
+        
+        // Inizializza marketingPlan se non esiste
+        if (!gtm.marketingPlan) {
+          gtm.marketingPlan = {
+            description: "Proiezioni marketing e sales per anno - calcolate dal Simulatore Impatto Business",
+            globalSettings: {
+              costPerLead: 50,
+              devicePrice: 50000,
+              description: "Parametri globali default per simulatore"
+            },
+            projections: {},
+            lastUpdate: null,
+            note: "Piano marketing persistente - aggiornato automaticamente dal simulatore"
+          };
+        }
+
+        // Aggiorna proiezione per l'anno specifico
+        const yearKey = `y${year}`;
+        gtm.marketingPlan.projections[yearKey] = {
+          ...projection,
+          lastUpdate: new Date().toISOString()
+        };
+        
+        // Aggiorna timestamp globale
+        gtm.marketingPlan.lastUpdate = new Date().toISOString();
+        gtm.lastUpdate = new Date().toISOString();
+        
+        return updatedData;
+      });
+    } catch (error) {
+      console.error(`❌ Errore aggiornamento Marketing Plan Anno ${year}:`, error);
+    }
+  }, []);
 
   // Valore del context
   const value: DatabaseContextValue = {
@@ -1072,10 +1646,22 @@ export function DatabaseProvider({ children }: { children: ReactNode }) {
     updateRevenueModel,
     updateRevenueModelHardware,
     updateRevenueModelSaaS,
+    // Global Settings
+    updateGlobalSettings,
+    // Go-To-Market
+    updateGoToMarket,
+    updateMarketingPlan,
+    updateGtmCalculated,
+    // Timeline
+    createTask,
+    updateTask,
+    deleteTask,
+    updateTimelineFilters,
     // Generali
     resetToDefaults,
     exportDatabase,
-    refreshData
+    refreshData,
+    refetch: refreshData  // Alias per compatibilità
   };
 
   return (
