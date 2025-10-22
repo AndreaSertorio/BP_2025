@@ -1,6 +1,6 @@
 {
   "version": "1.0.3",
-  "lastUpdate": "2025-10-22",
+  "lastUpdate": "2025-10-21",
   "description": "Database centralizzato per Eco 3D - Dati reali da Eco_ITA_MASTER.xlsx con % Extra-SSN per prestazione",
   "mercatoEcografie": {
     "italia": {
@@ -10678,7 +10678,7 @@
   },
   "financialPlan": {
     "version": "2.0.0",
-    "lastUpdated": "2025-10-22T15:53:34.703Z",
+    "lastUpdated": "2025-10-21T23:43:48.773Z",
     "description": "Piano Finanziario Phase-Based - Calcoli automatici mese×mese da sorgenti dati integrate",
     "configuration": {
       "businessPhases": [
@@ -10726,13 +10726,12 @@
         {
           "id": "scaling",
           "name": "Scaling & Espansione",
-          "startDate": "2032-12",
-          "endDate": "2036-01",
-          "duration": 37,
+          "startDate": "2033-01",
+          "endDate": "2037-12",
+          "duration": 59,
           "revenueEnabled": true,
           "revenueStartDate": "2033-01",
-          "expansionMultiplier": 4,
-          "description": "Espansione internazionale (Italia + Europa + USA). ExpansionMultiplier 2.5x applica crescita geografica sui dati GTM base Italia. FUTURO: Sostituire con dati regionali reali da tamSamSom.mercatiEsteri",
+          "description": "Espansione Italia, prime esportazioni Europa, ottimizzazione produzione, team scale-up",
           "milestones": [
             "100 dispositivi/anno (2031)",
             "Espansione 3 regioni EU (2032)",

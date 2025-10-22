@@ -10678,7 +10678,7 @@
   },
   "financialPlan": {
     "version": "2.0.0",
-    "lastUpdated": "2025-10-22T15:53:34.703Z",
+    "lastUpdated": "2025-10-22T15:29:52.342Z",
     "description": "Piano Finanziario Phase-Based - Calcoli automatici mese×mese da sorgenti dati integrate",
     "configuration": {
       "businessPhases": [
@@ -10731,8 +10731,7 @@
           "duration": 37,
           "revenueEnabled": true,
           "revenueStartDate": "2033-01",
-          "expansionMultiplier": 4,
-          "description": "Espansione internazionale (Italia + Europa + USA). ExpansionMultiplier 2.5x applica crescita geografica sui dati GTM base Italia. FUTURO: Sostituire con dati regionali reali da tamSamSom.mercatiEsteri",
+          "description": "Espansione Italia, prime esportazioni Europa, ottimizzazione produzione, team scale-up",
           "milestones": [
             "100 dispositivi/anno (2031)",
             "Espansione 3 regioni EU (2032)",

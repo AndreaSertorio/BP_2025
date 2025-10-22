@@ -26,6 +26,7 @@ import { TamSamSomDashboard } from './TamSamSomDashboard';
 import { BusinessPlanView } from './BusinessPlanView';
 import { RevenueModelDashboard } from './RevenueModel';
 import { FinancialPlanDashboard } from './FinancialPlanDashboard';
+import { FinancialPlanMasterV2 } from './FinancialPlanV2/FinancialPlanMasterV2';
 import { DatabaseInspector } from './DatabaseInspector';
 import { TimelineView } from './TimelineView';
 import { TeamManagementDashboard } from './TeamManagement/TeamManagementDashboard';
@@ -461,10 +462,7 @@ export function MasterDashboard() {
         </TabsContent>
 
         <TabsContent value="financial-plan" className="mt-0">
-          <FinancialPlanDashboard 
-            scenario={currentScenario}
-            annualData={calculationResults?.annualData || []}
-          />
+          <FinancialPlanMasterV2 />
         </TabsContent>
 
         <TabsContent value="budget" className="mt-0">
@@ -1110,17 +1108,43 @@ export function MasterDashboard() {
           </div>
         </TabsContent>
 
-        {/* Tab Varie - Solo Glossario */}
+        {/* Tab Varie - Con sotto-tabs */}
         <TabsContent value="varie" className="mt-0">
           <div className="container mx-auto p-6">
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
               <h2 className="text-lg font-semibold mb-2 text-blue-800">📚 Varie</h2>
               <p className="text-sm text-blue-700">
-                Risorse aggiuntive e terminologia tecnica per supportare la comprensione del piano finanziario.
+                Risorse aggiuntive, backup versioni precedenti e terminologia tecnica.
               </p>
             </div>
 
-            <Glossary />
+            <Tabs defaultValue="glossario" className="w-full">
+              <TabsList className="grid w-full grid-cols-2 mb-6">
+                <TabsTrigger value="glossario">📖 Glossario</TabsTrigger>
+                <TabsTrigger value="piano-finanziario-old">📊 Piano Finanziario (OLD)</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="glossario">
+                <Glossary />
+              </TabsContent>
+
+              <TabsContent value="piano-finanziario-old">
+                <div className="bg-amber-50 border-2 border-amber-300 rounded-lg p-4 mb-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-2xl">⚠️</span>
+                    <h3 className="font-bold text-amber-900">Versione Precedente (Backup)</h3>
+                  </div>
+                  <p className="text-sm text-amber-800">
+                    Questa è la vecchia versione del Piano Finanziario, conservata come backup.
+                    La nuova versione è disponibile nel tab <strong>&ldquo;📈 Piano Finanziario&rdquo;</strong>.
+                  </p>
+                </div>
+                <FinancialPlanDashboard 
+                  scenario={currentScenario}
+                  annualData={calculationResults?.annualData || []}
+                />
+              </TabsContent>
+            </Tabs>
           </div>
         </TabsContent>
       </Tabs>

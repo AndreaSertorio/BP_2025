@@ -1,6 +1,6 @@
 {
   "version": "1.0.3",
-  "lastUpdate": "2025-10-20",
+  "lastUpdate": "2025-10-21",
   "description": "Database centralizzato per Eco 3D - Dati reali da Eco_ITA_MASTER.xlsx con % Extra-SSN per prestazione",
   "mercatoEcografie": {
     "italia": {
@@ -1392,7 +1392,8 @@
                   "q1_27": 60,
                   "q2_27": 60,
                   "tot_27": 120,
-                  "tot_all": 240
+                  "tot_all": 240,
+                  "q3_27": 0
                 },
                 "formula": 30,
                 "note": null,
@@ -1401,7 +1402,7 @@
                 "isEditable": true,
                 "isExpanded": false,
                 "createdAt": "2025-10-06T22:49:03.010124",
-                "lastModified": "2025-10-06T22:49:03.010125"
+                "lastModified": "2025-10-21T12:19:42.676Z"
               }
             ],
             "isExpanded": true
@@ -2697,7 +2698,8 @@
           "q1_27": 60,
           "q2_27": 60,
           "tot_27": 120,
-          "tot_all": 240
+          "tot_all": 240,
+          "q3_27": 0
         },
         "formula": 30,
         "note": null,
@@ -2706,7 +2708,7 @@
         "isEditable": true,
         "isExpanded": false,
         "createdAt": "2025-10-06T22:49:03.010124",
-        "lastModified": "2025-10-06T22:49:03.010125"
+        "lastModified": "2025-10-21T12:19:42.676Z"
       },
       {
         "id": "item_24",

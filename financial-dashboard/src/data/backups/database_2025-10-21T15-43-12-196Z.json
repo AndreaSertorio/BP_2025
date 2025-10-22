@@ -1,6 +1,6 @@
 {
   "version": "1.0.3",
-  "lastUpdate": "2025-10-22",
+  "lastUpdate": "2025-10-21",
   "description": "Database centralizzato per Eco 3D - Dati reali da Eco_ITA_MASTER.xlsx con % Extra-SSN per prestazione",
   "mercatoEcografie": {
     "italia": {
@@ -4568,10 +4568,8 @@
     "hardware": {
       "enabled": true,
       "description": "Vendita dispositivi ecografici (CapEx cliente). Prezzi ASP letti da configurazioneTamSamSom.ecografi",
-      "unitPrice": 50000,
       "unitCost": 10000,
-      "unitCostByType": 11000,
-      "unitCostByTypeDetailed": {
+      "unitCostByType": {
         "carrellati": 25000,
         "portatili": 10000,
         "palmari": 2000
@@ -4582,7 +4580,7 @@
         "portatili": 0.6,
         "palmari": 0.65
       },
-      "note": "unitPrice: prezzo vendita medio. unitCostByType: costo produzione medio. ASP dettagliati in unitCostByTypeDetailed."
+      "note": "ASP letti da configurazioneTamSamSom.ecografi. COGS e margini gestiti qui."
     },
     "saas": {
       "enabled": true,
@@ -5060,12 +5058,7 @@
         "y3": 55,
         "y4": 92,
         "y5": 128,
-        "y6": 165,
-        "y7": 200,
-        "y8": 230,
-        "y9": 253,
-        "y10": 266,
-        "note": "Vendite realistiche = MIN(SOM_adjusted, maxSalesCapacity_adjusted). y6-y10: proiezione con crescita decrescente (maturità mercato: +29%, +21%, +15%, +10%, +5%)"
+        "note": "Vendite realistiche = MIN(SOM_adjusted, maxSalesCapacity_adjusted)"
       },
       "constrainingFactor": {
         "y1": "market",
@@ -10678,7 +10671,7 @@
   },
   "financialPlan": {
     "version": "2.0.0",
-    "lastUpdated": "2025-10-22T15:53:34.703Z",
+    "lastUpdated": "2025-10-21T15:42:56.764Z",
     "description": "Piano Finanziario Phase-Based - Calcoli automatici mese×mese da sorgenti dati integrate",
     "configuration": {
       "businessPhases": [
@@ -10687,7 +10680,7 @@
           "name": "Pre-Commerciale (R&D + Certificazioni)",
           "startDate": "2025-01",
           "endDate": "2028-12",
-          "duration": 47,
+          "duration": 48,
           "revenueEnabled": false,
           "description": "Sviluppo prototipo, test clinici, certificazione CE Mark, validazioni. Nessun ricavo.",
           "milestones": [
@@ -10705,9 +10698,9 @@
         {
           "id": "launch",
           "name": "Lancio Commerciale",
-          "startDate": "2028-12",
-          "endDate": "2032-12",
-          "duration": 48,
+          "startDate": "2029-01",
+          "endDate": "2030-12",
+          "duration": 24,
           "revenueEnabled": true,
           "revenueStartDate": "2029-Q3",
           "description": "Prime installazioni commerciali, validazione product-market fit, team commerciale iniziale",
@@ -10726,13 +10719,11 @@
         {
           "id": "scaling",
           "name": "Scaling & Espansione",
-          "startDate": "2032-12",
-          "endDate": "2036-01",
-          "duration": 37,
+          "startDate": "2031-01",
+          "endDate": "2035-12",
+          "duration": 60,
           "revenueEnabled": true,
-          "revenueStartDate": "2033-01",
-          "expansionMultiplier": 4,
-          "description": "Espansione internazionale (Italia + Europa + USA). ExpansionMultiplier 2.5x applica crescita geografica sui dati GTM base Italia. FUTURO: Sostituire con dati regionali reali da tamSamSom.mercatiEsteri",
+          "description": "Espansione Italia, prime esportazioni Europa, ottimizzazione produzione, team scale-up",
           "milestones": [
             "100 dispositivi/anno (2031)",
             "Espansione 3 regioni EU (2032)",
@@ -10749,7 +10740,7 @@
       "fundingRounds": [
         {
           "id": "seed_2025",
-          "name": "Pre-Seed",
+          "name": "Seed",
           "date": "2025-Q1",
           "month": 1,
           "amount": 300000,
@@ -10793,7 +10784,7 @@
           "name": "Seed+",
           "date": "2026-Q2",
           "month": 18,
-          "amount": 500000,
+          "amount": 650000,
           "currency": "EUR",
           "valuation": {
             "preMoney": 2850000,
@@ -10839,7 +10830,7 @@
           "name": "Series A",
           "date": "2028-Q1",
           "month": 37,
-          "amount": 2000000,
+          "amount": 1500000,
           "currency": "EUR",
           "valuation": {
             "preMoney": 8000000,

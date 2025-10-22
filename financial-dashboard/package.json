@@ -10,7 +10,8 @@
     "lint": "next lint",
     "type-check": "tsc --noEmit",
     "server": "node server.js",
-    "dev:all": "concurrently --names \"SERVER,NEXT\" --prefix-colors \"bgBlue.bold,bgMagenta.bold\" \"npm run server\" \"npm run dev\""
+    "dev:all": "concurrently --names \"SERVER,NEXT\" --prefix-colors \"bgBlue.bold,bgMagenta.bold\" \"npm run server\" \"npm run dev\"",
+    "migrate:financial-plan": "tsx scripts/migrateToFinancialPlanV2.ts"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.12",
