@@ -24,31 +24,37 @@ export function MetricsPanel({ annualData }: MetricsPanelProps) {
     const breakEvenData: any[] = [];
     let breakEvenMonth: number | null = null;
     let breakEvenYear: number | null = null;
-    let minCash = Infinity;
-    let minCashYear: number | null = null;
+    let minOperatingCF = Infinity;
+    let minOperatingCFYear: number | null = null;
+    
+    // CUMULATIVE OPERATING CASH FLOW (senza financing!)
+    let cumulativeOperatingCF = 0;
     
     annualData.forEach((yearData, yearIdx) => {
-      const endingCash = yearData.cashFlow?.endingCash || 0;
-      const yearCashFlow = yearData.cashFlow?.netCashFlow || 0;
-      
-      // Track minimum cash (punto di massimo burn)
-      if (endingCash < minCash) {
-        minCash = endingCash;
-        minCashYear = yearData.year;
-      }
-      
-      // Break-even = primo anno DOPO il minimo dove cash inizia a risalire
-      // O primo anno con operating cash flow positivo
+      // Operating CF (escluso financing/investing)
       const operatingCF = typeof yearData.cashFlow?.operations === 'object' 
         ? (yearData.cashFlow.operations as any).total || 0 
         : yearData.cashFlow?.operations || 0;
       
+      // Cash totale (include funding rounds)
+      const endingCash = yearData.cashFlow?.endingCash || 0;
+      const yearCashFlow = yearData.cashFlow?.netCashFlow || 0;
+      
+      // Aggiungi operating CF al cumulativo (questo è il "vero" cash flow operativo)
+      cumulativeOperatingCF += operatingCF;
+      
+      // Track minimum cumulative operating CF (punto di massimo burn OPERATIVO)
+      if (cumulativeOperatingCF < minOperatingCF) {
+        minOperatingCF = cumulativeOperatingCF;
+        minOperatingCFYear = yearData.year;
+      }
+      
+      // BREAK-EVEN = quando cumulative OPERATING CF diventa >= 0
+      // (questo significa che l'azienda ha recuperato tutti i costi operativi)
       if (breakEvenMonth === null && yearIdx > 0) {
-        const prevCash = breakEvenData[yearIdx - 1]?.endingCash || 0;
-        // Break-even quando:
-        // 1. Cash inizia a crescere DOPO essere sceso
-        // 2. Operating CF diventa positivo
-        if ((endingCash > prevCash && prevCash < 0) || (operatingCF >= 0 && yearData.totalRevenue > 0)) {
+        const prevCumulativeOpCF = breakEvenData[yearIdx - 1]?.cumulativeOperatingCF || 0;
+        // Break-even quando cumulative operating CF passa da negativo a positivo
+        if (cumulativeOperatingCF >= 0 && prevCumulativeOpCF < 0) {
           breakEvenMonth = yearIdx;
           breakEvenYear = yearData.year;
         }
@@ -57,14 +63,15 @@ export function MetricsPanel({ annualData }: MetricsPanelProps) {
       breakEvenData.push({
         year: yearData.year,
         month: yearIdx + 1,
-        endingCash: endingCash,
+        cumulativeOperatingCF: cumulativeOperatingCF,  // QUESTO è il vero break-even metric
+        endingCash: endingCash,                        // Cash disponibile (con funding)
         annualCashFlow: yearCashFlow,
-        operatingCF: operatingCF,
-        isPositive: endingCash >= 0,
+        operatingCF: operatingCF,                      // Operating CF annuale
+        isPositive: cumulativeOperatingCF >= 0,        // Break-even raggiunto?
         isBreakEven: yearIdx === breakEvenMonth,
         revenue: yearData.totalRevenue,
         ebitda: yearData.ebitda,
-        isMinCash: yearData.year === minCashYear
+        isMinCash: yearData.year === minOperatingCFYear  // Punto di massimo burn operativo
       });
     });
     
@@ -72,13 +79,18 @@ export function MetricsPanel({ annualData }: MetricsPanelProps) {
       ? breakEvenData[breakEvenData.length - 1].endingCash 
       : 0;
     
+    const finalCumulativeOpCF = breakEvenData.length > 0
+      ? breakEvenData[breakEvenData.length - 1].cumulativeOperatingCF
+      : 0;
+    
     return {
       data: breakEvenData,
       breakEvenMonth,
       breakEvenYear,
       finalCash,
-      minCash,
-      minCashYear,
+      finalCumulativeOpCF,
+      minOperatingCF,
+      minOperatingCFYear,
       reached: breakEvenMonth !== null
     };
   };
@@ -199,19 +211,27 @@ export function MetricsPanel({ annualData }: MetricsPanelProps) {
           <p className="font-bold text-lg mb-2">Anno {data.year}</p>
           <div className="space-y-1">
             <p className="text-sm">
+              <span className="font-medium">📊 Cumulative Operating CF:</span>{' '}
+              <span className={data.cumulativeOperatingCF >= 0 ? 'text-green-600 font-bold' : 'text-red-600 font-bold'}>
+                {formatCurrency(data.cumulativeOperatingCF)}
+              </span>
+            </p>
+            <p className="text-sm text-gray-500 text-xs ml-4">
+              (Totale cash flow dalle operazioni, escluso finanziamenti)
+            </p>
+            <div className="border-t border-gray-200 my-2"></div>
+            <p className="text-sm">
               <span className="font-medium">💰 Cash Disponibile:</span>{' '}
-              <span className={data.endingCash >= 0 ? 'text-green-600 font-bold' : 'text-red-600 font-bold'}>
+              <span className={data.endingCash >= 0 ? 'text-green-600' : 'text-orange-600'}>
                 {formatCurrency(data.endingCash)}
               </span>
             </p>
-            <p className="text-sm">
-              <span className="font-medium">Cash Flow Annuale:</span>{' '}
-              <span className={data.annualCashFlow >= 0 ? 'text-green-600' : 'text-red-600'}>
-                {formatCurrency(data.annualCashFlow)}
-              </span>
+            <p className="text-sm text-gray-500 text-xs ml-4">
+              (Include funding rounds)
             </p>
+            <div className="border-t border-gray-200 my-2"></div>
             <p className="text-sm">
-              <span className="font-medium">Operating CF:</span>{' '}
+              <span className="font-medium">Operating CF annuale:</span>{' '}
               <span className={data.operatingCF >= 0 ? 'text-green-600' : 'text-red-600'}>
                 {formatCurrency(data.operatingCF)}
               </span>
@@ -227,12 +247,15 @@ export function MetricsPanel({ annualData }: MetricsPanelProps) {
             </p>
             {data.isMinCash && (
               <div className="mt-2 pt-2 border-t border-orange-300">
-                <p className="text-orange-600 font-bold text-sm">⚠️ Punto di massimo BURN</p>
+                <p className="text-orange-600 font-bold text-sm">⚠️ Punto di massimo BURN operativo</p>
               </div>
             )}
             {data.isBreakEven && (
               <div className="mt-2 pt-2 border-t border-green-300">
                 <p className="text-green-600 font-bold text-sm">🎯 BREAK-EVEN POINT!</p>
+                <p className="text-green-600 text-xs mt-1">
+                  L&apos;azienda ha recuperato tutti i costi operativi cumulati
+                </p>
               </div>
             )}
           </div>
@@ -257,7 +280,7 @@ export function MetricsPanel({ annualData }: MetricsPanelProps) {
                 Break-Even Analysis
               </CardTitle>
               <p className="text-sm text-muted-foreground mt-1">
-                Cash Balance Over Time - Quando smettiamo di bruciare e iniziamo a generare
+                Cumulative Operating Cash Flow - Quando l&apos;azienda recupera tutti i costi operativi (escluso financing)
               </p>
             </div>
             {breakEven.reached ? (
@@ -327,14 +350,14 @@ export function MetricsPanel({ annualData }: MetricsPanelProps) {
               />
               
               {/* Evidenzia il punto di massimo BURN (min cash) */}
-              {breakEven.minCashYear && (
+              {breakEven.minOperatingCFYear && (
                 <ReferenceLine 
-                  x={breakEven.minCashYear}
+                  x={breakEven.minOperatingCFYear}
                   stroke="#f97316" 
                   strokeWidth={2}
                   strokeDasharray="3 3"
                   label={{ 
-                    value: `⚠️ Max Burn: ${breakEven.minCashYear}`, 
+                    value: `⚠️ Max Burn: ${breakEven.minOperatingCFYear}`, 
                     position: 'bottom', 
                     fill: '#f97316', 
                     fontSize: 12,
@@ -359,15 +382,15 @@ export function MetricsPanel({ annualData }: MetricsPanelProps) {
                 />
               )}
               
-              {/* Area cash balance */}
+              {/* Area cumulative operating CF */}
               <Area 
                 type="monotone" 
-                dataKey="endingCash" 
+                dataKey="cumulativeOperatingCF" 
                 stroke="#ef4444"
                 strokeWidth={3}
                 fill="url(#colorCashNegative)"
                 fillOpacity={1}
-                name="Cash Disponibile"
+                name="Cumulative Operating CF"
                 dot={(props: any) => {
                   const { cx, cy, payload } = props;
                   if (payload.isBreakEven) {
@@ -416,10 +439,13 @@ export function MetricsPanel({ annualData }: MetricsPanelProps) {
           
           {/* Statistiche Break-Even */}
           <div className="mt-6 grid grid-cols-4 gap-4">
-            <div className={`p-4 rounded-lg ${breakEven.reached ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'}`}>
-              <p className="text-sm font-medium text-gray-700">Status</p>
-              <p className={`text-xl font-bold mt-1 ${breakEven.reached ? 'text-green-600' : 'text-red-600'}`}>
-                {breakEven.reached ? '✅ Raggiunto' : '⏳ In Progress'}
+            <div className="p-4 bg-green-50 rounded-lg border border-green-200">
+              <p className="text-sm font-medium text-gray-700">Break-Even Operativo</p>
+              <p className={`text-2xl font-bold mt-1 ${breakEven.reached ? 'text-green-600' : 'text-orange-600'}`}>
+                {breakEven.reached ? '✅ Raggiunto' : '⏳ Non ancora'}
+              </p>
+              <p className="text-xs text-gray-500 mt-1">
+                Cumulative Operating CF {breakEven.reached ? '≥' : '<'} 0
               </p>
             </div>
             
@@ -438,12 +464,12 @@ export function MetricsPanel({ annualData }: MetricsPanelProps) {
             </div>
             
             <div className="p-4 bg-orange-50 rounded-lg border border-orange-200">
-              <p className="text-sm font-medium text-gray-700">Cash Minimo (Max Burn)</p>
+              <p className="text-sm font-medium text-gray-700">Operating CF Minimo (Max Burn)</p>
               <p className="text-xl font-bold text-orange-600 mt-1">
-                {formatCurrency(breakEven.minCash)}
+                {formatCurrency(breakEven.minOperatingCF)}
               </p>
               <p className="text-xs text-orange-600 mt-1">
-                Anno {breakEven.minCashYear}
+                Anno {breakEven.minOperatingCFYear}
               </p>
             </div>
           </div>
@@ -453,19 +479,19 @@ export function MetricsPanel({ annualData }: MetricsPanelProps) {
             <p className="font-semibold text-yellow-800 mb-2">💡 Investor Insight</p>
             {breakEven.reached ? (
               <ul className="text-sm text-yellow-700 space-y-1">
-                <li>• L&apos;azienda raggiunge il massimo burn nell&apos;anno {breakEven.minCashYear} ({formatCurrency(breakEven.minCash)})</li>
-                <li>• Il break-even cash flow si raggiunge nell&apos;anno {breakEven.breakEvenYear}</li>
-                <li>• Dopo il break-even, il cash disponibile diventa positivo e cresce</li>
-                <li>• Questo dimostra sostenibilità finanziaria e riduce il rischio di capitale aggiuntivo</li>
-                <li>• Il runway post break-even è infinito (cash flow positive)</li>
+                <li>• L&apos;azienda raggiunge il massimo burn operativo nell&apos;anno {breakEven.minOperatingCFYear} ({formatCurrency(breakEven.minOperatingCF)})</li>
+                <li>• Il break-even operativo si raggiunge nell&apos;anno {breakEven.breakEvenYear}</li>
+                <li>• Cumulative Operating CF finale: {formatCurrency(breakEven.finalCumulativeOpCF)}</li>
+                <li>• Dopo il break-even, l&apos;azienda ha recuperato tutti i costi operativi sostenuti</li>
+                <li>• Cash disponibile finale (include funding): {formatCurrency(breakEven.finalCash)}</li>
               </ul>
             ) : (
               <ul className="text-sm text-orange-700 space-y-1">
-                <li>• Il break-even non è ancora raggiunto nel periodo pianificato</li>
-                <li>• Cash minimo: {formatCurrency(breakEven.minCash)} nell&apos;anno {breakEven.minCashYear}</li>
-                <li>• Cash finale: {formatCurrency(breakEven.finalCash)}</li>
-                <li>• Potrebbe essere necessario fundraising aggiuntivo o ottimizzazione OPEX</li>
-                <li>• Considera: aumentare revenue, ridurre costi, o estendere runway</li>
+                <li>• Il break-even operativo non è ancora raggiunto nel periodo pianificato</li>
+                <li>• Operating CF cumulativo minimo: {formatCurrency(breakEven.minOperatingCF)} nell&apos;anno {breakEven.minOperatingCFYear}</li>
+                <li>• Operating CF cumulativo finale: {formatCurrency(breakEven.finalCumulativeOpCF)}</li>
+                <li>• Cash disponibile finale (con funding): {formatCurrency(breakEven.finalCash)}</li>
+                <li>• Considera: aumentare revenue, ridurre OPEX, o pianificare ulteriori funding rounds</li>
               </ul>
             )}
           </div>

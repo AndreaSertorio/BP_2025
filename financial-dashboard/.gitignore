@@ -38,3 +38,11 @@ next-env.d.ts
 
 # OS
 Thumbs.db
+
+# Electron
+/dist-electron
+*.dmg
+*.zip
+*.exe
+*.AppImage
+*.deb

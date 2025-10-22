@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "description": "Interactive Financial Dashboard for Eco 3D Business Plan",
+  "main": "electron/main.js",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -11,7 +12,11 @@
     "type-check": "tsc --noEmit",
     "server": "node server.js",
     "dev:all": "concurrently --names \"SERVER,NEXT\" --prefix-colors \"bgBlue.bold,bgMagenta.bold\" \"npm run server\" \"npm run dev\"",
-    "migrate:financial-plan": "tsx scripts/migrateToFinancialPlanV2.ts"
+    "migrate:financial-plan": "tsx scripts/migrateToFinancialPlanV2.ts",
+    "electron:dev": "electron .",
+    "electron:build": "npm run build && electron-builder",
+    "electron:build:mac": "npm run build && electron-builder --mac",
+    "electron:build:win": "npm run build && electron-builder --win"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.12",
@@ -54,6 +59,8 @@
     "eslint-config-next": "^14.0.0",
     "postcss": "^8.4.0",
     "tailwindcss": "^3.3.0",
-    "typescript": "^5.0.0"
+    "typescript": "^5.0.0",
+    "electron": "^28.0.0",
+    "electron-builder": "^24.0.0"
   }
 }
